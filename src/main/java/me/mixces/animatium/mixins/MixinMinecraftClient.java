@@ -38,9 +38,10 @@ public abstract class MixinMinecraftClient {
             }
 
             // TODO: Possible setting to allow swinging without having to look at a block?
-            Hand hand = AnimatiumConfig.getInstance().getAllowOffhandUsageSwinging() ? player.getActiveHand() : Hand.MAIN_HAND;
+            Hand activeHand = player.getActiveHand();
+            Hand hand = AnimatiumConfig.getInstance().getAllowOffhandUsageSwinging() ? activeHand : Hand.MAIN_HAND;
             if (AnimatiumConfig.getInstance().getAlwaysAllowUsageSwinging() ||
-                    (this.crosshairTarget != null && this.crosshairTarget.getType() == HitResult.Type.BLOCK && player.getActiveHand() == hand)) {
+                    (this.crosshairTarget != null && this.crosshairTarget.getType() == HitResult.Type.BLOCK && activeHand.equals(hand))) {
                 PlayerUtils.fakeHandSwing(player, hand);
             }
         }
