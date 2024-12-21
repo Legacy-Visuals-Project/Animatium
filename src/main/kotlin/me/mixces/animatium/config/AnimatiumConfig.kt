@@ -206,6 +206,17 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
+                            .name(Text.translatable("animatium.allowOffhandUsageSwinging"))
+                            .description(OptionDescription.of(Text.translatable("animatium.allowOffhandUsageSwinging.description")))
+                            .binding(
+                                defaults.allowOffhandUsageSwinging,
+                                { config.allowOffhandUsageSwinging },
+                                { newVal -> config.allowOffhandUsageSwinging = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
+                    category.option(
+                        Option.createBuilder<Boolean>()
                             .name(Text.translatable("animatium.alwaysShowSharpParticles"))
                             .description(OptionDescription.of(Text.translatable("animatium.alwaysShowSharpParticles.description")))
                             .binding(
@@ -795,6 +806,7 @@ class AnimatiumConfig {
     @SerialEntry var fixMirrorArmSwing = true
     @SerialEntry var persistentBlockOutline = true
     @SerialEntry var alwaysAllowUsageSwinging = true
+    @SerialEntry var allowOffhandUsageSwinging = true
     @SerialEntry var alwaysShowSharpParticles = true
     @SerialEntry var forceItemGlintOnEntity = false
     @SerialEntry var disableRecipeAndTutorialToasts = false
