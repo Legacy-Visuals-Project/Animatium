@@ -32,8 +32,6 @@ import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
-import java.util.Optional;
-
 @Mixin(HeldItemFeatureRenderer.class)
 public abstract class MixinHeldItemFeatureRenderer<S extends ArmedEntityRenderState, M extends EntityModel<S> & ModelWithArms> extends FeatureRenderer<S, M> {
     public MixinHeldItemFeatureRenderer(FeatureRendererContext<S, M> context) {
@@ -43,9 +41,8 @@ public abstract class MixinHeldItemFeatureRenderer<S extends ArmedEntityRenderSt
     @Inject(method = "renderItem", at = @At("HEAD"))
     private void animatium$setRef(S entityState, ItemRenderState itemState, Arm arm, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci, @Share("stack") LocalRef<ItemStack> stackRef) {
         if (ItemUtils.shouldTiltItemPositionsInThirdperson(entityState) && !itemState.isEmpty()) {
-            Optional<Entity> optionalLivingEntity = EntityUtils.getEntityByState(entityState);
-            if (optionalLivingEntity.isPresent() && entityState instanceof ArmedEntityRenderState) {
-                LivingEntity livingEntity = (LivingEntity) optionalLivingEntity.get();
+            Entity entity = EntityUtils.getEntityByState(entityState);
+            if (entity instanceof LivingEntity livingEntity && entityState instanceof ArmedEntityRenderState) {
                 stackRef.set(livingEntity.getStackInArm(arm));
                 /* why do i have to do this */
             }
@@ -67,10 +64,9 @@ public abstract class MixinHeldItemFeatureRenderer<S extends ArmedEntityRenderSt
     @Inject(method = "renderItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderState;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;II)V"))
     private void animatium$tiltItemPositionsThird(S entityState, ItemRenderState itemRenderState, Arm arm, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
         if (ItemUtils.shouldTiltItemPositionsInThirdperson(entityState)) {
-            Optional<Entity> optionalLivingEntity = EntityUtils.getEntityByState(entityState);
-            if (optionalLivingEntity.isPresent() && entityState instanceof ArmedEntityRenderState armedEntityRenderState) {
+            Entity entity = EntityUtils.getEntityByState(entityState);
+            if (entity instanceof LivingEntity livingEntity && entityState instanceof ArmedEntityRenderState armedEntityRenderState) {
                 int direction = PlayerUtils.getArmMultiplier(arm);
-                LivingEntity livingEntity = (LivingEntity) optionalLivingEntity.get();
                 ItemStack stack = livingEntity.getStackInArm(arm);
                 Item item = stack.getItem();
                 if (!stack.isEmpty() && !ItemUtils.isItemBlacklisted(stack)) {

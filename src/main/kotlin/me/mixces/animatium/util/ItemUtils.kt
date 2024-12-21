@@ -20,7 +20,6 @@ import net.minecraft.item.SwordItem
 import net.minecraft.item.TridentItem
 import net.minecraft.util.Rarity
 import net.minecraft.util.math.RotationAxis
-import kotlin.jvm.optionals.getOrNull
 import kotlin.math.roundToInt
 
 abstract class ItemUtils {
@@ -117,7 +116,7 @@ abstract class ItemUtils {
             return if (AnimatiumConfig.getInstance().tiltItemPositionsInThirdperson) {
                 true
             } else {
-                val entity = EntityUtils.getEntityByState(entityState).getOrNull() ?: return false
+                val entity = EntityUtils.getEntityByState(entityState) ?: return false
                 if (entity is LivingEntity) {
                     AnimatiumConfig.getInstance().legacyThirdpersonSwordBlockingPosition && entity.isBlocking
                 } else {

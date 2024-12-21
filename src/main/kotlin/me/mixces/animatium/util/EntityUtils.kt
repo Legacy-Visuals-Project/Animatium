@@ -2,7 +2,6 @@ package me.mixces.animatium.util
 
 import net.minecraft.client.render.entity.state.EntityRenderState
 import net.minecraft.entity.Entity
-import java.util.Optional
 
 abstract class EntityUtils {
     companion object {
@@ -14,8 +13,8 @@ abstract class EntityUtils {
         }
 
         @JvmStatic
-        fun getEntityByState(state: EntityRenderState): Optional<Entity> {
-            return Optional.ofNullable(STATE_TO_ENTITY.getOrDefault(state, null))
+        fun getEntityByState(state: EntityRenderState): Entity? {
+            return STATE_TO_ENTITY.getOrDefault(state, null)
         }
     }
 }

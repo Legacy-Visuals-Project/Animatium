@@ -25,7 +25,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Optional;
 import java.util.function.Function;
 
 @Mixin(BipedEntityModel.class)
@@ -133,11 +132,9 @@ public abstract class MixinBipedEntityModel<T extends BipedEntityRenderState> ex
     private void animatium$oldSwordBlockArm(BipedEntityModel<?> instance, ModelPart arm, boolean rightArm, Operation<Void> original, @Local(argsOnly = true) T state) {
         original.call(instance, arm, rightArm);
         if (AnimatiumConfig.getInstance().getLegacyThirdpersonSwordBlockingPosition()) {
-            Optional<Entity> optionalLivingEntity = EntityUtils.getEntityByState(state);
-            if (optionalLivingEntity.isPresent() && state instanceof BipedEntityRenderState) {
-                LivingEntity livingEntity = (LivingEntity) optionalLivingEntity.get();
+            Entity entity = EntityUtils.getEntityByState(state);
+            if (entity instanceof LivingEntity livingEntity && state instanceof BipedEntityRenderState) {
                 ItemStack stack = rightArm ? livingEntity.getStackInArm(Arm.RIGHT) : livingEntity.getStackInArm(Arm.LEFT);
-                // TODO: this code is terrible
                 if (!(stack.getItem() instanceof ShieldItem)) {
                     arm.yaw = 0;
                 }
