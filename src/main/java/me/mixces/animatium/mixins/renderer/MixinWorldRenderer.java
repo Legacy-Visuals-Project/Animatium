@@ -7,16 +7,23 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.mixins.accessor.ClientWorldPropertiesAccessor;
 import me.mixces.animatium.mixins.accessor.SkyRenderingAccessor;
+import me.mixces.animatium.util.MathUtils;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.gl.VertexBuffer;
-import net.minecraft.client.render.*;
+import net.minecraft.client.render.DimensionEffects;
+import net.minecraft.client.render.Fog;
+import net.minecraft.client.render.SkyRendering;
+import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.Box;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Final;
@@ -100,17 +107,27 @@ public abstract class MixinWorldRenderer {
         }
     }
 
-    @WrapOperation(method = "drawBlockOutline", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexRendering;drawOutline(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;Lnet/minecraft/util/shape/VoxelShape;DDDI)V"))
-    private void animatium$legacyBlockOutlineRendering(MatrixStack matrices, VertexConsumer vertexConsumer, VoxelShape shape, double offsetX, double offsetY, double offsetZ, int color, Operation<Void> original) {
+//    @WrapOperation(method = "drawBlockOutline", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexRendering;drawOutline(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;Lnet/minecraft/util/shape/VoxelShape;DDDI)V"))
+//    private void animatium$legacyBlockOutlineRendering(MatrixStack matrices, VertexConsumer vertexConsumer, VoxelShape shape, double offsetX, double offsetY, double offsetZ, int color, Operation<Void> original) {
+//        if (AnimatiumConfig.getInstance().getLegacyBlockOutlineRendering()) {
+//            Box box = shape.getBoundingBox().expand(0.0020000000949949026F).offset(offsetX, offsetY, offsetZ);
+//            float red = ColorHelper.getRedFloat(color);
+//            float green = ColorHelper.getGreenFloat(color);
+//            float blue = ColorHelper.getBlueFloat(color);
+//            float alpha = ColorHelper.getAlphaFloat(color);
+//            VertexRendering.drawBox(matrices, vertexConsumer, box, red, green, blue, alpha);
+//        } else {
+//            original.call(matrices, vertexConsumer, shape, offsetX, offsetY, offsetZ, color);
+//        }
+//    }
+
+    @WrapOperation(method = "drawBlockOutline", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;getOutlineShape(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/ShapeContext;)Lnet/minecraft/util/shape/VoxelShape;"))
+    private VoxelShape x(BlockState instance, BlockView blockView, BlockPos blockPos, ShapeContext shapeContext, Operation<VoxelShape> original) {
+        VoxelShape shape = original.call(instance, blockView, blockPos, shapeContext);
         if (AnimatiumConfig.getInstance().getLegacyBlockOutlineRendering()) {
-            Box box = shape.getBoundingBox().expand(0.0020000000949949026F).offset(offsetX, offsetY, offsetZ);
-            float red = ColorHelper.getRedFloat(color);
-            float green = ColorHelper.getGreenFloat(color);
-            float blue = ColorHelper.getBlueFloat(color);
-            float alpha = ColorHelper.getAlphaFloat(color);
-            VertexRendering.drawBox(matrices, vertexConsumer, box, red, green, blue, alpha);
+            return MathUtils.expandVoxelShape(shape, 0.0020000000949949026F);
         } else {
-            original.call(matrices, vertexConsumer, shape, offsetX, offsetY, offsetZ, color);
+            return shape;
         }
     }
 }
