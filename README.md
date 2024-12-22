@@ -231,3 +231,6 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 - [X] disableInventoryEntityScissor
     - Description: Allows the inventory entity model to render fully.
     - Type: BOOLEAN
+- [X] legacyBlockOutlineRendering
+    - Description: Restores the legacy block outline rendering from <=1.14.4.
+    - Type: BOOLEAN

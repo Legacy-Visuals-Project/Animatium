@@ -781,6 +781,17 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Text.translatable("animatium.legacyBlockOutlineRendering"))
+                            .description(OptionDescription.of(Text.translatable("animatium.legacyBlockOutlineRendering.description")))
+                            .binding(
+                                defaults.legacyBlockOutlineRendering,
+                                { config.legacyBlockOutlineRendering },
+                                { newVal -> config.legacyBlockOutlineRendering = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
                     builder.category(category.build())
                 }
 
@@ -876,4 +887,5 @@ class AnimatiumConfig {
     @SerialEntry var disableProjectileAgeCheck = true
     @SerialEntry var oldBlockMiningProgress = true
     @SerialEntry var disableInventoryEntityScissor = true
+    @SerialEntry var legacyBlockOutlineRendering = true
 }

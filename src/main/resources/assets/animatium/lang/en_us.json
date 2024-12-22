@@ -145,5 +145,7 @@
 	"animatium.oldBlockMiningProgress": "Bring back the old block mining progress",
 	"animatium.oldBlockMiningProgress.description": "Bring back the old block mining progress <=1.18?",
 	"animatium.disableInventoryEntityScissor": "Allow full entity model rendering in inventory",
-	"animatium.disableInventoryEntityScissor.description": "Allows the inventory entity model to render fully."
+	"animatium.disableInventoryEntityScissor.description": "Allows the inventory entity model to render fully.",
+	"animatium.legacyBlockOutlineRendering": "Restore legacy block outline rendering",
+	"animatium.legacyBlockOutlineRendering.description": "Restores the legacy block outline rendering from <=1.14.4."
 }
