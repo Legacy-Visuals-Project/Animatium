@@ -107,22 +107,8 @@ public abstract class MixinWorldRenderer {
         }
     }
 
-//    @WrapOperation(method = "drawBlockOutline", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexRendering;drawOutline(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;Lnet/minecraft/util/shape/VoxelShape;DDDI)V"))
-//    private void animatium$legacyBlockOutlineRendering(MatrixStack matrices, VertexConsumer vertexConsumer, VoxelShape shape, double offsetX, double offsetY, double offsetZ, int color, Operation<Void> original) {
-//        if (AnimatiumConfig.getInstance().getLegacyBlockOutlineRendering()) {
-//            Box box = shape.getBoundingBox().expand(0.0020000000949949026F).offset(offsetX, offsetY, offsetZ);
-//            float red = ColorHelper.getRedFloat(color);
-//            float green = ColorHelper.getGreenFloat(color);
-//            float blue = ColorHelper.getBlueFloat(color);
-//            float alpha = ColorHelper.getAlphaFloat(color);
-//            VertexRendering.drawBox(matrices, vertexConsumer, box, red, green, blue, alpha);
-//        } else {
-//            original.call(matrices, vertexConsumer, shape, offsetX, offsetY, offsetZ, color);
-//        }
-//    }
-
     @WrapOperation(method = "drawBlockOutline", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;getOutlineShape(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/ShapeContext;)Lnet/minecraft/util/shape/VoxelShape;"))
-    private VoxelShape x(BlockState instance, BlockView blockView, BlockPos blockPos, ShapeContext shapeContext, Operation<VoxelShape> original) {
+    private VoxelShape animatium$legacyBlockOutlineRendering(BlockState instance, BlockView blockView, BlockPos blockPos, ShapeContext shapeContext, Operation<VoxelShape> original) {
         VoxelShape shape = original.call(instance, blockView, blockPos, shapeContext);
         if (AnimatiumConfig.getInstance().getLegacyBlockOutlineRendering()) {
             return MathUtils.expandVoxelShape(shape, 0.0020000000949949026F);
