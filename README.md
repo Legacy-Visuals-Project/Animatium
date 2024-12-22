@@ -124,6 +124,9 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 - [X] showCrosshairInThirdperson
     - Description: Show crosshair whilst in thirdperson like in <=1.8.x.
     - Type: BOOLEAN
+- [X] fixHighAttackSpeedIndicator
+    - Description: Hides the attack indicator when you have such a high attack speed. (Fixes MC-268420)
+    - Type: BOOLEAN
 - [X] removeHeartFlash
     - Description: Remove heart blinking like in <=1.7.x.
     - Type: BOOLEAN

@@ -9,9 +9,13 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.option.Perspective;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.Window;
+import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+
+import java.util.function.Function;
 
 @Mixin(InGameHud.class)
 public abstract class MixinInGameHud {
@@ -33,6 +37,17 @@ public abstract class MixinInGameHud {
             return true;
         } else {
             return original.call(instance);
+        }
+    }
+
+    @WrapWithCondition(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 2))
+    private boolean animatium$fixHighAttackSpeedIndicator(DrawContext instance, Function<Identifier, RenderLayer> renderLayers, Identifier sprite, int x, int y, int width, int height, @Local float f) {
+        if (AnimatiumConfig.getInstance().getFixHighAttackSpeedIndicator()) {
+            // NOTE: Couldn't grab it locally, so just copied it. Should be fine.
+            int progressWidth = (int) (f * 17.0F);
+            return progressWidth != 0;
+        } else {
+            return true;
         }
     }
 

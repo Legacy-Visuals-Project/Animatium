@@ -74,6 +74,8 @@
 	"animatium.category.screen": "Screen",
 	"animatium.showCrosshairInThirdperson": "Show crosshair in third-person",
 	"animatium.showCrosshairInThirdperson.description": "Show crosshair whilst in thirdperson like in <=1.8.x.",
+	"animatium.fixHighAttackSpeedIndicator": "Fix high attack speed crosshair indicator",
+	"animatium.fixHighAttackSpeedIndicator.description": "Hides the attack indicator when you have such a high attack speed. (Fixes MC-268420)",
 	"animatium.removeHeartFlash": "Remove hearts flashing when taking damage",
 	"animatium.removeHeartFlash.description": "Remove heart blinking like in <=1.7.x.",
 	"animatium.fixTextStrikethroughStyle": "Fix text strikethrough style",
