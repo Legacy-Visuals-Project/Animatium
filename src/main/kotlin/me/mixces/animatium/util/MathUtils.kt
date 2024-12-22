@@ -34,7 +34,7 @@ abstract class MathUtils {
                         maxZ + value
                     ),
                     BooleanBiFunction.OR
-                );
+                )
             }
             return voxelShapes[0]
         }
