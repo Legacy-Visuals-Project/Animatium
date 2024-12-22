@@ -15,10 +15,16 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.Arm
 import net.minecraft.util.Hand
 import net.minecraft.util.math.Vec3d
-import java.util.Objects
+import java.util.*
 
 abstract class PlayerUtils {
     companion object {
+        @JvmStatic
+        fun getHandMultiplier(player: PlayerEntity, hand: Hand): Int {
+            val arm = if (hand == Hand.MAIN_HAND) player.mainArm else player.mainArm.opposite
+            return if (arm == Arm.RIGHT) 1 else -1
+        }
+
         @JvmStatic
         fun getHandMultiplier(player: PlayerEntity): Int {
             val hand = MoreObjects.firstNonNull(player.preferredHand, Hand.MAIN_HAND)

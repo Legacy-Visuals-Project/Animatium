@@ -46,7 +46,7 @@ public abstract class MixinHeldItemRenderer {
 
     @WrapOperation(method = "renderFirstPersonItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;scale(FFF)V", ordinal = 1))
     private void animatium$postBowTransform(MatrixStack instance, float x, float y, float z, Operation<Void> original, @Local(argsOnly = true) AbstractClientPlayerEntity player, @Local(argsOnly = true) Hand hand) {
-        int direction = PlayerUtils.getHandMultiplier(player);
+        int direction = PlayerUtils.getHandMultiplier(player, hand);
         if (AnimatiumConfig.getInstance().getTiltItemPositions()) {
             instance.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(direction * -335));
             instance.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(direction * -50.0F));
@@ -62,7 +62,7 @@ public abstract class MixinHeldItemRenderer {
     @WrapOperation(method = "renderFirstPersonItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
     private Item animatium$oldFirstPersonSwordBlock(ItemStack instance, Operation<Item> original, @Local(argsOnly = true) AbstractClientPlayerEntity player, @Local(argsOnly = true) Hand hand, @Local(argsOnly = true) MatrixStack matrices) {
         if (AnimatiumConfig.getInstance().getTiltItemPositions() && !(instance.getItem() instanceof ShieldItem)) {
-            int direction = PlayerUtils.getHandMultiplier(player);
+            int direction = PlayerUtils.getHandMultiplier(player, hand);
             ItemUtils.applyLegacyFirstpersonTransforms(matrices, direction, () -> {
                 matrices.translate(direction * -0.5F, 0.2F, 0.0F);
                 matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(direction * 30.0F));
@@ -78,7 +78,7 @@ public abstract class MixinHeldItemRenderer {
     @Inject(method = "renderFirstPersonItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/HeldItemRenderer;renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ModelTransformationMode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", ordinal = 1))
     private void animatium$tiltItemPositions(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack stack, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
         if (AnimatiumConfig.getInstance().getTiltItemPositions() && !(stack.getItem() instanceof BlockItem) && !(stack.getItem() instanceof ShieldItem)) {
-            int direction = PlayerUtils.getHandMultiplier(player);
+            int direction = PlayerUtils.getHandMultiplier(player, hand);
             float angle = MathUtils.toRadians(25);
             if (ItemUtils.isFishingRodItem(stack)) {
                 matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(direction * 180.0F));
