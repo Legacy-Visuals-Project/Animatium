@@ -3,9 +3,8 @@
 	"package": "me.mixces.animatium.mixins",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"screen.MixinCamera",
-		"network.MixinClientPlayerInteractionManager",
 		"MixinMinecraftClient",
+		"renderer.MixinShaderProgram",
 		"accessor.CameraAccessor",
 		"accessor.ClientWorldPropertiesAccessor",
 		"accessor.EntryListWidgetAccessor",
@@ -16,6 +15,7 @@
 		"model.item.MixinItemModelManager",
 		"model.item.MixinItemRenderLayerState",
 		"model.item.MixinUsingItemProperty",
+		"network.MixinClientPlayerInteractionManager",
 		"network.MixinClientPlayNetworkHandler",
 		"renderer.MixinDrawContext",
 		"renderer.MixinGameRenderer",
@@ -31,6 +31,7 @@
 		"renderer.item.MixinHeldItemFeatureRenderer",
 		"renderer.item.MixinHeldItemRenderer",
 		"renderer.item.MixinItemRenderer",
+		"screen.MixinCamera",
 		"screen.MixinChatScreen",
 		"screen.MixinDebugHud",
 		"screen.MixinEntryListWidget",
@@ -43,11 +44,11 @@
 		"screen.widget.toast.MixinRecipeToast",
 		"screen.widget.toast.MixinToastManagerEntry",
 		"screen.widget.toast.MixinTutorialToast",
+		"world.MixinItem",
+		"world.MixinItemStack",
 		"world.entity.MixinLivingEntity",
 		"world.entity.MixinPlayerEntity",
-		"world.entity.MixinThrownEntity",
-		"world.MixinItem",
-		"world.MixinItemStack"
+		"world.entity.MixinThrownEntity"
 	],
 	"injectors": {
 		"defaultRequire": 1
