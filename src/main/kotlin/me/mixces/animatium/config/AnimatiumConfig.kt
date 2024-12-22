@@ -354,6 +354,17 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Text.translatable("animatium.oldDamageTilt"))
+                            .description(OptionDescription.of(Text.translatable("animatium.oldDamageTilt.description")))
+                            .binding(
+                                defaults.oldDamageTilt,
+                                { config.oldDamageTilt },
+                                { newVal -> config.oldDamageTilt = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
                     builder.category(category.build())
                 }
 
@@ -803,6 +814,17 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Text.translatable("animatium.removeFOVBasedProjection"))
+                            .description(OptionDescription.of(Text.translatable("animatium.removeFOVBasedProjection.description")))
+                            .binding(
+                                defaults.removeFOVBasedProjection,
+                                { config.removeFOVBasedProjection },
+                                { newVal -> config.removeFOVBasedProjection = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
                     builder.category(category.build())
                 }
 
@@ -882,6 +904,8 @@ class AnimatiumConfig {
     var fixBowArmMovement = true
     @SerialEntry
     var oldCapeMovement = false // TODO/NOTE: Currently not accurate/broken.
+    @SerialEntry
+    var oldDamageTilt = true
 
     // Sky
     @SerialEntry
@@ -966,4 +990,6 @@ class AnimatiumConfig {
     var disableInventoryEntityScissor = true
     @SerialEntry
     var legacyBlockOutlineRendering = true
+    @SerialEntry
+    var removeFOVBasedProjection = true
 }

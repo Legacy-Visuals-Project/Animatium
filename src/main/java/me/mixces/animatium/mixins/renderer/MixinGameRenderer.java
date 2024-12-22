@@ -8,6 +8,7 @@ import me.mixces.animatium.util.ViewBobbingStorage;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
@@ -23,6 +24,11 @@ public abstract class MixinGameRenderer {
     @Shadow
     @Final
     private MinecraftClient client;
+
+    @WrapOperation(method = "tiltViewWhenHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getDamageTiltYaw()F"))
+    private float animatium$revertYaw(LivingEntity instance, Operation<Float> original) {
+        return AnimatiumConfig.getInstance().getOldDamageTilt() ? 0.0F : original.call(instance);
+    }
 
     @Inject(method = "bobView", at = @At("TAIL"))
     private void animatium$fixVerticalBobbingTilt(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
