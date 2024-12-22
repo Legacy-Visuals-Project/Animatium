@@ -27,7 +27,11 @@ public abstract class MixinGameRenderer {
 
     @WrapOperation(method = "tiltViewWhenHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getDamageTiltYaw()F"))
     private float animatium$revertYaw(LivingEntity instance, Operation<Float> original) {
-        return AnimatiumConfig.getInstance().getOldDamageTilt() ? 0.0F : original.call(instance);
+        if (AnimatiumConfig.getInstance().getOldDamageTilt()) {
+            return 0.0F;
+        } else {
+            return original.call(instance);
+        }
     }
 
     @Inject(method = "bobView", at = @At("TAIL"))
