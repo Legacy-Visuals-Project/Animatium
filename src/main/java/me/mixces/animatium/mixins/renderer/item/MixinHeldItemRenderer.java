@@ -69,7 +69,7 @@ public abstract class MixinHeldItemRenderer {
                 matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-80.0F));
                 matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(direction * 60.0F));
             });
-            return Items.SHIELD; // Cnacels the vanilla blocking code
+            return Items.SHIELD; // Cancels the vanilla blocking code
         } else {
             return original.call(instance);
         }
