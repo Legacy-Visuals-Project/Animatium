@@ -103,8 +103,12 @@ public abstract class MixinWorldRenderer {
     @WrapOperation(method = "drawBlockOutline", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexRendering;drawOutline(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;Lnet/minecraft/util/shape/VoxelShape;DDDI)V"))
     private void animatium$legacyBlockOutlineRendering(MatrixStack matrices, VertexConsumer vertexConsumer, VoxelShape shape, double offsetX, double offsetY, double offsetZ, int color, Operation<Void> original) {
         if (AnimatiumConfig.getInstance().getLegacyBlockOutlineRendering()) {
-            Box box = shape.getBoundingBox().expand(0.0020000000949949026).offset(offsetX, offsetY, offsetZ);
-            VertexRendering.drawBox(matrices, vertexConsumer, box, 0.0F, 0.0F, 0.0F, 0.4F);
+            Box box = shape.getBoundingBox().expand(0.0020000000949949026F).offset(offsetX, offsetY, offsetZ);
+            float red = ColorHelper.getRedFloat(color);
+            float green = ColorHelper.getGreenFloat(color);
+            float blue = ColorHelper.getBlueFloat(color);
+            float alpha = ColorHelper.getAlphaFloat(color);
+            VertexRendering.drawBox(matrices, vertexConsumer, box, red, green, blue, alpha);
         } else {
             original.call(matrices, vertexConsumer, shape, offsetX, offsetY, offsetZ, color);
         }
