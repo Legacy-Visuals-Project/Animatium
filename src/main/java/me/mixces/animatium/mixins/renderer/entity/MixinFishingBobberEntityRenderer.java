@@ -35,7 +35,8 @@ public abstract class MixinFishingBobberEntityRenderer extends EntityRenderer<Fi
 
     @ModifyExpressionValue(method = "getHandPos", at = @At(value = "CONSTANT", args = "floatValue=0.525"))
     private float animatium$moveCastLineX(float original) {
-        return original - 0.06F;
+        /* this only needs to be done if the remove fov based projection is enabled */
+        return original - (AnimatiumConfig.getInstance().getRemoveFOVBasedProjection() ? 0.06F : 0.0F);
     }
 
     @ModifyArg(method = "getHandPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera$Projection;getPosition(FF)Lnet/minecraft/util/math/Vec3d;"), index = 1)
