@@ -3,18 +3,13 @@ package me.mixces.animatium.mixins.screen;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.mixces.animatium.config.AnimatiumConfig;
-import me.mixces.animatium.mixins.accessor.CameraAccessor;
 import me.mixces.animatium.util.CameraVersion;
-import me.mixces.animatium.util.PlayerUtils;
 import net.minecraft.client.render.Camera;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.RaycastContext;
-import org.joml.Vector3f;
 import org.objectweb.asm.Opcodes;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -34,12 +29,6 @@ public abstract class MixinCamera {
 
     @Shadow
     protected abstract void moveBy(float f, float g, float h);
-
-    @Shadow @Final private Vector3f horizontalPlane;
-
-    @Shadow @Final private Vector3f diagonalPlane;
-
-    @Shadow @Final private Vector3f verticalPlane;
 
     @Inject(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;setRotation(FF)V", shift = At.Shift.BEFORE))
     private void animatium$removeSmoothSneaking(CallbackInfo ci) {
@@ -90,6 +79,10 @@ public abstract class MixinCamera {
 
     @WrapOperation(method = "getProjection", at = @At(value = "INVOKE", target = "Ljava/lang/Integer;intValue()I"))
     private int animatium$removeFOVBasedProjection(Integer instance, Operation<Integer> original) {
-        return AnimatiumConfig.getInstance().getRemoveFOVBasedProjection() ? 70 : original.call(instance);
+        if (AnimatiumConfig.getInstance().getRemoveFOVBasedProjection()) {
+            return 70;
+        } else {
+            return original.call(instance);
+        }
     }
 }

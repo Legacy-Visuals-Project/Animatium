@@ -207,6 +207,12 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 - [X] oldFishingRodLinePositionThirdPerson
     - Description: Adjusts the position of the fishing rod cast line horizontally like in <=1.7.
     - Type: BOOLEAN
+- [X] oldFishingRodLineThickness
+    - Description: Restores the old fishing rod line thickness from <1.13?
+    - Type: BOOLEAN
+- [X] thinFishingRodLineThickness
+    - Description: Makes the fishing rod line super thin. Overrides the above setting.
+    - Type: BOOLEAN
 - [X] fixCastLineCheck
     - Description: Fixes the arm logic for casting the fishing rod.
     - Type: BOOLEAN
@@ -236,4 +242,7 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
     - Type: BOOLEAN
 - [X] legacyBlockOutlineRendering
     - Description: Restores the legacy block outline rendering from <=1.14.4.
+    - Type: BOOLEAN
+- [X] removeFOVBasedProjection
+    - Description: Removes the inclusion of FOV in the camera projection calculations.
     - Type: BOOLEAN

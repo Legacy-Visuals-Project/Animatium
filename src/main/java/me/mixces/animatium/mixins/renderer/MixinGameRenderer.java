@@ -45,7 +45,7 @@ public abstract class MixinGameRenderer {
     }
 
     @WrapOperation(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;shouldRenderBlockOutline()Z"))
-    private boolean animatium$e(GameRenderer instance, Operation<Boolean> original) {
+    private boolean animatium$persistentBlockOutline(GameRenderer instance, Operation<Boolean> original) {
         if (AnimatiumConfig.getInstance().getPersistentBlockOutline()) {
             return true;
         } else {

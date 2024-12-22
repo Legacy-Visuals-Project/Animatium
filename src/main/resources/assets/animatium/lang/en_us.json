@@ -136,6 +136,10 @@
 	"animatium.noMoveFishingRodLine.description": "Does not move the fishing rod cast line while sneaking when viewed in the third person mode from <=1.7.",
 	"animatium.oldFishingRodLinePositionThirdPerson": "Old third person fishing rod cast line position",
 	"animatium.oldFishingRodLinePositionThirdPerson.description": "Adjusts the position of the fishing rod cast line horizontally like in <=1.7.",
+	"animatium.oldFishingRodLineThickness": "Old fishing rod line thickness",
+	"animatium.oldFishingRodLineThickness.description": "Restores the old fishing rod line thickness from <1.13?",
+	"animatium.thinFishingRodLineThickness": "Make the fishing rod line super thin",
+	"animatium.thinFishingRodLineThickness.description": "Makes the fishing rod line super thin. Overrides the above setting.",
 	"animatium.fixCastLineCheck": "Fix arm-related fishing rod cast line check (Fixes MC-109263)",
 	"animatium.fixCastLineCheck.description": "Fixes the arm logic for casting the fishing rod.",
 	"animatium.fixCastLineSwing": "Fix left handed fishing rod swing bug",
@@ -153,5 +157,5 @@
 	"animatium.legacyBlockOutlineRendering": "Restore legacy block outline rendering",
 	"animatium.legacyBlockOutlineRendering.description": "Restores the legacy block outline rendering from <=1.14.4.",
 	"animatium.removeFOVBasedProjection": "Remove FOV based projection",
-	"animatium.removeFOVBasedProjection.description": "Does not include the FOV in projection calculations"
+	"animatium.removeFOVBasedProjection.description": "Removes the inclusion of FOV in the camera projection calculations."
 }

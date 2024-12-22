@@ -4,7 +4,6 @@
 	"compatibilityLevel": "JAVA_21",
 	"client": [
 		"MixinMinecraftClient",
-		"renderer.MixinShaderProgram",
 		"accessor.CameraAccessor",
 		"accessor.ClientWorldPropertiesAccessor",
 		"accessor.EntryListWidgetAccessor",
@@ -20,6 +19,7 @@
 		"renderer.MixinDrawContext",
 		"renderer.MixinGameRenderer",
 		"renderer.MixinRenderLayer",
+		"renderer.MixinShaderProgram",
 		"renderer.MixinWorldRenderer",
 		"renderer.entity.MixinBipedEntityRenderer",
 		"renderer.entity.MixinEntityRenderer",

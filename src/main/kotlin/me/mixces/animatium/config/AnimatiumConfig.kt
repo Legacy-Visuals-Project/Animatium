@@ -710,6 +710,28 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
+                            .name(Text.translatable("animatium.oldFishingRodLineThickness"))
+                            .description(OptionDescription.of(Text.translatable("animatium.oldFishingRodLineThickness.description")))
+                            .binding(
+                                defaults.oldFishingRodLineThickness,
+                                { config.oldFishingRodLineThickness },
+                                { newVal -> config.oldFishingRodLineThickness = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Text.translatable("animatium.thinFishingRodLineThickness"))
+                            .description(OptionDescription.of(Text.translatable("animatium.thinFishingRodLineThickness.description")))
+                            .binding(
+                                defaults.thinFishingRodLineThickness,
+                                { config.thinFishingRodLineThickness },
+                                { newVal -> config.thinFishingRodLineThickness = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
+                    category.option(
+                        Option.createBuilder<Boolean>()
                             .name(Text.translatable("animatium.fixCastLineCheck"))
                             .description(OptionDescription.of(Text.translatable("animatium.fixCastLineCheck.description")))
                             .binding(
@@ -844,152 +866,86 @@ class AnimatiumConfig {
     }
 
     // Sneaking
-    @SerialEntry
-    var removeSmoothSneaking = false
-    @SerialEntry
-    var oldSneakAnimationInterpolation = true
-    @SerialEntry
-    var oldSneakEyeHeight = true
-    @SerialEntry
-    var fixSneakingFeetPosition = true
-    @SerialEntry
-    var oldSneakingFeetPosition = false // TODO/NOTE: Might need a better name.
-    @SerialEntry
-    var syncPlayerModelWithEyeHeight = false
-    @SerialEntry
-    var sneakAnimationWhileFlying = true
+    @SerialEntry var removeSmoothSneaking = false
+    @SerialEntry var oldSneakAnimationInterpolation = true
+    @SerialEntry var oldSneakEyeHeight = true
+    @SerialEntry var fixSneakingFeetPosition = true
+    @SerialEntry var oldSneakingFeetPosition = false // TODO/NOTE: Might need a better name.
+    @SerialEntry var syncPlayerModelWithEyeHeight = false
+    @SerialEntry var sneakAnimationWhileFlying = true
 
     // QOL
-    @SerialEntry
-    var minimalViewBobbing = true
-    @SerialEntry
-    var showNametagInThirdperson = true
-    @SerialEntry
-    var hideNameTagBackground = true
-    @SerialEntry
-    var applyTextShadowToNametag = true
-    @SerialEntry
-    var oldDebugHudTextColor = true
-    @SerialEntry
-    var fixMirrorArmSwing = true
-    @SerialEntry
-    var persistentBlockOutline = true
-    @SerialEntry
-    var alwaysAllowUsageSwinging = true
-    @SerialEntry
-    var allowOffhandUsageSwinging = true
-    @SerialEntry
-    var alwaysShowSharpParticles = true
-    @SerialEntry
-    var forceItemGlintOnEntity = false
-    @SerialEntry
-    var disableRecipeAndTutorialToasts = false
-    @SerialEntry
-    var disablePoseUpdates = false
-    @SerialEntry
-    var showArmWhileInvisible = false
+    @SerialEntry var minimalViewBobbing = true
+    @SerialEntry var showNametagInThirdperson = true
+    @SerialEntry var hideNameTagBackground = true
+    @SerialEntry var applyTextShadowToNametag = true
+    @SerialEntry var oldDebugHudTextColor = true
+    @SerialEntry var fixMirrorArmSwing = true
+    @SerialEntry var persistentBlockOutline = true
+    @SerialEntry var alwaysAllowUsageSwinging = true
+    @SerialEntry var allowOffhandUsageSwinging = true
+    @SerialEntry var alwaysShowSharpParticles = true
+    @SerialEntry var forceItemGlintOnEntity = false
+    @SerialEntry var disableRecipeAndTutorialToasts = false
+    @SerialEntry var disablePoseUpdates = false
+    @SerialEntry var showArmWhileInvisible = false
 
     // Movement
-    @SerialEntry
-    var rotateBackwardsWalking = true
-    @SerialEntry
-    var uncapBlockingHeadRotation = true
-    @SerialEntry
-    var removeHeadRotationInterpolation = true
-    @SerialEntry
-    var fixVerticalBobbingTilt = true
-    @SerialEntry
-    var oldDeathLimbs = true
-    @SerialEntry
-    var fixBowArmMovement = true
-    @SerialEntry
-    var oldCapeMovement = false // TODO/NOTE: Currently not accurate/broken.
-    @SerialEntry
-    var oldDamageTilt = true
+    @SerialEntry var rotateBackwardsWalking = true
+    @SerialEntry var uncapBlockingHeadRotation = true
+    @SerialEntry var removeHeadRotationInterpolation = true
+    @SerialEntry var fixVerticalBobbingTilt = true
+    @SerialEntry var oldDeathLimbs = true
+    @SerialEntry var fixBowArmMovement = true
+    @SerialEntry var oldCapeMovement = false // TODO/NOTE: Currently not accurate/broken.
+    @SerialEntry var oldDamageTilt = true
 
     // Sky
-    @SerialEntry
-    var oldBlueVoidSky = true
-    @SerialEntry
-    var oldSkyHorizonHeight = true
-    @SerialEntry
-    var oldCloudHeight = true
+    @SerialEntry var oldBlueVoidSky = true
+    @SerialEntry var oldSkyHorizonHeight = true
+    @SerialEntry var oldCloudHeight = true
 
     // Screen
-    @SerialEntry
-    var showCrosshairInThirdperson = true
-    @SerialEntry
-    var fixHighAttackSpeedIndicator = true
-    @SerialEntry
-    var removeHeartFlash = true
-    @SerialEntry
-    var fixTextStrikethroughStyle = true
-    @SerialEntry
-    var centerScrollableListWidgets = true
-    @SerialEntry
-    var oldListWidgetSelectedBorderColor = true
-    @SerialEntry
-    var oldButtonTextColors = true
-    @SerialEntry
-    var removeDebugHudBackground = true
-    @SerialEntry
-    var debugHudTextShadow = true
-    @SerialEntry
-    var oldChatPosition = true
-    @SerialEntry
-    var disableCameraTransparentPassthrough = true
-    @SerialEntry
-    var cameraVersion = CameraVersion.V1_8
+    @SerialEntry var showCrosshairInThirdperson = true
+    @SerialEntry var fixHighAttackSpeedIndicator = true
+    @SerialEntry var removeHeartFlash = true
+    @SerialEntry var fixTextStrikethroughStyle = true
+    @SerialEntry var centerScrollableListWidgets = true
+    @SerialEntry var oldListWidgetSelectedBorderColor = true
+    @SerialEntry var oldButtonTextColors = true
+    @SerialEntry var removeDebugHudBackground = true
+    @SerialEntry var debugHudTextShadow = true
+    @SerialEntry var oldChatPosition = true
+    @SerialEntry var disableCameraTransparentPassthrough = true
+    @SerialEntry var cameraVersion = CameraVersion.V1_8
 
     // Items
-    @SerialEntry
-    var tiltItemPositions = true
-    @SerialEntry
-    var tiltItemPositionsInThirdperson = true
-    @SerialEntry
-    var applyItemSwingUsage = true
-    @SerialEntry
-    var removeEquipAnimationOnItemUse = true
-    @SerialEntry
-    var disableItemUsingTextureInGui = true
-    @SerialEntry
-    var itemDropsFaceCamera = true
-    @SerialEntry
-    var itemDrops2D = true
-    @SerialEntry
-    var oldDurabilityBarColors = true
-    @SerialEntry
-    var oldItemRarities = true
-    @SerialEntry
-    var removeClientsideBlockingDelay = true
-    @SerialEntry
-    var oldFishingRodTextureStackCheck = true
-    @SerialEntry
-    var fishingRodLineInterpolation = true
-    @SerialEntry
-    var noMoveFishingRodLine = true
-    @SerialEntry
-    var oldFishingRodLinePositionThirdPerson = true
-    @SerialEntry
-    var fixCastLineCheck = true
-    @SerialEntry
-    var fixCastLineSwing = true
+    @SerialEntry var tiltItemPositions = true
+    @SerialEntry var tiltItemPositionsInThirdperson = true
+    @SerialEntry var applyItemSwingUsage = true
+    @SerialEntry var removeEquipAnimationOnItemUse = true
+    @SerialEntry var disableItemUsingTextureInGui = true
+    @SerialEntry var itemDropsFaceCamera = true
+    @SerialEntry var itemDrops2D = true
+    @SerialEntry var oldDurabilityBarColors = true
+    @SerialEntry var oldItemRarities = true
+    @SerialEntry var removeClientsideBlockingDelay = true
+    @SerialEntry var oldFishingRodTextureStackCheck = true
+    @SerialEntry var fishingRodLineInterpolation = true
+    @SerialEntry var noMoveFishingRodLine = true
+    @SerialEntry var oldFishingRodLinePositionThirdPerson = true
+    @SerialEntry var oldFishingRodLineThickness = true
+    @SerialEntry var thinFishingRodLineThickness = true
+    @SerialEntry var fixCastLineCheck = true
+    @SerialEntry var fixCastLineSwing = true
 
     // Other
-    @SerialEntry
-    var legacyThirdpersonSwordBlockingPosition = true
-    @SerialEntry
-    var lockBlockingArmRotation = true
-    @SerialEntry
-    var oldProjectilePosition = true
-    @SerialEntry
-    var disableProjectileAgeCheck = true
-    @SerialEntry
-    var oldBlockMiningProgress = true
-    @SerialEntry
-    var disableInventoryEntityScissor = true
-    @SerialEntry
-    var legacyBlockOutlineRendering = true
-    @SerialEntry
-    var removeFOVBasedProjection = true
+    @SerialEntry var legacyThirdpersonSwordBlockingPosition = true
+    @SerialEntry var lockBlockingArmRotation = true
+    @SerialEntry var oldProjectilePosition = true
+    @SerialEntry var disableProjectileAgeCheck = true
+    @SerialEntry var oldBlockMiningProgress = true
+    @SerialEntry var disableInventoryEntityScissor = true
+    @SerialEntry var legacyBlockOutlineRendering = true
+    @SerialEntry var removeFOVBasedProjection = true
 }
