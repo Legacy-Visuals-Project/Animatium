@@ -44,6 +44,8 @@
 	"animatium.disableRecipeAndTutorialToasts.description": "Disables the annoying tutorial and recipe unload toasts & sound.",
 	"animatium.disablePoseUpdates": "Disable server pose updates",
 	"animatium.disablePoseUpdates.description": "Stops the server from updating your pose/animations. (Fixes MC-159163)",
+	"animatium.showArmWhileInvisible": "Show arm whilst invisible",
+	"animatium.showArmWhileInvisible.description": "Shows the arm as partially visible whilst invisible, like spectator mode or invisibly effect.",
 
 	"animatium.category.movement": "Movement",
 	"animatium.rotateBackwardsWalking": "Rotate body whilst walking backwards",

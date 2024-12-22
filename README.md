@@ -73,11 +73,14 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
     - Description: Makes the entity glint use the same texture as the item glint like it was in <=1.19.
     - Type: BOOLEAN
 - [X] disableRecipeAndTutorialToasts
-  - Description: Disable recipe and tutorial toasts.
-  - Type: BOOLEAN
+    - Description: Disable recipe and tutorial toasts.
+    - Type: BOOLEAN
 - [X] disablePoseUpdates
-  - Description: Stops the server from updating your pose/animations. (Fixes MC-159163)
-  - Type: BOOLEAN
+    - Description: Stops the server from updating your pose/animations. (Fixes MC-159163)
+    - Type: BOOLEAN
+- [X] showArmWhileInvisible
+    - Description: Shows the arm as partially visible whilst invisible, like spectator mode or invisibly effect.
+    - Type: BOOLEAN
 
 ## 🏃 Movement
 
@@ -104,8 +107,90 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
       properly.
     - Type: BOOLEAN
 
-## 🎣 Fishing Rod
+## Sky
 
+- [X] oldBlueVoidSky
+    - Description: Brings back the forgotten blue void part of the sky. (Fixes MC-257056)
+    - Type: BOOLEAN
+- [X] oldSkyHorizonHeight
+    - Description: Changes the horizon height to how it was in <=1.16.5.
+    - Type: BOOLEAN
+- [X] oldCloudHeight
+    - Description: Changes the cloud height back to 128 like in <=1.16.5.
+    - Type: BOOLEAN
+
+## 📷 Screen
+
+- [X] showCrosshairInThirdperson
+    - Description: Show crosshair whilst in thirdperson like in <=1.8.x.
+    - Type: BOOLEAN
+- [X] removeHeartFlash
+    - Description: Remove heart blinking like in <=1.7.x.
+    - Type: BOOLEAN
+- [X] fixTextStrikethroughStyle
+    - Description: Changes the text strikethrough position to make it look like it did in <=1.12.2.
+    - Type: BOOLEAN
+- [X] centerScrollableListWidgets
+    - Description: Center scrollable list widgets like <=1.7.x.
+    - Type: BOOLEAN
+- [X] oldListWidgetSelectedBorderColor
+    - Description: Returns the old list widget selected border color from <=1.15?
+    - Type: BOOLEAN
+- [X] oldButtonTextColors
+    - Description: Bring back the old yellow hover/grayish text colors like in <=1.14.4.
+    - Type: BOOLEAN
+- [X] removeDebugHudBackground
+    - Description: Remove the F3 Debug Hud background.
+    - Type: BOOLEAN
+- [X] debugHudTextShadow
+    - Description: Add text-shadow to F3 Debug Hud.
+    - Type: BOOLEAN
+- [X] oldChatPosition
+    - Description: Moves chat down 12 pixels like in <=1.8.x.
+    - Type: BOOLEAN
+- [X] disableCameraTransparentPassthrough
+    - Description: Stops camera passthrough in thirdperson in glass/etc.
+    - Type: BOOLEAN
+- [X] cameraVersion
+    - Description: Change the camera position to be as it was in said version range.
+    - Type: ENUM
+        - 1.8 and below (V1_8)
+        - 1.9 through to 1.13.2 (V1_9_V1_13_2)
+        - 1.14 through to 1.14.3 (V1_14_V1_14_3)
+        - LATEST
+
+## 🥍 Items
+
+- [X] tiltItemPositions
+    - Description: Tilts the held item position to make held items look like they did in <=1.7.x.
+    - Type: BOOLEAN
+- [X] tiltItemPositions
+    - Description: Tilts the third-person held item position to make held items look like they did in <=1.7.x.
+    - Type: BOOLEAN
+- [X] applyItemSwingUsage
+    - Description: Block hitting (apply swing offset in item usage code).
+    - Type: BOOLEAN
+- [X] removeEquipAnimationOnItemUse
+    - Description: Fixes the blocking animation which plays the equip animation on use, and others.
+    - Type: BOOLEAN
+- [X] disableItemUsingTextureInGui
+    - Description: Disables the item usage texture in the GUI like in <=1.8.x (mainly rod/bow/crossbow).
+    - Type: BOOLEAN
+- [X] itemDropsFaceCamera
+    - Description: Makes item entities face the camera / use camera yaw like <=1.7.x when fast graphics.
+    - Type: BOOLEAN
+- [X] itemDrops2D
+    - Description: Makes item entities render 2D when it's an item (not blocks).
+    - Type: BOOLEAN
+- [X] oldDurabilityBarColors
+    - Description: Restores the old durability damage colors from <1.11.
+    - Type: BOOLEAN
+- [X] oldItemRarities
+    - Description: Restores the old rarities for items visually from <1.21.2. (also old trident rarity from <1.21)
+    - Type: BOOLEAN
+- [X] removeClientsideBlockingDelay
+    - Description: Removes the pesky blocking delay that modern clients have. Shouldn't flag on servers.
+    - Type: BOOLEAN
 - [X] oldFishingRodTextureStackCheck
     - Description: Brings back old fishing rod stack texture check from <=1.8.
     - Type: BOOLEAN
@@ -128,59 +213,11 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 
 ## 🛠️ Old Settings
 
-- [X] tiltItemPositions
-    - Description: Tilts the held item position to make held items look like they did in <=1.7.x.
-    - Type: BOOLEAN
-- [X] tiltItemPositions
-    - Description: Tilts the third-person held item position to make held items look like they did in <=1.7.x.
-    - Type: BOOLEAN
 - [X] legacyThirdpersonSwordBlockingPosition
     - Description: Brings back the old third-person sword blocking look from <=1.7.
     - Type: BOOLEAN
 - [X] lockBlockingArmRotation
     - Description: Locks the third-person blocking arm rotation.
-    - Type: BOOLEAN
-- [X] applyItemSwingUsage
-    - Description: Block hitting (apply swing offset in item usage code).
-    - Type: BOOLEAN
-- [X] removeEquipAnimationOnItemUse
-    - Description: Fixes the blocking animation which plays the equip animation on use, and others.
-    - Type: BOOLEAN
-- [X] showCrosshairInThirdperson
-    - Description: Show crosshair whilst in thirdperson like in <=1.8.x.
-    - Type: BOOLEAN
-- [X] removeHeartFlash
-    - Description: Remove heart blinking like in <=1.7.x.
-    - Type: BOOLEAN
-- [X] fixTextStrikethroughStyle
-    - Description: Changes the text strikethrough position to make it look like it did in <=1.12.2.
-    - Type: BOOLEAN
-- [X] centerScrollableListWidgets
-    - Description: Center scrollable list widgets like <=1.7.x.
-    - Type: BOOLEAN
-- [X] oldListWidgetSelectedBorderColor
-    - Description: Returns the old list widget selected border color from <=1.15?
-    - Type: BOOLEAN
-- [X] oldBlueVoidSky
-    - Description: Brings back the forgotten blue void part of the sky. (Fixes MC-257056)
-    - Type: BOOLEAN
-- [X] oldSkyHorizonHeight
-    - Description: Changes the horizon height to how it was in <=1.16.5.
-    - Type: BOOLEAN
-- [X] oldCloudHeight
-    - Description: Changes the cloud height back to 128 like in <=1.16.5.
-    - Type: BOOLEAN
-- [X] oldButtonTextColors
-    - Description: Bring back the old yellow hover/grayish text colors like in <=1.14.4.
-    - Type: BOOLEAN
-- [X] removeDebugHudBackground
-    - Description: Remove the F3 Debug Hud background.
-    - Type: BOOLEAN
-- [X] debugHudTextShadow
-    - Description: Add text-shadow to F3 Debug Hud.
-    - Type: BOOLEAN
-- [X] oldChatPosition
-    - Description: Moves chat down 12 pixels like in <=1.8.x.
     - Type: BOOLEAN
 - [X] oldProjectilePosition
     - Description: Brings back old projectile position <=1.8.x.
@@ -191,34 +228,6 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 - [X] oldBlockMiningProgress
     - Description: Bring back the old block mining progress <=1.18?
     - Type: BOOLEAN
-- [X] disableItemUsingTextureInGui
-    - Description: Disables the item usage texture in the GUI like in <=1.8.x (mainly rod/bow/crossbow).
-    - Type: BOOLEAN
 - [X] disableInventoryEntityScissor
     - Description: Allows the inventory entity model to render fully.
     - Type: BOOLEAN
-- [X] disableCameraTransparentPassthrough
-    - Description: Stops camera passthrough in thirdperson in glass/etc.
-    - Type: BOOLEAN
-- [X] itemDropsFaceCamera
-    - Description: Makes item entities face the camera / use camera yaw like <=1.7.x when fast graphics.
-    - Type: BOOLEAN
-- [X] itemDrops2D
-    - Description: Makes item entities render 2D when it's an item (not blocks).
-    - Type: BOOLEAN
-- [X] oldDurabilityBarColors
-    - Description: Restores the old durability damage colors from <1.11.
-    - Type: BOOLEAN
-- [X] oldItemRarities
-    - Description: Restores the old rarities for items visually from <1.21.2. (also old trident rarity from <1.21)
-    - Type: BOOLEAN
-- [X] removeClientsideBlockingDelay
-    - Description: Removes the pesky blocking delay that modern clients have. Shouldn't flag on servers.
-    - Type: BOOLEAN
-- [X] cameraVersion
-    - Description: Change the camera position to be as it was in said version range.
-    - Type: ENUM
-        - 1.8 and below (V1_8)
-        - 1.9 through to 1.13.2 (V1_9_V1_13_2)
-        - 1.14 through to 1.14.3 (V1_14_V1_14_3)
-        - LATEST

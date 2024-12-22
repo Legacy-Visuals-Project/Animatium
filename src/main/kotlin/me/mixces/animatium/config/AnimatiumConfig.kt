@@ -259,6 +259,17 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Text.translatable("animatium.showArmWhileInvisible"))
+                            .description(OptionDescription.of(Text.translatable("animatium.showArmWhileInvisible.description")))
+                            .binding(
+                                defaults.showArmWhileInvisible,
+                                { config.showArmWhileInvisible },
+                                { newVal -> config.showArmWhileInvisible = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
                     builder.category(category.build())
                 }
 
@@ -811,6 +822,7 @@ class AnimatiumConfig {
     @SerialEntry var forceItemGlintOnEntity = false
     @SerialEntry var disableRecipeAndTutorialToasts = false
     @SerialEntry var disablePoseUpdates = false
+    @SerialEntry var showArmWhileInvisible = false
 
     // Movement
     @SerialEntry var rotateBackwardsWalking = true

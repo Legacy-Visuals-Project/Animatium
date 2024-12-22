@@ -34,6 +34,16 @@ public abstract class MixinHeldItemRenderer {
     @Shadow
     protected abstract void applySwingOffset(MatrixStack matrices, Arm arm, float swingProgress);
 
+    // TODO: Make arm partially translucent/transparent like the third-person player model (like on a team_
+    @WrapOperation(method = "renderFirstPersonItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;isInvisible()Z"))
+    private boolean animatium$showArmWhileInvisible(AbstractClientPlayerEntity instance, Operation<Boolean> original) {
+        if (AnimatiumConfig.getInstance().getShowArmWhileInvisible()) {
+            return false;
+        } else {
+            return original.call(instance);
+        }
+    }
+
     @WrapOperation(method = "renderFirstPersonItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;scale(FFF)V", ordinal = 1))
     private void animatium$postBowTransform(MatrixStack instance, float x, float y, float z, Operation<Void> original, @Local(argsOnly = true) AbstractClientPlayerEntity player, @Local(argsOnly = true) Hand hand) {
         int direction = PlayerUtils.getHandMultiplier(player);
@@ -105,4 +115,5 @@ public abstract class MixinHeldItemRenderer {
             applySwingOffset(matrices, arm, swingProgress);
         }
     }
+
 }
