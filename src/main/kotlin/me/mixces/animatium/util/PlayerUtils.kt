@@ -40,7 +40,7 @@ abstract class PlayerUtils {
 
         @JvmStatic
         fun getLegacySneakingDimensions(player: PlayerEntity, defaultPose: EntityPose): EntityDimensions {
-            // Changes the sneak height to the one from <=1.13.2 on Hypixel & Loyisa & Bedwars Practice & Bridger Land
+            // Changes the sneak height to the one from <=1.13.2 on Loyisa & Bedwars Practice & Bridger Land
             val dimensions = Objects.requireNonNull(PlayerEntityAccessor.getPoseDimensions()).getOrDefault(
                 if (AnimatiumClient.isLegacySupportedVersion()) null else defaultPose,
                 PlayerEntity.STANDING_DIMENSIONS

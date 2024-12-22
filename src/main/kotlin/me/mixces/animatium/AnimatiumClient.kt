@@ -10,7 +10,7 @@ class AnimatiumClient : ClientModInitializer {
             val client = MinecraftClient.getInstance()
             val networkHandler = client.networkHandler ?: return false
             val brand = networkHandler.brand?.lowercase() ?: return false
-            return if (brand.contains("hypixel") || brand.contains("hygot") || brand.contains("1.8")) {
+            return if (brand.contains("1.8")) {
                 true
             } else {
                 val serverInfo = networkHandler.serverInfo
