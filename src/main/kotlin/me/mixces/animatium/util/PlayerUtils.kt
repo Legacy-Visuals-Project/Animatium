@@ -20,17 +20,17 @@ import java.util.*
 abstract class PlayerUtils {
     companion object {
         @JvmStatic
-        fun getHandMultiplier(player: PlayerEntity, hand: Hand): Int {
-            val arm = if (hand == Hand.MAIN_HAND) player.mainArm else player.mainArm.opposite
-            return getArmMultiplier(arm)
-        }
-
-        @JvmStatic
         fun getHandMultiplier(player: PlayerEntity): Int {
             val hand = MoreObjects.firstNonNull(player.preferredHand, Hand.MAIN_HAND)
             val direction = getHandMultiplier(player, hand)
             val client = MinecraftClient.getInstance()
             return (if (client.options.perspective.isFirstPerson) 1 else -1) * direction
+        }
+
+        @JvmStatic
+        fun getHandMultiplier(player: PlayerEntity, hand: Hand): Int {
+            val arm = if (hand == Hand.MAIN_HAND) player.mainArm else player.mainArm.opposite
+            return getArmMultiplier(arm)
         }
 
         @JvmStatic
