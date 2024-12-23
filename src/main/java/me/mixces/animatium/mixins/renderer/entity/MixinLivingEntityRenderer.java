@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.mixins.accessor.CameraAccessor;
+import me.mixces.animatium.util.EntityUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.Camera;
@@ -14,12 +15,16 @@ import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityPose;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Objects;
 
 @Mixin(LivingEntityRenderer.class)
 public abstract class MixinLivingEntityRenderer<S extends LivingEntityRenderState> {
@@ -52,6 +57,18 @@ public abstract class MixinLivingEntityRenderer<S extends LivingEntityRenderStat
             return null;
         } else {
             return original.call(instance);
+        }
+    }
+
+    @Inject(method = "render(Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At("HEAD"), cancellable = true)
+    private void animatium$hideModelWhilstSleeping(S livingEntityRenderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
+        Entity entity = EntityUtils.getEntityByState(livingEntityRenderState);
+        if (AnimatiumConfig.getInstance().getHideModelWhilstSleeping() &&
+                entity instanceof LivingEntity livingEntity &&
+                livingEntity == Objects.requireNonNull(MinecraftClient.getInstance().player) &&
+                livingEntityRenderState.isInPose(EntityPose.SLEEPING) &&
+                livingEntity.isSleeping()) {
+            ci.cancel();
         }
     }
 }

@@ -847,6 +847,17 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Text.translatable("animatium.hideModelWhilstSleeping"))
+                            .description(OptionDescription.of(Text.translatable("animatium.hideModelWhilstSleeping.description")))
+                            .binding(
+                                defaults.hideModelWhilstSleeping,
+                                { config.hideModelWhilstSleeping },
+                                { newVal -> config.hideModelWhilstSleeping = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
                     builder.category(category.build())
                 }
 
@@ -948,4 +959,5 @@ class AnimatiumConfig {
     @SerialEntry var disableInventoryEntityScissor = true
     @SerialEntry var legacyBlockOutlineRendering = true
     @SerialEntry var removeFOVBasedProjection = true
+    @SerialEntry var hideModelWhilstSleeping = true
 }

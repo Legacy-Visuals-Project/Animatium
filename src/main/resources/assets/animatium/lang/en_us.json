@@ -157,5 +157,7 @@
 	"animatium.legacyBlockOutlineRendering": "Restore legacy block outline rendering",
 	"animatium.legacyBlockOutlineRendering.description": "Restores the legacy block outline rendering from <=1.14.4.",
 	"animatium.removeFOVBasedProjection": "Remove FOV based projection",
-	"animatium.removeFOVBasedProjection.description": "Removes the inclusion of FOV in the camera projection calculations."
+	"animatium.removeFOVBasedProjection.description": "Removes the inclusion of FOV in the camera projection calculations.",
+	"animatium.hideModelWhilstSleeping": "Hide player model whilst sleeping",
+	"animatium.hideModelWhilstSleeping.description": "Hides the player model whilst sleeping like in <=1.12? Only affects you."
 }

@@ -246,3 +246,6 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 - [X] removeFOVBasedProjection
     - Description: Removes the inclusion of FOV in the camera projection calculations.
     - Type: BOOLEAN
+- [X] hideModelWhilstSleeping
+    - Description: Hides the player model whilst sleeping like in <=1.12? Only affects you.
+    - Type: BOOLEAN
