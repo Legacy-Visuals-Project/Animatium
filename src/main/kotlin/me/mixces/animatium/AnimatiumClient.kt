@@ -24,5 +24,9 @@ class AnimatiumClient : ClientModInitializer {
 
     override fun onInitializeClient() {
         AnimatiumConfig.load()
+        initializeCommands()
+    }
+
+    fun initializeCommands() {
     }
 }

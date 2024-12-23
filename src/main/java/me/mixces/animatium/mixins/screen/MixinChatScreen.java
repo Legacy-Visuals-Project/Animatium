@@ -17,4 +17,13 @@ public abstract class MixinChatScreen {
 //            context.getMatrices().translate(0F, 12F, 0F);
 //        }
 //    }
+
+//    @WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;getIndicatorAt(DD)Lnet/minecraft/client/gui/hud/MessageIndicator;"))
+//    private MessageIndicator animatium$(ChatHud instance, double mouseX, double mouseY, Operation<MessageIndicator> original) {
+//        if (true) {
+//            return null;
+//        } else {
+//            return original.call(instance, mouseX, mouseY);
+//        }
+//    }
 }
