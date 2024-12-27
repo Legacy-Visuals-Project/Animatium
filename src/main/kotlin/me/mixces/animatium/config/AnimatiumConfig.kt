@@ -171,9 +171,9 @@ class AnimatiumConfig {
                             .name(Text.translatable("animatium.disablePoseUpdates"))
                             .description(OptionDescription.of(Text.translatable("animatium.disablePoseUpdates.description")))
                             .binding(
-                                defaults.disablePoseUpdates,
-                                { config.disablePoseUpdates },
-                                { newVal -> config.disablePoseUpdates = newVal })
+                                defaults.disableServerPoseAndBlockingVisualUpdates,
+                                { config.disableServerPoseAndBlockingVisualUpdates },
+                                { newVal -> config.disableServerPoseAndBlockingVisualUpdates = newVal })
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
@@ -928,7 +928,7 @@ class AnimatiumConfig {
     @SerialEntry var alwaysShowSharpParticles = true
     @SerialEntry var forceItemGlintOnEntity = false
     @SerialEntry var disableRecipeAndTutorialToasts = false
-    @SerialEntry var disablePoseUpdates = false
+    @SerialEntry var disableServerPoseAndBlockingVisualUpdates = false
     @SerialEntry var showArmWhileInvisible = false
     @SerialEntry var upMinPixelTransparencyLimit = true
 

@@ -51,7 +51,7 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 - [X] disableRecipeAndTutorialToasts
     - Description: Disable recipe and tutorial toasts.
     - Type: BOOLEAN
-- [X] disablePoseUpdates
+- [X] disableServerPoseAndBlockingVisualUpdates
     - Description: Stops the server from updating your pose/animations. (Fixes MC-159163)
     - Type: BOOLEAN
 - [X] showArmWhileInvisible

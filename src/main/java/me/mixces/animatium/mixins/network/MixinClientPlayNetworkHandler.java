@@ -22,10 +22,10 @@ public abstract class MixinClientPlayNetworkHandler {
     private ClientWorld world;
 
     @WrapOperation(method = "onEntityTrackerUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/packet/s2c/play/EntityTrackerUpdateS2CPacket;trackedValues()Ljava/util/List;"))
-    public List<DataTracker.SerializedEntry<?>> animatium$disablePoseUpdates(EntityTrackerUpdateS2CPacket instance, Operation<List<DataTracker.SerializedEntry<?>>> original) {
-        if (AnimatiumConfig.getInstance().getDisablePoseUpdates()) {
+    public List<DataTracker.SerializedEntry<?>> animatium$disableServerPoseAndBlockingVisualUpdates(EntityTrackerUpdateS2CPacket instance, Operation<List<DataTracker.SerializedEntry<?>>> original) {
+        if (AnimatiumConfig.getInstance().getDisableServerPoseAndBlockingVisualUpdates()) {
             if (Objects.requireNonNull(MinecraftClient.getInstance().player).equals(world.getEntityById(instance.id()))) {
-                instance.trackedValues().removeIf(entry -> entry.handler().equals(TrackedDataHandlerRegistry.ENTITY_POSE));
+                instance.trackedValues().removeIf(entry -> entry.id() == 8 /* Blocking update? */ || entry.handler().equals(TrackedDataHandlerRegistry.ENTITY_POSE));
             }
         }
 
