@@ -168,8 +168,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.disablePoseUpdates"))
-                            .description(OptionDescription.of(Text.translatable("animatium.disablePoseUpdates.description")))
+                            .name(Text.translatable("animatium.disableServerPoseAndBlockingVisualUpdates"))
+                            .description(OptionDescription.of(Text.translatable("animatium.disableServerPoseAndBlockingVisualUpdates.description")))
                             .binding(
                                 defaults.disableServerPoseAndBlockingVisualUpdates,
                                 { config.disableServerPoseAndBlockingVisualUpdates },
