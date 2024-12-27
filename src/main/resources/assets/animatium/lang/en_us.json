@@ -30,6 +30,8 @@
 	"animatium.disablePoseUpdates.description": "Stops the server from updating your pose/animations. (Fixes MC-159163)",
 	"animatium.showArmWhileInvisible": "Show arm whilst invisible",
 	"animatium.showArmWhileInvisible.description": "Shows the arm as partially visible whilst invisible, like spectator mode or invisibly effect.",
+	"animatium.upMinPixelTransparencyLimit": "Up min pixel transparency limit",
+	"animatium.upMinPixelTransparencyLimit.description": "Makes the minimum 0-transparency value less than or equal to 0.1. This fixes textures with invisible pixels that cause issues.",
 
 	"animatium.category.movement": "Movement",
 	"animatium.category.movement.group.sneaking": "Sneaking",

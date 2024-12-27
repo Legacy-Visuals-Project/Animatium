@@ -28,5 +28,6 @@ class AnimatiumClient : ClientModInitializer {
     }
 
     fun initializeCommands() {
+
     }
 }

@@ -12,6 +12,7 @@ import dev.isxander.yacl3.config.v2.api.SerialEntry
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder
 import dev.isxander.yacl3.platform.YACLPlatform
 import me.mixces.animatium.util.CameraVersion
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
 
@@ -184,6 +185,20 @@ class AnimatiumConfig {
                                 defaults.showArmWhileInvisible,
                                 { config.showArmWhileInvisible },
                                 { newVal -> config.showArmWhileInvisible = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Text.translatable("animatium.upMinPixelTransparencyLimit"))
+                            .description(OptionDescription.of(Text.translatable("animatium.upMinPixelTransparencyLimit.description")))
+                            .binding(
+                                defaults.upMinPixelTransparencyLimit,
+                                { config.upMinPixelTransparencyLimit },
+                                { newVal ->
+                                    config.upMinPixelTransparencyLimit = newVal
+                                    MinecraftClient.getInstance().reloadResources()
+                                })
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
@@ -915,6 +930,7 @@ class AnimatiumConfig {
     @SerialEntry var disableRecipeAndTutorialToasts = false
     @SerialEntry var disablePoseUpdates = false
     @SerialEntry var showArmWhileInvisible = false
+    @SerialEntry var upMinPixelTransparencyLimit = true
 
     // Movement
     @SerialEntry var rotateBackwardsWalking = true

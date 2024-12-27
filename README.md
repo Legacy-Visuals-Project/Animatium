@@ -13,30 +13,6 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 
 # Available Config Categories
 
-## 💨 Sneaking
-
-- [X] removeSmoothSneaking
-    - Description: Removes the smooth sneaking camera animation, making it like it was in 1.8-1.12.2.
-    - Type: BOOLEAN
-- [X] oldSneakAnimationInterpolation
-    - Description: Brings back the <=1.7.x sneaking camera animation interpolation.
-    - Type: BOOLEAN
-- [X] oldSneakEyeHeight
-    - Description: Changes the sneak eye height to be as it was <=1.13.2.
-    - Type: BOOLEAN
-- [X] fixSneakingFeetPosition
-    - Description: Fixes the sneaking model offset to be like <=1.11.x.
-    - Type: BOOLEAN
-- [X] oldSneakingFeetPosition
-    - Description: Fixes the sneaking model offset to be like <1.14?
-    - Type: BOOLEAN
-- [X] syncPlayerModelWithEyeHeight
-    - Description: Synchronizes the player model to the eye height like in <=1.7.x.
-    - Type: BOOLEAN
-- [X] sneakAnimationWhileFlying
-    - Description: Shows the sneaking animation in third-person whilst flying down like in <=1.13.x.
-    - Type: BOOLEAN
-
 ## 🪶 Quality of Life
 
 - [X] minimalViewBobbing
@@ -81,6 +57,9 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 - [X] showArmWhileInvisible
     - Description: Shows the arm as partially visible whilst invisible, like spectator mode or invisibly effect.
     - Type: BOOLEAN
+- [X] upMinPixelTransparencyLimit
+    - Description: Makes the minimum 0-transparency value less than or equal to 0.1. This fixes textures with invisible pixels that cause issues.
+    - Type: BOOLEAN
 
 ## 🏃 Movement
 
@@ -106,17 +85,26 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
     - Description: Changes the cape model movement to be how it used to be in <=1.8? Currently broken and doesn't work
       properly.
     - Type: BOOLEAN
-
-## Sky
-
-- [X] oldBlueVoidSky
-    - Description: Brings back the forgotten blue void part of the sky. (Fixes MC-257056)
+- [X] removeSmoothSneaking
+    - Description: Removes the smooth sneaking camera animation, making it like it was in 1.8-1.12.2.
     - Type: BOOLEAN
-- [X] oldSkyHorizonHeight
-    - Description: Changes the horizon height to how it was in <=1.16.5.
+- [X] oldSneakAnimationInterpolation
+    - Description: Brings back the <=1.7.x sneaking camera animation interpolation.
     - Type: BOOLEAN
-- [X] oldCloudHeight
-    - Description: Changes the cloud height back to 128 like in <=1.16.5.
+- [X] oldSneakEyeHeight
+    - Description: Changes the sneak eye height to be as it was <=1.13.2.
+    - Type: BOOLEAN
+- [X] fixSneakingFeetPosition
+    - Description: Fixes the sneaking model offset to be like <=1.11.x.
+    - Type: BOOLEAN
+- [X] oldSneakingFeetPosition
+    - Description: Fixes the sneaking model offset to be like <1.14?
+    - Type: BOOLEAN
+- [X] syncPlayerModelWithEyeHeight
+    - Description: Synchronizes the player model to the eye height like in <=1.7.x.
+    - Type: BOOLEAN
+- [X] sneakAnimationWhileFlying
+    - Description: Shows the sneaking animation in third-person whilst flying down like in <=1.13.x.
     - Type: BOOLEAN
 
 ## 📷 Screen
@@ -222,6 +210,15 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 
 ## 🛠️ Old Settings
 
+- [X] oldBlueVoidSky
+    - Description: Brings back the forgotten blue void part of the sky. (Fixes MC-257056)
+    - Type: BOOLEAN
+- [X] oldSkyHorizonHeight
+    - Description: Changes the horizon height to how it was in <=1.16.5.
+    - Type: BOOLEAN
+- [X] oldCloudHeight
+    - Description: Changes the cloud height back to 128 like in <=1.16.5.
+    - Type: BOOLEAN
 - [X] legacyThirdpersonSwordBlockingPosition
     - Description: Brings back the old third-person sword blocking look from <=1.7.
     - Type: BOOLEAN
