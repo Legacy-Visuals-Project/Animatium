@@ -11,7 +11,15 @@ This project is licensed under the LGPL-2.1 license.
 Currently, there are no releases. If you want to use a development build, you can get
 them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 
+## Dependencies
+
+This mod uses [YACL](https://modrinth.com/mod/yacl) as it's config library of choice. Make sure you install the correct version to prevent crashing.
+It is recommended that you also install [Modmenu](https://modrinth.com/mod/modmenu/) in order to access the Animatium config while in-game.
+
 # Available Config Categories
+
+<details>
+  <summary>Quality of Life</summary>
 
 ## 🪶 Quality of Life
 
@@ -60,6 +68,10 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 - [X] upMinPixelTransparencyLimit
     - Description: Makes the minimum 0-transparency value less than or equal to 0.1. This fixes textures with invisible pixels that cause issues.
     - Type: BOOLEAN
+  </details>
+
+<details>
+  <summary>Movement</summary>
 
 ## 🏃 Movement
 
@@ -106,6 +118,10 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 - [X] sneakAnimationWhileFlying
     - Description: Shows the sneaking animation in third-person whilst flying down like in <=1.13.x.
     - Type: BOOLEAN
+  </details>
+
+<details>
+  <summary>Screen</summary>
 
 ## 📷 Screen
 
@@ -149,6 +165,10 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
         - 1.9 through to 1.13.2 (V1_9_V1_13_2)
         - 1.14 through to 1.14.3 (V1_14_V1_14_3)
         - LATEST
+  </details>
+
+<details>
+  <summary>Items</summary>
 
 ## 🥍 Items
 
@@ -207,6 +227,10 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 - [X] fixCastLineSwing
     - Description: Fixes the swing logic for casting the fishing rod.
     - Type: BOOLEAN
+  </details>
+
+<details>
+  <summary>Old Settings</summary>
 
 ## 🛠️ Old Settings
 
@@ -246,3 +270,8 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 - [X] hideModelWhilstSleeping
     - Description: Hides the player model whilst sleeping like in <=1.12? Only affects you.
     - Type: BOOLEAN
+  </details>
+  
+## Support
+Have any issue, need support, or would like to request a feature be added? Feel free to use our [issue tracker](https://github.com/Legacy-Visuals-Project/Animatium/issues) to address that. If you are reporting a crash, make sure you include information about the mods you are using and attach any relevant log files you have. 
+  
