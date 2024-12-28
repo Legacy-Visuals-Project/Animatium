@@ -683,6 +683,17 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
+                                .name(Text.translatable("animatium.doNotSkipHandAnimationOnSwap"))
+                                .description(OptionDescription.of(Text.translatable("animatium.doNotSkipHandAnimationOnSwap.description")))
+                                .binding(
+                                    defaults.doNotSkipHandAnimationOnSwap,
+                                    { config.doNotSkipHandAnimationOnSwap },
+                                    { newVal -> config.doNotSkipHandAnimationOnSwap = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        otherGroup.option(
+                            Option.createBuilder<Boolean>()
                                 .name(Text.translatable("animatium.disableItemUsingTextureInGui"))
                                 .description(OptionDescription.of(Text.translatable("animatium.disableItemUsingTextureInGui.description")))
                                 .binding(
@@ -968,6 +979,7 @@ class AnimatiumConfig {
     @SerialEntry var tiltItemPositionsInThirdperson = true
     @SerialEntry var applyItemSwingUsage = true
     @SerialEntry var removeEquipAnimationOnItemUse = true
+    @SerialEntry var doNotSkipHandAnimationOnSwap = true
     @SerialEntry var disableItemUsingTextureInGui = true
     @SerialEntry var itemDropsFaceCamera = true
     @SerialEntry var itemDrops2D = true

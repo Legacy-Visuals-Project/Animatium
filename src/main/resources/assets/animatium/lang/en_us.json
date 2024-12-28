@@ -111,6 +111,8 @@
 	"animatium.applyItemSwingUsage.description": "Block hitting (apply swing offset in item usage code).",
 	"animatium.removeEquipAnimationOnItemUse": "Remove the equip animation when using a item",
 	"animatium.removeEquipAnimationOnItemUse.description": "Fixes the blocking animation which plays the equip animation on use, and others.",
+	"animatium.doNotSkipHandAnimationOnSwap": "Do not skip hand animation on swap",
+	"animatium.doNotSkipHandAnimationOnSwap.description": "Remove check enabling items of the same type to not show the hand animation while swapping like in <=1.7.x.",
 	"animatium.disableItemUsingTextureInGui": "Disable item usage texture in GUI",
 	"animatium.disableItemUsingTextureInGui.description": "Disables the item usage texture in the GUI like in <=1.8.x (mainly rod/bow/crossbow).",
 	"animatium.itemDropsFaceCamera": "Make item entities use camera yaw / face camera",

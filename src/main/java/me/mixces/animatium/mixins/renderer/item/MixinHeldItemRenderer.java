@@ -1,5 +1,6 @@
 package me.mixces.animatium.mixins.renderer.item;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -102,6 +103,11 @@ public abstract class MixinHeldItemRenderer {
         if (AnimatiumConfig.getInstance().getRemoveEquipAnimationOnItemUse() && player != null && player.isUsingItem()) {
             ci.cancel();
         }
+    }
+
+    @ModifyReturnValue(method = "shouldSkipHandAnimationOnSwap", at = @At("RETURN"))
+    private boolean animatium$doNotSkipHandAnimationOnSwap(boolean original) {
+        return !AnimatiumConfig.getInstance().getDoNotSkipHandAnimationOnSwap() && original;
     }
 
     @Inject(method = "renderFirstPersonItem",
