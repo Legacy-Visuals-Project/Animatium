@@ -26,7 +26,7 @@ public abstract class MixinItemEntityRenderer {
             Entity entity = EntityUtils.getEntityByState(itemEntityRenderState);
             if (entity instanceof ItemEntity itemEntity) {
                 ItemStack itemStack = itemEntity.getStack();
-                if (!(itemStack.getItem() instanceof BlockItem) && !itemEntityRenderState.itemRenderState.hasDepth()) {
+                if (!(itemStack.getItem() instanceof BlockItem) || !itemEntityRenderState.itemRenderState.hasDepth()) {
                     Camera camera = MinecraftClient.getInstance().gameRenderer.getCamera();
                     return MathUtils.toRadians(180F - camera.getYaw());
                 }
