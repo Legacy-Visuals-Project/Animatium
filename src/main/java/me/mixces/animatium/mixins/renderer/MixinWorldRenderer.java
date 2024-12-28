@@ -71,29 +71,26 @@ public abstract class MixinWorldRenderer {
 
     @Unique
     private void animatium$renderSkyBlueVoid(MatrixStack matrices, int skyColor, double depth) {
-        // TODO/NOTE: If Statement is a fix for it showing below y 0/-64, supposedly/(not entirely) accurate functionality
-        if (depth >= 0.0) {
-            ShaderProgram shaderProgram = RenderSystem.setShader(ShaderProgramKeys.POSITION);
+        ShaderProgram shaderProgram = RenderSystem.setShader(ShaderProgramKeys.POSITION);
 
-            assert this.world != null;
-            Vector3f skyColorVec = ColorHelper.toVector(skyColor);
-            if (this.world.getDimensionEffects().isAlternateSkyColor()) {
-                RenderSystem.setShaderColor(skyColorVec.x * 0.2F + 0.04F, skyColorVec.y * 0.2F + 0.04F, skyColorVec.z * 0.6F + 0.1F, 1.0F);
-            } else {
-                RenderSystem.setShaderColor(skyColorVec.x, skyColorVec.y, skyColorVec.z, 1.0F);
-            }
-
-            matrices.push();
-            matrices.multiplyPositionMatrix(RenderSystem.getModelViewMatrix());
-            matrices.translate(0.0F, -((float) (depth - 16.0)), 0.0F);
-            SkyRenderingAccessor skyRenderingAccessor = (SkyRenderingAccessor) this.skyRendering;
-            skyRenderingAccessor.getDarkSkyBuffer().bind();
-            skyRenderingAccessor.getDarkSkyBuffer().draw(matrices.peek().getPositionMatrix(), RenderSystem.getProjectionMatrix(), shaderProgram);
-            VertexBuffer.unbind();
-            matrices.pop();
-
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        assert this.world != null;
+        Vector3f skyColorVec = ColorHelper.toVector(skyColor);
+        if (this.world.getDimensionEffects().isAlternateSkyColor()) {
+            RenderSystem.setShaderColor(skyColorVec.x * 0.2F + 0.04F, skyColorVec.y * 0.2F + 0.04F, skyColorVec.z * 0.6F + 0.1F, 1.0F);
+        } else {
+            RenderSystem.setShaderColor(skyColorVec.x, skyColorVec.y, skyColorVec.z, 1.0F);
         }
+
+        matrices.push();
+        matrices.multiplyPositionMatrix(RenderSystem.getModelViewMatrix());
+        matrices.translate(0.0F, -((float) (depth - 16.0)), 0.0F);
+        SkyRenderingAccessor skyRenderingAccessor = (SkyRenderingAccessor) this.skyRendering;
+        skyRenderingAccessor.getDarkSkyBuffer().bind();
+        skyRenderingAccessor.getDarkSkyBuffer().draw(matrices.peek().getPositionMatrix(), RenderSystem.getProjectionMatrix(), shaderProgram);
+        VertexBuffer.unbind();
+        matrices.pop();
+
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     @Unique
