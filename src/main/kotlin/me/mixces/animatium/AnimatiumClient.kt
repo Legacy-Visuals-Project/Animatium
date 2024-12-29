@@ -1,7 +1,9 @@
 package me.mixces.animatium
 
+import me.mixces.animatium.command.AnimatiumCommand
 import me.mixces.animatium.config.AnimatiumConfig
 import net.fabricmc.api.ClientModInitializer
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 import net.minecraft.client.MinecraftClient
 
 class AnimatiumClient : ClientModInitializer {
@@ -27,7 +29,9 @@ class AnimatiumClient : ClientModInitializer {
         initializeCommands()
     }
 
-    fun initializeCommands() {
-
+    private fun initializeCommands() {
+        ClientCommandRegistrationCallback.EVENT.register { dispatcher, registryAccess ->
+            AnimatiumCommand.register(dispatcher)
+        }
     }
 }

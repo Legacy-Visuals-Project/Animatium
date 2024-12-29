@@ -8,7 +8,7 @@ import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.mixins.accessor.ClientWorldPropertiesAccessor;
 import me.mixces.animatium.mixins.accessor.SkyRenderingAccessor;
 import me.mixces.animatium.util.MathUtils;
-import me.mixces.animatium.util.RenderUtils;
+import me.mixces.animatium.util.ShaderUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.client.MinecraftClient;
@@ -105,14 +105,14 @@ public abstract class MixinWorldRenderer {
     @Inject(method = "renderTargetBlockOutline", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;drawBlockOutline(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;Lnet/minecraft/entity/Entity;DDDLnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;I)V", shift = At.Shift.BEFORE))
     private void animatium$setBlockOutlineWidth$on(Camera camera, VertexConsumerProvider.Immediate vertexConsumers, MatrixStack matrices, boolean translucent, CallbackInfo ci) {
         if (AnimatiumConfig.getInstance().getLegacyBlockOutlineRendering()) {
-            RenderUtils.setLineWidth(2.0F);
+            ShaderUtils.setLineWidth(2.0F);
         }
     }
 
     @Inject(method = "renderTargetBlockOutline", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;drawCurrentLayer()V", shift = At.Shift.AFTER))
     private void animatium$setBlockOutlineWidth$off(Camera camera, VertexConsumerProvider.Immediate vertexConsumers, MatrixStack matrices, boolean translucent, CallbackInfo ci) {
         if (AnimatiumConfig.getInstance().getLegacyBlockOutlineRendering()) {
-            RenderUtils.setLineWidth(-1.0F);
+            ShaderUtils.setLineWidth(-1.0F);
         }
     }
 

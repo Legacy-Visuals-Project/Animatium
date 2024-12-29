@@ -17,78 +17,76 @@ import net.minecraft.util.Hand
 import net.minecraft.util.math.Vec3d
 import java.util.*
 
-abstract class PlayerUtils {
-    companion object {
-        @JvmStatic
-        fun getHandMultiplier(player: PlayerEntity): Int {
-            val hand = MoreObjects.firstNonNull(player.preferredHand, Hand.MAIN_HAND)
-            val direction = getHandMultiplier(player, hand)
-            val client = MinecraftClient.getInstance()
-            return (if (client.options.perspective.isFirstPerson) 1 else -1) * direction
-        }
+object PlayerUtils {
+    @JvmStatic
+    fun getHandMultiplier(player: PlayerEntity): Int {
+        val hand = MoreObjects.firstNonNull(player.preferredHand, Hand.MAIN_HAND)
+        val direction = getHandMultiplier(player, hand)
+        val client = MinecraftClient.getInstance()
+        return (if (client.options.perspective.isFirstPerson) 1 else -1) * direction
+    }
 
-        @JvmStatic
-        fun getHandMultiplier(player: PlayerEntity, hand: Hand): Int {
-            val arm = if (hand == Hand.MAIN_HAND) player.mainArm else player.mainArm.opposite
-            return getArmMultiplier(arm)
-        }
+    @JvmStatic
+    fun getHandMultiplier(player: PlayerEntity, hand: Hand): Int {
+        val arm = if (hand == Hand.MAIN_HAND) player.mainArm else player.mainArm.opposite
+        return getArmMultiplier(arm)
+    }
 
-        @JvmStatic
-        fun getArmMultiplier(arm: Arm): Int {
-            return if (arm == Arm.RIGHT) 1 else -1
-        }
+    @JvmStatic
+    fun getArmMultiplier(arm: Arm): Int {
+        return if (arm == Arm.RIGHT) 1 else -1
+    }
 
-        @JvmStatic
-        fun getLegacySneakingDimensions(player: PlayerEntity, defaultPose: EntityPose): EntityDimensions {
-            // Changes the sneak height to the one from <=1.13.2 on Loyisa & Bedwars Practice & Bridger Land
-            val dimensions = Objects.requireNonNull(PlayerEntityAccessor.getPoseDimensions()).getOrDefault(
-                if (AnimatiumClient.isLegacySupportedVersion()) null else defaultPose,
-                PlayerEntity.STANDING_DIMENSIONS
-            )
-            return if ((player as PlayerEntityAccessor).`canChangeIntoPose$`(EntityPose.STANDING)) {
-                dimensions.withEyeHeight(1.54F)
+    @JvmStatic
+    fun getLegacySneakingDimensions(player: PlayerEntity, defaultPose: EntityPose): EntityDimensions {
+        // Changes the sneak height to the one from <=1.13.2 on Loyisa & Bedwars Practice & Bridger Land
+        val dimensions = Objects.requireNonNull(PlayerEntityAccessor.getPoseDimensions()).getOrDefault(
+            if (AnimatiumClient.isLegacySupportedVersion()) null else defaultPose,
+            PlayerEntity.STANDING_DIMENSIONS
+        )
+        return if ((player as PlayerEntityAccessor).`canChangeIntoPose$`(EntityPose.STANDING)) {
+            dimensions.withEyeHeight(1.54F)
+        } else {
+            dimensions
+        }
+    }
+
+    @JvmStatic
+    fun lerpPlayerWithEyeHeight(entity: PlayerEntity, tickDelta: Float, eyeHeight: Double): Vec3d {
+        return entity.getLerpedPos(tickDelta).add(0.0, eyeHeight, 0.0)
+    }
+
+    @JvmStatic
+    fun isBlockingArm(arm: Arm, armedEntityState: ArmedEntityRenderState): Boolean {
+        return if (arm == Arm.LEFT && armedEntityState.leftArmPose == BipedEntityModel.ArmPose.BLOCK) {
+            true
+        } else if (arm == Arm.RIGHT && armedEntityState.rightArmPose == BipedEntityModel.ArmPose.BLOCK) {
+            true
+        } else {
+            false
+        }
+    }
+
+    @JvmStatic
+    fun fakeHandSwing(player: PlayerEntity, hand: Hand) {
+        // NOTE: Clientside fake swinging, doesn't send a packet
+        if (!player.handSwinging || player.handSwingTicks >= getHandSwingDuration(player) / 2 || player.handSwingTicks < 0) {
+            player.handSwingTicks = -1
+            player.handSwinging = true
+            player.preferredHand = hand
+        }
+    }
+
+    // Fixes crash & doesn't require accesswidener
+    @JvmStatic
+    fun getHandSwingDuration(entity: LivingEntity): Int {
+        return if (StatusEffectUtil.hasHaste(entity)) {
+            6 - (1 + StatusEffectUtil.getHasteAmplifier(entity))
+        } else {
+            if (entity.hasStatusEffect(StatusEffects.MINING_FATIGUE)) {
+                6 + (1 + Objects.requireNonNull(entity.getStatusEffect(StatusEffects.MINING_FATIGUE))!!.amplifier) * 2
             } else {
-                dimensions
-            }
-        }
-
-        @JvmStatic
-        fun lerpPlayerWithEyeHeight(entity: PlayerEntity, tickDelta: Float, eyeHeight: Double): Vec3d {
-            return entity.getLerpedPos(tickDelta).add(0.0, eyeHeight, 0.0)
-        }
-
-        @JvmStatic
-        fun isBlockingArm(arm: Arm, armedEntityState: ArmedEntityRenderState): Boolean {
-            return if (arm == Arm.LEFT && armedEntityState.leftArmPose == BipedEntityModel.ArmPose.BLOCK) {
-                true
-            } else if (arm == Arm.RIGHT && armedEntityState.rightArmPose == BipedEntityModel.ArmPose.BLOCK) {
-                true
-            } else {
-                false
-            }
-        }
-
-        @JvmStatic
-        fun fakeHandSwing(player: PlayerEntity, hand: Hand) {
-            // NOTE: Clientside fake swinging, doesn't send a packet
-            if (!player.handSwinging || player.handSwingTicks >= getHandSwingDuration(player) / 2 || player.handSwingTicks < 0) {
-                player.handSwingTicks = -1
-                player.handSwinging = true
-                player.preferredHand = hand
-            }
-        }
-
-        // Fixes crash & doesn't require accesswidener
-        @JvmStatic
-        fun getHandSwingDuration(entity: LivingEntity): Int {
-            return if (StatusEffectUtil.hasHaste(entity)) {
-                6 - (1 + StatusEffectUtil.getHasteAmplifier(entity))
-            } else {
-                if (entity.hasStatusEffect(StatusEffects.MINING_FATIGUE)) {
-                    6 + (1 + Objects.requireNonNull(entity.getStatusEffect(StatusEffects.MINING_FATIGUE))!!.amplifier) * 2
-                } else {
-                    6
-                }
+                6
             }
         }
     }

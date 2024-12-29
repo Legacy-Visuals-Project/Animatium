@@ -6,7 +6,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.mixins.accessor.CameraAccessor;
 import me.mixces.animatium.util.PlayerUtils;
-import me.mixces.animatium.util.RenderUtils;
+import me.mixces.animatium.util.ShaderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -49,9 +49,9 @@ public abstract class MixinFishingBobberEntityRenderer extends EntityRenderer<Fi
     private void animatium$oldFishingRodLineThickness(FishingBobberEntityState fishingBobberEntityState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
         // TODO/NOTE: Seems to be ok to set it like this and not have to set -1.0F after?
         if (AnimatiumConfig.getInstance().getThinFishingRodLineThickness()) {
-            RenderUtils.setLineWidth(1.0F);
+            ShaderUtils.setLineWidth(1.0F);
         } else if (AnimatiumConfig.getInstance().getOldFishingRodLineThickness()) {
-            RenderUtils.setLineWidth(2.0F);
+            ShaderUtils.setLineWidth(2.0F);
         }
     }
 
