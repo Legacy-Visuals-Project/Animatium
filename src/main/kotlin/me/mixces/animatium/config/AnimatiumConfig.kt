@@ -727,6 +727,17 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
+                                .name(Text.translatable("animatium.itemFramed2D"))
+                                .description(OptionDescription.of(Text.translatable("animatium.itemFramed2D.description")))
+                                .binding(
+                                    defaults.itemFramed2D,
+                                    { config.itemFramed2D },
+                                    { newVal -> config.itemFramed2D = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        otherGroup.option(
+                            Option.createBuilder<Boolean>()
                                 .name(Text.translatable("animatium.oldDurabilityBarColors"))
                                 .description(OptionDescription.of(Text.translatable("animatium.oldDurabilityBarColors.description")))
                                 .binding(
@@ -983,6 +994,7 @@ class AnimatiumConfig {
     @SerialEntry var disableItemUsingTextureInGui = true
     @SerialEntry var itemDropsFaceCamera = true
     @SerialEntry var itemDrops2D = true
+    @SerialEntry var itemFramed2D = true
     @SerialEntry var oldDurabilityBarColors = true
     @SerialEntry var oldItemRarities = true
     @SerialEntry var removeClientsideBlockingDelay = true

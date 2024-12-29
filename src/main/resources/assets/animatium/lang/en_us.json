@@ -119,6 +119,8 @@
 	"animatium.itemDropsFaceCamera.description": "Makes item entities face the camera / use camera yaw like <=1.7.x when fast graphics.",
 	"animatium.itemDrops2D": "Make item entities 2D when dropped",
 	"animatium.itemDrops2D.description": "Makes item entities render 2D when it's an item (not blocks).",
+	"animatium.itemFramed2D": "Make framed items 2D",
+	"animatium.itemFramed2D.description": "Makes framed items render 2D (not blocks).",
 	"animatium.oldDurabilityBarColors": "Restore old durability bar colors",
 	"animatium.oldDurabilityBarColors.description": "Restores the old durability damage colors from <1.11.",
 	"animatium.oldItemRarities": "Restore old item rarities",
