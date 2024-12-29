@@ -3,6 +3,7 @@ package me.mixces.animatium.util
 import me.mixces.animatium.config.AnimatiumConfig
 import net.minecraft.block.BannerBlock
 import net.minecraft.block.Block
+import net.minecraft.block.RodBlock
 import net.minecraft.block.SkullBlock
 import net.minecraft.client.render.entity.state.EntityRenderState
 import net.minecraft.client.render.item.ItemRenderState
@@ -14,15 +15,23 @@ import net.minecraft.util.math.RotationAxis
 import kotlin.math.roundToInt
 
 object ItemUtils {
+    private val RENDER_STATE: ThreadLocal<ItemRenderState?> = ThreadLocal.withInitial { null }
     private val STACK: ThreadLocal<ItemStack?> = ThreadLocal.withInitial { null }
     private val TRANSFORMATION_MODE: ThreadLocal<ModelTransformationMode?> = ThreadLocal.withInitial { null }
 
     @JvmStatic
-    fun set(stack: ItemStack, transformationMode: ModelTransformationMode) {
+    fun set(renderState: ItemRenderState, stack: ItemStack, transformationMode: ModelTransformationMode) {
+        RENDER_STATE.remove()
         STACK.remove()
         TRANSFORMATION_MODE.remove()
+        RENDER_STATE.set(renderState)
         STACK.set(stack)
         TRANSFORMATION_MODE.set(transformationMode)
+    }
+
+    @JvmStatic
+    fun getRenderState(): ItemRenderState? {
+        return RENDER_STATE.get()
     }
 
     @JvmStatic
@@ -79,7 +88,8 @@ object ItemUtils {
     @JvmStatic
     fun isBlockItemBlacklisted(stack: ItemStack): Boolean {
         return if (!stack.isEmpty) {
-            Block.getBlockFromItem(stack.item) is BannerBlock || isSkullBlock(stack)
+            val item = Block.getBlockFromItem(stack.item)
+            item is BannerBlock || item is RodBlock || isSkullBlock(stack)
         } else {
             false
         }

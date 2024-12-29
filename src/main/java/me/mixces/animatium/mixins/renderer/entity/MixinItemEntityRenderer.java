@@ -5,7 +5,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.util.EntityUtils;
-import me.mixces.animatium.util.ItemUtils;
 import me.mixces.animatium.util.MathUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
@@ -14,9 +13,6 @@ import net.minecraft.client.render.entity.state.ItemEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShieldItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -26,12 +22,9 @@ public abstract class MixinItemEntityRenderer {
     private float animatium$itemDropsFaceCamera(float age, float uniqueOffset, Operation<Float> original, @Local(argsOnly = true) ItemEntityRenderState itemEntityRenderState, @Local(argsOnly = true) MatrixStack matrixStack) {
         if (AnimatiumConfig.getInstance().getItemDropsFaceCamera()) {
             Entity entity = EntityUtils.getEntityByState(itemEntityRenderState);
-            if (entity instanceof ItemEntity itemEntity) {
-                ItemStack itemStack = itemEntity.getStack();
-                if (!ItemUtils.isBlock3d(itemStack, itemEntityRenderState.itemRenderState) && !(itemStack.getItem() instanceof ShieldItem)) {
-                    Camera camera = MinecraftClient.getInstance().gameRenderer.getCamera();
-                    return MathUtils.toRadians(180F - camera.getYaw());
-                }
+            if (entity instanceof ItemEntity && !itemEntityRenderState.itemRenderState.hasDepth()) {
+                Camera camera = MinecraftClient.getInstance().gameRenderer.getCamera();
+                return MathUtils.toRadians(180F - camera.getYaw());
             }
         }
 
