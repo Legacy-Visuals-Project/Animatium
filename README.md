@@ -249,9 +249,6 @@ It is recommended that you also install [Modmenu](https://modrinth.com/mod/modme
 - [X] lockBlockingArmRotation
     - Description: Locks the third-person blocking arm rotation.
     - Type: BOOLEAN
-- [X] oldProjectilePosition
-    - Description: Brings back old projectile position <=1.8.x.
-    - Type: BOOLEAN
 - [X] disableProjectileAgeCheck
     - Description: Render projectile at all ages <=1.15?
     - Type: BOOLEAN
