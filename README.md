@@ -201,6 +201,9 @@ It is recommended that you also install [Modmenu](https://modrinth.com/mod/modme
 - [X] removeClientsideBlockingDelay
     - Description: Removes the pesky blocking delay that modern clients have. Shouldn't flag on servers.
     - Type: BOOLEAN
+- [X] fixItemUsageCheck
+    - Description: Fixes item usage whilst inside a GUI, for example prevents continuous visual blocking, etc.
+    - Type: BOOLEAN
 - [X] oldFishingRodTextureStackCheck
     - Description: Brings back old fishing rod stack texture check from <=1.8.
     - Type: BOOLEAN

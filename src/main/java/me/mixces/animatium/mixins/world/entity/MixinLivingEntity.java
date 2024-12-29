@@ -8,6 +8,7 @@ import me.mixces.animatium.util.ViewBobbingStorage;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -77,6 +78,15 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
             return 0;
         } else {
             return original;
+        }
+    }
+
+    @WrapOperation(method = "tickActiveItemStack", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;areItemsEqual(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z"))
+    private boolean animatium$fixItemUsageCheck(ItemStack left, ItemStack right, Operation<Boolean> original) {
+        if (AnimatiumConfig.getInstance().getFixItemUsageCheck()) {
+            return left == right;
+        } else {
+            return original.call(left, right);
         }
     }
 

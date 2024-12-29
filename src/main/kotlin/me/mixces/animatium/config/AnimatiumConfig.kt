@@ -791,6 +791,17 @@ class AnimatiumConfig {
                                 .controller(TickBoxControllerBuilder::create)
                                 .build()
                         )
+                        otherGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Text.translatable("animatium.fixItemUsageCheck"))
+                                .description(OptionDescription.of(Text.translatable("animatium.fixItemUsageCheck.description")))
+                                .binding(
+                                    defaults.fixItemUsageCheck,
+                                    { config.fixItemUsageCheck },
+                                    { newVal -> config.fixItemUsageCheck = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
                         category.group(otherGroup.build())
                     }
 
@@ -1011,6 +1022,7 @@ class AnimatiumConfig {
     @SerialEntry var oldDurabilityBarColors = true
     @SerialEntry var oldItemRarities = true
     @SerialEntry var removeClientsideBlockingDelay = true
+    @SerialEntry var fixItemUsageCheck = true
     @SerialEntry var oldFishingRodTextureStackCheck = true
     @SerialEntry var fishingRodLineInterpolation = true
     @SerialEntry var noMoveFishingRodLine = true
