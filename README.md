@@ -1,6 +1,5 @@
 # Animatium
-
-erm what the sigma
+Join our discord: https://discord.gg/U48eDmst68
 
 ## License
 
