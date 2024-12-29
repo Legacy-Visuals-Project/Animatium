@@ -2,8 +2,8 @@ package me.mixces.animatium.command
 
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
-import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.minecraft.text.Text
 import kotlin.random.Random
@@ -12,10 +12,7 @@ class AnimatiumCommand : Command<FabricClientCommandSource> {
     companion object {
         fun register(dispatcher: CommandDispatcher<FabricClientCommandSource>) {
             // TODO: Arguments
-            dispatcher.register(
-                LiteralArgumentBuilder.literal<FabricClientCommandSource>("animatium")
-                    .executes(AnimatiumCommand())
-            )
+            dispatcher.register(ClientCommandManager.literal("animatium").executes(AnimatiumCommand()))
         }
     }
 
