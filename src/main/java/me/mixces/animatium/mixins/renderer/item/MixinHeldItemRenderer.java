@@ -35,7 +35,7 @@ public abstract class MixinHeldItemRenderer {
     @Shadow
     protected abstract void applySwingOffset(MatrixStack matrices, Arm arm, float swingProgress);
 
-    // TODO: Make arm partially translucent/transparent like the third-person player model (like on a team_
+    // TODO: Make arm partially translucent/transparent like the third-person player model (like on a team)
     @WrapOperation(method = "renderFirstPersonItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;isInvisible()Z"))
     private boolean animatium$showArmWhileInvisible(AbstractClientPlayerEntity instance, Operation<Boolean> original) {
         if (AnimatiumConfig.getInstance().getShowArmWhileInvisible()) {
@@ -64,6 +64,7 @@ public abstract class MixinHeldItemRenderer {
     private Item animatium$oldFirstPersonSwordBlock(ItemStack instance, Operation<Item> original, @Local(argsOnly = true) AbstractClientPlayerEntity player, @Local(argsOnly = true) Hand hand, @Local(argsOnly = true) MatrixStack matrices) {
         if (AnimatiumConfig.getInstance().getTiltItemPositions() && !(instance.getItem() instanceof ShieldItem)) {
             int direction = PlayerUtils.getHandMultiplier(player, hand);
+            // We do this to fix a rounding error in Mojangs code.
             ItemUtils.applyLegacyFirstpersonTransforms(matrices, direction, () -> {
                 matrices.translate(direction * -0.5F, 0.2F, 0.0F);
                 matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(direction * 30.0F));
@@ -121,5 +122,4 @@ public abstract class MixinHeldItemRenderer {
             applySwingOffset(matrices, arm, swingProgress);
         }
     }
-
 }

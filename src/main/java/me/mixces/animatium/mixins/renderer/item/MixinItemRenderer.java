@@ -35,7 +35,6 @@ public abstract class MixinItemRenderer {
         ModelTransformationMode modelTransformationMode = ItemUtils.getTransformMode();
         boolean itemDrops2D = AnimatiumConfig.getInstance().getItemDrops2D();
         boolean itemFramed2D = AnimatiumConfig.getInstance().getItemFramed2D();
-
         // TODO: Separate dropped items from thrown items
         return (itemDrops2D && modelTransformationMode == ModelTransformationMode.GROUND) ||
                 (itemFramed2D && modelTransformationMode == ModelTransformationMode.FIXED);
