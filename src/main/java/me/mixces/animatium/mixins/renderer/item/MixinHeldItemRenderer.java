@@ -4,15 +4,19 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.blaze3d.platform.GlStateManager;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.util.ItemUtils;
 import me.mixces.animatium.util.MathUtils;
 import me.mixces.animatium.util.PlayerUtils;
+import net.minecraft.block.Block;
+import net.minecraft.block.SkullBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.HeldItemRenderer;
+import net.minecraft.client.render.item.ItemRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.*;
 import net.minecraft.util.Arm;
@@ -23,6 +27,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -79,8 +84,8 @@ public abstract class MixinHeldItemRenderer {
 
     @Inject(method = "renderFirstPersonItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/HeldItemRenderer;renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ModelTransformationMode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", ordinal = 1))
     private void animatium$tiltItemPositions(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack stack, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
-        if (AnimatiumConfig.getInstance().getTiltItemPositions() && !(stack.getItem() instanceof BlockItem) && !(stack.getItem() instanceof ShieldItem)) {
-            int direction = PlayerUtils.getHandMultiplier(player, hand);
+        int direction = PlayerUtils.getHandMultiplier(player, hand);
+        if (AnimatiumConfig.getInstance().getTiltItemPositions() && !ItemUtils.isBlock3d(stack, new ItemRenderState()) && !ItemUtils.isItemBlacklisted(stack)) {
             float angle = MathUtils.toRadians(25);
             if (ItemUtils.isFishingRodItem(stack)) {
                 matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(direction * 180.0F));
@@ -95,6 +100,16 @@ public abstract class MixinHeldItemRenderer {
             matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(direction * -25.0F));
             matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(direction * 90.0F));
             matrices.translate(direction * -1.13 * 0.0625F, -3.2 * 0.0625F, -1.13 * 0.0625F);
+        }
+
+        if (AnimatiumConfig.getInstance().getOldSkullPosition() && ItemUtils.isSkullBlock(stack)) {
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(45.0F));
+            matrices.scale(0.4F, 0.4F, 0.4F);
+
+            // TODO: This is not quite right...
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-180.0F));
+            matrices.translate(0.0F, 0.25F, 0.0F);
+            matrices.scale(1.125F, 1.125F, 1.125F);
         }
     }
 

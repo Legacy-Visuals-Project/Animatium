@@ -1,23 +1,14 @@
 package me.mixces.animatium.util
 
 import me.mixces.animatium.config.AnimatiumConfig
+import net.minecraft.block.BannerBlock
+import net.minecraft.block.Block
+import net.minecraft.block.SkullBlock
 import net.minecraft.client.render.entity.state.EntityRenderState
 import net.minecraft.client.render.item.ItemRenderState
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.LivingEntity
-import net.minecraft.item.BlockItem
-import net.minecraft.item.CrossbowItem
-import net.minecraft.item.FishingRodItem
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
-import net.minecraft.item.MaceItem
-import net.minecraft.item.MiningToolItem
-import net.minecraft.item.ModelTransformationMode
-import net.minecraft.item.OnAStickItem
-import net.minecraft.item.RangedWeaponItem
-import net.minecraft.item.ShieldItem
-import net.minecraft.item.SwordItem
-import net.minecraft.item.TridentItem
+import net.minecraft.item.*
 import net.minecraft.util.Rarity
 import net.minecraft.util.math.RotationAxis
 import kotlin.math.roundToInt
@@ -65,11 +56,30 @@ object ItemUtils {
     @JvmStatic
     fun isHandheldItem(stack: ItemStack): Boolean {
         return if (!stack.isEmpty) {
+            val item = stack.item
             // TODO: is this the best way? probably not
-            stack.item is MiningToolItem || stack.item is SwordItem
-                    || stack.item is MaceItem || stack.item is TridentItem
+            item is MiningToolItem || item is SwordItem
+                    || item is MaceItem || item is TridentItem
                     || isFishingRodItem(stack)
-                    || setOf(Items.STICK, Items.BREEZE_ROD, Items.BLAZE_ROD).contains(stack.item)
+                    || setOf(Items.STICK, Items.BREEZE_ROD, Items.BLAZE_ROD).contains(item)
+        } else {
+            false
+        }
+    }
+
+    @JvmStatic
+    fun isSkullBlock(stack: ItemStack): Boolean {
+        return if (!stack.isEmpty) {
+            Block.getBlockFromItem(stack.item) is SkullBlock
+        } else {
+            false
+        }
+    }
+
+    @JvmStatic
+    fun isBlockItemBlacklisted(stack: ItemStack): Boolean {
+        return if (!stack.isEmpty) {
+            Block.getBlockFromItem(stack.item) is BannerBlock || isSkullBlock(stack)
         } else {
             false
         }
@@ -78,7 +88,8 @@ object ItemUtils {
     @JvmStatic
     fun isItemBlacklisted(stack: ItemStack): Boolean {
         return if (!stack.isEmpty) {
-            stack.item is ShieldItem || stack.item is CrossbowItem
+            val item = stack.item
+            item is ShieldItem || item is CrossbowItem || isBlockItemBlacklisted(stack)
         } else {
             false
         }

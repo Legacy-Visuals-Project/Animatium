@@ -661,6 +661,17 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
+                                .name(Text.translatable("animatium.oldSkullPosition"))
+                                .description(OptionDescription.of(Text.translatable("animatium.oldSkullPosition.description")))
+                                .binding(
+                                    defaults.oldSkullPosition,
+                                    { config.oldSkullPosition },
+                                    { newVal -> config.oldSkullPosition = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        otherGroup.option(
+                            Option.createBuilder<Boolean>()
                                 .name(Text.translatable("animatium.applyItemSwingUsage"))
                                 .description(OptionDescription.of(Text.translatable("animatium.applyItemSwingUsage.description")))
                                 .binding(
@@ -733,6 +744,17 @@ class AnimatiumConfig {
                                     defaults.itemFramed2D,
                                     { config.itemFramed2D },
                                     { newVal -> config.itemFramed2D = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        otherGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Text.translatable("animatium.item2DColors"))
+                                .description(OptionDescription.of(Text.translatable("animatium.item2DColors.description")))
+                                .binding(
+                                    defaults.item2DColors,
+                                    { config.item2DColors },
+                                    { newVal -> config.item2DColors = newVal })
                                 .controller(TickBoxControllerBuilder::create)
                                 .build()
                         )
@@ -839,17 +861,6 @@ class AnimatiumConfig {
                                 defaults.lockBlockingArmRotation,
                                 { config.lockBlockingArmRotation },
                                 { newVal -> config.lockBlockingArmRotation = newVal })
-                            .controller(TickBoxControllerBuilder::create)
-                            .build()
-                    )
-                    category.option(
-                        Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.oldProjectilePosition"))
-                            .description(OptionDescription.of(Text.translatable("animatium.oldProjectilePosition.description")))
-                            .binding(
-                                defaults.oldProjectilePosition,
-                                { config.oldProjectilePosition },
-                                { newVal -> config.oldProjectilePosition = newVal })
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
@@ -988,6 +999,7 @@ class AnimatiumConfig {
     // Items
     @SerialEntry var tiltItemPositions = true
     @SerialEntry var tiltItemPositionsInThirdperson = true
+    @SerialEntry var oldSkullPosition = true
     @SerialEntry var applyItemSwingUsage = true
     @SerialEntry var removeEquipAnimationOnItemUse = true
     @SerialEntry var doNotSkipHandAnimationOnSwap = true
@@ -995,6 +1007,7 @@ class AnimatiumConfig {
     @SerialEntry var itemDropsFaceCamera = true
     @SerialEntry var itemDrops2D = true
     @SerialEntry var itemFramed2D = true
+    @SerialEntry var item2DColors = true
     @SerialEntry var oldDurabilityBarColors = true
     @SerialEntry var oldItemRarities = true
     @SerialEntry var removeClientsideBlockingDelay = true
@@ -1013,7 +1026,6 @@ class AnimatiumConfig {
     @SerialEntry var oldCloudHeight = true
     @SerialEntry var legacyThirdpersonSwordBlockingPosition = true
     @SerialEntry var lockBlockingArmRotation = true
-    @SerialEntry var oldProjectilePosition = true
     @SerialEntry var disableProjectileAgeCheck = true
     @SerialEntry var oldBlockMiningProgress = true
     @SerialEntry var disableInventoryEntityScissor = true
