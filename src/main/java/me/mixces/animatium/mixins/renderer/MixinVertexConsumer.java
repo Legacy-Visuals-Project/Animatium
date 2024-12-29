@@ -1,4 +1,4 @@
-package me.mixces.animatium.mixins.renderer.item;
+package me.mixces.animatium.mixins.renderer;
 
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.util.ItemUtils;
@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(VertexConsumer.class)
 public interface MixinVertexConsumer {
-
     // TODO: this is only half of the battle
     @ModifyArgs(method = "quad(Lnet/minecraft/client/util/math/MatrixStack$Entry;Lnet/minecraft/client/render/model/BakedQuad;[FFFFF[IIZ)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack$Entry;transformNormal(FFFLorg/joml/Vector3f;)Lorg/joml/Vector3f;"))
     default void animatium$item2DColors(Args args) {
