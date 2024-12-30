@@ -14,6 +14,9 @@ import net.minecraft.entity.effect.StatusEffectUtil
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket
+import net.minecraft.network.packet.s2c.play.EntityAnimationS2CPacket
+import net.minecraft.server.world.ServerChunkManager
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Arm
 import net.minecraft.util.Hand
 import net.minecraft.util.math.Vec3d
@@ -79,10 +82,22 @@ object PlayerUtils {
         }
     }
 
+    // Sends necessary swing packets, without playing the player hand swing animation
     @JvmStatic
     fun sendSwingPacket(player: ClientPlayerEntity, hand: Hand) {
-        val client = MinecraftClient.getInstance() ?: return
-        client.networkHandler?.sendPacket(HandSwingC2SPacket(hand));
+        if (!player.handSwinging || player.handSwingTicks >= getHandSwingDuration(player) / 2 || player.handSwingTicks < 0) {
+            if (player.world is ServerWorld) {
+                (player.world.chunkManager as ServerChunkManager).sendToOtherNearbyPlayers(
+                    player,
+                    EntityAnimationS2CPacket(
+                        player,
+                        if (hand == Hand.MAIN_HAND) EntityAnimationS2CPacket.SWING_MAIN_HAND else EntityAnimationS2CPacket.SWING_OFF_HAND
+                    )
+                )
+            }
+        }
+
+        player.networkHandler?.sendPacket(HandSwingC2SPacket(hand))
     }
 
     // Fixes crash & doesn't require accesswidener
