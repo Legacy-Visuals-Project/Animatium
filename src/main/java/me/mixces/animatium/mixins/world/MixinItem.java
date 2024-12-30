@@ -2,6 +2,7 @@ package me.mixces.animatium.mixins.world;
 
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.util.ItemUtils;
+import net.minecraft.item.BundleItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.ColorHelper;
@@ -14,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MixinItem {
     @Inject(method = "getItemBarColor", at = @At("HEAD"), cancellable = true)
     private void animatium$oldDurabilityBarColors(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
-        if (AnimatiumConfig.getInstance().getOldDurabilityBarColors()) {
+        if (AnimatiumConfig.getInstance().getOldDurabilityBarColors() && !((Item) (Object) this instanceof BundleItem)) {
             int value = ItemUtils.getLegacyDurabilityColorValue(stack);
             cir.setReturnValue(ColorHelper.getArgb(255 - value, value, 0));
         }
