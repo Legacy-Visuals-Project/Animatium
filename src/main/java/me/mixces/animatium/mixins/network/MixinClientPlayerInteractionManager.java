@@ -26,7 +26,6 @@ public abstract class MixinClientPlayerInteractionManager {
 
     @Inject(method = "interactItem", at = @At("RETURN"))
     private void animatium$captureActionResult(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        // TODO: is this the best way?
-        ItemUtils.setActualResult(cir.getReturnValue());
+        ItemUtils.setActionResult(cir.getReturnValue());
     }
 }

@@ -19,9 +19,9 @@ object ItemUtils {
     private val RENDER_STATE: ThreadLocal<ItemRenderState?> = ThreadLocal.withInitial { null }
     private val STACK: ThreadLocal<ItemStack?> = ThreadLocal.withInitial { null }
     private val TRANSFORMATION_MODE: ThreadLocal<ModelTransformationMode?> = ThreadLocal.withInitial { null }
-    // TODO: refactor this?
+
     @JvmStatic
-    var actualResult: ActionResult? = null
+    var actionResult: ActionResult? = null
 
     @JvmStatic
     fun set(renderState: ItemRenderState, stack: ItemStack, transformationMode: ModelTransformationMode) {
