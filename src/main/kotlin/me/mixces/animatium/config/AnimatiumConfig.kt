@@ -202,7 +202,6 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
-                    builder.category(category.build())
                     category.option(
                         Option.createBuilder<Boolean>()
                             .name(Text.translatable("animatium.missPenaltySwing"))
@@ -210,10 +209,18 @@ class AnimatiumConfig {
                             .binding(
                                 defaults.missPenaltySwing,
                                 { config.missPenaltySwing },
-                                { newVal ->
-                                    config.missPenaltySwing = newVal
-                                    MinecraftClient.getInstance().reloadResources()
-                                })
+                                { newVal -> config.missPenaltySwing = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Text.translatable("animatium.showUsageSwingingParticles"))
+                            .description(OptionDescription.of(Text.translatable("animatium.showUsageSwingingParticles.description")))
+                            .binding(
+                                defaults.showUsageSwingingParticles,
+                                { config.showUsageSwingingParticles },
+                                { newVal -> config.showUsageSwingingParticles = newVal })
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
@@ -1024,6 +1031,7 @@ class AnimatiumConfig {
     @SerialEntry var showArmWhileInvisible = false
     @SerialEntry var upMinPixelTransparencyLimit = true
     @SerialEntry var missPenaltySwing = true
+    @SerialEntry var showUsageSwingingParticles = true
 
     // Movement
     @SerialEntry var rotateBackwardsWalking = true

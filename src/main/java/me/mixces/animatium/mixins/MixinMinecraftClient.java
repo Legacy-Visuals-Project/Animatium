@@ -8,9 +8,14 @@ import me.mixces.animatium.util.PlayerUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,6 +38,10 @@ public abstract class MixinMinecraftClient {
     @Shadow
     @Nullable
     public HitResult crosshairTarget;
+
+    @Shadow @Final public ParticleManager particleManager;
+
+    @Shadow @Nullable public ClientWorld world;
 
     @Inject(method = "doAttack", at = @At(value = "RETURN", ordinal = 0))
     private void animatium$missPenaltySwing(CallbackInfoReturnable<Boolean> cir) {
@@ -79,8 +88,14 @@ public abstract class MixinMinecraftClient {
 
             Hand activeHand = player.getActiveHand();
             Hand hand = AnimatiumConfig.getInstance().getAllowOffhandUsageSwinging() ? activeHand : Hand.MAIN_HAND;
+            BlockHitResult blockHitResult = (BlockHitResult)this.crosshairTarget;
+            BlockPos blockPos = blockHitResult.getBlockPos();
             if (AnimatiumConfig.getInstance().getAlwaysAllowUsageSwinging() ||
                     (this.crosshairTarget != null && this.crosshairTarget.getType() == HitResult.Type.BLOCK && activeHand.equals(hand))) {
+                if (AnimatiumConfig.getInstance().getShowUsageSwingingParticles() && !this.world.getBlockState(blockPos).isAir()) {
+                    Direction direction = blockHitResult.getSide();
+                    this.particleManager.addBlockBreakingParticles(blockPos, direction);
+                }
                 PlayerUtils.fakeHandSwing(player, hand);
             }
         }
