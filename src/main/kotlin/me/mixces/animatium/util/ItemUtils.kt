@@ -10,7 +10,6 @@ import net.minecraft.client.render.item.ItemRenderState
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.*
-import net.minecraft.util.ActionResult
 import net.minecraft.util.Rarity
 import net.minecraft.util.math.RotationAxis
 import kotlin.math.roundToInt
@@ -19,9 +18,6 @@ object ItemUtils {
     private val RENDER_STATE: ThreadLocal<ItemRenderState?> = ThreadLocal.withInitial { null }
     private val STACK: ThreadLocal<ItemStack?> = ThreadLocal.withInitial { null }
     private val TRANSFORMATION_MODE: ThreadLocal<ModelTransformationMode?> = ThreadLocal.withInitial { null }
-
-    @JvmStatic
-    var actionResult: ActionResult? = null
 
     @JvmStatic
     fun set(renderState: ItemRenderState, stack: ItemStack, transformationMode: ModelTransformationMode) {
@@ -104,6 +100,16 @@ object ItemUtils {
         return if (!stack.isEmpty) {
             val item = stack.item
             item is ShieldItem || item is CrossbowItem || isBlockItemBlacklisted(stack)
+        } else {
+            false
+        }
+    }
+
+    @JvmStatic
+    fun isSwingItemBlacklisted(stack: ItemStack): Boolean {
+        return if (!stack.isEmpty) {
+            val item = stack.item
+            item is ProjectileItem || item is BucketItem || item is ShearsItem || item is EnderPearlItem
         } else {
             false
         }

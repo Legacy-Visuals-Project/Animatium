@@ -1,10 +1,14 @@
 package me.mixces.animatium.mixins;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.mixces.animatium.config.AnimatiumConfig;
+import me.mixces.animatium.util.ItemUtils;
 import me.mixces.animatium.util.PlayerUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.GameOptions;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.HitResult;
 import org.jetbrains.annotations.Nullable;
@@ -28,6 +32,16 @@ public abstract class MixinMinecraftClient {
     @Shadow
     @Nullable
     public HitResult crosshairTarget;
+
+    @WrapOperation(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;swingHand(Lnet/minecraft/util/Hand;)V"))
+    private void animatium$dontSwing(ClientPlayerEntity instance, Hand hand, Operation<Void> original) {
+        ItemStack itemStack = instance.getStackInHand(hand);
+        if (AnimatiumConfig.getInstance().getDisableSwingOnUse() && ItemUtils.isSwingItemBlacklisted(itemStack)) {
+            PlayerUtils.sendSwingPacket(instance, hand);
+        } else {
+            original.call(instance, hand);
+        }
+    }
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void animatium$applySwingWhilstMining(CallbackInfo ci) {

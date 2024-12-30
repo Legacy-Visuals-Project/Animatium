@@ -4,6 +4,7 @@ import com.google.common.base.MoreObjects
 import me.mixces.animatium.AnimatiumClient
 import me.mixces.animatium.mixins.accessor.PlayerEntityAccessor
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.render.entity.model.BipedEntityModel
 import net.minecraft.client.render.entity.state.ArmedEntityRenderState
 import net.minecraft.entity.EntityDimensions
@@ -12,6 +13,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectUtil
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket
 import net.minecraft.util.Arm
 import net.minecraft.util.Hand
 import net.minecraft.util.math.Vec3d
@@ -75,6 +77,12 @@ object PlayerUtils {
             player.handSwinging = true
             player.preferredHand = hand
         }
+    }
+
+    @JvmStatic
+    fun sendSwingPacket(player: ClientPlayerEntity, hand: Hand) {
+        val client = MinecraftClient.getInstance() ?: return
+        client.networkHandler?.sendPacket(HandSwingC2SPacket(hand));
     }
 
     // Fixes crash & doesn't require accesswidener

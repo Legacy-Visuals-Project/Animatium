@@ -19,7 +19,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.ShieldItem;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.RotationAxis;
@@ -135,18 +134,6 @@ public abstract class MixinHeldItemRenderer {
     private void animatium$applyItemSwingUsage(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci, @Local Arm arm) {
         if (AnimatiumConfig.getInstance().getApplyItemSwingUsage()) {
             applySwingOffset(matrices, arm, swingProgress);
-        }
-    }
-
-    @WrapOperation(method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getHandSwingProgress(F)F"))
-    private float animatium$disableSwingOnUse(ClientPlayerEntity instance, float tickDelta, Operation<Float> original) {
-        ActionResult result = ItemUtils.getActionResult();
-        if (AnimatiumConfig.getInstance().getDisableSwingOnUse() &&
-                result instanceof ActionResult.Success success &&
-                success.swingSource() == ActionResult.SwingSource.CLIENT) {
-            return 0.0F;
-        } else {
-            return original.call(instance, tickDelta);
         }
     }
 }
