@@ -10,6 +10,7 @@ import net.minecraft.client.render.item.ItemRenderState
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.*
+import net.minecraft.util.ActionResult
 import net.minecraft.util.Rarity
 import net.minecraft.util.math.RotationAxis
 import kotlin.math.roundToInt
@@ -18,6 +19,9 @@ object ItemUtils {
     private val RENDER_STATE: ThreadLocal<ItemRenderState?> = ThreadLocal.withInitial { null }
     private val STACK: ThreadLocal<ItemStack?> = ThreadLocal.withInitial { null }
     private val TRANSFORMATION_MODE: ThreadLocal<ModelTransformationMode?> = ThreadLocal.withInitial { null }
+    // TODO: refactor this?
+    @JvmStatic
+    var actualResult: ActionResult? = null
 
     @JvmStatic
     fun set(renderState: ItemRenderState, stack: ItemStack, transformationMode: ModelTransformationMode) {

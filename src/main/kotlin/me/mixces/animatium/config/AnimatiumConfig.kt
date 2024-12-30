@@ -683,6 +683,17 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
+                                .name(Text.translatable("animatium.disableSwingOnUse"))
+                                .description(OptionDescription.of(Text.translatable("animatium.disableSwingOnUse.description")))
+                                .binding(
+                                    defaults.disableSwingOnUse,
+                                    { config.disableSwingOnUse },
+                                    { newVal -> config.disableSwingOnUse = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        otherGroup.option(
+                            Option.createBuilder<Boolean>()
                                 .name(Text.translatable("animatium.removeEquipAnimationOnItemUse"))
                                 .description(OptionDescription.of(Text.translatable("animatium.removeEquipAnimationOnItemUse.description")))
                                 .binding(
@@ -1012,6 +1023,7 @@ class AnimatiumConfig {
     @SerialEntry var tiltItemPositionsInThirdperson = true
     @SerialEntry var oldSkullPosition = true
     @SerialEntry var applyItemSwingUsage = true
+    @SerialEntry var disableSwingOnUse = true
     @SerialEntry var removeEquipAnimationOnItemUse = true
     @SerialEntry var doNotSkipHandAnimationOnSwap = true
     @SerialEntry var disableItemUsingTextureInGui = true

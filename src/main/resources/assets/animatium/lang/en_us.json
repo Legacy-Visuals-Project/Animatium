@@ -111,6 +111,8 @@
 	"animatium.lockBlockingArmRotation.description": "Locks the third-person blocking arm rotation.",
 	"animatium.applyItemSwingUsage": "Apply the swing offset during item use",
 	"animatium.applyItemSwingUsage.description": "Block hitting (apply swing offset in item usage code).",
+	"animatium.disableSwingOnUse": "Disable swing animation while using items",
+	"animatium.disableSwingOnUse.description": "Stops the swing animation from playing while using items (except the fishing rod) <=1.15.",
 	"animatium.removeEquipAnimationOnItemUse": "Remove the equip animation when using a item",
 	"animatium.removeEquipAnimationOnItemUse.description": "Fixes the blocking animation which plays the equip animation on use, and others.",
 	"animatium.doNotSkipHandAnimationOnSwap": "Do not skip hand animation on swap",
