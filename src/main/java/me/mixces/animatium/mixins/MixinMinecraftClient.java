@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MinecraftClient.class)
 public abstract class MixinMinecraftClient {
@@ -33,10 +34,35 @@ public abstract class MixinMinecraftClient {
     @Nullable
     public HitResult crosshairTarget;
 
-    @WrapOperation(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;swingHand(Lnet/minecraft/util/Hand;)V"))
-    private void animatium$dontSwing(ClientPlayerEntity instance, Hand hand, Operation<Void> original) {
+    @Inject(method = "doAttack", at = @At(value = "RETURN", ordinal = 0))
+    private void animatium$missPenaltySwing(CallbackInfoReturnable<Boolean> cir) {
+        if (AnimatiumConfig.getInstance().getMissPenaltySwing() && player != null) {
+            PlayerUtils.fakeHandSwing(player, Hand.MAIN_HAND);
+        }
+    }
+
+    @WrapOperation(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;swingHand(Lnet/minecraft/util/Hand;)V", ordinal = 2))
+    private void animatium$disableSwingOnUse(ClientPlayerEntity instance, Hand hand, Operation<Void> original) {
         ItemStack itemStack = instance.getStackInHand(hand);
         if (AnimatiumConfig.getInstance().getDisableSwingOnUse() && ItemUtils.isSwingItemBlacklisted(itemStack)) {
+            PlayerUtils.sendSwingPacket(instance, hand);
+        } else {
+            original.call(instance, hand);
+        }
+    }
+
+    @WrapOperation(method = "handleInputEvents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;swingHand(Lnet/minecraft/util/Hand;)V"))
+    private void animatium$disableSwingOnDrop(ClientPlayerEntity instance, Hand hand, Operation<Void> original) {
+        if (AnimatiumConfig.getInstance().getDisableSwingOnDrop()) {
+            PlayerUtils.sendSwingPacket(instance, hand);
+        } else {
+            original.call(instance, hand);
+        }
+    }
+
+    @WrapOperation(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;swingHand(Lnet/minecraft/util/Hand;)V", ordinal = 0))
+    private void animatium$disableSwingOnEntityInteract(ClientPlayerEntity instance, Hand hand, Operation<Void> original) {
+        if (AnimatiumConfig.getInstance().getDisableSwingOnEntityInteract()) {
             PlayerUtils.sendSwingPacket(instance, hand);
         } else {
             original.call(instance, hand);

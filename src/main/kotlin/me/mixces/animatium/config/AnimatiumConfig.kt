@@ -203,6 +203,21 @@ class AnimatiumConfig {
                             .build()
                     )
                     builder.category(category.build())
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Text.translatable("animatium.missPenaltySwing"))
+                            .description(OptionDescription.of(Text.translatable("animatium.missPenaltySwing.description")))
+                            .binding(
+                                defaults.missPenaltySwing,
+                                { config.missPenaltySwing },
+                                { newVal ->
+                                    config.missPenaltySwing = newVal
+                                    MinecraftClient.getInstance().reloadResources()
+                                })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
+                    builder.category(category.build())
                 }
 
                 run {
@@ -694,6 +709,28 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
+                                .name(Text.translatable("animatium.disableSwingOnDrop"))
+                                .description(OptionDescription.of(Text.translatable("animatium.disableSwingOnDrop.description")))
+                                .binding(
+                                    defaults.disableSwingOnDrop,
+                                    { config.disableSwingOnDrop },
+                                    { newVal -> config.disableSwingOnDrop = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        otherGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Text.translatable("animatium.disableSwingOnEntityInteract"))
+                                .description(OptionDescription.of(Text.translatable("animatium.disableSwingOnEntityInteract.description")))
+                                .binding(
+                                    defaults.disableSwingOnEntityInteract,
+                                    { config.disableSwingOnEntityInteract },
+                                    { newVal -> config.disableSwingOnEntityInteract = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        otherGroup.option(
+                            Option.createBuilder<Boolean>()
                                 .name(Text.translatable("animatium.removeEquipAnimationOnItemUse"))
                                 .description(OptionDescription.of(Text.translatable("animatium.removeEquipAnimationOnItemUse.description")))
                                 .binding(
@@ -986,6 +1023,7 @@ class AnimatiumConfig {
     @SerialEntry var disableServerPoseAndBlockingVisualUpdates = false
     @SerialEntry var showArmWhileInvisible = false
     @SerialEntry var upMinPixelTransparencyLimit = true
+    @SerialEntry var missPenaltySwing = true
 
     // Movement
     @SerialEntry var rotateBackwardsWalking = true
@@ -1024,6 +1062,8 @@ class AnimatiumConfig {
     @SerialEntry var oldSkullPosition = true
     @SerialEntry var applyItemSwingUsage = true
     @SerialEntry var disableSwingOnUse = true
+    @SerialEntry var disableSwingOnDrop = true
+    @SerialEntry var disableSwingOnEntityInteract = true
     @SerialEntry var removeEquipAnimationOnItemUse = true
     @SerialEntry var doNotSkipHandAnimationOnSwap = true
     @SerialEntry var disableItemUsingTextureInGui = true
