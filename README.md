@@ -26,13 +26,13 @@ If more are requested/wanted, we will add and update this here.
 
 ### Payloads
 
-#### Swing Miss Penalty ("animatium:disable_swing_miss_penalty")
+#### Swing Miss Penalty
 
 Allows the server to enable/disable the swing miss penalty on the client.
 
-| Name   | Type    | Description                        |
-|--------|---------|------------------------------------|
-| Toggle | Boolean | Turn on/off the swing miss penalty |
+| Identifier                           | Field Name | Field Type | Description                        |
+|--------------------------------------|------------|------------|------------------------------------|
+| animatium:disable_swing_miss_penalty | Toggle     | Boolean    | Turn on/off the swing miss penalty |
 
 # Available Config Categories
 
