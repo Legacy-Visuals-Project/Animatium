@@ -13,7 +13,7 @@ class MissPenaltyPayloadPacket(val value: Boolean) : CustomPayload {
         }
 
         val PAYLOAD_ID =
-            CustomPayload.Id<MissPenaltyPayloadPacket>(Identifier.of("animatium:set_swing_miss_penalty"))
+            CustomPayload.Id<MissPenaltyPayloadPacket>(Identifier.of("animatium:disable_swing_miss_penalty"))
     }
 
     private fun write(buffer: PacketByteBuf) {
