@@ -88,14 +88,15 @@ public abstract class MixinMinecraftClient {
     private void animatium$applySwingWhilstMining(CallbackInfo ci) {
         if (AnimatiumConfig.getInstance().getApplyItemSwingUsage()) {
             ClientPlayerEntity player = this.player;
-            if (player == null || player.getStackInHand(player.getActiveHand()) == null || !player.isUsingItem() || this.crosshairTarget == null || !this.options.attackKey.isPressed()) {
+            if (player == null || player.getStackInHand(player.getActiveHand()) == null || !player.isUsingItem() || !this.options.attackKey.isPressed()) {
                 return;
             }
 
             Hand activeHand = player.getActiveHand();
             Hand hand = AnimatiumConfig.getInstance().getAllowOffhandUsageSwinging() ? activeHand : Hand.MAIN_HAND;
-            if (AnimatiumConfig.getInstance().getAlwaysAllowUsageSwinging() || (this.crosshairTarget instanceof BlockHitResult && activeHand.equals(hand))) {
+            if (AnimatiumConfig.getInstance().getAlwaysAllowUsageSwinging() || (this.crosshairTarget != null && this.crosshairTarget.getType() == HitResult.Type.BLOCK && activeHand.equals(hand))) {
                 BlockHitResult blockHitResult = (BlockHitResult) this.crosshairTarget;
+                assert blockHitResult != null;
                 BlockPos blockPos = blockHitResult.getBlockPos();
                 if (AnimatiumConfig.getInstance().getShowUsageSwingingParticles() && !Objects.requireNonNull(this.world).getBlockState(blockPos).isAir()) {
                     Direction direction = blockHitResult.getSide();
