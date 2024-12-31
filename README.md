@@ -24,7 +24,9 @@ We currently have one payload which servers can use to change game functionality
 enable/disable this, to not cause issues on other servers.
 If more are requested/wanted, we will add and update this here.
 
-#### Swing Miss Penalty
+### Payloads
+
+#### Swing Miss Penalty ("animatium:disable_swing_miss_penalty")
 
 Allows the server to enable/disable the swing miss penalty on the client.
 
