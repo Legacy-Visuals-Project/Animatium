@@ -1,4 +1,5 @@
 # Animatium
+
 Join our discord: https://discord.gg/U48eDmst68
 
 ## License
@@ -12,13 +13,22 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 
 ## Dependencies
 
-This mod uses [YACL](https://modrinth.com/mod/yacl) as it's config library of choice. Make sure you install the correct version to prevent crashing.
-It is recommended that you also install [Modmenu](https://modrinth.com/mod/modmenu/) in order to access the Animatium config while in-game.
+This mod uses [YACL](https://modrinth.com/mod/yacl) as it's config library of choice. Make sure you install the correct
+version to prevent crashing.
+It is recommended that you also install [Modmenu](https://modrinth.com/mod/modmenu/) in order to access the Animatium
+config while in-game.
 
 ## Servers
 
 We currently add one custom payload which allows servers to enable/disable the swing miss penalty, like in <=1.7.
-To enable this, all the server has to do is send a custom payload with id 'animatium:disable_swing_miss_penalty' and provide a single boolean to turn on/off the feature.
+To enable this, all the server has to do is send a custom payload with id "animatium:disable_swing_miss_penalty" and
+provide a single boolean to turn on/off the feature.
+
+Payloads:
+
+- "animatium:disable_swing_miss_penalty"
+    - Field: Toggle
+    - Type: boolean
 
 # Available Config Categories
 
@@ -70,7 +80,8 @@ To enable this, all the server has to do is send a custom payload with id 'anima
     - Description: Shows the arm as partially visible whilst invisible, like spectator mode or invisibly effect.
     - Type: BOOLEAN
 - [X] upMinPixelTransparencyLimit
-    - Description: Makes the minimum 0-transparency value less than or equal to 0.1. This fixes textures with invisible pixels that cause issues.
+    - Description: Makes the minimum 0-transparency value less than or equal to 0.1. This fixes textures with invisible
+      pixels that cause issues.
     - Type: BOOLEAN
   </details>
 
@@ -275,6 +286,10 @@ To enable this, all the server has to do is send a custom payload with id 'anima
     - Description: Hides the player model whilst sleeping like in <=1.12? Only affects you.
     - Type: BOOLEAN
   </details>
-  
+
 ## Support
-Have any issues or need support? Feel free to use our [issue tracker](https://github.com/Legacy-Visuals-Project/Animatium/issues) to address that. If you are reporting a crash, make sure you include information about the mods you are using and attach any relevant log files you have. If you want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
+
+Have any issues or need support? Feel free to use
+our [issue tracker](https://github.com/Legacy-Visuals-Project/Animatium/issues) to address that. If you are reporting a
+crash, make sure you include information about the mods you are using and attach any relevant log files you have. If you
+want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
