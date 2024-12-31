@@ -2,6 +2,7 @@ package me.mixces.animatium.mixins;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import me.mixces.animatium.AnimatiumClient;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.util.ItemUtils;
 import me.mixces.animatium.util.PlayerUtils;
@@ -72,6 +73,17 @@ public abstract class MixinMinecraftClient {
             PlayerUtils.sendSwingPacket(instance, hand);
         } else {
             original.call(instance, hand);
+        }
+    }
+
+    @WrapOperation(method = "doAttack", at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;attackCooldown:I", ordinal = 0))
+    private int animatium$disableSwingMissPenalty(MinecraftClient instance, Operation<Integer> original) {
+        // TODO/NOTE: This also disables the miss penalty on a block, should that be fixed?
+        // TODO/NOTE: For now, this should be fine.
+        if (AnimatiumClient.getDisableSwingMissPenalty()) {
+            return 0;
+        } else {
+            return original.call(instance);
         }
     }
 

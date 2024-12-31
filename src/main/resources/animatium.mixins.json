@@ -15,6 +15,7 @@
 		"model.item.MixinItemModelManager",
 		"model.item.MixinItemRenderLayerState",
 		"model.item.MixinUsingItemProperty",
+		"network.MixinClientConnection",
 		"network.MixinClientPlayerInteractionManager",
 		"network.MixinClientPlayNetworkHandler",
 		"renderer.MixinDrawContext",
