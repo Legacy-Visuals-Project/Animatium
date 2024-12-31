@@ -15,7 +15,7 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 
 This mod uses [YACL](https://modrinth.com/mod/yacl) as it's config library of choice. Make sure you install the correct
 version to prevent crashing.
-It is recommended that you also install [Modmenu](https://modrinth.com/mod/modmenu/) in order to access the Animatium
+It is recommended that you also install [Mod Menu](https://modrinth.com/mod/modmenu/) in order to access the Animatium
 config while in-game.
 
 ## Servers
