@@ -15,6 +15,11 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 This mod uses [YACL](https://modrinth.com/mod/yacl) as it's config library of choice. Make sure you install the correct version to prevent crashing.
 It is recommended that you also install [Modmenu](https://modrinth.com/mod/modmenu/) in order to access the Animatium config while in-game.
 
+## Servers
+
+We currently add one custom payload which allows servers to enable/disable the swing miss penalty, like in <=1.7.
+To enable this, all the server has to do is send a custom payload with id 'animatium:disable_swing_miss_penalty' and provide a single boolean to turn on/off the feature.
+
 # Available Config Categories
 
 <details>
@@ -272,5 +277,4 @@ It is recommended that you also install [Modmenu](https://modrinth.com/mod/modme
   </details>
   
 ## Support
-Have any issue, need support, or would like to request a feature be added? Feel free to use our [issue tracker](https://github.com/Legacy-Visuals-Project/Animatium/issues) to address that. If you are reporting a crash, make sure you include information about the mods you are using and attach any relevant log files you have. 
-  
+Have any issues or need support? Feel free to use our [issue tracker](https://github.com/Legacy-Visuals-Project/Animatium/issues) to address that. If you are reporting a crash, make sure you include information about the mods you are using and attach any relevant log files you have. If you want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
