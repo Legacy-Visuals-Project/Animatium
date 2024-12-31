@@ -18,17 +18,19 @@ version to prevent crashing.
 It is recommended that you also install [Mod Menu](https://modrinth.com/mod/modmenu/) in order to access the Animatium
 config while in-game.
 
-## Servers
+## Server Features
 
-We currently add one custom payload which allows servers to enable/disable the swing miss penalty, like in <=1.7.
-To enable this, all the server has to do is send a custom payload with id "animatium:disable_swing_miss_penalty" and
-provide a single boolean to turn on/off the feature.
+We currently have one payload which servers can use to change game functionality for pvp. Only servers can
+enable/disable this, to not cause issues on other servers.
+If more are requested/wanted, we will add and update this here.
 
-Payloads:
+#### Swing Miss Penalty
 
-- "animatium:disable_swing_miss_penalty"
-    - Field: Toggle
-    - Type: boolean
+Allows the server to enable/disable the swing miss penalty on the client.
+
+| Name   | Type    | Description                        |
+|--------|---------|------------------------------------|
+| Toggle | Boolean | Turn on/off the swing miss penalty |
 
 # Available Config Categories
 
