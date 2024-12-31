@@ -88,10 +88,10 @@ public abstract class MixinMinecraftClient {
 
             Hand activeHand = player.getActiveHand();
             Hand hand = AnimatiumConfig.getInstance().getAllowOffhandUsageSwinging() ? activeHand : Hand.MAIN_HAND;
-            BlockHitResult blockHitResult = (BlockHitResult)this.crosshairTarget;
-            BlockPos blockPos = blockHitResult.getBlockPos();
             if (AnimatiumConfig.getInstance().getAlwaysAllowUsageSwinging() ||
                     (this.crosshairTarget != null && this.crosshairTarget.getType() == HitResult.Type.BLOCK && activeHand.equals(hand))) {
+                BlockHitResult blockHitResult = (BlockHitResult)this.crosshairTarget;
+                BlockPos blockPos = blockHitResult.getBlockPos();
                 if (AnimatiumConfig.getInstance().getShowUsageSwingingParticles() && !this.world.getBlockState(blockPos).isAir()) {
                     Direction direction = blockHitResult.getSide();
                     this.particleManager.addBlockBreakingParticles(blockPos, direction);
