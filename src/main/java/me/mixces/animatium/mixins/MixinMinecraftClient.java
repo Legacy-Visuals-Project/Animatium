@@ -25,6 +25,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Objects;
+
 @Mixin(MinecraftClient.class)
 public abstract class MixinMinecraftClient {
     @Shadow
@@ -39,9 +41,13 @@ public abstract class MixinMinecraftClient {
     @Nullable
     public HitResult crosshairTarget;
 
-    @Shadow @Final public ParticleManager particleManager;
+    @Shadow
+    @Final
+    public ParticleManager particleManager;
 
-    @Shadow @Nullable public ClientWorld world;
+    @Shadow
+    @Nullable
+    public ClientWorld world;
 
     @Inject(method = "doAttack", at = @At(value = "RETURN", ordinal = 0))
     private void animatium$missPenaltySwing(CallbackInfoReturnable<Boolean> cir) {
@@ -82,20 +88,20 @@ public abstract class MixinMinecraftClient {
     private void animatium$applySwingWhilstMining(CallbackInfo ci) {
         if (AnimatiumConfig.getInstance().getApplyItemSwingUsage()) {
             ClientPlayerEntity player = this.player;
-            if (player == null || player.getStackInHand(player.getActiveHand()) == null || !player.isUsingItem() || !this.options.attackKey.isPressed()) {
+            if (player == null || player.getStackInHand(player.getActiveHand()) == null || !player.isUsingItem() || this.crosshairTarget == null || !this.options.attackKey.isPressed()) {
                 return;
             }
 
             Hand activeHand = player.getActiveHand();
             Hand hand = AnimatiumConfig.getInstance().getAllowOffhandUsageSwinging() ? activeHand : Hand.MAIN_HAND;
-            if (AnimatiumConfig.getInstance().getAlwaysAllowUsageSwinging() ||
-                    (this.crosshairTarget != null && this.crosshairTarget.getType() == HitResult.Type.BLOCK && activeHand.equals(hand))) {
-                BlockHitResult blockHitResult = (BlockHitResult)this.crosshairTarget;
+            if (AnimatiumConfig.getInstance().getAlwaysAllowUsageSwinging() || (this.crosshairTarget instanceof BlockHitResult && activeHand.equals(hand))) {
+                BlockHitResult blockHitResult = (BlockHitResult) this.crosshairTarget;
                 BlockPos blockPos = blockHitResult.getBlockPos();
-                if (AnimatiumConfig.getInstance().getShowUsageSwingingParticles() && !this.world.getBlockState(blockPos).isAir()) {
+                if (AnimatiumConfig.getInstance().getShowUsageSwingingParticles() && !Objects.requireNonNull(this.world).getBlockState(blockPos).isAir()) {
                     Direction direction = blockHitResult.getSide();
                     this.particleManager.addBlockBreakingParticles(blockPos, direction);
                 }
+
                 PlayerUtils.fakeHandSwing(player, hand);
             }
         }
