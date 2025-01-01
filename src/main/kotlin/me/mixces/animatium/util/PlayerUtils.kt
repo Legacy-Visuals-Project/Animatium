@@ -1,14 +1,10 @@
 package me.mixces.animatium.util
 
 import com.google.common.base.MoreObjects
-import me.mixces.animatium.AnimatiumClient
-import me.mixces.animatium.mixins.accessor.PlayerEntityAccessor
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.render.entity.model.BipedEntityModel
 import net.minecraft.client.render.entity.state.ArmedEntityRenderState
-import net.minecraft.entity.EntityDimensions
-import net.minecraft.entity.EntityPose
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectUtil
 import net.minecraft.entity.effect.StatusEffects
@@ -40,20 +36,6 @@ object PlayerUtils {
     @JvmStatic
     fun getArmMultiplier(arm: Arm): Int {
         return if (arm == Arm.RIGHT) 1 else -1
-    }
-
-    @JvmStatic
-    fun getLegacySneakingDimensions(player: PlayerEntity, defaultPose: EntityPose): EntityDimensions {
-        // Changes the sneak height to the one from <=1.13.2 on Loyisa & Bedwars Practice & Bridger Land
-        val dimensions = Objects.requireNonNull(PlayerEntityAccessor.getPoseDimensions()).getOrDefault(
-            if (AnimatiumClient.isLegacySupportedVersion()) null else defaultPose,
-            PlayerEntity.STANDING_DIMENSIONS
-        )
-        return if ((player as PlayerEntityAccessor).`canChangeIntoPose$`(EntityPose.STANDING)) {
-            dimensions.withEyeHeight(1.54F)
-        } else {
-            dimensions
-        }
     }
 
     @JvmStatic

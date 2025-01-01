@@ -3,15 +3,19 @@ package me.mixces.animatium.mixins.screen;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.mixces.animatium.config.AnimatiumConfig;
+import me.mixces.animatium.mixins.accessor.PlayerEntityAccessor;
 import me.mixces.animatium.util.CameraVersion;
 import net.minecraft.client.render.Camera;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.RaycastContext;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -34,14 +38,14 @@ public abstract class MixinCamera {
     private void animatium$removeSmoothSneaking(CallbackInfo ci) {
         if (AnimatiumConfig.getInstance().getRemoveSmoothSneaking()) {
             this.lastCameraY = cameraY;
-            this.cameraY = this.focusedEntity.getStandingEyeHeight();
+            this.cameraY = this.animatium$getStandingEyeHeight();
         }
     }
 
     @WrapOperation(method = "updateEyeHeight", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD, target = "Lnet/minecraft/client/render/Camera;cameraY:F"))
     private void animatium$oldSneakAnimationInterpolation(Camera instance, float value, Operation<Void> original) {
-        if (AnimatiumConfig.getInstance().getOldSneakAnimationInterpolation() && !AnimatiumConfig.getInstance().getRemoveSmoothSneaking() && focusedEntity.getStandingEyeHeight() < cameraY) {
-            cameraY = focusedEntity.getStandingEyeHeight();
+        if (AnimatiumConfig.getInstance().getOldSneakAnimationInterpolation() && !AnimatiumConfig.getInstance().getRemoveSmoothSneaking() && this.focusedEntity.getStandingEyeHeight() < cameraY) {
+            this.cameraY = this.animatium$getStandingEyeHeight();
         } else {
             original.call(instance, value);
         }
@@ -83,6 +87,16 @@ public abstract class MixinCamera {
             return 70;
         } else {
             return original.call(instance);
+        }
+    }
+
+    @Unique
+    private float animatium$getStandingEyeHeight() {
+        float standingEyeHeight = this.focusedEntity.getStandingEyeHeight();
+        if (AnimatiumConfig.getInstance().getOldSneakEyeHeight() && this.focusedEntity.isSneaking() && this.focusedEntity instanceof PlayerEntity player && ((PlayerEntityAccessor) player).canChangeIntoPose$(EntityPose.STANDING)) {
+            return 1.54F;
+        } else {
+            return standingEyeHeight;
         }
     }
 }

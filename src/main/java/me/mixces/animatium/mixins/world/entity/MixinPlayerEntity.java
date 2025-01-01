@@ -4,13 +4,13 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.mixces.animatium.config.AnimatiumConfig;
-import me.mixces.animatium.util.ItemUtils;
 import me.mixces.animatium.util.PlayerUtils;
 import me.mixces.animatium.util.ViewBobbingStorage;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -62,13 +62,6 @@ public abstract class MixinPlayerEntity extends LivingEntity {
     private void animatium$updateDimensions(CallbackInfo ci) {
         if (AnimatiumConfig.getInstance().getOldSneakEyeHeight()) {
             calculateDimensions();
-        }
-    }
-
-    @Inject(method = "getBaseDimensions", at = @At("RETURN"), cancellable = true)
-    private void animatium$oldSneakEyeHeight(EntityPose pose, CallbackInfoReturnable<EntityDimensions> cir) {
-        if (AnimatiumConfig.getInstance().getOldSneakEyeHeight() && pose.equals(EntityPose.CROUCHING)) {
-            cir.setReturnValue(PlayerUtils.getLegacySneakingDimensions((PlayerEntity) (Object) this, pose));
         }
     }
 
