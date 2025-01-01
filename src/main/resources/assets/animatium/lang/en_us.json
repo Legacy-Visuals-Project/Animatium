@@ -62,6 +62,8 @@
 	"animatium.removeHeadRotationInterpolation.description": "Removes the head rotation interpolation like in <=1.7.",
 	"animatium.fixVerticalBobbingTilt": "Bring back bobbing tilt",
 	"animatium.fixVerticalBobbingTilt.description": "Brings back the camera tilting when falling/flying up like it was in <=1.13.x. (Fixes MC-225335)",
+	"animatium.oldViewBobbing": "Old view bobbing",
+	"animatium.oldViewBobbing.description": "Undoes the 1.21.2+ view bobbing change where when sneaking, your hand still moves normally.",
 	"animatium.oldDeathLimbs": "Old Death Limbs",
 	"animatium.oldDeathLimbs.description": "Makes entities continue their animation even upon death.",
 	"animatium.fixBowArmMovement": "Fix third-person bow arm movement",

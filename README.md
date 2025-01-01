@@ -106,6 +106,9 @@ Allows the server to enable/disable the swing miss penalty on the client.
 - [X] fixVerticalBobbingTilt
     - Description: Brings back the camera tilting when falling/flying up like it was in <=1.13.x. (Fixes MC-225335)
     - Type: BOOLEAN
+- [X] oldViewBobbing
+    - Description: Undoes the 1.21.2+ view bobbing change where when sneaking, your hand still moves normally.
+    - Type: BOOLEAN
 - [X] oldDeathLimbs
     - Description: Makes entities continue their animation even upon death.
     - Type: BOOLEAN

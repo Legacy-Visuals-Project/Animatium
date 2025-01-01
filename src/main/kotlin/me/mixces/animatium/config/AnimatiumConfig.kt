@@ -367,6 +367,17 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
+                                .name(Text.translatable("animatium.oldViewBobbing"))
+                                .description(OptionDescription.of(Text.translatable("animatium.oldViewBobbing.description")))
+                                .binding(
+                                    defaults.oldViewBobbing,
+                                    { config.oldViewBobbing },
+                                    { newVal -> config.oldViewBobbing = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        otherGroup.option(
+                            Option.createBuilder<Boolean>()
                                 .name(Text.translatable("animatium.oldDeathLimbs"))
                                 .description(OptionDescription.of(Text.translatable("animatium.oldDeathLimbs.description")))
                                 .binding(
@@ -1038,6 +1049,7 @@ class AnimatiumConfig {
     @SerialEntry var uncapBlockingHeadRotation = true
     @SerialEntry var removeHeadRotationInterpolation = true
     @SerialEntry var fixVerticalBobbingTilt = true
+    @SerialEntry var oldViewBobbing = true
     @SerialEntry var oldDeathLimbs = true
     @SerialEntry var fixBowArmMovement = true
     @SerialEntry var oldCapeMovement = false // TODO/NOTE: Currently not accurate/broken.

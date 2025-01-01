@@ -49,6 +49,7 @@
 		"screen.widget.toast.MixinTutorialToast",
 		"world.MixinItem",
 		"world.MixinItemStack",
+		"world.entity.MixinEntity",
 		"world.entity.MixinLivingEntity",
 		"world.entity.MixinPlayerEntity",
 		"world.entity.MixinThrownEntity"

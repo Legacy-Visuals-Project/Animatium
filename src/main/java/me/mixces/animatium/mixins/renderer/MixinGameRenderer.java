@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.util.ViewBobbingStorage;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
@@ -40,6 +41,24 @@ public abstract class MixinGameRenderer {
             ViewBobbingStorage bobbingAccessor = (ViewBobbingStorage) playerEntity;
             float j = MathHelper.lerp(tickDelta, bobbingAccessor.animatium$getPreviousBobbingTilt(), bobbingAccessor.animatium$getBobbingTilt());
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(j));
+        }
+    }
+
+    @WrapOperation(method = "bobView", at = @At(value = "FIELD", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;distanceMoved:F"))
+    private float animatium$changeDistance(AbstractClientPlayerEntity instance, Operation<Float> original) {
+        if (AnimatiumConfig.getInstance().getOldViewBobbing()) {
+            return ((ViewBobbingStorage) instance).animatium$getHorizontalSpeed();
+        } else {
+            return original.call(instance);
+        }
+    }
+
+    @WrapOperation(method = "bobView", at = @At(value = "FIELD", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;lastDistanceMoved:F"))
+    private float animatium$changePreviousDistance(AbstractClientPlayerEntity instance, Operation<Float> original) {
+        if (AnimatiumConfig.getInstance().getOldViewBobbing()) {
+            return ((ViewBobbingStorage) instance).animatium$getPreviousHorizontalSpeed();
+        } else {
+            return original.call(instance);
         }
     }
 
