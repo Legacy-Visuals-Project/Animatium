@@ -16,8 +16,6 @@
 	"animatium.fixMirrorArmSwing.description": "Fix the left-arm swing mirroring.",
 	"animatium.persistentBlockOutline": "Always show block outline (Persistent)",
 	"animatium.persistentBlockOutline.description": "Always show block outline, no matter the gamemode or state.",
-	"animatium.alwaysAllowUsageSwinging": "Always allow item usage swing whilst holding left-click",
-	"animatium.alwaysAllowUsageSwinging.description": "Allows you to hold left click whilst using the item to keep swinging the arm, not just when looking at a block. Requires \"Apply the swing offset during item use\" to be enabled.",
 	"animatium.allowOffhandUsageSwinging": "Allow off-hand usage swinging",
 	"animatium.allowOffhandUsageSwinging.description": "Swings the offhand whilst using item and holding right click.",
 	"animatium.alwaysShowSharpParticles": "Always show sharp particles on damage",

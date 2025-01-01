@@ -26,8 +26,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Objects;
-
 @Mixin(MinecraftClient.class)
 public abstract class MixinMinecraftClient {
     @Shadow
@@ -106,14 +104,13 @@ public abstract class MixinMinecraftClient {
 
             Hand activeHand = player.getActiveHand();
             Hand hand = AnimatiumConfig.getInstance().getAllowOffhandUsageSwinging() ? activeHand : Hand.MAIN_HAND;
-            boolean isBlockHitResult = this.crosshairTarget != null && this.crosshairTarget.getType() == HitResult.Type.BLOCK;
-            if (AnimatiumConfig.getInstance().getAlwaysAllowUsageSwinging() || (isBlockHitResult && activeHand.equals(hand))) {
-                if (isBlockHitResult && this.crosshairTarget instanceof BlockHitResult blockHitResult) {
-                    BlockPos blockPos = blockHitResult.getBlockPos();
-                    if (AnimatiumConfig.getInstance().getShowUsageSwingingParticles() && !Objects.requireNonNull(this.world).getBlockState(blockPos).isAir()) {
-                        Direction direction = blockHitResult.getSide();
-                        this.particleManager.addBlockBreakingParticles(blockPos, direction);
-                    }
+            if (this.crosshairTarget != null && this.crosshairTarget.getType() == HitResult.Type.BLOCK && activeHand.equals(hand)) {
+                BlockHitResult blockHitResult = (BlockHitResult) this.crosshairTarget;
+
+                BlockPos blockPos = blockHitResult.getBlockPos();
+                if (AnimatiumConfig.getInstance().getShowUsageSwingingParticles() && this.world != null && !this.world.getBlockState(blockPos).isAir()) {
+                    Direction direction = blockHitResult.getSide();
+                    this.particleManager.addBlockBreakingParticles(blockPos, direction);
                 }
 
                 PlayerUtils.fakeHandSwing(player, hand);
