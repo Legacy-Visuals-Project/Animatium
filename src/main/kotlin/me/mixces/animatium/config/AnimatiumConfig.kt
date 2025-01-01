@@ -1033,7 +1033,7 @@ class AnimatiumConfig {
     @SerialEntry var oldDebugHudTextColor = true
     @SerialEntry var fixMirrorArmSwing = true
     @SerialEntry var persistentBlockOutline = true
-    @SerialEntry var alwaysAllowUsageSwinging = true
+    @SerialEntry var alwaysAllowUsageSwinging = false
     @SerialEntry var allowOffhandUsageSwinging = true
     @SerialEntry var alwaysShowSharpParticles = true
     @SerialEntry var forceItemGlintOnEntity = false

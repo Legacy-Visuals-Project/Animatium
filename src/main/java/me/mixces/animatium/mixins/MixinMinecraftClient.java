@@ -106,13 +106,14 @@ public abstract class MixinMinecraftClient {
 
             Hand activeHand = player.getActiveHand();
             Hand hand = AnimatiumConfig.getInstance().getAllowOffhandUsageSwinging() ? activeHand : Hand.MAIN_HAND;
-            if (AnimatiumConfig.getInstance().getAlwaysAllowUsageSwinging() || (this.crosshairTarget != null && this.crosshairTarget.getType() == HitResult.Type.BLOCK && activeHand.equals(hand))) {
-                BlockHitResult blockHitResult = (BlockHitResult) this.crosshairTarget;
-                assert blockHitResult != null;
-                BlockPos blockPos = blockHitResult.getBlockPos();
-                if (AnimatiumConfig.getInstance().getShowUsageSwingingParticles() && !Objects.requireNonNull(this.world).getBlockState(blockPos).isAir()) {
-                    Direction direction = blockHitResult.getSide();
-                    this.particleManager.addBlockBreakingParticles(blockPos, direction);
+            boolean isBlockHitResult = this.crosshairTarget != null && this.crosshairTarget.getType() == HitResult.Type.BLOCK;
+            if (AnimatiumConfig.getInstance().getAlwaysAllowUsageSwinging() || (isBlockHitResult && activeHand.equals(hand))) {
+                if (isBlockHitResult && this.crosshairTarget instanceof BlockHitResult blockHitResult) {
+                    BlockPos blockPos = blockHitResult.getBlockPos();
+                    if (AnimatiumConfig.getInstance().getShowUsageSwingingParticles() && !Objects.requireNonNull(this.world).getBlockState(blockPos).isAir()) {
+                        Direction direction = blockHitResult.getSide();
+                        this.particleManager.addBlockBreakingParticles(blockPos, direction);
+                    }
                 }
 
                 PlayerUtils.fakeHandSwing(player, hand);
