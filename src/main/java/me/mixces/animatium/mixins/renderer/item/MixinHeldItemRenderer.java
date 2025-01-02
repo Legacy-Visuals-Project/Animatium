@@ -114,6 +114,7 @@ public abstract class MixinHeldItemRenderer {
 
     @Inject(method = "resetEquipProgress", at = @At("HEAD"), cancellable = true)
     private void animatium$removeEquipAnimationOnItemUse(Hand hand, CallbackInfo ci) {
+        System.out.println("update");
         ClientPlayerEntity player = this.client.player;
         if (AnimatiumConfig.getInstance().getRemoveEquipAnimationOnItemUse() && player != null && player.isUsingItem()) {
             ci.cancel();

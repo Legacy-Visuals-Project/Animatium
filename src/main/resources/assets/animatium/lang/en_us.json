@@ -36,6 +36,10 @@
 	"animatium.showUsageSwingingParticles.description": "Shows fake block-breaking particles during usage swinging to match <=1.7.x.",
 	"animatium.disableEntityDeathTopple": "Disable entity death rotation",
 	"animatium.disableEntityDeathTopple.description": "Prevents the dying entity from rotating 90 degrees.",
+	"animatium.customHitColor": "Custom hit color",
+	"animatium.customHitColor.description": "Modifies the entity damage tint color.",
+	"animatium.deepRedHurtTint": "Deep red hurt tint",
+	"animatium.deepRedHurtTint.description": "Modifies the entity damage tint alpha to be less like in Oranges Old Animations mod.",
 
 	"animatium.category.movement": "Movement",
 	"animatium.category.movement.group.sneaking": "Sneaking",

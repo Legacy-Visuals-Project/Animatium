@@ -5,16 +5,19 @@ import dev.isxander.yacl3.api.Option
 import dev.isxander.yacl3.api.OptionDescription
 import dev.isxander.yacl3.api.OptionGroup
 import dev.isxander.yacl3.api.YetAnotherConfigLib
+import dev.isxander.yacl3.api.controller.ColorControllerBuilder
 import dev.isxander.yacl3.api.controller.EnumControllerBuilder
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler
 import dev.isxander.yacl3.config.v2.api.SerialEntry
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder
 import dev.isxander.yacl3.platform.YACLPlatform
+import me.mixces.animatium.AnimatiumClient
 import me.mixces.animatium.util.CameraVersion
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
+import java.awt.Color
 
 class AnimatiumConfig {
     companion object {
@@ -221,6 +224,34 @@ class AnimatiumConfig {
                                 defaults.disableEntityDeathTopple,
                                 { config.disableEntityDeathTopple },
                                 { newVal -> config.disableEntityDeathTopple = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
+                    category.option(
+                        Option.createBuilder<Color>()
+                            .name(Text.translatable("animatium.customHitColor"))
+                            .description(OptionDescription.of(Text.translatable("animatium.customHitColor.description")))
+                            .binding(
+                                defaults.customHitColor,
+                                { config.customHitColor },
+                                { newVal ->
+                                    config.customHitColor = newVal
+                                    AnimatiumClient.reloadOverlayTexture()
+                                })
+                            .controller(ColorControllerBuilder::create)
+                            .build()
+                    )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Text.translatable("animatium.deepRedHurtTint"))
+                            .description(OptionDescription.of(Text.translatable("animatium.deepRedHurtTint.description")))
+                            .binding(
+                                defaults.deepRedHurtTint,
+                                { config.deepRedHurtTint },
+                                { newVal ->
+                                    config.deepRedHurtTint = newVal
+                                    AnimatiumClient.reloadOverlayTexture()
+                                })
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
@@ -1054,6 +1085,8 @@ class AnimatiumConfig {
     @SerialEntry var missPenaltySwing = false
     @SerialEntry var showUsageSwingingParticles = false
     @SerialEntry var disableEntityDeathTopple = false
+    @SerialEntry var customHitColor = Color(255, 0, 0)
+    @SerialEntry var deepRedHurtTint = false
 
     // Movement
     @SerialEntry var rotateBackwardsWalking = true

@@ -88,8 +88,11 @@ Allows the server to enable/disable the swing miss penalty on the client.
 - [X] showUsageSwingingParticles
   - Description: Shows fake block-breaking particles during usage swinging to match <=1.7.x.
   - Type: BOOLEAN
-- [X] disableEntityDeathTopple
-  - Description: Prevents the dying entity from rotating 90 degrees.
+- [X] customHitColor
+  - Description: Modifies the entity damage tint color.
+  - Type: BOOLEAN 
+- [X] deepRedHurtTint
+  - Description: Modifies the entity damage tint alpha to be less like in Oranges Old Animations mod.
   - Type: BOOLEAN 
   </details>
 

@@ -3,11 +3,13 @@ package me.mixces.animatium.mixins.renderer;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import me.mixces.animatium.AnimatiumClient;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.util.ViewBobbingStorage;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,6 +17,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,6 +28,19 @@ public abstract class MixinGameRenderer {
     @Shadow
     @Final
     private MinecraftClient client;
+
+    @Mutable
+    @Shadow
+    @Final
+    private OverlayTexture overlayTexture;
+
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void animatium$reloadOverlayTexture(CallbackInfo ci) {
+        if (AnimatiumClient.getShouldReloadOverlayTexture()) {
+            this.overlayTexture = new OverlayTexture();
+            AnimatiumClient.setShouldReloadOverlayTexture(false);
+        }
+    }
 
     @WrapOperation(method = "tiltViewWhenHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getDamageTiltYaw()F"))
     private float animatium$revertYaw(LivingEntity instance, Operation<Float> original) {

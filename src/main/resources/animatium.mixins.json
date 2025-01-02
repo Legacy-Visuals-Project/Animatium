@@ -4,6 +4,7 @@
 	"compatibilityLevel": "JAVA_21",
 	"client": [
 		"MixinMinecraftClient",
+		"MixinOverlayTexture",
 		"MixinSpriteContents",
 		"accessor.CameraAccessor",
 		"accessor.ClientWorldPropertiesAccessor",

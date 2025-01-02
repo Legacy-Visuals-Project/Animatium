@@ -15,6 +15,14 @@ class AnimatiumClient : ClientModInitializer {
 
         @JvmStatic
         var leftClickItemUsage = false
+
+        @JvmStatic
+        var shouldReloadOverlayTexture = false
+
+        @JvmStatic
+        fun reloadOverlayTexture() {
+            shouldReloadOverlayTexture = true
+        }
     }
 
     override fun onInitializeClient() {
