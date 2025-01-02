@@ -132,8 +132,8 @@ Allows the server to enable/disable the swing miss penalty on the client.
 - [X] oldSneakAnimationInterpolation
     - Description: Brings back the <=1.7.x sneaking camera animation interpolation.
     - Type: BOOLEAN
-- [X] oldSneakEyeHeight
-    - Description: Changes the sneak eye height to be as it was <=1.13.2.
+- [X] fakeOldSneakEyeHeight
+    - Description: Changes the sneak eye height to be as it was in <=1.13.2 visually.
     - Type: BOOLEAN
 - [X] fixSneakingFeetPosition
     - Description: Fixes the sneaking model offset to be like <=1.11.x.

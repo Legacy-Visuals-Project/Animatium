@@ -291,12 +291,12 @@ class AnimatiumConfig {
                         )
                         sneakingGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Component.translatable("animatium.oldSneakEyeHeight"))
-                                .description(OptionDescription.of(Component.translatable("animatium.oldSneakEyeHeight.description")))
+                                .name(Component.translatable("animatium.fakeOldSneakEyeHeight"))
+                                .description(OptionDescription.of(Component.translatable("animatium.fakeOldSneakEyeHeight.description")))
                                 .binding(
-                                    defaults.oldSneakEyeHeight,
-                                    { config.oldSneakEyeHeight },
-                                    { newVal -> config.oldSneakEyeHeight = newVal })
+                                    defaults.fakeOldSneakEyeHeight,
+                                    { config.fakeOldSneakEyeHeight },
+                                    { newVal -> config.fakeOldSneakEyeHeight = newVal })
                                 .controller(TickBoxControllerBuilder::create)
                                 .build()
                         )
@@ -1096,11 +1096,11 @@ class AnimatiumConfig {
     @SerialEntry var oldViewBobbing = true
     @SerialEntry var oldDeathLimbs = true
     @SerialEntry var fixBowArmMovement = true
-    @SerialEntry var oldCapeMovement = false // TODO/NOTE: Currently not accurate/broken.
+//    @SerialEntry var oldCapeMovement = false // TODO/NOTE: Currently not accurate/broken.
     @SerialEntry var oldDamageTilt = true
     @SerialEntry var removeSmoothSneaking = false
     @SerialEntry var oldSneakAnimationInterpolation = true
-    @SerialEntry var oldSneakEyeHeight = true
+    @SerialEntry var fakeOldSneakEyeHeight = true
     @SerialEntry var fixSneakingFeetPosition = true
     @SerialEntry var oldSneakingFeetPosition = false
     @SerialEntry var syncPlayerModelWithEyeHeight = false

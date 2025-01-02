@@ -44,7 +44,7 @@ public abstract class MixinCamera {
 
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getEyeHeight()F"))
     private float animatium$useOldEyeHeight(Entity instance, Operation<Float> original) {
-        if (AnimatiumConfig.getInstance().getOldSneakEyeHeight()) {
+        if (AnimatiumConfig.getInstance().getFakeOldSneakEyeHeight()) {
             return this.animatium$getStandingEyeHeight();
         } else {
             return original.call(instance);
@@ -102,7 +102,7 @@ public abstract class MixinCamera {
     @Unique
     private float animatium$getStandingEyeHeight() {
         float standingEyeHeight = this.entity.getEyeHeight();
-        if (AnimatiumConfig.getInstance().getOldSneakEyeHeight() && this.entity.isShiftKeyDown() && this.entity instanceof Player player && ((PlayerAccessor) player).canChangeIntoPose$(Pose.STANDING)) {
+        if (AnimatiumConfig.getInstance().getFakeOldSneakEyeHeight() && this.entity.isShiftKeyDown() && this.entity instanceof Player player && ((PlayerAccessor) player).canChangeIntoPose$(Pose.STANDING)) {
             return 1.54F;
         } else {
             return standingEyeHeight;
