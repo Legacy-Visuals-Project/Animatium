@@ -21,7 +21,6 @@
 		"network.MixinClientPacketListener",
 		"renderer.MixinDrawContext",
 		"renderer.MixinGameRenderer",
-		"renderer.MixinRenderType",
 		"renderer.MixinCompiledShaderProgram",
 		"renderer.MixinVertexConsumer",
 		"renderer.MixinLevelRenderer",

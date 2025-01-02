@@ -136,17 +136,6 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
-//                    category.option(
-//                        Option.createBuilder<Boolean>()
-//                            .name(Component.translatable("animatium.forceItemGlintOnEntity"))
-//                            .description(OptionDescription.of(Component.translatable("animatium.forceItemGlintOnEntity.description")))
-//                            .binding(
-//                                defaults.forceItemGlintOnEntity,
-//                                { config.forceItemGlintOnEntity },
-//                                { newVal -> config.forceItemGlintOnEntity = newVal })
-//                            .controller(TickBoxControllerBuilder::create)
-//                            .build()
-//                    )
                     category.option(
                         Option.createBuilder<Boolean>()
                             .name(Component.translatable("animatium.disableRecipeAndTutorialToasts"))
@@ -429,17 +418,6 @@ class AnimatiumConfig {
                                 .controller(TickBoxControllerBuilder::create)
                                 .build()
                         )
-//                        otherGroup.option(
-//                            Option.createBuilder<Boolean>()
-//                                .name(Component.translatable("animatium.oldCapeMovement"))
-//                                .description(OptionDescription.of(Component.translatable("animatium.oldCapeMovement.description")))
-//                                .binding(
-//                                    defaults.oldCapeMovement,
-//                                    { config.oldCapeMovement },
-//                                    { newVal -> config.oldCapeMovement = newVal })
-//                                .controller(TickBoxControllerBuilder::create)
-//                                .build()
-//                        )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
                                 .name(Component.translatable("animatium.oldDamageTilt"))
@@ -1077,7 +1055,6 @@ class AnimatiumConfig {
     @SerialEntry var persistentBlockOutline = false
     @SerialEntry var allowOffhandUsageSwinging = false
     @SerialEntry var alwaysShowSharpParticles = false
-    @SerialEntry var forceItemGlintOnEntity = false
     @SerialEntry var disableRecipeAndTutorialToasts = false
     @SerialEntry var disableServerPoseAndBlockingVisualUpdates = false
     @SerialEntry var showArmWhileInvisible = false
@@ -1096,11 +1073,10 @@ class AnimatiumConfig {
     @SerialEntry var oldViewBobbing = true
     @SerialEntry var oldDeathLimbs = true
     @SerialEntry var fixBowArmMovement = true
-//    @SerialEntry var oldCapeMovement = false // TODO/NOTE: Currently not accurate/broken.
     @SerialEntry var oldDamageTilt = true
     @SerialEntry var removeSmoothSneaking = false
-    @SerialEntry var oldSneakAnimationInterpolation = true
-    @SerialEntry var fakeOldSneakEyeHeight = true
+    @SerialEntry var oldSneakAnimationInterpolation = false
+    @SerialEntry var fakeOldSneakEyeHeight = false
     @SerialEntry var fixSneakingFeetPosition = true
     @SerialEntry var oldSneakingFeetPosition = false
     @SerialEntry var syncPlayerModelWithEyeHeight = false
