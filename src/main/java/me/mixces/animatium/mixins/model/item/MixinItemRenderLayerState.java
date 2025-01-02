@@ -13,12 +13,22 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ItemRenderState.LayerRenderState.class)
 public abstract class MixinItemRenderLayerState {
     @Shadow
     abstract Transformation getTransformation();
+
+    @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;renderItem(Lnet/minecraft/item/ModelTransformationMode;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;II[ILnet/minecraft/client/render/model/BakedModel;Lnet/minecraft/client/render/RenderLayer;Lnet/minecraft/client/render/item/ItemRenderState$Glint;)V"), index = 8)
+    private ItemRenderState.Glint animatium$disableGlintOn2dItemDrops(ItemRenderState.Glint glint) {
+        if (AnimatiumConfig.getInstance().getItemDrops2D() && ItemUtils.getTransformMode() != null && ItemUtils.getTransformMode() == ModelTransformationMode.GROUND) {
+            return ItemRenderState.Glint.NONE;
+        } else {
+            return glint;
+        }
+    }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/model/json/Transformation;apply(ZLnet/minecraft/client/util/math/MatrixStack;)V"))
     private void animatium$tiltItemPositionsRod(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, CallbackInfo ci) {
