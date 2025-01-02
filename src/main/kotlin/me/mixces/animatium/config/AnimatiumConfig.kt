@@ -1016,17 +1016,17 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
-                    category.option(
-                        Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.removeFOVBasedProjection"))
-                            .description(OptionDescription.of(Text.translatable("animatium.removeFOVBasedProjection.description")))
-                            .binding(
-                                defaults.removeFOVBasedProjection,
-                                { config.removeFOVBasedProjection },
-                                { newVal -> config.removeFOVBasedProjection = newVal })
-                            .controller(TickBoxControllerBuilder::create)
-                            .build()
-                    )
+//                    category.option(
+//                        Option.createBuilder<Boolean>()
+//                            .name(Text.translatable("animatium.removeFOVBasedProjection"))
+//                            .description(OptionDescription.of(Text.translatable("animatium.removeFOVBasedProjection.description")))
+//                            .binding(
+//                                defaults.removeFOVBasedProjection,
+//                                { config.removeFOVBasedProjection },
+//                                { newVal -> config.removeFOVBasedProjection = newVal })
+//                            .controller(TickBoxControllerBuilder::create)
+//                            .build()
+//                    )
                     category.option(
                         Option.createBuilder<Boolean>()
                             .name(Text.translatable("animatium.hideModelWhilstSleeping"))
@@ -1158,7 +1158,7 @@ class AnimatiumConfig {
     @SerialEntry var oldBlockMiningProgress = true
     @SerialEntry var disableInventoryEntityScissor = true
     @SerialEntry var legacyBlockOutlineRendering = true
-    @SerialEntry var removeFOVBasedProjection = false
+    @SerialEntry var removeFOVBasedProjection = false // TODO/NOTE: Currently not accurate/broken.
     @SerialEntry var hideModelWhilstSleeping = true
     @SerialEntry var entityArmorHurtTint = true
 }
