@@ -133,17 +133,17 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
-                    category.option(
-                        Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.forceItemGlintOnEntity"))
-                            .description(OptionDescription.of(Text.translatable("animatium.forceItemGlintOnEntity.description")))
-                            .binding(
-                                defaults.forceItemGlintOnEntity,
-                                { config.forceItemGlintOnEntity },
-                                { newVal -> config.forceItemGlintOnEntity = newVal })
-                            .controller(TickBoxControllerBuilder::create)
-                            .build()
-                    )
+//                    category.option(
+//                        Option.createBuilder<Boolean>()
+//                            .name(Text.translatable("animatium.forceItemGlintOnEntity"))
+//                            .description(OptionDescription.of(Text.translatable("animatium.forceItemGlintOnEntity.description")))
+//                            .binding(
+//                                defaults.forceItemGlintOnEntity,
+//                                { config.forceItemGlintOnEntity },
+//                                { newVal -> config.forceItemGlintOnEntity = newVal })
+//                            .controller(TickBoxControllerBuilder::create)
+//                            .build()
+//                    )
                     category.option(
                         Option.createBuilder<Boolean>()
                             .name(Text.translatable("animatium.disableRecipeAndTutorialToasts"))
@@ -387,17 +387,17 @@ class AnimatiumConfig {
                                 .controller(TickBoxControllerBuilder::create)
                                 .build()
                         )
-                        otherGroup.option(
-                            Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.oldCapeMovement"))
-                                .description(OptionDescription.of(Text.translatable("animatium.oldCapeMovement.description")))
-                                .binding(
-                                    defaults.oldCapeMovement,
-                                    { config.oldCapeMovement },
-                                    { newVal -> config.oldCapeMovement = newVal })
-                                .controller(TickBoxControllerBuilder::create)
-                                .build()
-                        )
+//                        otherGroup.option(
+//                            Option.createBuilder<Boolean>()
+//                                .name(Text.translatable("animatium.oldCapeMovement"))
+//                                .description(OptionDescription.of(Text.translatable("animatium.oldCapeMovement.description")))
+//                                .binding(
+//                                    defaults.oldCapeMovement,
+//                                    { config.oldCapeMovement },
+//                                    { newVal -> config.oldCapeMovement = newVal })
+//                                .controller(TickBoxControllerBuilder::create)
+//                                .build()
+//                        )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
                                 .name(Text.translatable("animatium.oldDamageTilt"))
@@ -1026,22 +1026,22 @@ class AnimatiumConfig {
     }
 
     // QOL
-    @SerialEntry var minimalViewBobbing = true
-    @SerialEntry var showNametagInThirdperson = true
-    @SerialEntry var hideNameTagBackground = true
-    @SerialEntry var applyTextShadowToNametag = true
-    @SerialEntry var oldDebugHudTextColor = true
-    @SerialEntry var fixMirrorArmSwing = true
-    @SerialEntry var persistentBlockOutline = true
-    @SerialEntry var allowOffhandUsageSwinging = true
-    @SerialEntry var alwaysShowSharpParticles = true
+    @SerialEntry var minimalViewBobbing = false
+    @SerialEntry var showNametagInThirdperson = false
+    @SerialEntry var hideNameTagBackground = false
+    @SerialEntry var applyTextShadowToNametag = false
+    @SerialEntry var oldDebugHudTextColor = false
+    @SerialEntry var fixMirrorArmSwing = false
+    @SerialEntry var persistentBlockOutline = false
+    @SerialEntry var allowOffhandUsageSwinging = false
+    @SerialEntry var alwaysShowSharpParticles = false
     @SerialEntry var forceItemGlintOnEntity = false
     @SerialEntry var disableRecipeAndTutorialToasts = false
     @SerialEntry var disableServerPoseAndBlockingVisualUpdates = false
     @SerialEntry var showArmWhileInvisible = false
-    @SerialEntry var upMinPixelTransparencyLimit = true
-    @SerialEntry var missPenaltySwing = true
-    @SerialEntry var showUsageSwingingParticles = true
+    @SerialEntry var upMinPixelTransparencyLimit = false
+    @SerialEntry var missPenaltySwing = false
+    @SerialEntry var showUsageSwingingParticles = false
 
     // Movement
     @SerialEntry var rotateBackwardsWalking = true
@@ -1057,7 +1057,7 @@ class AnimatiumConfig {
     @SerialEntry var oldSneakAnimationInterpolation = true
     @SerialEntry var oldSneakEyeHeight = true
     @SerialEntry var fixSneakingFeetPosition = true
-    @SerialEntry var oldSneakingFeetPosition = false // TODO/NOTE: Might need a better name.
+    @SerialEntry var oldSneakingFeetPosition = false
     @SerialEntry var syncPlayerModelWithEyeHeight = false
     @SerialEntry var sneakAnimationWhileFlying = true
 
@@ -1071,7 +1071,7 @@ class AnimatiumConfig {
     @SerialEntry var oldButtonTextColors = true
     @SerialEntry var removeDebugHudBackground = true
     @SerialEntry var debugHudTextShadow = true
-    @SerialEntry var oldChatPosition = true
+    @SerialEntry var oldChatPosition = false
     @SerialEntry var disableCameraTransparentPassthrough = true
     @SerialEntry var cameraVersion = CameraVersion.V1_8
 
@@ -1095,13 +1095,13 @@ class AnimatiumConfig {
     @SerialEntry var removeClientsideBlockingDelay = true
     @SerialEntry var fixItemUsageCheck = true
     @SerialEntry var oldFishingRodTextureStackCheck = true
-    @SerialEntry var fishingRodLineInterpolation = true
-    @SerialEntry var noMoveFishingRodLine = true
+    @SerialEntry var fishingRodLineInterpolation = false
+    @SerialEntry var noMoveFishingRodLine = false
     @SerialEntry var oldFishingRodLinePositionThirdPerson = true
-    @SerialEntry var oldFishingRodLineThickness = true
+    @SerialEntry var oldFishingRodLineThickness = false
     @SerialEntry var thinFishingRodLineThickness = false
-    @SerialEntry var fixCastLineCheck = true
-    @SerialEntry var fixCastLineSwing = true
+    @SerialEntry var fixCastLineCheck = false
+    @SerialEntry var fixCastLineSwing = false
 
     // Other
     @SerialEntry var oldBlueVoidSky = true
@@ -1113,7 +1113,7 @@ class AnimatiumConfig {
     @SerialEntry var oldBlockMiningProgress = true
     @SerialEntry var disableInventoryEntityScissor = true
     @SerialEntry var legacyBlockOutlineRendering = true
-    @SerialEntry var removeFOVBasedProjection = true
+    @SerialEntry var removeFOVBasedProjection = false
     @SerialEntry var hideModelWhilstSleeping = true
     @SerialEntry var entityArmorHurtTint = true
 }
