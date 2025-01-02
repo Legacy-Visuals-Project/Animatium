@@ -2,7 +2,6 @@ package me.mixces.animatium.util
 
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
 import net.minecraft.client.render.entity.state.EntityRenderState
-import net.minecraft.client.render.item.ItemRenderState
 import net.minecraft.entity.Entity
 
 object EntityUtils {
