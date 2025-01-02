@@ -112,6 +112,18 @@ public abstract class MixinItemInHandRenderer {
         }
     }
 
+    @Inject(method = "renderArmWithItem",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;applyItemArmTransform(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/entity/HumanoidArm;F)V", shift = At.Shift.AFTER),
+            slice = @Slice(
+                    from = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getUseAnimation()Lnet/minecraft/world/item/ItemUseAnimation;"),
+                    to = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;applyItemArmTransform(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/entity/HumanoidArm;F)V", ordinal = 6)
+            ))
+    private void animatium$applyItemSwingUsage(AbstractClientPlayer abstractClientPlayer, float tickDelta, float pitch, InteractionHand interactionHand, float swingProgress, ItemStack itemStack, float equipProgress, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, CallbackInfo ci, @Local HumanoidArm arm) {
+        if (AnimatiumConfig.getInstance().getApplyItemSwingUsage()) {
+            applyItemArmAttackTransform(poseStack, arm, swingProgress);
+        }
+    }
+
     @Inject(method = "itemUsed", at = @At("HEAD"), cancellable = true)
     private void animatium$removeEquipAnimationOnItemUse(InteractionHand hand, CallbackInfo ci) {
         LocalPlayer player = this.minecraft.player;
@@ -123,17 +135,5 @@ public abstract class MixinItemInHandRenderer {
     @ModifyReturnValue(method = "shouldInstantlyReplaceVisibleItem", at = @At("RETURN"))
     private boolean animatium$doNotSkipHandAnimationOnSwap(boolean original) {
         return !AnimatiumConfig.getInstance().getDoNotSkipHandAnimationOnSwap() && original;
-    }
-
-    @Inject(method = "renderArmWithItem",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;applyItemArmTransform(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/entity/HumanoidArm;F)V", shift = At.Shift.AFTER),
-            slice = @Slice(
-                    from = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getUseAnimation()Lnet/minecraft/world/item/ItemUseAnimation;"),
-                    to = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;applyItemArmTransform(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/entity/HumanoidArm;F)V", ordinal = 6)
-            ))
-    private void animatium$applyItemSwingUsage(AbstractClientPlayer abstractClientPlayer, float tickDelta, float pitch, InteractionHand interactionHand, float swingProgress, ItemStack itemStack, float equipProgress, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, CallbackInfo ci, @Local HumanoidArm arm) {
-        if (AnimatiumConfig.getInstance().getApplyItemSwingUsage()) {
-            applyItemArmAttackTransform(poseStack, arm, swingProgress);
-        }
     }
 }
