@@ -13,5 +13,6 @@ public abstract class MixinClientConnection {
     @Inject(method = "disconnect(Lnet/minecraft/network/DisconnectionInfo;)V", at = @At("HEAD"))
     private void animatium$restoreVanillaFunctionality(DisconnectionInfo disconnectionInfo, CallbackInfo ci) {
         AnimatiumClient.setDisableSwingMissPenalty(false);
+        AnimatiumClient.setLeftClickItemUsage(false);
     }
 }

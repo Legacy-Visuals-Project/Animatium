@@ -8,6 +8,7 @@ import me.mixces.animatium.util.ItemUtils;
 import me.mixces.animatium.util.PlayerUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.world.ClientWorld;
@@ -80,6 +81,15 @@ public abstract class MixinMinecraftClient {
         // TODO/NOTE: For now, this should be fine.
         if (AnimatiumClient.getDisableSwingMissPenalty()) {
             return 0;
+        } else {
+            return original.call(instance);
+        }
+    }
+
+    @WrapOperation(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerInteractionManager;isBreakingBlock()Z"))
+    private boolean animatium$leftClickItemUsage(ClientPlayerInteractionManager instance, Operation<Boolean> original) {
+        if (AnimatiumClient.getLeftClickItemUsage()) {
+            return false;
         } else {
             return original.call(instance);
         }

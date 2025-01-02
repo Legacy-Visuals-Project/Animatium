@@ -79,7 +79,8 @@ public abstract class MixinLivingEntityRenderer<S extends LivingEntityRenderStat
         Entity entity = EntityUtils.getEntityByState(state);
         if (AnimatiumConfig.getInstance().getDisableEntityDeathTopple() && entity instanceof PlayerEntity) {
             return 0;
+        } else {
+            return original.call(instance);
         }
-        return original.call(instance);
     }
 }

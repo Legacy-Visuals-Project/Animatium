@@ -30,9 +30,10 @@ If more are requested/wanted, we will add and update this here.
 
 Allows the server to enable/disable the swing miss penalty on the client.
 
-| Identifier                           | Field Name | Field Type | Description                        |
-|--------------------------------------|------------|------------|------------------------------------|
-| animatium:disable_swing_miss_penalty | Toggle     | Boolean    | Turn on/off the swing miss penalty |
+| Identifier            | Field Name            | Field Type | Description                                                             |
+|-----------------------|-----------------------|------------|-------------------------------------------------------------------------|
+| animatium:set_feature | Miss Penalty          | Boolean    | Turn on/off the swing miss penalty                                      |
+|                       | Left Click Item Usage | Boolean    | Turn on/off the ability to start using a item whilst holding left click |
 
 # Available Config Categories
 

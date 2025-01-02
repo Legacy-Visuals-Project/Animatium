@@ -22,6 +22,10 @@ class AnimatiumCommand : Command<FabricClientCommandSource> {
                             Text.literal("Disabled miss swing penalty? " + AnimatiumClient.disableSwingMissPenalty)
                                 .withColor(ColorUtils.randomColor())
                         )
+                        context.source.sendFeedback(
+                            Text.literal("Enabled left-click item usage on ground? " + AnimatiumClient.leftClickItemUsage)
+                                .withColor(ColorUtils.randomColor())
+                        )
                         return@executes Command.SINGLE_SUCCESS
                     }
                 )
