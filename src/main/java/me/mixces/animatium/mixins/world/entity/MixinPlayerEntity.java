@@ -58,13 +58,6 @@ public abstract class MixinPlayerEntity extends LivingEntity {
         }
     }
 
-    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;updatePose()V"))
-    private void animatium$updateDimensions(CallbackInfo ci) {
-        if (AnimatiumConfig.getInstance().getOldSneakEyeHeight()) {
-            calculateDimensions();
-        }
-    }
-
     @WrapOperation(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;swingHand(Lnet/minecraft/util/Hand;)V"))
     private void animatium$disableSwingOnDropInventory(PlayerEntity instance, Hand hand, Operation<Void> original) {
         if (AnimatiumConfig.getInstance().getDisableSwingOnDrop()) {
