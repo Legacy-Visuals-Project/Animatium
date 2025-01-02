@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 public abstract class MixinEquipmentRenderer {
     @WrapOperation(method = "render(Lnet/minecraft/client/render/entity/equipment/EquipmentModel$LayerType;Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/client/model/Model;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/util/Identifier;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/RenderLayer;getArmorCutoutNoCull(Lnet/minecraft/util/Identifier;)Lnet/minecraft/client/render/RenderLayer;"))
     private RenderLayer animatium$renderLayerArmorTint(Identifier texture, Operation<RenderLayer> original) {
-        if (AnimatiumConfig.getInstance().getArmorTint()) {
+        if (AnimatiumConfig.getInstance().getEntityArmorHurtTint()) {
             return RenderLayer.getEntityCutoutNoCullZOffset(texture);
         } else {
             return original.call(texture);
@@ -31,7 +31,7 @@ public abstract class MixinEquipmentRenderer {
 
     @WrapOperation(method = "render(Lnet/minecraft/client/render/entity/equipment/EquipmentModel$LayerType;Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/client/model/Model;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/util/Identifier;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/texture/Sprite;getTextureSpecificVertexConsumer(Lnet/minecraft/client/render/VertexConsumer;)Lnet/minecraft/client/render/VertexConsumer;"))
     private VertexConsumer animatium$renderLayerArmorTrimTint(Sprite instance, VertexConsumer consumer, Operation<VertexConsumer> original, @Local(argsOnly = true) VertexConsumerProvider vertexConsumers) {
-        if (AnimatiumConfig.getInstance().getArmorTint()) {
+        if (AnimatiumConfig.getInstance().getEntityArmorHurtTint()) {
             return instance.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCullZOffset(instance.getAtlasId())));
         } else {
             return original.call(instance, consumer);
@@ -46,7 +46,7 @@ public abstract class MixinEquipmentRenderer {
     @Unique
     private int animatium$getPackUv(int original) {
         BipedEntityRenderState bipedEntityRenderState = EntityUtils.getBipedEntityRenderState();
-        if (AnimatiumConfig.getInstance().getArmorTint() && bipedEntityRenderState != null) {
+        if (AnimatiumConfig.getInstance().getEntityArmorHurtTint() && bipedEntityRenderState != null) {
             return OverlayTexture.packUv(OverlayTexture.getU(0.0F), OverlayTexture.getV(bipedEntityRenderState.hurt));
         } else {
             return original;
