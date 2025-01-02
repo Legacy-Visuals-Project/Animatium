@@ -53,6 +53,9 @@ Allows the server to enable/disable the swing miss penalty on the client.
 - [X] applyTextShadowToNametag
     - Description: Make the nametag use text shadow.
     - Type: BOOLEAN
+- [X] armorTint
+    - Description: Renders the damage tint on the armor layer just like in <=1.7.x.
+    - Type: BOOLEAN
 - [X] oldDebugHudTextColor
     - Description: Makes the debug hud text color white again.
     - Type: BOOLEAN

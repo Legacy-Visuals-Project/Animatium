@@ -30,6 +30,8 @@
 		"renderer.entity.MixinItemEntityRenderer",
 		"renderer.entity.MixinLivingEntityRenderer",
 		"renderer.entity.MixinPlayerEntityRenderer",
+		"renderer.entity.layer.MixinArmorFeatureRenderer",
+		"renderer.entity.layer.MixinEquipmentRenderer",
 		"renderer.item.MixinHeldItemFeatureRenderer",
 		"renderer.item.MixinHeldItemRenderer",
 		"renderer.item.MixinItemFrameEntityRenderer",

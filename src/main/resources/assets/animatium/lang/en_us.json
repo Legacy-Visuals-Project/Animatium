@@ -10,6 +10,8 @@
 	"animatium.hideNameTagBackground.description": "Remove the nametag background.",
 	"animatium.applyTextShadowToNametag": "Apply text shadow to nametag",
 	"animatium.applyTextShadowToNametag.description": "Make the nametag use text shadow.",
+	"animatium.armorTint": "Show damage tint on armor",
+	"animatium.armorTint.description": "Renders the damage tint on the armor layer just like in <=1.7.x.",
 	"animatium.oldDebugHudTextColor": "Old debug hud text color",
 	"animatium.oldDebugHudTextColor.description": "Makes the debug hud text color white again.",
 	"animatium.fixMirrorArmSwing": "Fix arm swing mirroring",

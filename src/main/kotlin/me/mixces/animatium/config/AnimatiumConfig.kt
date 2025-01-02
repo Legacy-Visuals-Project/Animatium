@@ -213,6 +213,17 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Text.translatable("animatium.armorTint"))
+                            .description(OptionDescription.of(Text.translatable("animatium.armorTint.description")))
+                            .binding(
+                                defaults.armorTint,
+                                { config.armorTint },
+                                { newVal -> config.armorTint = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
                     builder.category(category.build())
                 }
 
@@ -1019,6 +1030,7 @@ class AnimatiumConfig {
     @SerialEntry var showNametagInThirdperson = true
     @SerialEntry var hideNameTagBackground = true
     @SerialEntry var applyTextShadowToNametag = true
+    @SerialEntry var armorTint = true
     @SerialEntry var oldDebugHudTextColor = true
     @SerialEntry var fixMirrorArmSwing = true
     @SerialEntry var persistentBlockOutline = true
