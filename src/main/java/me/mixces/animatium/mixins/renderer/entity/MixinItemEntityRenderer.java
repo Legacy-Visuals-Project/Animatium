@@ -3,28 +3,28 @@ package me.mixces.animatium.mixins.renderer.entity;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.blaze3d.vertex.PoseStack;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.util.EntityUtils;
 import me.mixces.animatium.util.MathUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.entity.ItemEntityRenderer;
-import net.minecraft.client.render.entity.state.ItemEntityRenderState;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ItemEntity;
+import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.ItemEntityRenderer;
+import net.minecraft.client.renderer.entity.state.ItemEntityRenderState;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ItemEntityRenderer.class)
 public abstract class MixinItemEntityRenderer {
-    @WrapOperation(method = "render(Lnet/minecraft/client/render/entity/state/ItemEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;getRotation(FF)F"))
-    private float animatium$itemDropsFaceCamera(float age, float uniqueOffset, Operation<Float> original, @Local(argsOnly = true) ItemEntityRenderState itemEntityRenderState, @Local(argsOnly = true) MatrixStack matrixStack) {
+    @WrapOperation(method = "render(Lnet/minecraft/client/renderer/entity/state/ItemEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/item/ItemEntity;getSpin(FF)F"))
+    private float animatium$itemDropsFaceCamera(float age, float uniqueOffset, Operation<Float> original, @Local(argsOnly = true) ItemEntityRenderState itemEntityRenderState, @Local(argsOnly = true) PoseStack poseStack) {
         if (AnimatiumConfig.getInstance().getItemDropsFaceCamera()) {
             Entity entity = EntityUtils.getEntityByState(itemEntityRenderState);
-            if (entity instanceof ItemEntity && !itemEntityRenderState.itemRenderState.hasDepth()) {
-                Camera camera = MinecraftClient.getInstance().gameRenderer.getCamera();
-                return MathUtils.toRadians(180F - camera.getYaw());
+            if (entity instanceof ItemEntity && !itemEntityRenderState.item.isGui3d()) {
+                Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
+                return MathUtils.toRadians(180F - camera.getYRot());
             }
         }
 

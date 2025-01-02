@@ -4,22 +4,22 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.blaze3d.vertex.PoseStack;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.mixins.accessor.CameraAccessor;
 import me.mixces.animatium.util.EntityUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.LivingEntityRenderer;
-import net.minecraft.client.render.entity.state.LivingEntityRenderState;
-import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityPose;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.entity.state.PlayerRenderState;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.player.Player;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,21 +30,21 @@ import java.util.Objects;
 
 @Mixin(LivingEntityRenderer.class)
 public abstract class MixinLivingEntityRenderer<S extends LivingEntityRenderState> {
-    @Inject(method = "render(Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V", ordinal = 1))
-    private void animatium$syncPlayerModelWithEyeHeight(S livingEntityRenderState, MatrixStack matrices, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
+    @Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V", ordinal = 1))
+    private void animatium$syncPlayerModelWithEyeHeight(S livingEntityRenderState, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
         if (AnimatiumConfig.getInstance().getSyncPlayerModelWithEyeHeight()) {
-            MinecraftClient client = MinecraftClient.getInstance();
-            ClientPlayerEntity player = client.player;
-            if (livingEntityRenderState instanceof PlayerEntityRenderState state && player != null && state.id == player.getId()) {
-                Camera camera = client.gameRenderer.getCamera();
+            Minecraft client = Minecraft.getInstance();
+            LocalPlayer player = client.player;
+            if (livingEntityRenderState instanceof PlayerRenderState state && player != null && state.id == player.getId()) {
+                Camera camera = client.gameRenderer.getMainCamera();
                 CameraAccessor cameraAccessor = (CameraAccessor) camera;
-                float cameraLerpValue = MathHelper.lerp(camera.getLastTickDelta(), cameraAccessor.getLastCameraY(), cameraAccessor.getCameraY());
-                matrices.translate(0.0F, PlayerEntity.STANDING_DIMENSIONS.eyeHeight() - cameraLerpValue, 0.0F);
+                float cameraLerpValue = Mth.lerp(camera.getPartialTickTime(), cameraAccessor.getEyeHeightOld(), cameraAccessor.getEyeHeight());
+                poseStack.translate(0.0F, Player.STANDING_DIMENSIONS.eyeHeight() - cameraLerpValue, 0.0F);
             }
         }
     }
 
-    @ModifyExpressionValue(method = "updateRenderState(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;isAlive()Z"))
+    @ModifyExpressionValue(method = "extractRenderState(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isAlive()Z"))
     private boolean animatium$oldDeathLimbs(boolean original) {
         if (AnimatiumConfig.getInstance().getOldDeathLimbs()) {
             return true;
@@ -53,8 +53,8 @@ public abstract class MixinLivingEntityRenderer<S extends LivingEntityRenderStat
         }
     }
 
-    @WrapOperation(method = "hasLabel(Lnet/minecraft/entity/LivingEntity;D)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;getCameraEntity()Lnet/minecraft/entity/Entity;"))
-    private Entity animatium$showNametagInThirdperson(MinecraftClient instance, Operation<Entity> original) {
+    @WrapOperation(method = "shouldShowName(Lnet/minecraft/world/entity/LivingEntity;D)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;getCameraEntity()Lnet/minecraft/world/entity/Entity;"))
+    private Entity animatium$showNametagInThirdperson(Minecraft instance, Operation<Entity> original) {
         if (AnimatiumConfig.getInstance().getShowNametagInThirdperson()) {
             return null;
         } else {
@@ -62,22 +62,22 @@ public abstract class MixinLivingEntityRenderer<S extends LivingEntityRenderStat
         }
     }
 
-    @Inject(method = "render(Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At("HEAD"), cancellable = true)
-    private void animatium$hideModelWhilstSleeping(S livingEntityRenderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
+    @Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At("HEAD"), cancellable = true)
+    private void animatium$hideModelWhilstSleeping(S livingEntityRenderState, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
         Entity entity = EntityUtils.getEntityByState(livingEntityRenderState);
         if (AnimatiumConfig.getInstance().getHideModelWhilstSleeping() &&
                 entity instanceof LivingEntity livingEntity &&
-                livingEntity == Objects.requireNonNull(MinecraftClient.getInstance().player) &&
-                livingEntityRenderState.isInPose(EntityPose.SLEEPING) &&
+                livingEntity == Objects.requireNonNull(Minecraft.getInstance().player) &&
+                livingEntityRenderState.hasPose(Pose.SLEEPING) &&
                 livingEntity.isSleeping()) {
             ci.cancel();
         }
     }
 
-    @WrapOperation(method = "setupTransforms", at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;deathTime:F"))
+    @WrapOperation(method = "setupRotations", at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;deathTime:F"))
     private float animatium$disableDeathTopple(LivingEntityRenderState instance, Operation<Float> original, @Local(argsOnly = true) S state) {
         Entity entity = EntityUtils.getEntityByState(state);
-        if (AnimatiumConfig.getInstance().getDisableEntityDeathTopple() && entity instanceof PlayerEntity) {
+        if (AnimatiumConfig.getInstance().getDisableEntityDeathTopple() && entity instanceof Player) {
             return 0;
         } else {
             return original.call(instance);

@@ -12,7 +12,7 @@
 		"sources": "https://github.com/Legacy-Visuals-Project/Animatium/",
 		"issues": "https://github.com/Legacy-Visuals-Project/Animatium/issues"
 	},
-	"license": "LGPL-2.1",
+	"license": "LGPL-3.0",
 	"icon": "assets/animatium/icon.png",
 	"environment": "client",
 	"entrypoints": {
@@ -40,7 +40,6 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.16.7",
-		"fabric-language-kotlin": ">=1.13.0+kotlin.2.1.0",
 		"minecraft": ">=1.21.4 <1.21.5",
 		"yet_another_config_lib_v3": ">=3.6.2"
 	}

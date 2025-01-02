@@ -3,18 +3,18 @@ package me.mixces.animatium.mixins.renderer;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import me.mixces.animatium.AnimatiumClient;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.util.ViewBobbingStorage;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinGameRenderer {
     @Shadow
     @Final
-    private MinecraftClient client;
+    private Minecraft minecraft;
 
     @Mutable
     @Shadow
@@ -42,7 +42,7 @@ public abstract class MixinGameRenderer {
         }
     }
 
-    @WrapOperation(method = "tiltViewWhenHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getDamageTiltYaw()F"))
+    @WrapOperation(method = "bobHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getHurtDir()F"))
     private float animatium$revertYaw(LivingEntity instance, Operation<Float> original) {
         if (AnimatiumConfig.getInstance().getOldDamageTilt()) {
             return 0.0F;
@@ -52,16 +52,16 @@ public abstract class MixinGameRenderer {
     }
 
     @Inject(method = "bobView", at = @At("TAIL"))
-    private void animatium$fixVerticalBobbingTilt(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
-        if (AnimatiumConfig.getInstance().getFixVerticalBobbingTilt() && this.client.getCameraEntity() instanceof PlayerEntity playerEntity) {
-            ViewBobbingStorage bobbingAccessor = (ViewBobbingStorage) playerEntity;
-            float j = MathHelper.lerp(tickDelta, bobbingAccessor.animatium$getPreviousBobbingTilt(), bobbingAccessor.animatium$getBobbingTilt());
-            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(j));
+    private void animatium$fixVerticalBobbingTilt(PoseStack poseStack, float tickDelta, CallbackInfo ci) {
+        if (AnimatiumConfig.getInstance().getFixVerticalBobbingTilt() && this.minecraft.getCameraEntity() instanceof Player player) {
+            ViewBobbingStorage bobbingAccessor = (ViewBobbingStorage) player;
+            float j = Mth.lerp(tickDelta, bobbingAccessor.animatium$getPreviousBobbingTilt(), bobbingAccessor.animatium$getBobbingTilt());
+            poseStack.mulPose(Axis.XP.rotationDegrees(j));
         }
     }
 
-    @WrapOperation(method = "bobView", at = @At(value = "FIELD", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;distanceMoved:F"))
-    private float animatium$changeDistance(AbstractClientPlayerEntity instance, Operation<Float> original) {
+    @WrapOperation(method = "bobView", at = @At(value = "FIELD", target = "Lnet/minecraft/client/player/AbstractClientPlayer;walkDist:F"))
+    private float animatium$changeDistance(AbstractClientPlayer instance, Operation<Float> original) {
         if (AnimatiumConfig.getInstance().getOldViewBobbing()) {
             return ((ViewBobbingStorage) instance).animatium$getHorizontalSpeed();
         } else {
@@ -69,8 +69,8 @@ public abstract class MixinGameRenderer {
         }
     }
 
-    @WrapOperation(method = "bobView", at = @At(value = "FIELD", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;lastDistanceMoved:F"))
-    private float animatium$changePreviousDistance(AbstractClientPlayerEntity instance, Operation<Float> original) {
+    @WrapOperation(method = "bobView", at = @At(value = "FIELD", target = "Lnet/minecraft/client/player/AbstractClientPlayer;walkDistO:F"))
+    private float animatium$changePreviousDistance(AbstractClientPlayer instance, Operation<Float> original) {
         if (AnimatiumConfig.getInstance().getOldViewBobbing()) {
             return ((ViewBobbingStorage) instance).animatium$getPreviousHorizontalSpeed();
         } else {
@@ -78,12 +78,12 @@ public abstract class MixinGameRenderer {
         }
     }
 
-    @WrapWithCondition(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;bobView(Lnet/minecraft/client/util/math/MatrixStack;F)V"))
-    private boolean animatium$minimalViewBobbing(GameRenderer instance, MatrixStack matrices, float tickDelta) {
+    @WrapWithCondition(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GameRenderer;bobView(Lcom/mojang/blaze3d/vertex/PoseStack;F)V"))
+    private boolean animatium$minimalViewBobbing(GameRenderer instance, PoseStack poseStack, float tickDelta) {
         return !AnimatiumConfig.getInstance().getMinimalViewBobbing();
     }
 
-    @WrapOperation(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;shouldRenderBlockOutline()Z"))
+    @WrapOperation(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GameRenderer;shouldRenderBlockOutline()Z"))
     private boolean animatium$persistentBlockOutline(GameRenderer instance, Operation<Boolean> original) {
         if (AnimatiumConfig.getInstance().getPersistentBlockOutline()) {
             return true;

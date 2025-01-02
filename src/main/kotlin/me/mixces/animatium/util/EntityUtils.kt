@@ -1,11 +1,11 @@
 package me.mixces.animatium.util
 
-import net.minecraft.client.render.entity.state.BipedEntityRenderState
-import net.minecraft.client.render.entity.state.EntityRenderState
-import net.minecraft.entity.Entity
+import net.minecraft.client.renderer.entity.state.EntityRenderState
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState
+import net.minecraft.world.entity.Entity
 
 object EntityUtils {
-    private val BIPED_ENTITY_RENDER_STATE: ThreadLocal<BipedEntityRenderState?> = ThreadLocal.withInitial { null }
+    private val HUMAN_RENDER_STATE: ThreadLocal<HumanoidRenderState?> = ThreadLocal.withInitial { null }
     private val STATE_TO_ENTITY = hashMapOf<EntityRenderState, Entity>()
 
     @JvmStatic
@@ -19,17 +19,17 @@ object EntityUtils {
     }
 
     @JvmStatic
-    fun setBipedEntityRenderState(state: BipedEntityRenderState) {
-        BIPED_ENTITY_RENDER_STATE.set(state)
+    fun setHumanRenderState(state: HumanoidRenderState) {
+        HUMAN_RENDER_STATE.set(state)
     }
 
     @JvmStatic
-    fun removeBipedEntityRenderState() {
-        BIPED_ENTITY_RENDER_STATE.remove()
+    fun removeHumanRenderState() {
+        HUMAN_RENDER_STATE.remove()
     }
 
     @JvmStatic
-    fun getBipedEntityRenderState(): BipedEntityRenderState? {
-        return BIPED_ENTITY_RENDER_STATE.get()
+    fun getHumanRenderState(): HumanoidRenderState? {
+        return HUMAN_RENDER_STATE.get()
     }
 }

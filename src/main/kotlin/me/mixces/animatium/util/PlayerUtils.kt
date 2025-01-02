@@ -1,53 +1,53 @@
 package me.mixces.animatium.util
 
 import com.google.common.base.MoreObjects
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.network.ClientPlayerEntity
-import net.minecraft.client.render.entity.model.BipedEntityModel
-import net.minecraft.client.render.entity.state.ArmedEntityRenderState
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.effect.StatusEffectUtil
-import net.minecraft.entity.effect.StatusEffects
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket
-import net.minecraft.network.packet.s2c.play.EntityAnimationS2CPacket
-import net.minecraft.server.world.ServerChunkManager
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.util.Arm
-import net.minecraft.util.Hand
-import net.minecraft.util.math.Vec3d
+import net.minecraft.client.Minecraft
+import net.minecraft.client.model.HumanoidModel
+import net.minecraft.client.player.LocalPlayer
+import net.minecraft.client.renderer.entity.state.ArmedEntityRenderState
+import net.minecraft.network.protocol.game.ClientboundAnimatePacket
+import net.minecraft.network.protocol.game.ServerboundSwingPacket
+import net.minecraft.server.level.ServerChunkCache
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.effect.MobEffectUtil
+import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.HumanoidArm
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.phys.Vec3
 import java.util.*
 
 object PlayerUtils {
     @JvmStatic
-    fun getHandMultiplier(player: PlayerEntity): Int {
-        val hand = MoreObjects.firstNonNull(player.preferredHand, Hand.MAIN_HAND)
+    fun getHandMultiplier(player: Player): Int {
+        val hand = MoreObjects.firstNonNull(player.swingingArm, InteractionHand.MAIN_HAND)
         val direction = getHandMultiplier(player, hand)
-        val client = MinecraftClient.getInstance()
-        return (if (client.options.perspective.isFirstPerson) 1 else -1) * direction
+        val client = Minecraft.getInstance()
+        return (if (client.options.cameraType.isFirstPerson) 1 else -1) * direction
     }
 
     @JvmStatic
-    fun getHandMultiplier(player: PlayerEntity, hand: Hand): Int {
-        val arm = if (hand == Hand.MAIN_HAND) player.mainArm else player.mainArm.opposite
+    fun getHandMultiplier(player: Player, hand: InteractionHand): Int {
+        val arm = if (hand == InteractionHand.MAIN_HAND) player.mainArm else player.mainArm.opposite
         return getArmMultiplier(arm)
     }
 
     @JvmStatic
-    fun getArmMultiplier(arm: Arm): Int {
-        return if (arm == Arm.RIGHT) 1 else -1
+    fun getArmMultiplier(arm: HumanoidArm): Int {
+        return if (arm == HumanoidArm.RIGHT) 1 else -1
     }
 
     @JvmStatic
-    fun lerpPlayerWithEyeHeight(entity: PlayerEntity, tickDelta: Float, eyeHeight: Double): Vec3d {
-        return entity.getLerpedPos(tickDelta).add(0.0, eyeHeight, 0.0)
+    fun lerpPlayerWithEyeHeight(entity: Player, tickDelta: Float, eyeHeight: Double): Vec3 {
+        return entity.getPosition(tickDelta).add(0.0, eyeHeight, 0.0)
     }
 
     @JvmStatic
-    fun isBlockingArm(arm: Arm, armedEntityState: ArmedEntityRenderState): Boolean {
-        return if (arm == Arm.LEFT && armedEntityState.leftArmPose == BipedEntityModel.ArmPose.BLOCK) {
+    fun isBlockingArm(arm: HumanoidArm, armedEntityState: ArmedEntityRenderState): Boolean {
+        return if (arm == HumanoidArm.LEFT && armedEntityState.leftArmPose == HumanoidModel.ArmPose.BLOCK) {
             true
-        } else if (arm == Arm.RIGHT && armedEntityState.rightArmPose == BipedEntityModel.ArmPose.BLOCK) {
+        } else if (arm == HumanoidArm.RIGHT && armedEntityState.rightArmPose == HumanoidModel.ArmPose.BLOCK) {
             true
         } else {
             false
@@ -55,41 +55,44 @@ object PlayerUtils {
     }
 
     @JvmStatic
-    fun fakeHandSwing(player: PlayerEntity, hand: Hand) {
+    fun fakeHandSwing(player: Player, hand: InteractionHand) {
         // NOTE: Clientside fake swinging, doesn't send a packet
-        if (!player.handSwinging || player.handSwingTicks >= getHandSwingDuration(player) / 2 || player.handSwingTicks < 0) {
-            player.handSwingTicks = -1
-            player.handSwinging = true
-            player.preferredHand = hand
+        if (!player.swinging || player.swingTime >= getHandSwingDuration(player) / 2 || player.swingTime < 0) {
+            player.swingTime = -1
+            player.swinging = true
+            player.swingingArm = hand
         }
     }
 
     // Sends necessary swing packets, without playing the player hand swing animation
     @JvmStatic
-    fun sendSwingPacket(player: ClientPlayerEntity, hand: Hand) {
-        if (!player.handSwinging || player.handSwingTicks >= getHandSwingDuration(player) / 2 || player.handSwingTicks < 0) {
-            if (player.world is ServerWorld) {
-                (player.world.chunkManager as ServerChunkManager).sendToOtherNearbyPlayers(
+    fun sendSwingPacket(player: LocalPlayer, hand: InteractionHand) {
+        if (!player.swinging || player.swingTime >= getHandSwingDuration(player) / 2 || player.swingTime < 0) {
+            if (player.level() is ServerLevel) {
+                (player.level().chunkSource as ServerChunkCache).broadcast(
                     player,
-                    EntityAnimationS2CPacket(
+                    ClientboundAnimatePacket(
                         player,
-                        if (hand == Hand.MAIN_HAND) EntityAnimationS2CPacket.SWING_MAIN_HAND else EntityAnimationS2CPacket.SWING_OFF_HAND
+                        if (hand == InteractionHand.MAIN_HAND)
+                            ClientboundAnimatePacket.SWING_MAIN_HAND
+                        else
+                            ClientboundAnimatePacket.SWING_OFF_HAND
                     )
                 )
             }
         }
 
-        player.networkHandler?.sendPacket(HandSwingC2SPacket(hand))
+        player.connection?.send(ServerboundSwingPacket(hand))
     }
 
     // Fixes crash & doesn't require accesswidener
     @JvmStatic
     fun getHandSwingDuration(entity: LivingEntity): Int {
-        return if (StatusEffectUtil.hasHaste(entity)) {
-            6 - (1 + StatusEffectUtil.getHasteAmplifier(entity))
+        return if (MobEffectUtil.hasDigSpeed(entity)) {
+            6 - (1 + MobEffectUtil.getDigSpeedAmplification(entity))
         } else {
-            if (entity.hasStatusEffect(StatusEffects.MINING_FATIGUE)) {
-                6 + (1 + Objects.requireNonNull(entity.getStatusEffect(StatusEffects.MINING_FATIGUE))!!.amplifier) * 2
+            if (entity.hasEffect(MobEffects.DIG_SLOWDOWN)) {
+                6 + (1 + Objects.requireNonNull(entity.getEffect(MobEffects.DIG_SLOWDOWN))!!.amplifier) * 2
             } else {
                 6
             }

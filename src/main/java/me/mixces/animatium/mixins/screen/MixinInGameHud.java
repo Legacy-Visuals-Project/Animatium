@@ -5,34 +5,33 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.mixces.animatium.config.AnimatiumConfig;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.ChatHud;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.option.Perspective;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.util.Window;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.CameraType;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.ChatComponent;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.function.Function;
 
-@Mixin(InGameHud.class)
+@Mixin(Gui.class)
 public abstract class MixinInGameHud {
-    @WrapOperation(method = "renderChat", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;render(Lnet/minecraft/client/gui/DrawContext;IIIZ)V"))
-    private void animatium$oldChatPosition(ChatHud instance, DrawContext context, int currentTick, int mouseX, int mouseY, boolean focused, Operation<Void> original, @Local Window window) {
+    @WrapOperation(method = "renderChat", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/ChatComponent;render(Lnet/minecraft/client/gui/GuiGraphics;IIIZ)V"))
+    private void animatium$oldChatPosition(ChatComponent instance, GuiGraphics context, int currentTick, int mouseX, int mouseY, boolean focused, Operation<Void> original) {
         if (AnimatiumConfig.getInstance().getOldChatPosition()) {
-            context.getMatrices().translate(0F, 12F, 0F);
+            context.pose().translate(0F, 12F, 0F);
         }
 
         original.call(instance, context, currentTick, mouseX, mouseY, focused);
         if (AnimatiumConfig.getInstance().getOldChatPosition()) {
-            context.getMatrices().translate(0F, -12F, 0F);
+            context.pose().translate(0F, -12F, 0F);
         }
     }
 
-    @WrapOperation(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/Perspective;isFirstPerson()Z"))
-    private boolean animatium$showCrosshairInThirdperson(Perspective instance, Operation<Boolean> original) {
+    @WrapOperation(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/CameraType;isFirstPerson()Z"))
+    private boolean animatium$showCrosshairInThirdperson(CameraType instance, Operation<Boolean> original) {
         if (AnimatiumConfig.getInstance().getShowCrosshairInThirdperson()) {
             return true;
         } else {
@@ -40,8 +39,8 @@ public abstract class MixinInGameHud {
         }
     }
 
-    @WrapWithCondition(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 2))
-    private boolean animatium$fixHighAttackSpeedIndicator(DrawContext instance, Function<Identifier, RenderLayer> renderLayers, Identifier sprite, int x, int y, int width, int height, @Local float f) {
+    @WrapWithCondition(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V", ordinal = 2))
+    private boolean animatium$fixHighAttackSpeedIndicator(GuiGraphics instance, Function<ResourceLocation, RenderType> function, ResourceLocation resourceLocation, int i, int j, int k, int l, @Local float f) {
         if (AnimatiumConfig.getInstance().getFixHighAttackSpeedIndicator()) {
             // NOTE: Couldn't grab it locally, so just copied it. Should be fine.
             int progressWidth = (int) (f * 17.0F);
@@ -51,8 +50,8 @@ public abstract class MixinInGameHud {
         }
     }
 
-    @WrapWithCondition(method = "renderHealthBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawHeart(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/gui/hud/InGameHud$HeartType;IIZZZ)V"))
-    private boolean animatium$removeHeartFlash(InGameHud instance, DrawContext context, InGameHud.HeartType type, int x, int y, boolean hardcore, boolean blinking, boolean half) {
-        return !AnimatiumConfig.getInstance().getRemoveHeartFlash() || !blinking || type == InGameHud.HeartType.CONTAINER;
+    @WrapWithCondition(method = "renderHearts", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;renderHeart(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/gui/Gui$HeartType;IIZZZ)V"))
+    private boolean animatium$removeHeartFlash(Gui instance, GuiGraphics guiGraphics, Gui.HeartType type, int x, int y, boolean hardcore, boolean blinking, boolean half) {
+        return !AnimatiumConfig.getInstance().getRemoveHeartFlash() || !blinking || type == Gui.HeartType.CONTAINER;
     }
 }

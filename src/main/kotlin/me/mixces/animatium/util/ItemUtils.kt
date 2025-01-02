@@ -1,36 +1,52 @@
 package me.mixces.animatium.util
 
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.math.Axis
 import me.mixces.animatium.config.AnimatiumConfig
-import net.minecraft.block.BannerBlock
-import net.minecraft.block.Block
-import net.minecraft.block.RodBlock
-import net.minecraft.block.SkullBlock
-import net.minecraft.client.render.entity.state.EntityRenderState
-import net.minecraft.client.render.item.ItemRenderState
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.entity.LivingEntity
-import net.minecraft.item.*
-import net.minecraft.util.Rarity
-import net.minecraft.util.math.RotationAxis
+import net.minecraft.client.renderer.entity.state.EntityRenderState
+import net.minecraft.client.renderer.item.ItemStackRenderState
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.BucketItem
+import net.minecraft.world.item.CrossbowItem
+import net.minecraft.world.item.DiggerItem
+import net.minecraft.world.item.EnderpearlItem
+import net.minecraft.world.item.FishingRodItem
+import net.minecraft.world.item.FoodOnAStickItem
+import net.minecraft.world.item.ItemDisplayContext
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
+import net.minecraft.world.item.MaceItem
+import net.minecraft.world.item.ProjectileItem
+import net.minecraft.world.item.ProjectileWeaponItem
+import net.minecraft.world.item.Rarity
+import net.minecraft.world.item.ShearsItem
+import net.minecraft.world.item.ShieldItem
+import net.minecraft.world.item.SwordItem
+import net.minecraft.world.item.TridentItem
+import net.minecraft.world.level.block.BannerBlock
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.RodBlock
+import net.minecraft.world.level.block.SkullBlock
 import kotlin.math.roundToInt
 
 object ItemUtils {
-    private val RENDER_STATE: ThreadLocal<ItemRenderState?> = ThreadLocal.withInitial { null }
+    private val RENDER_STATE: ThreadLocal<ItemStackRenderState?> = ThreadLocal.withInitial { null }
     private val STACK: ThreadLocal<ItemStack?> = ThreadLocal.withInitial { null }
-    private val TRANSFORMATION_MODE: ThreadLocal<ModelTransformationMode?> = ThreadLocal.withInitial { null }
+    private val DISPLAY_CONTEXT: ThreadLocal<ItemDisplayContext?> = ThreadLocal.withInitial { null }
 
     @JvmStatic
-    fun set(renderState: ItemRenderState, stack: ItemStack, transformationMode: ModelTransformationMode) {
+    fun set(renderState: ItemStackRenderState, stack: ItemStack, displayContext: ItemDisplayContext) {
         RENDER_STATE.remove()
         STACK.remove()
-        TRANSFORMATION_MODE.remove()
+        DISPLAY_CONTEXT.remove()
         RENDER_STATE.set(renderState)
         STACK.set(stack)
-        TRANSFORMATION_MODE.set(transformationMode)
+        DISPLAY_CONTEXT.set(displayContext)
     }
 
     @JvmStatic
-    fun getRenderState(): ItemRenderState? {
+    fun getRenderState(): ItemStackRenderState? {
         return RENDER_STATE.get()
     }
 
@@ -40,14 +56,14 @@ object ItemUtils {
     }
 
     @JvmStatic
-    fun getTransformMode(): ModelTransformationMode? {
-        return TRANSFORMATION_MODE.get()
+    fun getDisplayContext(): ItemDisplayContext? {
+        return DISPLAY_CONTEXT.get()
     }
 
     @JvmStatic
     fun isFishingRodItem(stack: ItemStack): Boolean {
         return if (!stack.isEmpty) {
-            stack.item is FishingRodItem || stack.item is OnAStickItem<*>
+            stack.item is FishingRodItem || stack.item is FoodOnAStickItem<*>
         } else {
             false
         }
@@ -56,7 +72,7 @@ object ItemUtils {
     @JvmStatic
     fun isRangedWeaponItem(stack: ItemStack): Boolean {
         return if (!stack.isEmpty) {
-            stack.item is RangedWeaponItem
+            stack.item is ProjectileWeaponItem
         } else {
             false
         }
@@ -67,7 +83,7 @@ object ItemUtils {
         return if (!stack.isEmpty) {
             val item = stack.item
             // TODO: is this the best way? probably not
-            item is MiningToolItem || item is SwordItem
+            item is DiggerItem || item is SwordItem
                     || item is MaceItem || item is TridentItem
                     || isFishingRodItem(stack)
                     || setOf(Items.STICK, Items.BREEZE_ROD, Items.BLAZE_ROD).contains(item)
@@ -79,7 +95,7 @@ object ItemUtils {
     @JvmStatic
     fun isSkullBlock(stack: ItemStack): Boolean {
         return if (!stack.isEmpty) {
-            Block.getBlockFromItem(stack.item) is SkullBlock
+            Block.byItem(stack.item) is SkullBlock
         } else {
             false
         }
@@ -88,7 +104,7 @@ object ItemUtils {
     @JvmStatic
     fun isBlockItemBlacklisted(stack: ItemStack): Boolean {
         return if (!stack.isEmpty) {
-            val item = Block.getBlockFromItem(stack.item)
+            val item = Block.byItem(stack.item)
             item is BannerBlock || item is RodBlock || isSkullBlock(stack)
         } else {
             false
@@ -109,32 +125,32 @@ object ItemUtils {
     fun isSwingItemBlacklisted(stack: ItemStack): Boolean {
         return if (!stack.isEmpty) {
             val item = stack.item
-            item is ProjectileItem || item is BucketItem || item is ShearsItem || item is EnderPearlItem
+            item is ProjectileItem || item is BucketItem || item is ShearsItem || item is EnderpearlItem
         } else {
             false
         }
     }
 
     @JvmStatic
-    fun isBlock3d(stack: ItemStack, itemRenderState: ItemRenderState): Boolean {
+    fun isBlock3d(stack: ItemStack, itemStackRenderState: ItemStackRenderState): Boolean {
         return if (!stack.isEmpty) {
-            stack.item is BlockItem && itemRenderState.hasDepth()
+            stack.item is BlockItem && itemStackRenderState.isGui3d
         } else {
             false
         }
     }
 
     @JvmStatic
-    fun applyLegacyFirstpersonTransforms(matrices: MatrixStack, direction: Int, runnable: Runnable) {
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(direction * 45.0F))
-        matrices.scale(0.4F, 0.4F, 0.4F)
+    fun applyLegacyFirstpersonTransforms(poseStack: PoseStack, direction: Int, runnable: Runnable) {
+        poseStack.mulPose(Axis.YP.rotationDegrees(direction * 45.0F))
+        poseStack.scale(0.4F, 0.4F, 0.4F)
         runnable.run()
-        matrices.scale(1 / 0.4F, 1 / 0.4F, 1 / 0.4F)
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(direction * -45.0F))
+        poseStack.scale(1 / 0.4F, 1 / 0.4F, 1 / 0.4F)
+        poseStack.mulPose(Axis.YP.rotationDegrees(direction * -45.0F))
     }
 
     @JvmStatic
-    fun applyLegacyThirdpersonTransforms(matrices: MatrixStack, direction: Int, runnable: Runnable) {
+    fun applyLegacyThirdpersonTransforms(poseStack: PoseStack, direction: Int, runnable: Runnable) {
         // TODO
         runnable.run()
         // TODO
@@ -157,7 +173,7 @@ object ItemUtils {
 
     @JvmStatic
     fun getLegacyDurabilityColorValue(stack: ItemStack): Int {
-        return (255.0 - stack.damage.toDouble() * 255.0 / stack.maxDamage.toDouble()).roundToInt()
+        return (255.0 - stack.damageValue.toDouble() * 255.0 / stack.maxDamage.toDouble()).roundToInt()
     }
 
     @JvmStatic

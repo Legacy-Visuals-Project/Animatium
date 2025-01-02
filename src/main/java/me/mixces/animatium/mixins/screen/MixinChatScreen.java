@@ -1,6 +1,7 @@
 package me.mixces.animatium.mixins.screen;
 
-import net.minecraft.client.gui.screen.ChatScreen;
+
+import net.minecraft.client.gui.screens.ChatScreen;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(ChatScreen.class)

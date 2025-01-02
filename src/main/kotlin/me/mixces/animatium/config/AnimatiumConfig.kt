@@ -14,9 +14,9 @@ import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder
 import dev.isxander.yacl3.platform.YACLPlatform
 import me.mixces.animatium.AnimatiumClient
 import me.mixces.animatium.util.CameraVersion
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.screen.Screen
-import net.minecraft.text.Text
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.screens.Screen
+import net.minecraft.network.chat.Component
 import java.awt.Color
 
 class AnimatiumConfig {
@@ -31,16 +31,16 @@ class AnimatiumConfig {
         @JvmStatic
         fun getConfigScreen(parent: Screen?): Screen {
             return (YetAnotherConfigLib.create(CONFIG) { defaults: AnimatiumConfig, config: AnimatiumConfig, builder: YetAnotherConfigLib.Builder ->
-                builder.title(Text.translatable("animatium.title"))
+                builder.title(Component.translatable("animatium.title"))
 
                 run {
                     // Quality of Life Category
                     val category = ConfigCategory.createBuilder()
-                    category.name(Text.translatable("animatium.category.qol"))
+                    category.name(Component.translatable("animatium.category.qol"))
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.minimalViewBobbing"))
-                            .description(OptionDescription.of(Text.translatable("animatium.minimalViewBobbing.description")))
+                            .name(Component.translatable("animatium.minimalViewBobbing"))
+                            .description(OptionDescription.of(Component.translatable("animatium.minimalViewBobbing.description")))
                             .binding(
                                 defaults.minimalViewBobbing,
                                 { config.minimalViewBobbing },
@@ -50,8 +50,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.showNametagInThirdperson"))
-                            .description(OptionDescription.of(Text.translatable("animatium.showNametagInThirdperson.description")))
+                            .name(Component.translatable("animatium.showNametagInThirdperson"))
+                            .description(OptionDescription.of(Component.translatable("animatium.showNametagInThirdperson.description")))
                             .binding(
                                 defaults.showNametagInThirdperson,
                                 { config.showNametagInThirdperson },
@@ -61,8 +61,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.hideNameTagBackground"))
-                            .description(OptionDescription.of(Text.translatable("animatium.hideNameTagBackground.description")))
+                            .name(Component.translatable("animatium.hideNameTagBackground"))
+                            .description(OptionDescription.of(Component.translatable("animatium.hideNameTagBackground.description")))
                             .binding(
                                 defaults.hideNameTagBackground,
                                 { config.hideNameTagBackground },
@@ -72,8 +72,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.applyTextShadowToNametag"))
-                            .description(OptionDescription.of(Text.translatable("animatium.applyTextShadowToNametag.description")))
+                            .name(Component.translatable("animatium.applyTextShadowToNametag"))
+                            .description(OptionDescription.of(Component.translatable("animatium.applyTextShadowToNametag.description")))
                             .binding(
                                 defaults.applyTextShadowToNametag,
                                 { config.applyTextShadowToNametag },
@@ -83,8 +83,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.oldDebugHudTextColor"))
-                            .description(OptionDescription.of(Text.translatable("animatium.oldDebugHudTextColor.description")))
+                            .name(Component.translatable("animatium.oldDebugHudTextColor"))
+                            .description(OptionDescription.of(Component.translatable("animatium.oldDebugHudTextColor.description")))
                             .binding(
                                 defaults.oldDebugHudTextColor,
                                 { config.oldDebugHudTextColor },
@@ -94,8 +94,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.fixMirrorArmSwing"))
-                            .description(OptionDescription.of(Text.translatable("animatium.fixMirrorArmSwing.description")))
+                            .name(Component.translatable("animatium.fixMirrorArmSwing"))
+                            .description(OptionDescription.of(Component.translatable("animatium.fixMirrorArmSwing.description")))
                             .binding(
                                 defaults.fixMirrorArmSwing,
                                 { config.fixMirrorArmSwing },
@@ -105,8 +105,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.persistentBlockOutline"))
-                            .description(OptionDescription.of(Text.translatable("animatium.persistentBlockOutline.description")))
+                            .name(Component.translatable("animatium.persistentBlockOutline"))
+                            .description(OptionDescription.of(Component.translatable("animatium.persistentBlockOutline.description")))
                             .binding(
                                 defaults.persistentBlockOutline,
                                 { config.persistentBlockOutline },
@@ -116,8 +116,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.allowOffhandUsageSwinging"))
-                            .description(OptionDescription.of(Text.translatable("animatium.allowOffhandUsageSwinging.description")))
+                            .name(Component.translatable("animatium.allowOffhandUsageSwinging"))
+                            .description(OptionDescription.of(Component.translatable("animatium.allowOffhandUsageSwinging.description")))
                             .binding(
                                 defaults.allowOffhandUsageSwinging,
                                 { config.allowOffhandUsageSwinging },
@@ -127,8 +127,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.alwaysShowSharpParticles"))
-                            .description(OptionDescription.of(Text.translatable("animatium.alwaysShowSharpParticles.description")))
+                            .name(Component.translatable("animatium.alwaysShowSharpParticles"))
+                            .description(OptionDescription.of(Component.translatable("animatium.alwaysShowSharpParticles.description")))
                             .binding(
                                 defaults.alwaysShowSharpParticles,
                                 { config.alwaysShowSharpParticles },
@@ -138,8 +138,8 @@ class AnimatiumConfig {
                     )
 //                    category.option(
 //                        Option.createBuilder<Boolean>()
-//                            .name(Text.translatable("animatium.forceItemGlintOnEntity"))
-//                            .description(OptionDescription.of(Text.translatable("animatium.forceItemGlintOnEntity.description")))
+//                            .name(Component.translatable("animatium.forceItemGlintOnEntity"))
+//                            .description(OptionDescription.of(Component.translatable("animatium.forceItemGlintOnEntity.description")))
 //                            .binding(
 //                                defaults.forceItemGlintOnEntity,
 //                                { config.forceItemGlintOnEntity },
@@ -149,8 +149,8 @@ class AnimatiumConfig {
 //                    )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.disableRecipeAndTutorialToasts"))
-                            .description(OptionDescription.of(Text.translatable("animatium.disableRecipeAndTutorialToasts.description")))
+                            .name(Component.translatable("animatium.disableRecipeAndTutorialToasts"))
+                            .description(OptionDescription.of(Component.translatable("animatium.disableRecipeAndTutorialToasts.description")))
                             .binding(
                                 defaults.disableRecipeAndTutorialToasts,
                                 { config.disableRecipeAndTutorialToasts },
@@ -160,8 +160,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.disableServerPoseAndBlockingVisualUpdates"))
-                            .description(OptionDescription.of(Text.translatable("animatium.disableServerPoseAndBlockingVisualUpdates.description")))
+                            .name(Component.translatable("animatium.disableServerPoseAndBlockingVisualUpdates"))
+                            .description(OptionDescription.of(Component.translatable("animatium.disableServerPoseAndBlockingVisualUpdates.description")))
                             .binding(
                                 defaults.disableServerPoseAndBlockingVisualUpdates,
                                 { config.disableServerPoseAndBlockingVisualUpdates },
@@ -171,8 +171,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.showArmWhileInvisible"))
-                            .description(OptionDescription.of(Text.translatable("animatium.showArmWhileInvisible.description")))
+                            .name(Component.translatable("animatium.showArmWhileInvisible"))
+                            .description(OptionDescription.of(Component.translatable("animatium.showArmWhileInvisible.description")))
                             .binding(
                                 defaults.showArmWhileInvisible,
                                 { config.showArmWhileInvisible },
@@ -182,22 +182,22 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.upMinPixelTransparencyLimit"))
-                            .description(OptionDescription.of(Text.translatable("animatium.upMinPixelTransparencyLimit.description")))
+                            .name(Component.translatable("animatium.upMinPixelTransparencyLimit"))
+                            .description(OptionDescription.of(Component.translatable("animatium.upMinPixelTransparencyLimit.description")))
                             .binding(
                                 defaults.upMinPixelTransparencyLimit,
                                 { config.upMinPixelTransparencyLimit },
                                 { newVal ->
                                     config.upMinPixelTransparencyLimit = newVal
-                                    MinecraftClient.getInstance().reloadResources()
+                                    Minecraft.getInstance().reloadResourcePacks()
                                 })
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.missPenaltySwing"))
-                            .description(OptionDescription.of(Text.translatable("animatium.missPenaltySwing.description")))
+                            .name(Component.translatable("animatium.missPenaltySwing"))
+                            .description(OptionDescription.of(Component.translatable("animatium.missPenaltySwing.description")))
                             .binding(
                                 defaults.missPenaltySwing,
                                 { config.missPenaltySwing },
@@ -207,8 +207,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.showUsageSwingingParticles"))
-                            .description(OptionDescription.of(Text.translatable("animatium.showUsageSwingingParticles.description")))
+                            .name(Component.translatable("animatium.showUsageSwingingParticles"))
+                            .description(OptionDescription.of(Component.translatable("animatium.showUsageSwingingParticles.description")))
                             .binding(
                                 defaults.showUsageSwingingParticles,
                                 { config.showUsageSwingingParticles },
@@ -218,8 +218,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.disableEntityDeathTopple"))
-                            .description(OptionDescription.of(Text.translatable("animatium.disableEntityDeathTopple.description")))
+                            .name(Component.translatable("animatium.disableEntityDeathTopple"))
+                            .description(OptionDescription.of(Component.translatable("animatium.disableEntityDeathTopple.description")))
                             .binding(
                                 defaults.disableEntityDeathTopple,
                                 { config.disableEntityDeathTopple },
@@ -229,8 +229,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Color>()
-                            .name(Text.translatable("animatium.customHitColor"))
-                            .description(OptionDescription.of(Text.translatable("animatium.customHitColor.description")))
+                            .name(Component.translatable("animatium.customHitColor"))
+                            .description(OptionDescription.of(Component.translatable("animatium.customHitColor.description")))
                             .binding(
                                 defaults.customHitColor,
                                 { config.customHitColor },
@@ -243,8 +243,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.deepRedHurtTint"))
-                            .description(OptionDescription.of(Text.translatable("animatium.deepRedHurtTint.description")))
+                            .name(Component.translatable("animatium.deepRedHurtTint"))
+                            .description(OptionDescription.of(Component.translatable("animatium.deepRedHurtTint.description")))
                             .binding(
                                 defaults.deepRedHurtTint,
                                 { config.deepRedHurtTint },
@@ -261,16 +261,16 @@ class AnimatiumConfig {
                 run {
                     // Movement Category
                     val category = ConfigCategory.createBuilder()
-                    category.name(Text.translatable("animatium.category.movement"))
+                    category.name(Component.translatable("animatium.category.movement"))
 
                     // Sneaking
                     run {
                         val sneakingGroup = OptionGroup.createBuilder()
-                        sneakingGroup.name(Text.translatable("animatium.category.movement.group.sneaking"))
+                        sneakingGroup.name(Component.translatable("animatium.category.movement.group.sneaking"))
                         sneakingGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.removeSmoothSneaking"))
-                                .description(OptionDescription.of(Text.translatable("animatium.removeSmoothSneaking.description")))
+                                .name(Component.translatable("animatium.removeSmoothSneaking"))
+                                .description(OptionDescription.of(Component.translatable("animatium.removeSmoothSneaking.description")))
                                 .binding(
                                     defaults.removeSmoothSneaking,
                                     { config.removeSmoothSneaking },
@@ -280,8 +280,8 @@ class AnimatiumConfig {
                         )
                         sneakingGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.oldSneakAnimationInterpolation"))
-                                .description(OptionDescription.of(Text.translatable("animatium.oldSneakAnimationInterpolation.description")))
+                                .name(Component.translatable("animatium.oldSneakAnimationInterpolation"))
+                                .description(OptionDescription.of(Component.translatable("animatium.oldSneakAnimationInterpolation.description")))
                                 .binding(
                                     defaults.oldSneakAnimationInterpolation,
                                     { config.oldSneakAnimationInterpolation },
@@ -291,8 +291,8 @@ class AnimatiumConfig {
                         )
                         sneakingGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.oldSneakEyeHeight"))
-                                .description(OptionDescription.of(Text.translatable("animatium.oldSneakEyeHeight.description")))
+                                .name(Component.translatable("animatium.oldSneakEyeHeight"))
+                                .description(OptionDescription.of(Component.translatable("animatium.oldSneakEyeHeight.description")))
                                 .binding(
                                     defaults.oldSneakEyeHeight,
                                     { config.oldSneakEyeHeight },
@@ -302,8 +302,8 @@ class AnimatiumConfig {
                         )
                         sneakingGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.fixSneakingFeetPosition"))
-                                .description(OptionDescription.of(Text.translatable("animatium.fixSneakingFeetPosition.description")))
+                                .name(Component.translatable("animatium.fixSneakingFeetPosition"))
+                                .description(OptionDescription.of(Component.translatable("animatium.fixSneakingFeetPosition.description")))
                                 .binding(
                                     defaults.fixSneakingFeetPosition,
                                     { config.fixSneakingFeetPosition },
@@ -313,8 +313,8 @@ class AnimatiumConfig {
                         )
                         sneakingGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.oldSneakingFeetPosition"))
-                                .description(OptionDescription.of(Text.translatable("animatium.oldSneakingFeetPosition.description")))
+                                .name(Component.translatable("animatium.oldSneakingFeetPosition"))
+                                .description(OptionDescription.of(Component.translatable("animatium.oldSneakingFeetPosition.description")))
                                 .binding(
                                     defaults.oldSneakingFeetPosition,
                                     { config.oldSneakingFeetPosition },
@@ -324,8 +324,8 @@ class AnimatiumConfig {
                         )
                         sneakingGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.syncPlayerModelWithEyeHeight"))
-                                .description(OptionDescription.of(Text.translatable("animatium.syncPlayerModelWithEyeHeight.description")))
+                                .name(Component.translatable("animatium.syncPlayerModelWithEyeHeight"))
+                                .description(OptionDescription.of(Component.translatable("animatium.syncPlayerModelWithEyeHeight.description")))
                                 .binding(
                                     defaults.syncPlayerModelWithEyeHeight,
                                     { config.syncPlayerModelWithEyeHeight },
@@ -335,8 +335,8 @@ class AnimatiumConfig {
                         )
                         sneakingGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.sneakAnimationWhileFlying"))
-                                .description(OptionDescription.of(Text.translatable("animatium.sneakAnimationWhileFlying.description")))
+                                .name(Component.translatable("animatium.sneakAnimationWhileFlying"))
+                                .description(OptionDescription.of(Component.translatable("animatium.sneakAnimationWhileFlying.description")))
                                 .binding(
                                     defaults.sneakAnimationWhileFlying,
                                     { config.sneakAnimationWhileFlying },
@@ -351,11 +351,11 @@ class AnimatiumConfig {
                     // Other
                     run {
                         val otherGroup = OptionGroup.createBuilder()
-                        otherGroup.name(Text.translatable("animatium.category.movement.group.other"))
+                        otherGroup.name(Component.translatable("animatium.category.movement.group.other"))
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.rotateBackwardsWalking"))
-                                .description(OptionDescription.of(Text.translatable("animatium.rotateBackwardsWalking.description")))
+                                .name(Component.translatable("animatium.rotateBackwardsWalking"))
+                                .description(OptionDescription.of(Component.translatable("animatium.rotateBackwardsWalking.description")))
                                 .binding(
                                     defaults.rotateBackwardsWalking,
                                     { config.rotateBackwardsWalking },
@@ -365,8 +365,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.uncapBlockingHeadRotation"))
-                                .description(OptionDescription.of(Text.translatable("animatium.uncapBlockingHeadRotation.description")))
+                                .name(Component.translatable("animatium.uncapBlockingHeadRotation"))
+                                .description(OptionDescription.of(Component.translatable("animatium.uncapBlockingHeadRotation.description")))
                                 .binding(
                                     defaults.uncapBlockingHeadRotation,
                                     { config.uncapBlockingHeadRotation },
@@ -376,8 +376,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.removeHeadRotationInterpolation"))
-                                .description(OptionDescription.of(Text.translatable("animatium.removeHeadRotationInterpolation.description")))
+                                .name(Component.translatable("animatium.removeHeadRotationInterpolation"))
+                                .description(OptionDescription.of(Component.translatable("animatium.removeHeadRotationInterpolation.description")))
                                 .binding(
                                     defaults.removeHeadRotationInterpolation,
                                     { config.removeHeadRotationInterpolation },
@@ -387,8 +387,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.fixVerticalBobbingTilt"))
-                                .description(OptionDescription.of(Text.translatable("animatium.fixVerticalBobbingTilt.description")))
+                                .name(Component.translatable("animatium.fixVerticalBobbingTilt"))
+                                .description(OptionDescription.of(Component.translatable("animatium.fixVerticalBobbingTilt.description")))
                                 .binding(
                                     defaults.fixVerticalBobbingTilt,
                                     { config.fixVerticalBobbingTilt },
@@ -398,8 +398,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.oldViewBobbing"))
-                                .description(OptionDescription.of(Text.translatable("animatium.oldViewBobbing.description")))
+                                .name(Component.translatable("animatium.oldViewBobbing"))
+                                .description(OptionDescription.of(Component.translatable("animatium.oldViewBobbing.description")))
                                 .binding(
                                     defaults.oldViewBobbing,
                                     { config.oldViewBobbing },
@@ -409,8 +409,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.oldDeathLimbs"))
-                                .description(OptionDescription.of(Text.translatable("animatium.oldDeathLimbs.description")))
+                                .name(Component.translatable("animatium.oldDeathLimbs"))
+                                .description(OptionDescription.of(Component.translatable("animatium.oldDeathLimbs.description")))
                                 .binding(
                                     defaults.oldDeathLimbs,
                                     { config.oldDeathLimbs },
@@ -420,8 +420,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.fixBowArmMovement"))
-                                .description(OptionDescription.of(Text.translatable("animatium.fixBowArmMovement.description")))
+                                .name(Component.translatable("animatium.fixBowArmMovement"))
+                                .description(OptionDescription.of(Component.translatable("animatium.fixBowArmMovement.description")))
                                 .binding(
                                     defaults.fixBowArmMovement,
                                     { config.fixBowArmMovement },
@@ -431,8 +431,8 @@ class AnimatiumConfig {
                         )
 //                        otherGroup.option(
 //                            Option.createBuilder<Boolean>()
-//                                .name(Text.translatable("animatium.oldCapeMovement"))
-//                                .description(OptionDescription.of(Text.translatable("animatium.oldCapeMovement.description")))
+//                                .name(Component.translatable("animatium.oldCapeMovement"))
+//                                .description(OptionDescription.of(Component.translatable("animatium.oldCapeMovement.description")))
 //                                .binding(
 //                                    defaults.oldCapeMovement,
 //                                    { config.oldCapeMovement },
@@ -442,8 +442,8 @@ class AnimatiumConfig {
 //                        )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.oldDamageTilt"))
-                                .description(OptionDescription.of(Text.translatable("animatium.oldDamageTilt.description")))
+                                .name(Component.translatable("animatium.oldDamageTilt"))
+                                .description(OptionDescription.of(Component.translatable("animatium.oldDamageTilt.description")))
                                 .binding(
                                     defaults.oldDamageTilt,
                                     { config.oldDamageTilt },
@@ -460,11 +460,11 @@ class AnimatiumConfig {
                 run {
                     // Screen Category
                     val category = ConfigCategory.createBuilder()
-                    category.name(Text.translatable("animatium.category.screen"))
+                    category.name(Component.translatable("animatium.category.screen"))
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.showCrosshairInThirdperson"))
-                            .description(OptionDescription.of(Text.translatable("animatium.showCrosshairInThirdperson.description")))
+                            .name(Component.translatable("animatium.showCrosshairInThirdperson"))
+                            .description(OptionDescription.of(Component.translatable("animatium.showCrosshairInThirdperson.description")))
                             .binding(
                                 defaults.showCrosshairInThirdperson,
                                 { config.showCrosshairInThirdperson },
@@ -474,8 +474,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.fixHighAttackSpeedIndicator"))
-                            .description(OptionDescription.of(Text.translatable("animatium.fixHighAttackSpeedIndicator.description")))
+                            .name(Component.translatable("animatium.fixHighAttackSpeedIndicator"))
+                            .description(OptionDescription.of(Component.translatable("animatium.fixHighAttackSpeedIndicator.description")))
                             .binding(
                                 defaults.fixHighAttackSpeedIndicator,
                                 { config.fixHighAttackSpeedIndicator },
@@ -485,8 +485,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.removeHeartFlash"))
-                            .description(OptionDescription.of(Text.translatable("animatium.removeHeartFlash.description")))
+                            .name(Component.translatable("animatium.removeHeartFlash"))
+                            .description(OptionDescription.of(Component.translatable("animatium.removeHeartFlash.description")))
                             .binding(
                                 defaults.removeHeartFlash,
                                 { config.removeHeartFlash },
@@ -496,8 +496,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.fixTextStrikethroughStyle"))
-                            .description(OptionDescription.of(Text.translatable("animatium.fixTextStrikethroughStyle.description")))
+                            .name(Component.translatable("animatium.fixTextStrikethroughStyle"))
+                            .description(OptionDescription.of(Component.translatable("animatium.fixTextStrikethroughStyle.description")))
                             .binding(
                                 defaults.fixTextStrikethroughStyle,
                                 { config.fixTextStrikethroughStyle },
@@ -507,8 +507,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.centerScrollableListWidgets"))
-                            .description(OptionDescription.of(Text.translatable("animatium.centerScrollableListWidgets.description")))
+                            .name(Component.translatable("animatium.centerScrollableListWidgets"))
+                            .description(OptionDescription.of(Component.translatable("animatium.centerScrollableListWidgets.description")))
                             .binding(
                                 defaults.centerScrollableListWidgets,
                                 { config.centerScrollableListWidgets },
@@ -518,8 +518,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.oldListWidgetSelectedBorderColor"))
-                            .description(OptionDescription.of(Text.translatable("animatium.oldListWidgetSelectedBorderColor.description")))
+                            .name(Component.translatable("animatium.oldListWidgetSelectedBorderColor"))
+                            .description(OptionDescription.of(Component.translatable("animatium.oldListWidgetSelectedBorderColor.description")))
                             .binding(
                                 defaults.oldListWidgetSelectedBorderColor,
                                 { config.oldListWidgetSelectedBorderColor },
@@ -529,8 +529,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.oldButtonTextColors"))
-                            .description(OptionDescription.of(Text.translatable("animatium.oldButtonTextColors.description")))
+                            .name(Component.translatable("animatium.oldButtonTextColors"))
+                            .description(OptionDescription.of(Component.translatable("animatium.oldButtonTextColors.description")))
                             .binding(
                                 defaults.oldButtonTextColors,
                                 { config.oldButtonTextColors },
@@ -540,8 +540,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.removeDebugHudBackground"))
-                            .description(OptionDescription.of(Text.translatable("animatium.removeDebugHudBackground.description")))
+                            .name(Component.translatable("animatium.removeDebugHudBackground"))
+                            .description(OptionDescription.of(Component.translatable("animatium.removeDebugHudBackground.description")))
                             .binding(
                                 defaults.removeDebugHudBackground,
                                 { config.removeDebugHudBackground },
@@ -551,8 +551,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.debugHudTextShadow"))
-                            .description(OptionDescription.of(Text.translatable("animatium.debugHudTextShadow.description")))
+                            .name(Component.translatable("animatium.debugHudTextShadow"))
+                            .description(OptionDescription.of(Component.translatable("animatium.debugHudTextShadow.description")))
                             .binding(
                                 defaults.debugHudTextShadow,
                                 { config.debugHudTextShadow },
@@ -562,8 +562,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.oldChatPosition"))
-                            .description(OptionDescription.of(Text.translatable("animatium.oldChatPosition.description")))
+                            .name(Component.translatable("animatium.oldChatPosition"))
+                            .description(OptionDescription.of(Component.translatable("animatium.oldChatPosition.description")))
                             .binding(
                                 defaults.oldChatPosition,
                                 { config.oldChatPosition },
@@ -573,8 +573,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.disableCameraTransparentPassthrough"))
-                            .description(OptionDescription.of(Text.translatable("animatium.disableCameraTransparentPassthrough.description")))
+                            .name(Component.translatable("animatium.disableCameraTransparentPassthrough"))
+                            .description(OptionDescription.of(Component.translatable("animatium.disableCameraTransparentPassthrough.description")))
                             .binding(
                                 defaults.disableCameraTransparentPassthrough,
                                 { config.disableCameraTransparentPassthrough },
@@ -583,15 +583,15 @@ class AnimatiumConfig {
                             .build()
                     )
                     category.option(Option.createBuilder<CameraVersion>()
-                        .name(Text.translatable("animatium.cameraVersion"))
-                        .description(OptionDescription.of(Text.translatable("animatium.cameraVersion.description")))
+                        .name(Component.translatable("animatium.cameraVersion"))
+                        .description(OptionDescription.of(Component.translatable("animatium.cameraVersion.description")))
                         .binding(
                             defaults.cameraVersion,
                             { config.cameraVersion },
                             { newVal -> config.cameraVersion = newVal })
                         .controller { opt ->
                             EnumControllerBuilder.create(opt).enumClass(CameraVersion::class.java)
-                                .formatValue { it -> Text.translatable("animatium.enum.CameraVersion." + it.name) }
+                                .formatValue { it -> Component.translatable("animatium.enum.CameraVersion." + it.name) }
                         }
                         .build())
                     builder.category(category.build())
@@ -600,16 +600,16 @@ class AnimatiumConfig {
                 run {
                     // Items Category
                     val category = ConfigCategory.createBuilder()
-                    category.name(Text.translatable("animatium.category.items"))
+                    category.name(Component.translatable("animatium.category.items"))
 
                     // Fishing Rod
                     run {
                         val fishingRodGroup = OptionGroup.createBuilder()
-                        fishingRodGroup.name(Text.translatable("animatium.category.items.group.fishing_rod"))
+                        fishingRodGroup.name(Component.translatable("animatium.category.items.group.fishing_rod"))
                         fishingRodGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.oldFishingRodTextureStackCheck"))
-                                .description(OptionDescription.of(Text.translatable("animatium.oldFishingRodTextureStackCheck.description")))
+                                .name(Component.translatable("animatium.oldFishingRodTextureStackCheck"))
+                                .description(OptionDescription.of(Component.translatable("animatium.oldFishingRodTextureStackCheck.description")))
                                 .binding(
                                     defaults.oldFishingRodTextureStackCheck,
                                     { config.oldFishingRodTextureStackCheck },
@@ -619,8 +619,8 @@ class AnimatiumConfig {
                         )
                         fishingRodGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.fishingRodLineInterpolation"))
-                                .description(OptionDescription.of(Text.translatable("animatium.fishingRodLineInterpolation.description")))
+                                .name(Component.translatable("animatium.fishingRodLineInterpolation"))
+                                .description(OptionDescription.of(Component.translatable("animatium.fishingRodLineInterpolation.description")))
                                 .binding(
                                     defaults.fishingRodLineInterpolation,
                                     { config.fishingRodLineInterpolation },
@@ -630,8 +630,8 @@ class AnimatiumConfig {
                         )
                         fishingRodGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.noMoveFishingRodLine"))
-                                .description(OptionDescription.of(Text.translatable("animatium.noMoveFishingRodLine.description")))
+                                .name(Component.translatable("animatium.noMoveFishingRodLine"))
+                                .description(OptionDescription.of(Component.translatable("animatium.noMoveFishingRodLine.description")))
                                 .binding(
                                     defaults.noMoveFishingRodLine,
                                     { config.noMoveFishingRodLine },
@@ -641,8 +641,8 @@ class AnimatiumConfig {
                         )
                         fishingRodGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.oldFishingRodLinePositionThirdPerson"))
-                                .description(OptionDescription.of(Text.translatable("animatium.oldFishingRodLinePositionThirdPerson.description")))
+                                .name(Component.translatable("animatium.oldFishingRodLinePositionThirdPerson"))
+                                .description(OptionDescription.of(Component.translatable("animatium.oldFishingRodLinePositionThirdPerson.description")))
                                 .binding(
                                     defaults.oldFishingRodLinePositionThirdPerson,
                                     { config.oldFishingRodLinePositionThirdPerson },
@@ -652,8 +652,8 @@ class AnimatiumConfig {
                         )
                         fishingRodGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.oldFishingRodLineThickness"))
-                                .description(OptionDescription.of(Text.translatable("animatium.oldFishingRodLineThickness.description")))
+                                .name(Component.translatable("animatium.oldFishingRodLineThickness"))
+                                .description(OptionDescription.of(Component.translatable("animatium.oldFishingRodLineThickness.description")))
                                 .binding(
                                     defaults.oldFishingRodLineThickness,
                                     { config.oldFishingRodLineThickness },
@@ -663,8 +663,8 @@ class AnimatiumConfig {
                         )
                         fishingRodGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.thinFishingRodLineThickness"))
-                                .description(OptionDescription.of(Text.translatable("animatium.thinFishingRodLineThickness.description")))
+                                .name(Component.translatable("animatium.thinFishingRodLineThickness"))
+                                .description(OptionDescription.of(Component.translatable("animatium.thinFishingRodLineThickness.description")))
                                 .binding(
                                     defaults.thinFishingRodLineThickness,
                                     { config.thinFishingRodLineThickness },
@@ -674,8 +674,8 @@ class AnimatiumConfig {
                         )
                         fishingRodGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.fixCastLineCheck"))
-                                .description(OptionDescription.of(Text.translatable("animatium.fixCastLineCheck.description")))
+                                .name(Component.translatable("animatium.fixCastLineCheck"))
+                                .description(OptionDescription.of(Component.translatable("animatium.fixCastLineCheck.description")))
                                 .binding(
                                     defaults.fixCastLineCheck,
                                     { config.fixCastLineCheck },
@@ -685,8 +685,8 @@ class AnimatiumConfig {
                         )
                         fishingRodGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.fixCastLineSwing"))
-                                .description(OptionDescription.of(Text.translatable("animatium.fixCastLineSwing.description")))
+                                .name(Component.translatable("animatium.fixCastLineSwing"))
+                                .description(OptionDescription.of(Component.translatable("animatium.fixCastLineSwing.description")))
                                 .binding(
                                     defaults.fixCastLineSwing,
                                     { config.fixCastLineSwing },
@@ -700,11 +700,11 @@ class AnimatiumConfig {
                     // Other
                     run {
                         val otherGroup = OptionGroup.createBuilder()
-                        otherGroup.name(Text.translatable("animatium.category.items.group.other"))
+                        otherGroup.name(Component.translatable("animatium.category.items.group.other"))
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.tiltItemPositions"))
-                                .description(OptionDescription.of(Text.translatable("animatium.tiltItemPositions.description")))
+                                .name(Component.translatable("animatium.tiltItemPositions"))
+                                .description(OptionDescription.of(Component.translatable("animatium.tiltItemPositions.description")))
                                 .binding(
                                     defaults.tiltItemPositions,
                                     { config.tiltItemPositions },
@@ -714,8 +714,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.tiltItemPositionsInThirdperson"))
-                                .description(OptionDescription.of(Text.translatable("animatium.tiltItemPositionsInThirdperson.description")))
+                                .name(Component.translatable("animatium.tiltItemPositionsInThirdperson"))
+                                .description(OptionDescription.of(Component.translatable("animatium.tiltItemPositionsInThirdperson.description")))
                                 .binding(
                                     defaults.tiltItemPositionsInThirdperson,
                                     { config.tiltItemPositionsInThirdperson },
@@ -725,8 +725,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.oldSkullPosition"))
-                                .description(OptionDescription.of(Text.translatable("animatium.oldSkullPosition.description")))
+                                .name(Component.translatable("animatium.oldSkullPosition"))
+                                .description(OptionDescription.of(Component.translatable("animatium.oldSkullPosition.description")))
                                 .binding(
                                     defaults.oldSkullPosition,
                                     { config.oldSkullPosition },
@@ -736,8 +736,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.applyItemSwingUsage"))
-                                .description(OptionDescription.of(Text.translatable("animatium.applyItemSwingUsage.description")))
+                                .name(Component.translatable("animatium.applyItemSwingUsage"))
+                                .description(OptionDescription.of(Component.translatable("animatium.applyItemSwingUsage.description")))
                                 .binding(
                                     defaults.applyItemSwingUsage,
                                     { config.applyItemSwingUsage },
@@ -747,8 +747,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.disableSwingOnUse"))
-                                .description(OptionDescription.of(Text.translatable("animatium.disableSwingOnUse.description")))
+                                .name(Component.translatable("animatium.disableSwingOnUse"))
+                                .description(OptionDescription.of(Component.translatable("animatium.disableSwingOnUse.description")))
                                 .binding(
                                     defaults.disableSwingOnUse,
                                     { config.disableSwingOnUse },
@@ -758,8 +758,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.disableSwingOnDrop"))
-                                .description(OptionDescription.of(Text.translatable("animatium.disableSwingOnDrop.description")))
+                                .name(Component.translatable("animatium.disableSwingOnDrop"))
+                                .description(OptionDescription.of(Component.translatable("animatium.disableSwingOnDrop.description")))
                                 .binding(
                                     defaults.disableSwingOnDrop,
                                     { config.disableSwingOnDrop },
@@ -769,8 +769,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.disableSwingOnEntityInteract"))
-                                .description(OptionDescription.of(Text.translatable("animatium.disableSwingOnEntityInteract.description")))
+                                .name(Component.translatable("animatium.disableSwingOnEntityInteract"))
+                                .description(OptionDescription.of(Component.translatable("animatium.disableSwingOnEntityInteract.description")))
                                 .binding(
                                     defaults.disableSwingOnEntityInteract,
                                     { config.disableSwingOnEntityInteract },
@@ -780,8 +780,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.removeEquipAnimationOnItemUse"))
-                                .description(OptionDescription.of(Text.translatable("animatium.removeEquipAnimationOnItemUse.description")))
+                                .name(Component.translatable("animatium.removeEquipAnimationOnItemUse"))
+                                .description(OptionDescription.of(Component.translatable("animatium.removeEquipAnimationOnItemUse.description")))
                                 .binding(
                                     defaults.removeEquipAnimationOnItemUse,
                                     { config.removeEquipAnimationOnItemUse },
@@ -791,8 +791,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.doNotSkipHandAnimationOnSwap"))
-                                .description(OptionDescription.of(Text.translatable("animatium.doNotSkipHandAnimationOnSwap.description")))
+                                .name(Component.translatable("animatium.doNotSkipHandAnimationOnSwap"))
+                                .description(OptionDescription.of(Component.translatable("animatium.doNotSkipHandAnimationOnSwap.description")))
                                 .binding(
                                     defaults.doNotSkipHandAnimationOnSwap,
                                     { config.doNotSkipHandAnimationOnSwap },
@@ -802,8 +802,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.disableItemUsingTextureInGui"))
-                                .description(OptionDescription.of(Text.translatable("animatium.disableItemUsingTextureInGui.description")))
+                                .name(Component.translatable("animatium.disableItemUsingTextureInGui"))
+                                .description(OptionDescription.of(Component.translatable("animatium.disableItemUsingTextureInGui.description")))
                                 .binding(
                                     defaults.disableItemUsingTextureInGui,
                                     { config.disableItemUsingTextureInGui },
@@ -813,8 +813,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.itemDropsFaceCamera"))
-                                .description(OptionDescription.of(Text.translatable("animatium.itemDropsFaceCamera.description")))
+                                .name(Component.translatable("animatium.itemDropsFaceCamera"))
+                                .description(OptionDescription.of(Component.translatable("animatium.itemDropsFaceCamera.description")))
                                 .binding(
                                     defaults.itemDropsFaceCamera,
                                     { config.itemDropsFaceCamera },
@@ -824,8 +824,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.itemDrops2D"))
-                                .description(OptionDescription.of(Text.translatable("animatium.itemDrops2D.description")))
+                                .name(Component.translatable("animatium.itemDrops2D"))
+                                .description(OptionDescription.of(Component.translatable("animatium.itemDrops2D.description")))
                                 .binding(
                                     defaults.itemDrops2D,
                                     { config.itemDrops2D },
@@ -835,8 +835,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.itemFramed2D"))
-                                .description(OptionDescription.of(Text.translatable("animatium.itemFramed2D.description")))
+                                .name(Component.translatable("animatium.itemFramed2D"))
+                                .description(OptionDescription.of(Component.translatable("animatium.itemFramed2D.description")))
                                 .binding(
                                     defaults.itemFramed2D,
                                     { config.itemFramed2D },
@@ -846,8 +846,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.item2DColors"))
-                                .description(OptionDescription.of(Text.translatable("animatium.item2DColors.description")))
+                                .name(Component.translatable("animatium.item2DColors"))
+                                .description(OptionDescription.of(Component.translatable("animatium.item2DColors.description")))
                                 .binding(
                                     defaults.item2DColors,
                                     { config.item2DColors },
@@ -857,8 +857,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.oldDurabilityBarColors"))
-                                .description(OptionDescription.of(Text.translatable("animatium.oldDurabilityBarColors.description")))
+                                .name(Component.translatable("animatium.oldDurabilityBarColors"))
+                                .description(OptionDescription.of(Component.translatable("animatium.oldDurabilityBarColors.description")))
                                 .binding(
                                     defaults.oldDurabilityBarColors,
                                     { config.oldDurabilityBarColors },
@@ -868,8 +868,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.oldItemRarities"))
-                                .description(OptionDescription.of(Text.translatable("animatium.oldItemRarities.description")))
+                                .name(Component.translatable("animatium.oldItemRarities"))
+                                .description(OptionDescription.of(Component.translatable("animatium.oldItemRarities.description")))
                                 .binding(
                                     defaults.oldItemRarities,
                                     { config.oldItemRarities },
@@ -879,8 +879,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.removeClientsideBlockingDelay"))
-                                .description(OptionDescription.of(Text.translatable("animatium.removeClientsideBlockingDelay.description")))
+                                .name(Component.translatable("animatium.removeClientsideBlockingDelay"))
+                                .description(OptionDescription.of(Component.translatable("animatium.removeClientsideBlockingDelay.description")))
                                 .binding(
                                     defaults.removeClientsideBlockingDelay,
                                     { config.removeClientsideBlockingDelay },
@@ -890,8 +890,8 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.fixItemUsageCheck"))
-                                .description(OptionDescription.of(Text.translatable("animatium.fixItemUsageCheck.description")))
+                                .name(Component.translatable("animatium.fixItemUsageCheck"))
+                                .description(OptionDescription.of(Component.translatable("animatium.fixItemUsageCheck.description")))
                                 .binding(
                                     defaults.fixItemUsageCheck,
                                     { config.fixItemUsageCheck },
@@ -908,16 +908,16 @@ class AnimatiumConfig {
                 run {
                     // Other Category
                     val category = ConfigCategory.createBuilder()
-                    category.name(Text.translatable("animatium.category.other"))
+                    category.name(Component.translatable("animatium.category.other"))
 
                     // Sky
                     run {
                         val skyGroup = OptionGroup.createBuilder()
-                        skyGroup.name(Text.translatable("animatium.category.other.group.sky"))
+                        skyGroup.name(Component.translatable("animatium.category.other.group.sky"))
                         skyGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.oldBlueVoidSky"))
-                                .description(OptionDescription.of(Text.translatable("animatium.oldBlueVoidSky.description")))
+                                .name(Component.translatable("animatium.oldBlueVoidSky"))
+                                .description(OptionDescription.of(Component.translatable("animatium.oldBlueVoidSky.description")))
                                 .binding(
                                     defaults.oldBlueVoidSky,
                                     { config.oldBlueVoidSky },
@@ -927,8 +927,8 @@ class AnimatiumConfig {
                         )
                         skyGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.oldSkyHorizonHeight"))
-                                .description(OptionDescription.of(Text.translatable("animatium.oldSkyHorizonHeight.description")))
+                                .name(Component.translatable("animatium.oldSkyHorizonHeight"))
+                                .description(OptionDescription.of(Component.translatable("animatium.oldSkyHorizonHeight.description")))
                                 .binding(
                                     defaults.oldSkyHorizonHeight,
                                     { config.oldSkyHorizonHeight },
@@ -938,8 +938,8 @@ class AnimatiumConfig {
                         )
                         skyGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Text.translatable("animatium.oldCloudHeight"))
-                                .description(OptionDescription.of(Text.translatable("animatium.oldCloudHeight.description")))
+                                .name(Component.translatable("animatium.oldCloudHeight"))
+                                .description(OptionDescription.of(Component.translatable("animatium.oldCloudHeight.description")))
                                 .binding(
                                     defaults.oldCloudHeight,
                                     { config.oldCloudHeight },
@@ -952,8 +952,8 @@ class AnimatiumConfig {
 
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.legacyThirdpersonSwordBlockingPosition"))
-                            .description(OptionDescription.of(Text.translatable("animatium.legacyThirdpersonSwordBlockingPosition.description")))
+                            .name(Component.translatable("animatium.legacyThirdpersonSwordBlockingPosition"))
+                            .description(OptionDescription.of(Component.translatable("animatium.legacyThirdpersonSwordBlockingPosition.description")))
                             .binding(
                                 defaults.legacyThirdpersonSwordBlockingPosition,
                                 { config.legacyThirdpersonSwordBlockingPosition },
@@ -963,8 +963,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.lockBlockingArmRotation"))
-                            .description(OptionDescription.of(Text.translatable("animatium.lockBlockingArmRotation.description")))
+                            .name(Component.translatable("animatium.lockBlockingArmRotation"))
+                            .description(OptionDescription.of(Component.translatable("animatium.lockBlockingArmRotation.description")))
                             .binding(
                                 defaults.lockBlockingArmRotation,
                                 { config.lockBlockingArmRotation },
@@ -974,8 +974,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.disableProjectileAgeCheck"))
-                            .description(OptionDescription.of(Text.translatable("animatium.disableProjectileAgeCheck.description")))
+                            .name(Component.translatable("animatium.disableProjectileAgeCheck"))
+                            .description(OptionDescription.of(Component.translatable("animatium.disableProjectileAgeCheck.description")))
                             .binding(
                                 defaults.disableProjectileAgeCheck,
                                 { config.disableProjectileAgeCheck },
@@ -985,8 +985,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.oldBlockMiningProgress"))
-                            .description(OptionDescription.of(Text.translatable("animatium.oldBlockMiningProgress.description")))
+                            .name(Component.translatable("animatium.oldBlockMiningProgress"))
+                            .description(OptionDescription.of(Component.translatable("animatium.oldBlockMiningProgress.description")))
                             .binding(
                                 defaults.oldBlockMiningProgress,
                                 { config.oldBlockMiningProgress },
@@ -996,8 +996,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.disableInventoryEntityScissor"))
-                            .description(OptionDescription.of(Text.translatable("animatium.disableInventoryEntityScissor.description")))
+                            .name(Component.translatable("animatium.disableInventoryEntityScissor"))
+                            .description(OptionDescription.of(Component.translatable("animatium.disableInventoryEntityScissor.description")))
                             .binding(
                                 defaults.disableInventoryEntityScissor,
                                 { config.disableInventoryEntityScissor },
@@ -1007,8 +1007,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.legacyBlockOutlineRendering"))
-                            .description(OptionDescription.of(Text.translatable("animatium.legacyBlockOutlineRendering.description")))
+                            .name(Component.translatable("animatium.legacyBlockOutlineRendering"))
+                            .description(OptionDescription.of(Component.translatable("animatium.legacyBlockOutlineRendering.description")))
                             .binding(
                                 defaults.legacyBlockOutlineRendering,
                                 { config.legacyBlockOutlineRendering },
@@ -1018,8 +1018,8 @@ class AnimatiumConfig {
                     )
 //                    category.option(
 //                        Option.createBuilder<Boolean>()
-//                            .name(Text.translatable("animatium.removeFOVBasedProjection"))
-//                            .description(OptionDescription.of(Text.translatable("animatium.removeFOVBasedProjection.description")))
+//                            .name(Component.translatable("animatium.removeFOVBasedProjection"))
+//                            .description(OptionDescription.of(Component.translatable("animatium.removeFOVBasedProjection.description")))
 //                            .binding(
 //                                defaults.removeFOVBasedProjection,
 //                                { config.removeFOVBasedProjection },
@@ -1029,8 +1029,8 @@ class AnimatiumConfig {
 //                    )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.hideModelWhilstSleeping"))
-                            .description(OptionDescription.of(Text.translatable("animatium.hideModelWhilstSleeping.description")))
+                            .name(Component.translatable("animatium.hideModelWhilstSleeping"))
+                            .description(OptionDescription.of(Component.translatable("animatium.hideModelWhilstSleeping.description")))
                             .binding(
                                 defaults.hideModelWhilstSleeping,
                                 { config.hideModelWhilstSleeping },
@@ -1040,8 +1040,8 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.entityArmorHurtTint"))
-                            .description(OptionDescription.of(Text.translatable("animatium.entityArmorHurtTint.description")))
+                            .name(Component.translatable("animatium.entityArmorHurtTint"))
+                            .description(OptionDescription.of(Component.translatable("animatium.entityArmorHurtTint.description")))
                             .binding(
                                 defaults.entityArmorHurtTint,
                                 { config.entityArmorHurtTint },

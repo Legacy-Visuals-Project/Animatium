@@ -1,21 +1,21 @@
 package me.mixces.animatium.packet
 
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.packet.CustomPayload
-import net.minecraft.util.Identifier
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload
+import net.minecraft.resources.ResourceLocation
 
-class SetFeaturesPayloadPacket(val miss_penalty: Boolean, val left_click_item_usage: Boolean) : CustomPayload {
+class SetFeaturesPayloadPacket(val miss_penalty: Boolean, val left_click_item_usage: Boolean) : CustomPacketPayload {
     companion object {
-        val CODEC = CustomPayload.codecOf(null, SetFeaturesPayloadPacket::read)
+        val CODEC = CustomPacketPayload.codec(null, SetFeaturesPayloadPacket::read)
         val PAYLOAD_ID =
-            CustomPayload.Id<SetFeaturesPayloadPacket>(Identifier.of("animatium:set_features"))
+            CustomPacketPayload.Type<SetFeaturesPayloadPacket>(ResourceLocation.parse("animatium:set_features"))
 
-        private fun read(buffer: PacketByteBuf): SetFeaturesPayloadPacket {
+        private fun read(buffer: FriendlyByteBuf): SetFeaturesPayloadPacket {
             return SetFeaturesPayloadPacket(buffer.readBoolean(), buffer.readBoolean())
         }
     }
 
-    override fun getId(): CustomPayload.Id<out CustomPayload> {
+    override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
         return PAYLOAD_ID
     }
 }

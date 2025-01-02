@@ -1,8 +1,8 @@
 package me.mixces.animatium.util
 
-import net.minecraft.util.function.BooleanBiFunction
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
+import net.minecraft.world.phys.shapes.BooleanOp
+import net.minecraft.world.phys.shapes.Shapes
+import net.minecraft.world.phys.shapes.VoxelShape
 
 object MathUtils {
     @JvmStatic
@@ -20,11 +20,11 @@ object MathUtils {
         // Code from VoxelShape#simplify
         // TODO: simplify this code? or find alternative?
         val voxelShapes = arrayListOf<VoxelShape>()
-        voxelShapes.add(VoxelShapes.empty())
-        shape.forEachBox { minX, minY, minZ, maxX, maxY, maxZ ->
-            voxelShapes[0] = VoxelShapes.combine(
+        voxelShapes.add(Shapes.empty())
+        shape.forAllBoxes { minX, minY, minZ, maxX, maxY, maxZ ->
+            voxelShapes[0] = Shapes.joinUnoptimized(
                 voxelShapes[0],
-                VoxelShapes.cuboid(
+                Shapes.box(
                     minX - value,
                     minY - value,
                     minZ - value,
@@ -32,7 +32,7 @@ object MathUtils {
                     maxY + value,
                     maxZ + value
                 ),
-                BooleanBiFunction.OR
+                BooleanOp.OR
             )
         }
         return voxelShapes[0]
