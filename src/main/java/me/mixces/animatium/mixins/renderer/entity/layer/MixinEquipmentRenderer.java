@@ -43,6 +43,11 @@ public abstract class MixinEquipmentRenderer {
         return animatium$getPackUv(light);
     }
 
+    @ModifyArg(method = "render(Lnet/minecraft/client/render/entity/equipment/EquipmentModel$LayerType;Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/client/model/Model;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/util/Identifier;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/Model;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;II)V"), index = 3)
+    private int animatium$modifyUVTrimTint(int light) {
+        return animatium$getPackUv(light);
+    }
+
     @Unique
     private int animatium$getPackUv(int original) {
         BipedEntityRenderState bipedEntityRenderState = EntityUtils.getBipedEntityRenderState();
