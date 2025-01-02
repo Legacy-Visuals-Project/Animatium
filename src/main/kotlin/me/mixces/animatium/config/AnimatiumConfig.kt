@@ -213,6 +213,17 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Text.translatable("animatium.disableEntityDeathTopple"))
+                            .description(OptionDescription.of(Text.translatable("animatium.disableEntityDeathTopple.description")))
+                            .binding(
+                                defaults.disableEntityDeathTopple,
+                                { config.disableEntityDeathTopple },
+                                { newVal -> config.disableEntityDeathTopple = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
                     builder.category(category.build())
                 }
 
@@ -1042,6 +1053,7 @@ class AnimatiumConfig {
     @SerialEntry var upMinPixelTransparencyLimit = false
     @SerialEntry var missPenaltySwing = false
     @SerialEntry var showUsageSwingingParticles = false
+    @SerialEntry var disableEntityDeathTopple = false
 
     // Movement
     @SerialEntry var rotateBackwardsWalking = true

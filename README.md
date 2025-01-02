@@ -81,6 +81,15 @@ Allows the server to enable/disable the swing miss penalty on the client.
     - Description: Makes the minimum 0-transparency value less than or equal to 0.1. This fixes textures with invisible
       pixels that cause issues.
     - Type: BOOLEAN
+- [X] missPenaltySwing
+  - Description: In vanilla Minecraft, if the player has missed their hit, there will be a 10 ms delay on top of the attack cooldown before they can can swing again. Enable this feature to play a fake swing animation during that 10 ms delay to match <=1.7.x.
+  - Type: BOOLEAN
+- [X] showUsageSwingingParticles
+  - Description: Shows fake block-breaking particles during usage swinging to match <=1.7.x.
+  - Type: BOOLEAN
+- [X] disableEntityDeathTopple
+  - Description: Prevents the dying entity from rotating 90 degrees.
+  - Type: BOOLEAN 
   </details>
 
 <details>
