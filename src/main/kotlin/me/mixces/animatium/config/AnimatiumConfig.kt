@@ -213,17 +213,6 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
-                    category.option(
-                        Option.createBuilder<Boolean>()
-                            .name(Text.translatable("animatium.entityArmorHurtTint"))
-                            .description(OptionDescription.of(Text.translatable("animatium.entityArmorHurtTint.description")))
-                            .binding(
-                                defaults.entityArmorHurtTint,
-                                { config.entityArmorHurtTint },
-                                { newVal -> config.entityArmorHurtTint = newVal })
-                            .controller(TickBoxControllerBuilder::create)
-                            .build()
-                    )
                     builder.category(category.build())
                 }
 
@@ -1007,6 +996,17 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Text.translatable("animatium.entityArmorHurtTint"))
+                            .description(OptionDescription.of(Text.translatable("animatium.entityArmorHurtTint.description")))
+                            .binding(
+                                defaults.entityArmorHurtTint,
+                                { config.entityArmorHurtTint },
+                                { newVal -> config.entityArmorHurtTint = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
                     builder.category(category.build())
                 }
 
@@ -1030,7 +1030,6 @@ class AnimatiumConfig {
     @SerialEntry var showNametagInThirdperson = true
     @SerialEntry var hideNameTagBackground = true
     @SerialEntry var applyTextShadowToNametag = true
-    @SerialEntry var entityArmorHurtTint = true
     @SerialEntry var oldDebugHudTextColor = true
     @SerialEntry var fixMirrorArmSwing = true
     @SerialEntry var persistentBlockOutline = true
@@ -1116,4 +1115,5 @@ class AnimatiumConfig {
     @SerialEntry var legacyBlockOutlineRendering = true
     @SerialEntry var removeFOVBasedProjection = true
     @SerialEntry var hideModelWhilstSleeping = true
+    @SerialEntry var entityArmorHurtTint = true
 }

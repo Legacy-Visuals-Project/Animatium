@@ -53,9 +53,6 @@ Allows the server to enable/disable the swing miss penalty on the client.
 - [X] applyTextShadowToNametag
     - Description: Make the nametag use text shadow.
     - Type: BOOLEAN
-- [X] entityArmorHurtTint
-    - Description: Tints the armor when an entity is damaged like in <=1.7.x.
-    - Type: BOOLEAN
 - [X] oldDebugHudTextColor
     - Description: Makes the debug hud text color white again.
     - Type: BOOLEAN
@@ -288,6 +285,9 @@ Allows the server to enable/disable the swing miss penalty on the client.
     - Type: BOOLEAN
 - [X] hideModelWhilstSleeping
     - Description: Hides the player model whilst sleeping like in <=1.12? Only affects you.
+    - Type: BOOLEAN
+- [X] entityArmorHurtTint
+    - Description: Tints the armor when an entity is damaged like in <=1.7.x.
     - Type: BOOLEAN
   </details>
 

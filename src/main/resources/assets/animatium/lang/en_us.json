@@ -10,8 +10,6 @@
 	"animatium.hideNameTagBackground.description": "Remove the nametag background.",
 	"animatium.applyTextShadowToNametag": "Apply text shadow to nametag",
 	"animatium.applyTextShadowToNametag.description": "Make the nametag use text shadow.",
-	"animatium.entityArmorHurtTint": "Show damage tint on armor",
-	"animatium.entityArmorHurtTint.description": "Tints the armor when an entity is damaged like in <=1.7.x.",
 	"animatium.oldDebugHudTextColor": "Old debug hud text color",
 	"animatium.oldDebugHudTextColor.description": "Makes the debug hud text color white again.",
 	"animatium.fixMirrorArmSwing": "Fix arm swing mirroring",
@@ -184,5 +182,7 @@
 	"animatium.removeFOVBasedProjection": "Remove FOV based projection",
 	"animatium.removeFOVBasedProjection.description": "Removes the inclusion of FOV in the camera projection calculations.",
 	"animatium.hideModelWhilstSleeping": "Hide player model whilst sleeping",
-	"animatium.hideModelWhilstSleeping.description": "Hides the player model whilst sleeping like in <=1.12? Only affects you."
+	"animatium.hideModelWhilstSleeping.description": "Hides the player model whilst sleeping like in <=1.12? Only affects you.",
+	"animatium.entityArmorHurtTint": "Show damage tint on armor",
+	"animatium.entityArmorHurtTint.description": "Tints the armor when an entity is damaged like in <=1.7.x."
 }
