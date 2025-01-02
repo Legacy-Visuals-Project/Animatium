@@ -44,7 +44,11 @@ public abstract class MixinCamera {
 
     @WrapOperation(method = "updateEyeHeight", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getStandingEyeHeight()F"))
     private float animatium$useOldEyeHeight(Entity instance, Operation<Float> original) {
-        return AnimatiumConfig.getInstance().getOldSneakEyeHeight() ? this.animatium$getStandingEyeHeight() : original.call(instance);
+        if (AnimatiumConfig.getInstance().getOldSneakEyeHeight()) {
+            return this.animatium$getStandingEyeHeight();
+        } else {
+            return original.call(instance);
+        }
     }
 
     @WrapOperation(method = "updateEyeHeight", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD, target = "Lnet/minecraft/client/render/Camera;cameraY:F"))
