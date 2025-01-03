@@ -22,12 +22,14 @@ public abstract class MixinItemStackRenderLayerState {
     abstract ItemTransform transform();
 
     @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/ItemRenderer;renderItem(Lnet/minecraft/world/item/ItemDisplayContext;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;II[ILnet/minecraft/client/resources/model/BakedModel;Lnet/minecraft/client/renderer/RenderType;Lnet/minecraft/client/renderer/item/ItemStackRenderState$FoilType;)V"), index = 8)
-    private ItemStackRenderState.FoilType animatium$disableGlintOn2dItemDrops(ItemStackRenderState.FoilType glint) {
-        if (AnimatiumConfig.instance().getItemDrops2D() && ItemUtils.getDisplayContext() != null && ItemUtils.getDisplayContext() == ItemDisplayContext.GROUND) {
-            return ItemStackRenderState.FoilType.NONE;
-        } else {
-            return glint;
+    private ItemStackRenderState.FoilType animatium$disableGlintOn2dItems(ItemStackRenderState.FoilType glint) {
+        if (ItemUtils.getDisplayContext() != null) {
+            if ((AnimatiumConfig.instance().getDisableGlintOnItemDrops2D() && ItemUtils.getDisplayContext() == ItemDisplayContext.GROUND) ||
+                    (AnimatiumConfig.instance().getDisableGlintOnItemFramed2D() && ItemUtils.getDisplayContext() == ItemDisplayContext.FIXED)) {
+                return ItemStackRenderState.FoilType.NONE;
+            }
         }
+        return glint;
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/block/model/ItemTransform;apply(ZLcom/mojang/blaze3d/vertex/PoseStack;)V"))

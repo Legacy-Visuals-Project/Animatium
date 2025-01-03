@@ -769,17 +769,6 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Component.translatable("animatium.doNotSkipHandAnimationOnSwap"))
-                                .description(OptionDescription.of(Component.translatable("animatium.doNotSkipHandAnimationOnSwap.description")))
-                                .binding(
-                                    defaults.doNotSkipHandAnimationOnSwap,
-                                    { config.doNotSkipHandAnimationOnSwap },
-                                    { newVal -> config.doNotSkipHandAnimationOnSwap = newVal })
-                                .controller(TickBoxControllerBuilder::create)
-                                .build()
-                        )
-                        otherGroup.option(
-                            Option.createBuilder<Boolean>()
                                 .name(Component.translatable("animatium.disableItemUsingTextureInGui"))
                                 .description(OptionDescription.of(Component.translatable("animatium.disableItemUsingTextureInGui.description")))
                                 .binding(
@@ -830,6 +819,28 @@ class AnimatiumConfig {
                                     defaults.item2DColors,
                                     { config.item2DColors },
                                     { newVal -> config.item2DColors = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        otherGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Component.translatable("animatium.disableGlintOnItemDrops2D"))
+                                .description(OptionDescription.of(Component.translatable("animatium.disableGlintOnItemDrops2D.description")))
+                                .binding(
+                                    defaults.disableGlintOnItemDrops2D,
+                                    { config.disableGlintOnItemDrops2D },
+                                    { newVal -> config.disableGlintOnItemDrops2D = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        otherGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Component.translatable("animatium.disableGlintOnItemFramed2D"))
+                                .description(OptionDescription.of(Component.translatable("animatium.disableGlintOnItemFramed2D.description")))
+                                .binding(
+                                    defaults.disableGlintOnItemFramed2D,
+                                    { config.disableGlintOnItemFramed2D },
+                                    { newVal -> config.disableGlintOnItemFramed2D = newVal })
                                 .controller(TickBoxControllerBuilder::create)
                                 .build()
                         )
@@ -1105,12 +1116,13 @@ class AnimatiumConfig {
     @SerialEntry var disableSwingOnDrop = true
     @SerialEntry var disableSwingOnEntityInteract = true
     @SerialEntry var removeEquipAnimationOnItemUse = true
-    @SerialEntry var doNotSkipHandAnimationOnSwap = true
     @SerialEntry var disableItemUsingTextureInGui = true
     @SerialEntry var itemDropsFaceCamera = true
     @SerialEntry var itemDrops2D = true
     @SerialEntry var itemFramed2D = true
     @SerialEntry var item2DColors = true
+    @SerialEntry var disableGlintOnItemDrops2D = false
+    @SerialEntry var disableGlintOnItemFramed2D = false
     @SerialEntry var oldDurabilityBarColors = true
     @SerialEntry var oldItemRarities = true
     @SerialEntry var removeClientsideBlockingDelay = true
