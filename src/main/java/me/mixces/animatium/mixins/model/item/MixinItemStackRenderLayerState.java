@@ -23,15 +23,14 @@ public abstract class MixinItemStackRenderLayerState {
 
     @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/ItemRenderer;renderItem(Lnet/minecraft/world/item/ItemDisplayContext;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;II[ILnet/minecraft/client/resources/model/BakedModel;Lnet/minecraft/client/renderer/RenderType;Lnet/minecraft/client/renderer/item/ItemStackRenderState$FoilType;)V"), index = 8)
     private ItemStackRenderState.FoilType animatium$disableGlintOn2dItems(ItemStackRenderState.FoilType glint) {
-        if (ItemUtils.getDisplayContext() != null) {
-            boolean glintDropped = AnimatiumConfig.instance().getDisableGlintOnItemDrops2D();
-            boolean glintFramed = AnimatiumConfig.instance().getDisableGlintOnItemFramed2D();
-            if ((glintDropped && ItemUtils.getDisplayContext() == ItemDisplayContext.GROUND) ||
-                    (glintFramed && ItemUtils.getDisplayContext() == ItemDisplayContext.FIXED)) {
-                return ItemStackRenderState.FoilType.NONE;
-            }
+        boolean glintDropped = AnimatiumConfig.instance().getDisableGlintOnItemDrops2D();
+        boolean glintFramed = AnimatiumConfig.instance().getDisableGlintOnItemFramed2D();
+        if (ItemUtils.getDisplayContext() != null && (glintDropped && ItemUtils.getDisplayContext() == ItemDisplayContext.GROUND) ||
+                (glintFramed && ItemUtils.getDisplayContext() == ItemDisplayContext.FIXED)) {
+            return ItemStackRenderState.FoilType.NONE;
+        } else {
+            return glint;
         }
-        return glint;
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/block/model/ItemTransform;apply(ZLcom/mojang/blaze3d/vertex/PoseStack;)V"))
