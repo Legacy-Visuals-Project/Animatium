@@ -17,6 +17,7 @@ import me.mixces.animatium.util.CameraVersion
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 import java.awt.Color
 
 class AnimatiumConfig {
@@ -27,6 +28,29 @@ class AnimatiumConfig {
                     .setPath(YACLPlatform.getConfigDir().resolve("animatium.json"))
                     .build()
             }.build()
+
+        private var CONFIG_SETTINGS = HashMap<ResourceLocation, ConfigSetting<*>>()
+
+        private fun location(path: String): ResourceLocation {
+            return ResourceLocation.parse("animatium:$path")
+        }
+
+        fun get(identifier: ResourceLocation): ConfigSetting<*>? {
+            return CONFIG_SETTINGS[identifier]
+        }
+
+        private fun <T> register(setting: ConfigSetting<T>): T {
+            // Wtf? Why do I have to do this for it to not crash
+            if (CONFIG_SETTINGS == null) {
+                CONFIG_SETTINGS = hashMapOf()
+            }
+
+            if (!CONFIG_SETTINGS.contains(setting.identifier)) {
+                CONFIG_SETTINGS[setting.identifier] = setting
+            }
+
+            return setting.default
+        }
 
         @JvmStatic
         fun getConfigScreen(parent: Screen?): Screen {
@@ -185,12 +209,12 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Component.translatable("animatium.missPenaltySwing"))
-                            .description(OptionDescription.of(Component.translatable("animatium.missPenaltySwing.description")))
+                            .name(Component.translatable("animatium.fakeMissPenaltySwing"))
+                            .description(OptionDescription.of(Component.translatable("animatium.fakeMissPenaltySwing.description")))
                             .binding(
-                                defaults.missPenaltySwing,
-                                { config.missPenaltySwing },
-                                { newVal -> config.missPenaltySwing = newVal })
+                                defaults.fakeMissPenaltySwing,
+                                { config.fakeMissPenaltySwing },
+                                { newVal -> config.fakeMissPenaltySwing = newVal })
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
@@ -1046,95 +1070,260 @@ class AnimatiumConfig {
     }
 
     // QOL
-    @SerialEntry var minimalViewBobbing = false
-    @SerialEntry var showNametagInThirdperson = false
-    @SerialEntry var hideNameTagBackground = false
-    @SerialEntry var applyTextShadowToNametag = false
-    @SerialEntry var oldDebugHudTextColor = false
-    @SerialEntry var fixMirrorArmSwing = false
-    @SerialEntry var persistentBlockOutline = false
-    @SerialEntry var allowOffhandUsageSwinging = false
-    @SerialEntry var alwaysShowSharpParticles = false
-    @SerialEntry var disableRecipeAndTutorialToasts = false
-    @SerialEntry var disableServerPoseAndBlockingVisualUpdates = false
-    @SerialEntry var showArmWhileInvisible = false
-    @SerialEntry var upMinPixelTransparencyLimit = false
-    @SerialEntry var missPenaltySwing = false
-    @SerialEntry var showUsageSwingingParticles = false
-    @SerialEntry var disableEntityDeathTopple = false
-    @SerialEntry var customHitColor = Color(255, 0, 0)
-    @SerialEntry var deepRedHurtTint = false
+    @SerialEntry
+    var minimalViewBobbing = register(ConfigSetting(location("minimal_view_bobbing"), false))
+
+    @SerialEntry
+    var showNametagInThirdperson = register(ConfigSetting(location("show_nametag_in_thirdperson"), false))
+
+    @SerialEntry
+    var hideNameTagBackground = register(ConfigSetting(location("hide_nametag_background"), false))
+
+    @SerialEntry
+    var applyTextShadowToNametag = register(ConfigSetting(location("apply_text_shadow_to_nametag"), false))
+
+    @SerialEntry
+    var oldDebugHudTextColor = register(ConfigSetting(location("old_debug_hud_text_color"), false))
+
+    @SerialEntry
+    var fixMirrorArmSwing = register(ConfigSetting(location("fix_mirror_arm_swing"), false))
+
+    @SerialEntry
+    var persistentBlockOutline = register(ConfigSetting(location("persistent_block_outline"), false))
+
+    @SerialEntry
+    var allowOffhandUsageSwinging = register(ConfigSetting(location("allow_offhand_usage_swinging"), false))
+
+    @SerialEntry
+    var alwaysShowSharpParticles = register(ConfigSetting(location("always_show_sharp_particles"), false))
+
+    @SerialEntry
+    var disableRecipeAndTutorialToasts = register(ConfigSetting(location("disable_recipe_and_tutorial_toasts"), false))
+
+    @SerialEntry
+    var disableServerPoseAndBlockingVisualUpdates =
+        register(ConfigSetting(location("disable_server_pose_and_blocking_visual_updates"), false))
+
+    @SerialEntry
+    var showArmWhileInvisible = register(ConfigSetting(location("show_arm_while_invisible"), false))
+
+    @SerialEntry
+    var upMinPixelTransparencyLimit = register(ConfigSetting(location("up_min_pixel_transparency_limit"), false))
+
+    @SerialEntry
+    var fakeMissPenaltySwing = register(ConfigSetting(location("fake_miss_penalty_swing"), false))
+
+    @SerialEntry
+    var showUsageSwingingParticles = register(ConfigSetting(location("show_usage_swinging_particles"), false))
+
+    @SerialEntry
+    var disableEntityDeathTopple = register(ConfigSetting(location("disable_entity_death_topple"), false))
+
+    @SerialEntry
+    var customHitColor = register(ConfigSetting(location("custom_hit_color"), Color(255, 0, 0)))
+
+    @SerialEntry
+    var deepRedHurtTint = register(ConfigSetting(location("deep_red_hurt_tint"), false))
 
     // Movement
-    @SerialEntry var rotateBackwardsWalking = true
-    @SerialEntry var uncapBlockingHeadRotation = true
-    @SerialEntry var removeHeadRotationInterpolation = true
-    @SerialEntry var fixVerticalBobbingTilt = true
-    @SerialEntry var oldViewBobbing = true
-    @SerialEntry var oldDeathLimbs = true
-    @SerialEntry var fixBowArmMovement = true
-    @SerialEntry var oldDamageTilt = true
-    @SerialEntry var removeSmoothSneaking = false
-    @SerialEntry var oldSneakAnimationInterpolation = false
-    @SerialEntry var fakeOldSneakEyeHeight = false
-    @SerialEntry var fixSneakingFeetPosition = true
-    @SerialEntry var oldSneakingFeetPosition = false
-    @SerialEntry var syncPlayerModelWithEyeHeight = false
-    @SerialEntry var sneakAnimationWhileFlying = true
+    @SerialEntry
+    var rotateBackwardsWalking = register(ConfigSetting(location("rotate_backwards_walking"), true))
+
+    @SerialEntry
+    var uncapBlockingHeadRotation = register(ConfigSetting(location("uncap_blocking_head_rotation"), true))
+
+    @SerialEntry
+    var removeHeadRotationInterpolation = register(ConfigSetting(location("remove_head_rotation_interpolation"), true))
+
+    @SerialEntry
+    var fixVerticalBobbingTilt = register(ConfigSetting(location("fix_vertical_bobbing_tilt"), true))
+
+    @SerialEntry
+    var oldViewBobbing = register(ConfigSetting(location("old_view_bobbing"), true))
+
+    @SerialEntry
+    var oldDeathLimbs = register(ConfigSetting(location("old_death_limbs"), true))
+
+    @SerialEntry
+    var fixBowArmMovement = register(ConfigSetting(location("fix_bow_arm_movement"), true))
+
+    @SerialEntry
+    var oldDamageTilt = register(ConfigSetting(location("old_damage_tilt"), true))
+
+    @SerialEntry
+    var removeSmoothSneaking = register(ConfigSetting(location("remove_smooth_sneaking"), false))
+
+    @SerialEntry
+    var oldSneakAnimationInterpolation = register(ConfigSetting(location("old_sneak_animation_interpolation"), false))
+
+    @SerialEntry
+    var fakeOldSneakEyeHeight = register(ConfigSetting(location("fake_old_sneak_eye_height"), false))
+
+    @SerialEntry
+    var fixSneakingFeetPosition = register(ConfigSetting(location("fix_sneaking_feet_position"), true))
+
+    @SerialEntry
+    var oldSneakingFeetPosition = register(ConfigSetting(location("old_sneaking_feet_position"), false))
+
+    @SerialEntry
+    var syncPlayerModelWithEyeHeight = register(ConfigSetting(location("sync_player_model_with_eye_height"), false))
+
+    @SerialEntry
+    var sneakAnimationWhileFlying = register(ConfigSetting(location("sneak_animation_while_flying"), true))
 
     // Screen
-    @SerialEntry var showCrosshairInThirdperson = true
-    @SerialEntry var fixHighAttackSpeedIndicator = true
-    @SerialEntry var removeHeartFlash = true
-    @SerialEntry var fixTextStrikethroughStyle = true
-    @SerialEntry var centerScrollableListWidgets = true
-    @SerialEntry var oldListWidgetSelectedBorderColor = true
-    @SerialEntry var oldButtonTextColors = true
-    @SerialEntry var removeDebugHudBackground = true
-    @SerialEntry var debugHudTextShadow = true
-    @SerialEntry var oldChatPosition = false
-    @SerialEntry var disableCameraTransparentPassthrough = true
-    @SerialEntry var cameraVersion = CameraVersion.V1_8
+    @SerialEntry
+    var showCrosshairInThirdperson = register(ConfigSetting(location("show_crosshair_in_thirdperson"), true))
+
+    @SerialEntry
+    var fixHighAttackSpeedIndicator = register(ConfigSetting(location("fix_high_attack_speed_indicator"), true))
+
+    @SerialEntry
+    var removeHeartFlash = register(ConfigSetting(location("remove_heart_flash"), true))
+
+    @SerialEntry
+    var fixTextStrikethroughStyle = register(ConfigSetting(location("fix_text_strikethrough_style"), true))
+
+    @SerialEntry
+    var centerScrollableListWidgets = register(ConfigSetting(location("center_scrollable_list_widgets"), true))
+
+    @SerialEntry
+    var oldListWidgetSelectedBorderColor =
+        register(ConfigSetting(location("old_list_widget_selected_border_color"), true))
+
+    @SerialEntry
+    var oldButtonTextColors = register(ConfigSetting(location("old_button_text_colors"), true))
+
+    @SerialEntry
+    var removeDebugHudBackground = register(ConfigSetting(location("remove_debug_hud_background"), true))
+
+    @SerialEntry
+    var debugHudTextShadow = register(ConfigSetting(location("debug_hud_text_shadow"), true))
+
+    @SerialEntry
+    var oldChatPosition = register(ConfigSetting(location("old_chat_position"), false))
+
+    @SerialEntry
+    var disableCameraTransparentPassthrough =
+        register(ConfigSetting(location("disable_camera_transparent_passthrough"), true))
+
+    @SerialEntry
+    var cameraVersion = register(ConfigSetting(location("camera_version"), CameraVersion.V1_8))
 
     // Items
-    @SerialEntry var tiltItemPositions = true
-    @SerialEntry var tiltItemPositionsInThirdperson = true
-    @SerialEntry var oldSkullPosition = true
-    @SerialEntry var applyItemSwingUsage = true
-    @SerialEntry var disableSwingOnUse = true
-    @SerialEntry var disableSwingOnDrop = true
-    @SerialEntry var disableSwingOnEntityInteract = true
-    @SerialEntry var removeEquipAnimationOnItemUse = true
-    @SerialEntry var doNotSkipHandAnimationOnSwap = true
-    @SerialEntry var disableItemUsingTextureInGui = true
-    @SerialEntry var itemDropsFaceCamera = true
-    @SerialEntry var itemDrops2D = true
-    @SerialEntry var itemFramed2D = true
-    @SerialEntry var item2DColors = true
-    @SerialEntry var oldDurabilityBarColors = true
-    @SerialEntry var oldItemRarities = true
-    @SerialEntry var removeClientsideBlockingDelay = true
-    @SerialEntry var fixItemUsageCheck = true
-    @SerialEntry var oldFishingRodTextureStackCheck = true
-    @SerialEntry var fishingRodLineInterpolation = false
-    @SerialEntry var noMoveFishingRodLine = false
-    @SerialEntry var oldFishingRodLinePositionThirdPerson = true
-    @SerialEntry var oldFishingRodLineThickness = false
-    @SerialEntry var thinFishingRodLineThickness = false
-    @SerialEntry var fixCastLineCheck = false
-    @SerialEntry var fixCastLineSwing = false
+    @SerialEntry
+    var tiltItemPositions = register(ConfigSetting(location("tilt_item_positions"), true))
+
+    @SerialEntry
+    var tiltItemPositionsInThirdperson = register(ConfigSetting(location("tilt_item_positions_in_thirdperson"), true))
+
+    @SerialEntry
+    var oldSkullPosition = register(ConfigSetting(location("old_skull_position"), true))
+
+    @SerialEntry
+    var applyItemSwingUsage = register(ConfigSetting(location("apply_item_swing_usage"), true))
+
+    @SerialEntry
+    var disableSwingOnUse = register(ConfigSetting(location("disable_swing_on_use"), true))
+
+    @SerialEntry
+    var disableSwingOnDrop = register(ConfigSetting(location("disable_swing_on_drop"), true))
+
+    @SerialEntry
+    var disableSwingOnEntityInteract = register(ConfigSetting(location("disable_swing_on_entity_interact"), true))
+
+    @SerialEntry
+    var removeEquipAnimationOnItemUse = register(ConfigSetting(location("remove_equip_animation_on_item_use"), true))
+
+    @SerialEntry
+    var doNotSkipHandAnimationOnSwap = register(ConfigSetting(location("do_not_skip_hand_animation_on_swap"), true))
+
+    @SerialEntry
+    var disableItemUsingTextureInGui = register(ConfigSetting(location("disable_item_using_texture_in_gui"), true))
+
+    @SerialEntry
+    var itemDropsFaceCamera = register(ConfigSetting(location("item_drops_face_camera"), true))
+
+    @SerialEntry
+    var itemDrops2D = register(ConfigSetting(location("item_drops_2d"), true))
+
+    @SerialEntry
+    var itemFramed2D = register(ConfigSetting(location("item_framed_2d"), true))
+
+    @SerialEntry
+    var item2DColors = register(ConfigSetting(location("item_2d_colors"), true))
+
+    @SerialEntry
+    var oldDurabilityBarColors = register(ConfigSetting(location("old_durability_bar_colors"), true))
+
+    @SerialEntry
+    var oldItemRarities = register(ConfigSetting(location("old_item_rarities"), true))
+
+    @SerialEntry
+    var removeClientsideBlockingDelay = register(ConfigSetting(location("remove_clientside_blocking_delay"), true))
+
+    @SerialEntry
+    var fixItemUsageCheck = register(ConfigSetting(location("fix_item_usage_check"), true))
+
+    @SerialEntry
+    var oldFishingRodTextureStackCheck = register(ConfigSetting(location("old_fishing_rod_texture_stack_check"), true))
+
+    @SerialEntry
+    var fishingRodLineInterpolation = register(ConfigSetting(location("fishing_rod_line_interpolation"), false))
+
+    @SerialEntry
+    var noMoveFishingRodLine = register(ConfigSetting(location("no_move_fishing_rod_line"), false))
+
+    @SerialEntry
+    var oldFishingRodLinePositionThirdPerson =
+        register(ConfigSetting(location("old_fishing_rod_line_thirdperson"), true))
+
+    @SerialEntry
+    var oldFishingRodLineThickness = register(ConfigSetting(location("old_fishing_rod_line_thickness"), false))
+
+    @SerialEntry
+    var thinFishingRodLineThickness = register(ConfigSetting(location("thin_fishing_rod_line_thickness"), false))
+
+    @SerialEntry
+    var fixCastLineCheck = register(ConfigSetting(location("fix_cast_line_check"), false))
+
+    @SerialEntry
+    var fixCastLineSwing = register(ConfigSetting(location("fix_cast_line_swing"), false))
 
     // Other
-    @SerialEntry var oldBlueVoidSky = true
-    @SerialEntry var oldSkyHorizonHeight = true
-    @SerialEntry var oldCloudHeight = true
-    @SerialEntry var legacyThirdpersonSwordBlockingPosition = true
-    @SerialEntry var lockBlockingArmRotation = true
-    @SerialEntry var disableProjectileAgeCheck = true
-    @SerialEntry var oldBlockMiningProgress = true
-    @SerialEntry var disableInventoryEntityScissor = true
-    @SerialEntry var legacyBlockOutlineRendering = true
-    @SerialEntry var removeFOVBasedProjection = false // TODO/NOTE: Currently not accurate/broken.
-    @SerialEntry var hideModelWhilstSleeping = true
-    @SerialEntry var entityArmorHurtTint = true
+    @SerialEntry
+    var oldBlueVoidSky = register(ConfigSetting(location("old_blue_void_sky"), true))
+
+    @SerialEntry
+    var oldSkyHorizonHeight = register(ConfigSetting(location("old_sky_horizon_height"), true))
+
+    @SerialEntry
+    var oldCloudHeight = register(
+        ConfigSetting(location("old_cloud_height"), true)
+    )
+
+    @SerialEntry
+    var legacyThirdpersonSwordBlockingPosition =
+        register(ConfigSetting(location("legacy_thirdperson_sword_blocking_position"), true))
+
+    @SerialEntry
+    var lockBlockingArmRotation = register(ConfigSetting(location("lock_blocking_arm_rotation"), true))
+
+    @SerialEntry
+    var disableProjectileAgeCheck = register(ConfigSetting(location("disable_projectile_age_check"), true))
+
+    @SerialEntry
+    var oldBlockMiningProgress = register(ConfigSetting(location("old_block_mining_progress"), true))
+
+    @SerialEntry
+    var disableInventoryEntityScissor = register(ConfigSetting(location("disable_inventory_entity_scissor"), true))
+
+    @SerialEntry
+    var legacyBlockOutlineRendering = register(ConfigSetting(location("legacy_block_outline_rendering"), true))
+
+    @SerialEntry
+    var hideModelWhilstSleeping = register(ConfigSetting(location("hide_model_whilst_sleeping"), true))
+
+    @SerialEntry
+    var entityArmorHurtTint = register(ConfigSetting(location("entity_armor_hurt_tint"), true))
 }

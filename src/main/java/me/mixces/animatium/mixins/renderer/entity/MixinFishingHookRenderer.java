@@ -34,11 +34,11 @@ public abstract class MixinFishingHookRenderer extends EntityRenderer<FishingHoo
         super(context);
     }
 
-    @ModifyExpressionValue(method = "getPlayerHandPos", at = @At(value = "CONSTANT", args = "floatValue=0.525"))
-    private float animatium$moveCastLineX(float original) {
-        /* this only needs to be done if the remove fov based projection is enabled */
-        return original - (AnimatiumConfig.getInstance().getRemoveFOVBasedProjection() ? 0.06F : 0.0F);
-    }
+//    @ModifyExpressionValue(method = "getPlayerHandPos", at = @At(value = "CONSTANT", args = "floatValue=0.525"))
+//    private float animatium$moveCastLineX(float original) {
+//        /* this only needs to be done if the remove fov based projection is enabled */
+//        return original - (AnimatiumConfig.getInstance().getRemoveFOVBasedProjection() ? 0.06F : 0.0F);
+//    }
 
     @ModifyArg(method = "getPlayerHandPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera$NearPlane;getPointOnPlane(FF)Lnet/minecraft/world/phys/Vec3;"), index = 1)
     private float animatium$moveCastLineY(float factorX) {
@@ -96,12 +96,12 @@ public abstract class MixinFishingHookRenderer extends EntityRenderer<FishingHoo
         }
     }
 
-    @ModifyArg(method = "getPlayerHandPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;scale(D)Lnet/minecraft/world/phys/Vec3;"))
-    private double animatium$removeFOVBasedLinePos(double value) {
-        if (AnimatiumConfig.getInstance().getRemoveFOVBasedProjection()) {
-            return 70;
-        } else {
-            return value;
-        }
-    }
+//    @ModifyArg(method = "getPlayerHandPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;scale(D)Lnet/minecraft/world/phys/Vec3;"))
+//    private double animatium$removeFOVBasedLinePos(double value) {
+//        if (AnimatiumConfig.getInstance().getRemoveFOVBasedProjection()) {
+//            return 70;
+//        } else {
+//            return value;
+//        }
+//    }
 }

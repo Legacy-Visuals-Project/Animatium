@@ -51,7 +51,7 @@ public abstract class MixinMinecraft {
 
     @Inject(method = "startAttack", at = @At(value = "RETURN", ordinal = 0))
     private void animatium$missPenaltySwing(CallbackInfoReturnable<Boolean> cir) {
-        if (AnimatiumConfig.getInstance().getMissPenaltySwing() && player != null) {
+        if (AnimatiumConfig.getInstance().getFakeMissPenaltySwing() && player != null) {
             PlayerUtils.fakeHandSwing(player, InteractionHand.MAIN_HAND);
         }
     }

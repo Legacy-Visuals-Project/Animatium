@@ -90,14 +90,14 @@ public abstract class MixinCamera {
         }
     }
 
-    @WrapOperation(method = "getNearPlane", at = @At(value = "INVOKE", target = "Ljava/lang/Integer;intValue()I"))
-    private int animatium$removeFOVBasedProjection(Integer instance, Operation<Integer> original) {
-        if (AnimatiumConfig.getInstance().getRemoveFOVBasedProjection()) {
-            return 70;
-        } else {
-            return original.call(instance);
-        }
-    }
+//    @WrapOperation(method = "getNearPlane", at = @At(value = "INVOKE", target = "Ljava/lang/Integer;intValue()I"))
+//    private int animatium$removeFOVBasedProjection(Integer instance, Operation<Integer> original) {
+//        if (AnimatiumConfig.getInstance().getRemoveFOVBasedProjection()) {
+//            return 70;
+//        } else {
+//            return original.call(instance);
+//        }
+//    }
 
     @Unique
     private float animatium$getStandingEyeHeight() {
