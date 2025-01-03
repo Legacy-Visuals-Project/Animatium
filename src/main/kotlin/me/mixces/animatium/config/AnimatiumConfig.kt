@@ -244,6 +244,17 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Component.translatable("animatium.disableParticlePhysics"))
+                            .description(OptionDescription.of(Component.translatable("animatium.disableParticlePhysics.description")))
+                            .binding(
+                                defaults.disableParticlePhysics,
+                                { config.disableParticlePhysics },
+                                { newVal -> config.disableParticlePhysics = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
                     builder.category(category.build())
                 }
 
@@ -1075,6 +1086,7 @@ class AnimatiumConfig {
     @SerialEntry var disableEntityDeathTopple = false
     @SerialEntry var customHitColor = Color(255, 0, 0)
     @SerialEntry var deepRedHurtTint = false
+    @SerialEntry var disableParticlePhysics = false
 
     // Movement
     @SerialEntry var rotateBackwardsWalking = true

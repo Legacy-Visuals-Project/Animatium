@@ -38,6 +38,8 @@
 	"animatium.customHitColor.description": "Modifies the entity damage tint color.",
 	"animatium.deepRedHurtTint": "Deep red hurt tint",
 	"animatium.deepRedHurtTint.description": "Modifies the entity damage tint alpha to be less like in Oranges Old Animations mod.",
+	"animatium.disableParticlePhysics": "Disable particle physics",
+	"animatium.disableParticlePhysics.description": "Allows particles to bypass collision logic.",
 
 	"animatium.category.movement": "Movement",
 	"animatium.category.movement.group.sneaking": "Sneaking",
