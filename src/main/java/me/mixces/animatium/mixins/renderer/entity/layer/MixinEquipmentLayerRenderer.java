@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 public abstract class MixinEquipmentLayerRenderer {
     @WrapOperation(method = "renderLayers(Lnet/minecraft/client/resources/model/EquipmentClientInfo$LayerType;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/client/model/Model;Lnet/minecraft/world/item/ItemStack;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/resources/ResourceLocation;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;armorCutoutNoCull(Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/client/renderer/RenderType;"))
     private RenderType animatium$renderLayerArmorTint(ResourceLocation resourceLocation, Operation<RenderType> original) {
-        if (AnimatiumConfig.getInstance().getEntityArmorHurtTint()) {
+        if (AnimatiumConfig.instance().getEntityArmorHurtTint()) {
             return RenderType.entityCutoutNoCullZOffset(resourceLocation);
         } else {
             return original.call(resourceLocation);
@@ -31,7 +31,7 @@ public abstract class MixinEquipmentLayerRenderer {
 
     @WrapOperation(method = "renderLayers(Lnet/minecraft/client/resources/model/EquipmentClientInfo$LayerType;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/client/model/Model;Lnet/minecraft/world/item/ItemStack;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/resources/ResourceLocation;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;wrap(Lcom/mojang/blaze3d/vertex/VertexConsumer;)Lcom/mojang/blaze3d/vertex/VertexConsumer;"))
     private VertexConsumer animatium$renderLayerArmorTrimTint(TextureAtlasSprite instance, VertexConsumer consumer, Operation<VertexConsumer> original, @Local(argsOnly = true) MultiBufferSource multiBufferSource) {
-        if (AnimatiumConfig.getInstance().getEntityArmorHurtTint()) {
+        if (AnimatiumConfig.instance().getEntityArmorHurtTint()) {
             return instance.wrap(multiBufferSource.getBuffer(RenderType.entityCutoutNoCullZOffset(instance.atlasLocation())));
         } else {
             return original.call(instance, consumer);
@@ -51,7 +51,7 @@ public abstract class MixinEquipmentLayerRenderer {
     @Unique
     private int animatium$getPackUv(int original) {
         HumanoidRenderState humanRenderState = EntityUtils.getHumanRenderState();
-        if (AnimatiumConfig.getInstance().getEntityArmorHurtTint() && humanRenderState != null) {
+        if (AnimatiumConfig.instance().getEntityArmorHurtTint() && humanRenderState != null) {
             return OverlayTexture.pack(OverlayTexture.u(0.0F), OverlayTexture.v(humanRenderState.hasRedOverlay));
         } else {
             return original;

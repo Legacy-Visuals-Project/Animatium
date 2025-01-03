@@ -13,7 +13,7 @@ public abstract class MixinSpriteContents {
     private int animatium$upMinPixelTransparencyLimit(int argb, Operation<Integer> original) {
         int alpha = original.call(argb);
         // NOTE: Would have used ColorHelper#floatFromChannel, but it is private & accessWidener stinky
-        if (AnimatiumConfig.getInstance().getUpMinPixelTransparencyLimit() && (alpha / 255.0F) <= 0.1F) {
+        if (AnimatiumConfig.instance().getUpMinPixelTransparencyLimit() && (alpha / 255.0F) <= 0.1F) {
             return 0;
         } else {
             return alpha;

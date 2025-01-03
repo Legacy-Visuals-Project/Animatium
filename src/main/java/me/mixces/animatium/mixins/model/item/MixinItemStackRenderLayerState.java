@@ -23,7 +23,7 @@ public abstract class MixinItemStackRenderLayerState {
 
     @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/ItemRenderer;renderItem(Lnet/minecraft/world/item/ItemDisplayContext;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;II[ILnet/minecraft/client/resources/model/BakedModel;Lnet/minecraft/client/renderer/RenderType;Lnet/minecraft/client/renderer/item/ItemStackRenderState$FoilType;)V"), index = 8)
     private ItemStackRenderState.FoilType animatium$disableGlintOn2dItemDrops(ItemStackRenderState.FoilType glint) {
-        if (AnimatiumConfig.getInstance().getItemDrops2D() && ItemUtils.getDisplayContext() != null && ItemUtils.getDisplayContext() == ItemDisplayContext.GROUND) {
+        if (AnimatiumConfig.instance().getItemDrops2D() && ItemUtils.getDisplayContext() != null && ItemUtils.getDisplayContext() == ItemDisplayContext.GROUND) {
             return ItemStackRenderState.FoilType.NONE;
         } else {
             return glint;
@@ -32,7 +32,7 @@ public abstract class MixinItemStackRenderLayerState {
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/block/model/ItemTransform;apply(ZLcom/mojang/blaze3d/vertex/PoseStack;)V"))
     private void animatium$tiltItemPositionsRod(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, int overlay, CallbackInfo ci) {
-        if (AnimatiumConfig.getInstance().getTiltItemPositions()) {
+        if (AnimatiumConfig.instance().getTiltItemPositions()) {
             ItemStack stack = ItemUtils.getStack();
             if (stack != null && ItemUtils.isFishingRodItem(stack)) {
                 ItemDisplayContext displayContext = ItemUtils.getDisplayContext();

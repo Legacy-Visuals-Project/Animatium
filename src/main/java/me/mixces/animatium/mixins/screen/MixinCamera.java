@@ -36,7 +36,7 @@ public abstract class MixinCamera {
 
     @Inject(method = "setup", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;setRotation(FF)V", shift = At.Shift.BEFORE))
     private void animatium$removeSmoothSneaking(CallbackInfo ci) {
-        if (AnimatiumConfig.getInstance().getRemoveSmoothSneaking()) {
+        if (AnimatiumConfig.instance().getRemoveSmoothSneaking()) {
             this.eyeHeightOld = eyeHeight;
             this.eyeHeight = this.animatium$getStandingEyeHeight();
         }
@@ -44,7 +44,7 @@ public abstract class MixinCamera {
 
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getEyeHeight()F"))
     private float animatium$useOldEyeHeight(Entity instance, Operation<Float> original) {
-        if (AnimatiumConfig.getInstance().getFakeOldSneakEyeHeight()) {
+        if (AnimatiumConfig.instance().getFakeOldSneakEyeHeight()) {
             return this.animatium$getStandingEyeHeight();
         } else {
             return original.call(instance);
@@ -53,7 +53,7 @@ public abstract class MixinCamera {
 
     @WrapOperation(method = "tick", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD, target = "Lnet/minecraft/client/Camera;eyeHeight:F"))
     private void animatium$oldSneakAnimationInterpolation(Camera instance, float value, Operation<Void> original) {
-        if (AnimatiumConfig.getInstance().getOldSneakAnimationInterpolation() && !AnimatiumConfig.getInstance().getRemoveSmoothSneaking() && this.entity.getEyeHeight() < eyeHeight) {
+        if (AnimatiumConfig.instance().getOldSneakAnimationInterpolation() && !AnimatiumConfig.instance().getRemoveSmoothSneaking() && this.entity.getEyeHeight() < eyeHeight) {
             this.eyeHeight = this.animatium$getStandingEyeHeight();
         } else {
             original.call(instance, value);
@@ -63,7 +63,7 @@ public abstract class MixinCamera {
     // TODO/NOTE: Could we also just do this in TransparentBlock?
     @WrapOperation(method = "getMaxZoom", at = @At(value = "FIELD", target = "Lnet/minecraft/world/level/ClipContext$Block;VISUAL:Lnet/minecraft/world/level/ClipContext$Block;"))
     private ClipContext.Block animatium$disableCameraTransparentPassthrough(Operation<ClipContext.Block> original) {
-        if (AnimatiumConfig.getInstance().getDisableCameraTransparentPassthrough()) {
+        if (AnimatiumConfig.instance().getDisableCameraTransparentPassthrough()) {
             return ClipContext.Block.OUTLINE;
         } else {
             return original.call();
@@ -72,9 +72,9 @@ public abstract class MixinCamera {
 
     @Inject(method = "setup", at = @At(value = "TAIL"))
     private void animatium$oldCameraVersion(BlockGetter area, Entity entity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci) {
-        if (AnimatiumConfig.getInstance().getCameraVersion() != CameraVersion.LATEST && !thirdPerson && !(entity instanceof LivingEntity && ((LivingEntity) entity).isSleeping())) {
+        if (AnimatiumConfig.instance().getCameraVersion() != CameraVersion.LATEST && !thirdPerson && !(entity instanceof LivingEntity && ((LivingEntity) entity).isSleeping())) {
             // TODO: Fix bed/sleeping position
-            final int ordinal = AnimatiumConfig.getInstance().getCameraVersion().ordinal();
+            final int ordinal = AnimatiumConfig.instance().getCameraVersion().ordinal();
             if (ordinal <= CameraVersion.V1_14_V1_14_3.ordinal()) {
                 // <= 1.14.3
                 this.move(-0.05000000074505806F, 0.0F, 0.0F);
@@ -102,7 +102,7 @@ public abstract class MixinCamera {
     @Unique
     private float animatium$getStandingEyeHeight() {
         float standingEyeHeight = this.entity.getEyeHeight();
-        if (AnimatiumConfig.getInstance().getFakeOldSneakEyeHeight() && this.entity.isShiftKeyDown() && this.entity instanceof Player player && ((PlayerAccessor) player).canChangeIntoPose$(Pose.STANDING)) {
+        if (AnimatiumConfig.instance().getFakeOldSneakEyeHeight() && this.entity.isShiftKeyDown() && this.entity instanceof Player player && ((PlayerAccessor) player).canChangeIntoPose$(Pose.STANDING)) {
             return 1.54F;
         } else {
             return standingEyeHeight;

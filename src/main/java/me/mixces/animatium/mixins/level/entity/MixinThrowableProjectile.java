@@ -11,6 +11,6 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class MixinThrowableProjectile {
     @ModifyExpressionValue(method = "shouldRenderAtSqrDistance", at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/world/entity/projectile/ThrowableProjectile;tickCount:I"))
     private int animatium$disableProjectileAgeCheck(int original) {
-        return original + (AnimatiumConfig.getInstance().getDisableProjectileAgeCheck() ? 2 : 0);
+        return original + (AnimatiumConfig.instance().getDisableProjectileAgeCheck() ? 2 : 0);
     }
 }

@@ -24,7 +24,7 @@ public abstract class MixinAbstractScrollArea {
 
     @Inject(method = "setScrollAmount", at = @At("HEAD"), cancellable = true)
     private void animatium$allowNegativeScrolling(double scrollY, CallbackInfo ci) {
-        if (AnimatiumConfig.getInstance().getCenterScrollableListWidgets() && (AbstractScrollArea) (Object) this instanceof AbstractSelectionList<?> abstractSelectionList) {
+        if (AnimatiumConfig.instance().getCenterScrollableListWidgets() && (AbstractScrollArea) (Object) this instanceof AbstractSelectionList<?> abstractSelectionList) {
             ci.cancel();
             int maxScrollY = maxScrollAmount();
             if (maxScrollY < 0) {
@@ -41,7 +41,7 @@ public abstract class MixinAbstractScrollArea {
 
     @Inject(method = "maxScrollAmount", at = @At("HEAD"), cancellable = true)
     public void animatium$modifyMaxScroll(CallbackInfoReturnable<Integer> cir) {
-        if (AnimatiumConfig.getInstance().getCenterScrollableListWidgets() && (AbstractScrollArea) (Object) this instanceof AbstractSelectionList<?> abstractSelectionList) {
+        if (AnimatiumConfig.instance().getCenterScrollableListWidgets() && (AbstractScrollArea) (Object) this instanceof AbstractSelectionList<?> abstractSelectionList) {
             cir.setReturnValue(this.contentHeight() - abstractSelectionList.getHeight());
         }
     }

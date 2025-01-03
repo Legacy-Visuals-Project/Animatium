@@ -42,7 +42,7 @@ public abstract class MixinItemInHandRenderer {
     // TODO: Make arm partially translucent/transparent like the third-person player model (like on a team)
     @WrapOperation(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/AbstractClientPlayer;isInvisible()Z"))
     private boolean animatium$showArmWhileInvisible(AbstractClientPlayer instance, Operation<Boolean> original) {
-        if (AnimatiumConfig.getInstance().getShowArmWhileInvisible()) {
+        if (AnimatiumConfig.instance().getShowArmWhileInvisible()) {
             return false;
         } else {
             return original.call(instance);
@@ -52,13 +52,13 @@ public abstract class MixinItemInHandRenderer {
     @WrapOperation(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;scale(FFF)V", ordinal = 1))
     private void animatium$postBowTransform(PoseStack poseStack, float x, float y, float z, Operation<Void> original, @Local(argsOnly = true) AbstractClientPlayer player, @Local(argsOnly = true) InteractionHand hand) {
         int direction = PlayerUtils.getHandMultiplier(player, hand);
-        if (AnimatiumConfig.getInstance().getTiltItemPositions()) {
+        if (AnimatiumConfig.instance().getTiltItemPositions()) {
             poseStack.mulPose(Axis.ZP.rotationDegrees(direction * -335));
             poseStack.mulPose(Axis.YP.rotationDegrees(direction * -50.0F));
         }
 
         original.call(poseStack, x, y, z);
-        if (AnimatiumConfig.getInstance().getTiltItemPositions()) {
+        if (AnimatiumConfig.instance().getTiltItemPositions()) {
             poseStack.mulPose(Axis.YP.rotationDegrees(direction * 50.0F));
             poseStack.mulPose(Axis.ZP.rotationDegrees(direction * 335));
         }
@@ -66,7 +66,7 @@ public abstract class MixinItemInHandRenderer {
 
     @WrapOperation(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;"))
     private Item animatium$oldFirstPersonSwordBlock(ItemStack instance, Operation<Item> original, @Local(argsOnly = true) AbstractClientPlayer player, @Local(argsOnly = true) InteractionHand hand, @Local(argsOnly = true) PoseStack poseStack) {
-        if (AnimatiumConfig.getInstance().getTiltItemPositions() && !(instance.getItem() instanceof ShieldItem)) {
+        if (AnimatiumConfig.instance().getTiltItemPositions() && !(instance.getItem() instanceof ShieldItem)) {
             int direction = PlayerUtils.getHandMultiplier(player, hand);
             // We do this to fix a rounding error in Mojangs code.
             ItemUtils.applyLegacyFirstpersonTransforms(poseStack, direction, () -> {
@@ -84,7 +84,7 @@ public abstract class MixinItemInHandRenderer {
     @Inject(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext;ZLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", ordinal = 1))
     private void animatium$tiltItemPositions(AbstractClientPlayer player, float tickDelta, float pitch, InteractionHand hand, float swingProgress, ItemStack stack, float equipProgress, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, CallbackInfo ci) {
         int direction = PlayerUtils.getHandMultiplier(player, hand);
-        if (AnimatiumConfig.getInstance().getTiltItemPositions() && !ItemUtils.isBlock3d(stack, new ItemStackRenderState()) && !ItemUtils.isItemBlacklisted(stack)) {
+        if (AnimatiumConfig.instance().getTiltItemPositions() && !ItemUtils.isBlock3d(stack, new ItemStackRenderState()) && !ItemUtils.isItemBlacklisted(stack)) {
             float angle = MathUtils.toRadians(25);
             if (ItemUtils.isFishingRodItem(stack)) {
                 poseStack.mulPose(Axis.YP.rotationDegrees(direction * 180.0F));
@@ -101,7 +101,7 @@ public abstract class MixinItemInHandRenderer {
             poseStack.translate(direction * -1.13 * 0.0625F, -3.2 * 0.0625F, -1.13 * 0.0625F);
         }
 
-        if (AnimatiumConfig.getInstance().getOldSkullPosition() && ItemUtils.isSkullBlock(stack)) {
+        if (AnimatiumConfig.instance().getOldSkullPosition() && ItemUtils.isSkullBlock(stack)) {
             poseStack.mulPose(Axis.YP.rotationDegrees(45.0F));
             poseStack.scale(0.4F, 0.4F, 0.4F);
 
@@ -119,7 +119,7 @@ public abstract class MixinItemInHandRenderer {
                     to = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;applyItemArmTransform(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/entity/HumanoidArm;F)V", ordinal = 6)
             ))
     private void animatium$applyItemSwingUsage(AbstractClientPlayer abstractClientPlayer, float tickDelta, float pitch, InteractionHand interactionHand, float swingProgress, ItemStack itemStack, float equipProgress, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, CallbackInfo ci, @Local HumanoidArm arm) {
-        if (AnimatiumConfig.getInstance().getApplyItemSwingUsage()) {
+        if (AnimatiumConfig.instance().getApplyItemSwingUsage()) {
             applyItemArmAttackTransform(poseStack, arm, swingProgress);
         }
     }
@@ -127,13 +127,13 @@ public abstract class MixinItemInHandRenderer {
     @Inject(method = "itemUsed", at = @At("HEAD"), cancellable = true)
     private void animatium$removeEquipAnimationOnItemUse(InteractionHand hand, CallbackInfo ci) {
         LocalPlayer player = this.minecraft.player;
-        if (AnimatiumConfig.getInstance().getRemoveEquipAnimationOnItemUse() && player != null && player.isUsingItem()) {
+        if (AnimatiumConfig.instance().getRemoveEquipAnimationOnItemUse() && player != null && player.isUsingItem()) {
             ci.cancel();
         }
     }
 
     @ModifyReturnValue(method = "shouldInstantlyReplaceVisibleItem", at = @At("RETURN"))
     private boolean animatium$doNotSkipHandAnimationOnSwap(boolean original) {
-        return !AnimatiumConfig.getInstance().getDoNotSkipHandAnimationOnSwap() && original;
+        return !AnimatiumConfig.instance().getDoNotSkipHandAnimationOnSwap() && original;
     }
 }

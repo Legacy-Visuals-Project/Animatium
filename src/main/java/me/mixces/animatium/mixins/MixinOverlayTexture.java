@@ -13,7 +13,7 @@ import java.awt.*;
 public abstract class MixinOverlayTexture {
     @ModifyConstant(method = "<init>", constant = @Constant(intValue = -1291911168))
     private int animatium$modifyDamageTintColor(int constant) {
-        Color hitColor = AnimatiumConfig.getInstance().getCustomHitColor();
-        return ARGB.color(AnimatiumConfig.getInstance().getDeepRedHurtTint() ? 128 : 178, hitColor.getRed(), hitColor.getGreen(), hitColor.getBlue());
+        Color hitColor = AnimatiumConfig.instance().getCustomHitColor();
+        return ARGB.color(AnimatiumConfig.instance().getDeepRedHurtTint() ? 128 : 178, hitColor.getRed(), hitColor.getGreen(), hitColor.getBlue());
     }
 }

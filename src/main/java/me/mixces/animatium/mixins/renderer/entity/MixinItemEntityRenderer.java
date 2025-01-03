@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class MixinItemEntityRenderer {
     @WrapOperation(method = "render(Lnet/minecraft/client/renderer/entity/state/ItemEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/item/ItemEntity;getSpin(FF)F"))
     private float animatium$itemDropsFaceCamera(float age, float uniqueOffset, Operation<Float> original, @Local(argsOnly = true) ItemEntityRenderState itemEntityRenderState, @Local(argsOnly = true) PoseStack poseStack) {
-        if (AnimatiumConfig.getInstance().getItemDropsFaceCamera()) {
+        if (AnimatiumConfig.instance().getItemDropsFaceCamera()) {
             Entity entity = EntityUtils.getEntityByState(itemEntityRenderState);
             if (entity instanceof ItemEntity && !itemEntityRenderState.item.isGui3d()) {
                 Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();

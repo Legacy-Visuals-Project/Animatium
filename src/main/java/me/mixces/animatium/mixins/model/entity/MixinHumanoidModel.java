@@ -60,7 +60,7 @@ public abstract class MixinHumanoidModel<T extends HumanoidRenderState> extends 
 
     @WrapOperation(method = "setupAnim(Lnet/minecraft/client/renderer/entity/state/HumanoidRenderState;)V", at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/renderer/entity/state/HumanoidRenderState;isCrouching:Z"))
     private boolean animatium$oldSneakingFeetPosition(HumanoidRenderState instance, Operation<Boolean> original) {
-        if (AnimatiumConfig.getInstance().getOldSneakingFeetPosition() && instance.isCrouching) {
+        if (AnimatiumConfig.instance().getOldSneakingFeetPosition() && instance.isCrouching) {
             // Values sourced from older versions
             body.xRot = 0.5F;
             rightArm.xRot += 0.4F;
@@ -78,7 +78,7 @@ public abstract class MixinHumanoidModel<T extends HumanoidRenderState> extends 
 
     @WrapOperation(method = "setupAttackAnimation", at = @At(value = "FIELD", target = "Lnet/minecraft/client/model/HumanoidModel;leftArm:Lnet/minecraft/client/model/geom/ModelPart;", ordinal = 3, opcode = Opcodes.GETFIELD))
     public ModelPart animatium$fixMirrorArmSwing$field(HumanoidModel<?> instance, Operation<ModelPart> original, @Local ModelPart modelPart) {
-        if (AnimatiumConfig.getInstance().getFixMirrorArmSwing()) {
+        if (AnimatiumConfig.instance().getFixMirrorArmSwing()) {
             return modelPart;
         } else {
             return original.call(instance);
@@ -87,7 +87,7 @@ public abstract class MixinHumanoidModel<T extends HumanoidRenderState> extends 
 
     @ModifyExpressionValue(method = "setupAttackAnimation", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;sin(F)F", ordinal = 5))
     public float animatium$fixMirrorArmSwing$sin(float original, @Local HumanoidArm arm) {
-        if (AnimatiumConfig.getInstance().getFixMirrorArmSwing()) {
+        if (AnimatiumConfig.instance().getFixMirrorArmSwing()) {
             return PlayerUtils.getArmMultiplier(arm) * original; // NOTE: i changed this loloolool
         } else {
             return original;
@@ -96,7 +96,7 @@ public abstract class MixinHumanoidModel<T extends HumanoidRenderState> extends 
 
     @WrapOperation(method = "poseBlockingArm", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(FFF)F"))
     private float animatium$lockBlockingArmRotation(float value, float min, float max, Operation<Float> original) {
-        if (AnimatiumConfig.getInstance().getLockBlockingArmRotation()) {
+        if (AnimatiumConfig.instance().getLockBlockingArmRotation()) {
             return 0.0F;
         } else {
             return original.call(value, min, max);
@@ -105,7 +105,7 @@ public abstract class MixinHumanoidModel<T extends HumanoidRenderState> extends 
 
     @Inject(method = "setupAnim(Lnet/minecraft/client/renderer/entity/state/HumanoidRenderState;)V", at = @At(value = "CONSTANT", args = "floatValue=0.0", ordinal = 1))
     private void animatium$fixBowArmMovement(T humanoidRenderState, CallbackInfo ci) {
-        if (AnimatiumConfig.getInstance().getFixBowArmMovement()) {
+        if (AnimatiumConfig.instance().getFixBowArmMovement()) {
             HumanoidModel.ArmPose leftArmPose = humanoidRenderState.leftArmPose;
             HumanoidModel.ArmPose rightArmPose = humanoidRenderState.rightArmPose;
             final boolean isRightArmPose = rightArmPose == HumanoidModel.ArmPose.BOW_AND_ARROW;
@@ -132,7 +132,7 @@ public abstract class MixinHumanoidModel<T extends HumanoidRenderState> extends 
     @WrapOperation(method = {"poseLeftArm", "poseRightArm"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/HumanoidModel;poseBlockingArm(Lnet/minecraft/client/model/geom/ModelPart;Z)V"))
     private void animatium$oldSwordBlockArm(HumanoidModel<?> instance, ModelPart arm, boolean rightArm, Operation<Void> original, @Local(argsOnly = true) T state) {
         original.call(instance, arm, rightArm);
-        if (AnimatiumConfig.getInstance().getLegacyThirdpersonSwordBlockingPosition()) {
+        if (AnimatiumConfig.instance().getLegacyThirdpersonSwordBlockingPosition()) {
             Entity entity = EntityUtils.getEntityByState(state);
             if (entity instanceof LivingEntity livingEntity && state instanceof HumanoidRenderState) {
                 ItemStack stack = rightArm ? livingEntity.getItemHeldByArm(HumanoidArm.RIGHT) : livingEntity.getItemHeldByArm(HumanoidArm.LEFT);

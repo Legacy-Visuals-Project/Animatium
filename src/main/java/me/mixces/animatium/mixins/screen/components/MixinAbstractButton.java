@@ -16,7 +16,7 @@ public abstract class MixinAbstractButton extends AbstractWidget {
 
     @ModifyConstant(method = "renderWidget", constant = @Constant(intValue = 0xFFFFFF))
     private int renderWidget$old$textColor(int constant) {
-        if (AnimatiumConfig.getInstance().getOldButtonTextColors()) {
+        if (AnimatiumConfig.instance().getOldButtonTextColors()) {
             return !active ? 0xE0E0E0 : (isHoveredOrFocused() ? 0xFFFFA0 : 0xE0E0E0);
         } else {
             return constant;

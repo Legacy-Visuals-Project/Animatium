@@ -15,14 +15,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinAbstractSelectionList {
     @Inject(method = "renderWidget", at = @At("HEAD"))
     private void animatium$updateScroll(GuiGraphics context, int mouseX, int mouseY, float tickDelta, CallbackInfo ci) {
-        if (AnimatiumConfig.getInstance().getCenterScrollableListWidgets()) {
+        if (AnimatiumConfig.instance().getCenterScrollableListWidgets()) {
             ((AbstractScrollArea) (Object) this).refreshScrollAmount();
         }
     }
 
     @WrapOperation(method = "renderItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/AbstractSelectionList;isFocused()Z"))
     private boolean animatium$oldListWidgetSelectedBorderColor(AbstractSelectionList<?> instance, Operation<Boolean> original) {
-        if (AnimatiumConfig.getInstance().getOldListWidgetSelectedBorderColor()) {
+        if (AnimatiumConfig.instance().getOldListWidgetSelectedBorderColor()) {
             return false;
         } else {
             return original.call(instance);

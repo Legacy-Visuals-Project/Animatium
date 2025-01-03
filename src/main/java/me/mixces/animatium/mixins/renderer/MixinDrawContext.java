@@ -20,7 +20,7 @@ public abstract class MixinDrawContext {
 
     @Inject(method = "renderItemBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;fill(Lnet/minecraft/client/renderer/RenderType;IIIIII)V", ordinal = 0, shift = At.Shift.AFTER))
     private void animatium$oldDurabilityBar(ItemStack stack, int x, int y, CallbackInfo ci) {
-        if (AnimatiumConfig.getInstance().getOldDurabilityBarColors() && !(stack.getItem() instanceof BundleItem)) {
+        if (AnimatiumConfig.instance().getOldDurabilityBarColors() && !(stack.getItem() instanceof BundleItem)) {
             int i = x + 2;
             int j = y + 13;
             int color = ARGB.color((255 - ItemUtils.getLegacyDurabilityColorValue(stack)) / 4, 64, 0);

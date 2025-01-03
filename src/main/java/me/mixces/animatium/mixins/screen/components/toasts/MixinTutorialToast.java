@@ -14,14 +14,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinTutorialToast {
     @Inject(method = "update", at = @At("HEAD"), cancellable = true)
     private void animatium$disableRecipeAndTutorialToasts(ToastManager toastManager, long l, CallbackInfo ci) {
-        if (AnimatiumConfig.getInstance().getDisableRecipeAndTutorialToasts()) {
+        if (AnimatiumConfig.instance().getDisableRecipeAndTutorialToasts()) {
             ci.cancel();
         }
     }
 
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void animatium$disableRecipeAndTutorialToasts(GuiGraphics guiGraphics, Font font, long l, CallbackInfo ci) {
-        if (AnimatiumConfig.getInstance().getDisableRecipeAndTutorialToasts()) {
+        if (AnimatiumConfig.instance().getDisableRecipeAndTutorialToasts()) {
             ci.cancel();
         }
     }

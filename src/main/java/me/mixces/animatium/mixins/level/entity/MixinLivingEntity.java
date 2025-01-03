@@ -35,7 +35,7 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
 
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;abs(F)F"))
     private float animatium$rotateBackwardsWalking(float value, Operation<Float> original) {
-        if (AnimatiumConfig.getInstance().getRotateBackwardsWalking()) {
+        if (AnimatiumConfig.instance().getRotateBackwardsWalking()) {
             return 0F;
         } else {
             return original.call(value);
@@ -44,7 +44,7 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
 
     @WrapOperation(method = "tickHeadTurn", at = @At(value = "INVOKE", target = "Ljava/lang/Math;abs(F)F"))
     private float animatium$removeHeadRotationInterpolation(float g, Operation<Float> original) {
-        if (AnimatiumConfig.getInstance().getRotateBackwardsWalking()) {
+        if (AnimatiumConfig.instance().getRotateBackwardsWalking()) {
             g = Mth.clamp(g, -75.0F, 75.0F);
             this.yBodyRot = this.getYRot() - g;
             if (Math.abs(g) > 50.0F) {
@@ -58,7 +58,7 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
 
     @WrapOperation(method = "lerpHeadRotationStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;rotLerp(DDD)D"))
     public double animatium$removeHeadRotationInterpolation(double delta, double start, double end, Operation<Double> original) {
-        if (AnimatiumConfig.getInstance().getRemoveHeadRotationInterpolation()) {
+        if (AnimatiumConfig.instance().getRemoveHeadRotationInterpolation()) {
             return end;
         } else {
             return original.call(delta, start, end);
@@ -67,14 +67,14 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
 
     @Inject(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;tickEffects()V", shift = At.Shift.BEFORE))
     private void animatium$updatePreviousBobbingTiltValue(CallbackInfo ci) {
-        if (AnimatiumConfig.getInstance().getFixVerticalBobbingTilt()) {
+        if (AnimatiumConfig.instance().getFixVerticalBobbingTilt()) {
             this.animatium$previousBobbingTilt = this.animatium$bobbingTilt;
         }
     }
 
     @ModifyExpressionValue(method = "getItemBlockingWith", at = @At(value = "CONSTANT", args = "intValue=5"))
     private int animatium$removeClientsideBlockingDelay(int original) {
-        if (AnimatiumConfig.getInstance().getRemoveClientsideBlockingDelay()) {
+        if (AnimatiumConfig.instance().getRemoveClientsideBlockingDelay()) {
             return 0;
         } else {
             return original;
@@ -83,7 +83,7 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
 
     @WrapOperation(method = "updatingUsingItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isSameItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"))
     private boolean animatium$fixItemUsageCheck(ItemStack left, ItemStack right, Operation<Boolean> original) {
-        if (AnimatiumConfig.getInstance().getFixItemUsageCheck()) {
+        if (AnimatiumConfig.instance().getFixItemUsageCheck()) {
             return left == right;
         } else {
             return original.call(left, right);

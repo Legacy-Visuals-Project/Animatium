@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MixinItem {
     @Inject(method = "getBarColor", at = @At("HEAD"), cancellable = true)
     private void animatium$oldDurabilityBarColors(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
-        if (AnimatiumConfig.getInstance().getOldDurabilityBarColors() && !((Item) (Object) this instanceof BundleItem)) {
+        if (AnimatiumConfig.instance().getOldDurabilityBarColors() && !((Item) (Object) this instanceof BundleItem)) {
             int value = ItemUtils.getLegacyDurabilityColorValue(stack);
             cir.setReturnValue(ARGB.color(255 - value, value, 0));
         }

@@ -1040,7 +1040,7 @@ class AnimatiumConfig {
         }
 
         @JvmStatic
-        fun getInstance(): AnimatiumConfig {
+        fun instance(): AnimatiumConfig {
             return CONFIG.instance() as AnimatiumConfig
         }
     }
@@ -1134,7 +1134,6 @@ class AnimatiumConfig {
     @SerialEntry var oldBlockMiningProgress = true
     @SerialEntry var disableInventoryEntityScissor = true
     @SerialEntry var legacyBlockOutlineRendering = true
-    @SerialEntry var removeFOVBasedProjection = false // TODO/NOTE: Currently not accurate/broken.
     @SerialEntry var hideModelWhilstSleeping = true
     @SerialEntry var entityArmorHurtTint = true
 }

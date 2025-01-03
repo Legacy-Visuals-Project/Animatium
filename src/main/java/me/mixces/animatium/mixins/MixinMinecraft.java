@@ -51,7 +51,7 @@ public abstract class MixinMinecraft {
 
     @Inject(method = "startAttack", at = @At(value = "RETURN", ordinal = 0))
     private void animatium$missPenaltySwing(CallbackInfoReturnable<Boolean> cir) {
-        if (AnimatiumConfig.getInstance().getFakeMissPenaltySwing() && player != null) {
+        if (AnimatiumConfig.instance().getFakeMissPenaltySwing() && player != null) {
             PlayerUtils.fakeHandSwing(player, InteractionHand.MAIN_HAND);
         }
     }
@@ -59,7 +59,7 @@ public abstract class MixinMinecraft {
     @WrapOperation(method = "startUseItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;swing(Lnet/minecraft/world/InteractionHand;)V", ordinal = 2))
     private void animatium$disableSwingOnUse(LocalPlayer instance, InteractionHand hand, Operation<Void> original) {
         ItemStack itemStack = instance.getItemInHand(hand);
-        if (AnimatiumConfig.getInstance().getDisableSwingOnUse() && ItemUtils.isSwingItemBlacklisted(itemStack)) {
+        if (AnimatiumConfig.instance().getDisableSwingOnUse() && ItemUtils.isSwingItemBlacklisted(itemStack)) {
             PlayerUtils.sendSwingPacket(instance, hand);
         } else {
             original.call(instance, hand);
@@ -68,7 +68,7 @@ public abstract class MixinMinecraft {
 
     @WrapOperation(method = "handleKeybinds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;swing(Lnet/minecraft/world/InteractionHand;)V"))
     private void animatium$disableSwingOnDrop(LocalPlayer instance, InteractionHand hand, Operation<Void> original) {
-        if (AnimatiumConfig.getInstance().getDisableSwingOnDrop()) {
+        if (AnimatiumConfig.instance().getDisableSwingOnDrop()) {
             PlayerUtils.sendSwingPacket(instance, hand);
         } else {
             original.call(instance, hand);
@@ -97,7 +97,7 @@ public abstract class MixinMinecraft {
 
     @WrapOperation(method = "startUseItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;swing(Lnet/minecraft/world/InteractionHand;)V", ordinal = 0))
     private void animatium$disableSwingOnEntityInteract(LocalPlayer instance, InteractionHand hand, Operation<Void> original) {
-        if (AnimatiumConfig.getInstance().getDisableSwingOnEntityInteract()) {
+        if (AnimatiumConfig.instance().getDisableSwingOnEntityInteract()) {
             PlayerUtils.sendSwingPacket(instance, hand);
         } else {
             original.call(instance, hand);
@@ -106,19 +106,19 @@ public abstract class MixinMinecraft {
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void animatium$applySwingWhilstMining(CallbackInfo ci) {
-        if (AnimatiumConfig.getInstance().getApplyItemSwingUsage()) {
+        if (AnimatiumConfig.instance().getApplyItemSwingUsage()) {
             LocalPlayer player = this.player;
             if (player == null || player.getItemInHand(player.getUsedItemHand()).isEmpty() || !player.isUsingItem() || !this.options.keyAttack.isDown()) {
                 return;
             }
 
             InteractionHand activeHand = player.getUsedItemHand();
-            InteractionHand hand = AnimatiumConfig.getInstance().getAllowOffhandUsageSwinging() ? activeHand : InteractionHand.MAIN_HAND;
+            InteractionHand hand = AnimatiumConfig.instance().getAllowOffhandUsageSwinging() ? activeHand : InteractionHand.MAIN_HAND;
             if (this.hitResult != null && this.hitResult.getType() == HitResult.Type.BLOCK && activeHand.equals(hand)) {
                 BlockHitResult blockHitResult = (BlockHitResult) this.hitResult;
 
                 BlockPos blockPos = blockHitResult.getBlockPos();
-                if (AnimatiumConfig.getInstance().getShowUsageSwingingParticles() && this.level != null && !this.level.getBlockState(blockPos).isAir()) {
+                if (AnimatiumConfig.instance().getShowUsageSwingingParticles() && this.level != null && !this.level.getBlockState(blockPos).isAir()) {
                     Direction direction = blockHitResult.getDirection();
                     this.particleEngine.crack(blockPos, direction);
                 }

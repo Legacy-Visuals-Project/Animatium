@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class MixinHumanoidMobRenderer {
     @WrapOperation(method = "extractHumanoidRenderState", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isCrouching()Z"))
     private static boolean animatium$sneakAnimationWhileFlying(LivingEntity instance, Operation<Boolean> original) {
-        if (AnimatiumConfig.getInstance().getSneakAnimationWhileFlying()) {
+        if (AnimatiumConfig.instance().getSneakAnimationWhileFlying()) {
             return instance.isCrouching() || instance.isShiftKeyDown();
         } else {
             return original.call(instance);

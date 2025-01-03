@@ -23,7 +23,7 @@ public abstract class MixinClientPacketListener {
 
     @WrapOperation(method = "handleSetEntityData", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/game/ClientboundSetEntityDataPacket;packedItems()Ljava/util/List;"))
     public List<SynchedEntityData.DataValue<?>> animatium$disableServerPoseAndBlockingVisualUpdates(ClientboundSetEntityDataPacket instance, Operation<List<SynchedEntityData.DataValue<?>>> original) {
-        if (AnimatiumConfig.getInstance().getDisableServerPoseAndBlockingVisualUpdates()) {
+        if (AnimatiumConfig.instance().getDisableServerPoseAndBlockingVisualUpdates()) {
             if (Objects.requireNonNull(Minecraft.getInstance().player).equals(this.level.getEntity(instance.id()))) {
                 instance.packedItems().removeIf(entry -> entry.id() == 8 /* Blocking update? */ || entry.serializer().equals(EntityDataSerializers.POSE));
             }

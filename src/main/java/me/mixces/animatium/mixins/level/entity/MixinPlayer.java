@@ -32,26 +32,26 @@ public abstract class MixinPlayer extends LivingEntity {
 
     @Inject(method = "attack", at = @At("HEAD"))
     private void animatium$alwaysShowSharpParticles(Entity target, CallbackInfo ci) {
-        if (AnimatiumConfig.getInstance().getAlwaysShowSharpParticles()) {
+        if (AnimatiumConfig.instance().getAlwaysShowSharpParticles()) {
             this.magicCrit(target);
         }
     }
 
     @WrapWithCondition(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;magicCrit(Lnet/minecraft/world/entity/Entity;)V"))
     private boolean animatium$disableDefaultSharpParticles(Player instance, Entity target) {
-        return !AnimatiumConfig.getInstance().getAlwaysShowSharpParticles();
+        return !AnimatiumConfig.instance().getAlwaysShowSharpParticles();
     }
 
     @Inject(method = "getMaxHeadRotationRelativeToBody", at = @At(value = "RETURN"), cancellable = true)
     private void animatium$uncapBlockingHeadRotation(CallbackInfoReturnable<Float> cir) {
-        if (AnimatiumConfig.getInstance().getUncapBlockingHeadRotation()) {
+        if (AnimatiumConfig.instance().getUncapBlockingHeadRotation()) {
             cir.setReturnValue(50F);
         }
     }
 
     @Inject(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;setSpeed(F)V", shift = At.Shift.AFTER))
     private void animatium$updateBobbingTiltValues(CallbackInfo ci) {
-        if (AnimatiumConfig.getInstance().getFixVerticalBobbingTilt()) {
+        if (AnimatiumConfig.instance().getFixVerticalBobbingTilt()) {
             ViewBobbingStorage bobbingAccessor = (ViewBobbingStorage) this;
             float g = this.onGround() || this.getHealth() <= 0.0F ? 0.0F : (float) (Math.atan(-this.getDeltaMovement().y * (double) 0.2F) * 15.0F);
             bobbingAccessor.animatium$setBobbingTilt(Mth.lerp(0.8F, bobbingAccessor.animatium$getBobbingTilt(), g));
@@ -60,7 +60,7 @@ public abstract class MixinPlayer extends LivingEntity {
 
     @WrapOperation(method = "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;swing(Lnet/minecraft/world/InteractionHand;)V"))
     private void animatium$disableSwingOnDropInventory(Player instance, InteractionHand hand, Operation<Void> original) {
-        if (AnimatiumConfig.getInstance().getDisableSwingOnDrop()) {
+        if (AnimatiumConfig.instance().getDisableSwingOnDrop()) {
             PlayerUtils.sendSwingPacket((LocalPlayer) instance, hand);
         } else {
             original.call(instance, hand);
