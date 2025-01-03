@@ -36,6 +36,7 @@ class AnimatiumConfig {
             return ResourceLocation.parse("animatium:$path")
         }
 
+        @JvmStatic
         fun get(identifier: ResourceLocation): ConfigSetting<*>? {
             return CONFIG_SETTINGS[identifier]
         }
