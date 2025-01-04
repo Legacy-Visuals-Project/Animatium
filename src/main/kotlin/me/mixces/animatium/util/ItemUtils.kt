@@ -204,7 +204,6 @@ object ItemUtils {
                 (left.maxStackSize == right.maxStackSize) &&
                 (left.maxDamage == right.maxDamage) &&
                 (left.isDamaged == right.isDamaged) &&
-                (left.damageValue == right.damageValue) &&
                 (left.useAnimation == right.useAnimation) &&
                 (left.isEnchanted == right.isEnchanted) &&
                 (left.components.size() == right.components.size()) &&
