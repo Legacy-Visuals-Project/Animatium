@@ -133,10 +133,7 @@ public abstract class MixinItemInHandRenderer {
     private float animatium$checkSlots(float original, @Local LocalPlayer localPlayer) {
         if (AnimatiumConfig.instance().getFixEquipAnimationItemCheck()) {
             // TODO: This can be better
-            boolean areSlotsEqual = this.currentSlot == localPlayer.getInventory().selected &&
-                    this.mainHandItem.getCount() == localPlayer.getInventory().getItem(currentSlot).getCount() &&
-                    this.mainHandItem.getItemName() == localPlayer.getInventory().getItem(currentSlot).getItemName() &&
-                    this.mainHandItem.isEnchanted() == localPlayer.getInventory().getItem(currentSlot).isEnchanted();
+            boolean areSlotsEqual = this.currentSlot == localPlayer.getInventory().selected && animatium$areEqual(this.mainHandItem, localPlayer.getInventory().getItem(currentSlot));
             float scale = localPlayer.getAttackStrengthScale(1.0F);
             float height = !areSlotsEqual ? 0.0F : scale * scale * scale;
             return height - mainHandHeight;
@@ -150,5 +147,12 @@ public abstract class MixinItemInHandRenderer {
         if (AnimatiumConfig.instance().getFixEquipAnimationItemCheck() && this.mainHandHeight < 0.1F) {
             this.currentSlot = localPlayer.getInventory().selected;
         }
+    }
+
+    @Unique
+    private boolean animatium$areEqual(ItemStack left, ItemStack right) {
+        return left.getCount() == right.getCount() &&
+                left.getItemName() == right.getItemName() &&
+                left.isEnchanted() == right.isEnchanted();
     }
 }
