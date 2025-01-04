@@ -136,15 +136,16 @@ public abstract class MixinItemInHandRenderer {
     //TODO: This might not be the most ideal way to replace that item equality check
     @ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(FFF)F", ordinal = 2), index = 0)
     private float animatium$checkSlots(float original, @Local LocalPlayer localPlayer) {
-        // Since comparing items is going nowhere, lets compare the slots instead
-        //TODO: Compare items without breaking this
+        // TODO/NOTE: Since comparing items is going nowhere, lets compare the slots instead
+        // TODO: Compare items without breaking this
         if (AnimatiumConfig.instance().getTest()) {
             boolean areSlotsEqual = this.currentSlot == localPlayer.getInventory().selected;
             float scale = localPlayer.getAttackStrengthScale(1.0F);
             float height = !areSlotsEqual ? 0.0F : scale * scale * scale;
             return height - mainHandHeight;
+        } else {
+            return original;
         }
-        return original;
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
