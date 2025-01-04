@@ -151,6 +151,8 @@
 	"animatium.removeClientsideBlockingDelay.description": "Removes the pesky blocking delay that modern clients have. Shouldn't flag on servers.",
 	"animatium.fixItemUsageCheck": "Fix itemstack usage check whilst in GUI",
 	"animatium.fixItemUsageCheck.description": "Fixes item usage whilst inside a GUI, for example prevents continuous visual blocking, etc.",
+	"animatium.fixFireballClientsideVisual": "Fix fireball clientside fire",
+	"animatium.fixFireballClientsideVisual.description": "Makes fire charges not place fire clientside like in older mc versions. Doesn't cause issues on servers, and is clientside only.",
 	"animatium.category.items.group.fishing_rod": "Fishing Rod",
 	"animatium.oldFishingRodTextureStackCheck": "Disable fishing rod stack check",
 	"animatium.oldFishingRodTextureStackCheck.description": "Brings back old fishing rod stack texture check from <=1.8.",

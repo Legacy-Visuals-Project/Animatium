@@ -1,4 +1,4 @@
-package me.mixces.animatium.mixins.level;
+package me.mixces.animatium.mixins.level.item;
 
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.util.ItemUtils;

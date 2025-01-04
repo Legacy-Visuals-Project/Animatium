@@ -1,4 +1,4 @@
-package me.mixces.animatium.mixins.level;
+package me.mixces.animatium.mixins.level.item;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

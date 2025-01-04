@@ -227,6 +227,9 @@ Allows the server to enable/disable the swing miss penalty on the client.
 - [X] fixItemUsageCheck
     - Description: Fixes item usage whilst inside a GUI, for example prevents continuous visual blocking, etc.
     - Type: BOOLEAN
+- [X] fixFireballClientsideVisual
+    - Description: Makes fire charges not place fire clientside like in older mc versions. Doesn't cause issues on servers, and is clientside only.
+    - Type: BOOLEAN
 - [X] oldFishingRodTextureStackCheck
     - Description: Brings back old fishing rod stack texture check from <=1.8.
     - Type: BOOLEAN

@@ -910,6 +910,17 @@ class AnimatiumConfig {
                                 .controller(TickBoxControllerBuilder::create)
                                 .build()
                         )
+                        otherGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Component.translatable("animatium.fixFireballClientsideVisual"))
+                                .description(OptionDescription.of(Component.translatable("animatium.fixFireballClientsideVisual.description")))
+                                .binding(
+                                    defaults.fixFireballClientsideVisual,
+                                    { config.fixFireballClientsideVisual },
+                                    { newVal -> config.fixFireballClientsideVisual = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
                         category.group(otherGroup.build())
                     }
 
@@ -1151,6 +1162,7 @@ class AnimatiumConfig {
     @SerialEntry var oldItemRarities = true
     @SerialEntry var removeClientsideBlockingDelay = true
     @SerialEntry var fixItemUsageCheck = true
+    @SerialEntry var fixFireballClientsideVisual = true
     @SerialEntry var oldFishingRodTextureStackCheck = true
     @SerialEntry var fishingRodLineInterpolation = false
     @SerialEntry var noMoveFishingRodLine = false
