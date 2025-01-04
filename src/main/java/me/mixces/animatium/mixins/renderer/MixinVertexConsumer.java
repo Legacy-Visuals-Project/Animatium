@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
+// Priority set to 1500 to fix Vulkan Mod Incompatibility
 @Mixin(value = VertexConsumer.class, priority = 1500)
 public interface MixinVertexConsumer {
     // TODO: this is only half of the battle + framed item 2d colors are disabled
