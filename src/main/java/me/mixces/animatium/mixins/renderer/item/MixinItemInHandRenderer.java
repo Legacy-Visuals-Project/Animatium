@@ -132,7 +132,11 @@ public abstract class MixinItemInHandRenderer {
     @ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(FFF)F", ordinal = 2), index = 0)
     private float animatium$checkSlots(float original, @Local LocalPlayer localPlayer) {
         if (AnimatiumConfig.instance().getFixEquipAnimationItemCheck()) {
-            boolean areSlotsEqual = this.currentSlot == localPlayer.getInventory().selected && this.mainHandItem.getCount() == localPlayer.getInventory().getItem(currentSlot).getCount();
+            // TODO: This can be better
+            boolean areSlotsEqual = this.currentSlot == localPlayer.getInventory().selected &&
+                    this.mainHandItem.getCount() == localPlayer.getInventory().getItem(currentSlot).getCount() &&
+                    this.mainHandItem.getItemName() == localPlayer.getInventory().getItem(currentSlot).getItemName() &&
+                    this.mainHandItem.isEnchanted() == localPlayer.getInventory().getItem(currentSlot).isEnchanted();
             float scale = localPlayer.getAttackStrengthScale(1.0F);
             float height = !areSlotsEqual ? 0.0F : scale * scale * scale;
             return height - mainHandHeight;
