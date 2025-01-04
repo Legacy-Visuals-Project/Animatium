@@ -10,10 +10,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
-@Mixin(VertexConsumer.class)
+@Mixin(value = VertexConsumer.class, priority = 1500)
 public interface MixinVertexConsumer {
     // TODO: this is only half of the battle + framed item 2d colors are disabled
-    @ModifyArgs(method = "putBulkData(Lcom/mojang/blaze3d/vertex/PoseStack$Pose;Lnet/minecraft/client/renderer/block/model/BakedQuad;[FFFFF[IIZ)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack$Pose;transformNormal(FFFLorg/joml/Vector3f;)Lorg/joml/Vector3f;"))
+    @ModifyArgs(method = "putBulkData(Lcom/mojang/blaze3d/vertex/PoseStack$Pose;Lnet/minecraft/client/renderer/block/model/BakedQuad;[FFFFF[IIZ)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack$Pose;transformNormal(FFFLorg/joml/Vector3f;)Lorg/joml/Vector3f;"), require = 0)
     default void animatium$item2DColors(Args args) {
         ItemStackRenderState state = ItemUtils.getRenderState();
         if (AnimatiumConfig.instance().getItem2DColors() && state != null && !state.isGui3d()) {
