@@ -15,12 +15,14 @@ import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShieldItem;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -36,6 +38,9 @@ public abstract class MixinItemInHandRenderer {
 
     @Shadow
     private float mainHandHeight;
+
+    @Shadow
+    private ItemStack mainHandItem;
 
     @Unique
     private int currentSlot = -1;
@@ -125,21 +130,20 @@ public abstract class MixinItemInHandRenderer {
         }
     }
 
-//    @Inject(method = "itemUsed", at = @At("HEAD"), cancellable = true)
-//    private void animatium$removeEquipAnimationOnItemUse(InteractionHand hand, CallbackInfo ci) {
-//        LocalPlayer player = this.minecraft.player;
-//        if (AnimatiumConfig.instance().getRemoveEquipAnimationOnItemUse() && player != null && player.isUsingItem()) {
-//            ci.cancel();
-//        }
-//    }
+    /**
+     * @author a
+     * @reason a
+     */
+    @Overwrite
+    private boolean shouldInstantlyReplaceVisibleItem(ItemStack itemStack, ItemStack itemStack2) {
+        return false;
+    }
 
     //TODO: This might not be the most ideal way to replace that item equality check
     @ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(FFF)F", ordinal = 2), index = 0)
     private float animatium$checkSlots(float original, @Local LocalPlayer localPlayer) {
-        // TODO/NOTE: Since comparing items is going nowhere, lets compare the slots instead
-        // TODO: Compare items without breaking this
-        if (AnimatiumConfig.instance().getTest()) {
-            boolean areSlotsEqual = this.currentSlot == localPlayer.getInventory().selected;
+        if (AnimatiumConfig.instance().getFixEquipAnimationItemCheck()) {
+            boolean areSlotsEqual = this.currentSlot == localPlayer.getInventory().selected && this.mainHandItem.getCount() == localPlayer.getInventory().getItem(currentSlot).getCount();
             float scale = localPlayer.getAttackStrengthScale(1.0F);
             float height = !areSlotsEqual ? 0.0F : scale * scale * scale;
             return height - mainHandHeight;
@@ -150,7 +154,7 @@ public abstract class MixinItemInHandRenderer {
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void animatium$setEquippedItemSlot(CallbackInfo ci, @Local LocalPlayer localPlayer) {
-        if (AnimatiumConfig.instance().getTest() && this.mainHandHeight < 0.1F) {
+        if (AnimatiumConfig.instance().getFixEquipAnimationItemCheck() && this.mainHandHeight < 0.1F) {
             this.currentSlot = localPlayer.getInventory().selected;
         }
     }

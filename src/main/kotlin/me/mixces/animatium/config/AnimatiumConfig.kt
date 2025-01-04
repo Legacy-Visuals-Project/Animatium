@@ -769,6 +769,17 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
+                                .name(Component.translatable("animatium.fixEquipAnimationItemCheck"))
+                                .description(OptionDescription.of(Component.translatable("animatium.fixEquipAnimationItemCheck.description")))
+                                .binding(
+                                    defaults.fixEquipAnimationItemCheck,
+                                    { config.fixEquipAnimationItemCheck },
+                                    { newVal -> config.fixEquipAnimationItemCheck = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        otherGroup.option(
+                            Option.createBuilder<Boolean>()
                                 .name(Component.translatable("animatium.removeEquipAnimationOnItemUse"))
                                 .description(OptionDescription.of(Component.translatable("animatium.removeEquipAnimationOnItemUse.description")))
                                 .binding(
@@ -1127,6 +1138,7 @@ class AnimatiumConfig {
     @SerialEntry var disableSwingOnUse = true
     @SerialEntry var disableSwingOnDrop = true
     @SerialEntry var disableSwingOnEntityInteract = true
+    @SerialEntry var fixEquipAnimationItemCheck = true
     @SerialEntry var removeEquipAnimationOnItemUse = true
     @SerialEntry var disableItemUsingTextureInGui = true
     @SerialEntry var itemDropsFaceCamera = true
@@ -1160,7 +1172,4 @@ class AnimatiumConfig {
     @SerialEntry var legacyBlockOutlineRendering = true
     @SerialEntry var hideModelWhilstSleeping = true
     @SerialEntry var entityArmorHurtTint = true
-
-    // Debug
-    var test = false
 }
