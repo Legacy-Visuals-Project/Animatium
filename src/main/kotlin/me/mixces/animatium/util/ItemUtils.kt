@@ -191,4 +191,18 @@ object ItemUtils {
             stack.rarity
         }
     }
+
+    @JvmStatic
+    fun areEquals1_8(left: ItemStack, right: ItemStack): Boolean {
+        // TODO: manually match the object stuff as doing equals checks on them break it
+        // TODO/NOTE: For example, components, tags, etc
+        return (left.count == right.count) &&
+                (left.itemName == right.itemName) &&
+                (left.customName == right.customName) &&
+                (left.rarity == right.rarity) &&
+                (left.maxStackSize == right.maxStackSize) &&
+                (left.maxDamage == right.maxDamage) &&
+                (left.useAnimation == right.useAnimation) &&
+                (left.isEnchanted == right.isEnchanted)
+    }
 }
