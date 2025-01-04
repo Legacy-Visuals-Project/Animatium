@@ -1160,4 +1160,7 @@ class AnimatiumConfig {
     @SerialEntry var legacyBlockOutlineRendering = true
     @SerialEntry var hideModelWhilstSleeping = true
     @SerialEntry var entityArmorHurtTint = true
+
+    // Debug
+    var test = false
 }
