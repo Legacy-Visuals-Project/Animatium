@@ -126,7 +126,7 @@
 	"animatium.disableSwingOnEntityInteract": "Disable swing animation when interacting with entities",
 	"animatium.disableSwingOnEntityInteract.description": "Stops the swing animation from playing when interacting with interactable entities such as villagers <=1.15.",
 	"animatium.fixEquipAnimationItemCheck": "Fix equip animation item check",
-	"animatium.fixEquipAnimationItemCheck.description": "Instead of comparing items directly to determine the equip animation, compare the items AND the slots they're in like <1.8.x.",
+	"animatium.fixEquipAnimationItemCheck.description": "Instead of comparing items directly to determine the equip animation, compare the properties and components of the items like in <=1.8.x.",
 	"animatium.removeEquipAnimationOnItemUse": "Remove the equip animation when using a item",
 	"animatium.removeEquipAnimationOnItemUse.description": "Fixes the blocking animation which plays the equip animation on use, and others.",
 	"animatium.disableItemUsingTextureInGui": "Disable item usage texture in GUI",

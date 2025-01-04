@@ -22,11 +22,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShieldItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.Slice;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ItemInHandRenderer.class)
@@ -39,9 +35,6 @@ public abstract class MixinItemInHandRenderer {
 
     @Shadow
     private ItemStack mainHandItem;
-
-    @Unique
-    private int currentSlot = -1;
 
     // TODO: Make arm partially translucent/transparent like the third-person player model (like on a team)
     @WrapOperation(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/AbstractClientPlayer;isInvisible()Z"))
@@ -129,23 +122,16 @@ public abstract class MixinItemInHandRenderer {
     }
 
     // TODO: This might not be the most ideal way to replace that item equality check
-    @ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(FFF)F", ordinal = 2), index = 0)
-    private float animatium$checkSlots(float original, @Local LocalPlayer localPlayer) {
+    @ModifyVariable(method = "tick", at = @At(value = "LOAD", ordinal = 0), ordinal = 1)
+    private float animatium$fixEquipAnimationItemCheck(float original, @Local LocalPlayer localPlayer, @Local(ordinal = 0) float f) {
         if (AnimatiumConfig.instance().getFixEquipAnimationItemCheck()) {
-            // TODO: This can be better
-            boolean areSlotsEqual = this.currentSlot == localPlayer.getInventory().selected && ItemUtils.areEquals1_8(this.mainHandItem, localPlayer.getInventory().getItem(currentSlot));
-            float scale = localPlayer.getAttackStrengthScale(1.0F);
-            float height = !areSlotsEqual ? 0.0F : scale * scale * scale;
-            return height - this.mainHandHeight;
+            if (!ItemUtils.areEquals1_8(mainHandItem, localPlayer.getMainHandItem())) {
+                return 0.0F;
+            } else {
+                return f * f * f;
+            }
         } else {
             return original;
-        }
-    }
-
-    @Inject(method = "tick", at = @At("TAIL"))
-    private void animatium$setEquippedItemSlot(CallbackInfo ci, @Local LocalPlayer localPlayer) {
-        if (AnimatiumConfig.instance().getFixEquipAnimationItemCheck() && this.mainHandHeight < 0.1F) {
-            this.currentSlot = localPlayer.getInventory().selected;
         }
     }
 }
