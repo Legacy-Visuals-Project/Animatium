@@ -133,6 +133,9 @@ public abstract class MixinMinecraft {
     @WrapWithCondition(method = "startUseItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;itemUsed(Lnet/minecraft/world/InteractionHand;)V", ordinal = 1))
     private boolean animatium$removeEquipAnimationOnItemUse(ItemInHandRenderer instance, InteractionHand interactionHand) {
         // TODO: This fixes projectile equip, but it isn't going to be 100% accurate in some other areas. This needs to be worked on :)
-        return !AnimatiumConfig.instance().getRemoveEquipAnimationOnItemUse();
+        if (AnimatiumConfig.instance().getRemoveEquipAnimationOnItemUse()) {
+            return hitResult != null && hitResult.getType() == HitResult.Type.BLOCK && player!= null && player.isCreative();
+        }
+        return true;
     }
 }

@@ -9,6 +9,7 @@ import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.util.ItemUtils;
 import me.mixces.animatium.util.MathUtils;
 import me.mixces.animatium.util.PlayerUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.ItemInHandRenderer;
@@ -20,21 +21,21 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShieldItem;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(ItemInHandRenderer.class)
+@Mixin(value = ItemInHandRenderer.class, priority = 500)
 public abstract class MixinItemInHandRenderer {
     @Shadow
     protected abstract void applyItemArmAttackTransform(PoseStack matrices, HumanoidArm arm, float swingProgress);
 
     @Shadow
-    private ItemStack mainHandItem;
+    @Final private Minecraft minecraft;
 
     // TODO: Make arm partially translucent/transparent like the third-person player model (like on a team)
     @WrapOperation(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/AbstractClientPlayer;isInvisible()Z"))
@@ -121,17 +122,25 @@ public abstract class MixinItemInHandRenderer {
         }
     }
 
-    // TODO: This might not be the most ideal way to replace that item equality check
-    @ModifyVariable(method = "tick", at = @At(value = "LOAD", ordinal = 0), ordinal = 1)
-    private float animatium$fixEquipAnimationItemCheck(float original, @Local LocalPlayer localPlayer, @Local(ordinal = 0) float f) {
+    @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;getMainHandItem()Lnet/minecraft/world/item/ItemStack;"))
+    private ItemStack animatium$fixCopyStack(LocalPlayer instance, Operation<ItemStack> original) {
+        // TODO/NOTE: This is 90% done. 10% not done. :)
+        return AnimatiumConfig.instance().getFixEquipAnimationItemCheck() && !instance.isUsingItem() ? original.call(instance).copy() : original.call(instance);
+    }
+
+    @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isHandsBusy()Z"))
+    private boolean animatium$showHeldItemInBoat(LocalPlayer instance, Operation<ItemStack> original) {
+        return !AnimatiumConfig.instance().getShowHeldItemInBoat();
+    }
+
+    // TODO/NOTE: I need to make sure this accounts for EVERYTHING.
+    @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;shouldInstantlyReplaceVisibleItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z", ordinal = 0))
+    private boolean animatium$fixEquipAnimationItemCheck(ItemInHandRenderer instance, ItemStack itemStack, ItemStack itemStack2, Operation<Boolean> original) {
+        boolean value = original.call(instance, itemStack, itemStack2);
         if (AnimatiumConfig.instance().getFixEquipAnimationItemCheck()) {
-            if (!ItemUtils.areEquals1_8(mainHandItem, localPlayer.getMainHandItem())) {
-                return 0.0F;
-            } else {
-                return f * f * f;
-            }
+            return (ItemStack.isSameItem(itemStack, itemStack2) && !ItemStack.matches(itemStack, itemStack2) && itemStack.getDamageValue() != itemStack2.getDamageValue() && minecraft.screen == null) || value;
         } else {
-            return original;
+            return value;
         }
     }
 }
