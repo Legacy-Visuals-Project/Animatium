@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.util.PlayerUtils;
 import me.mixces.animatium.util.ViewBobbingStorage;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -32,14 +33,19 @@ public abstract class MixinPlayer extends LivingEntity {
 
     @Inject(method = "attack", at = @At("HEAD"))
     private void animatium$alwaysShowSharpParticles(Entity target, CallbackInfo ci) {
-        if (AnimatiumConfig.instance().getAlwaysShowSharpParticles()) {
-            this.magicCrit(target);
+        if (AnimatiumConfig.instance().getAlwaysShowSharpParticles() &&
+                target.isAttackable() &&
+                !target.skipAttackInteraction(this) &&
+                !Minecraft.getInstance().isSingleplayer()) {
+            for (int i = 0; i < AnimatiumConfig.instance().getParticleMultiplier(); ++i) {
+                this.magicCrit(target);
+            }
         }
     }
 
     @WrapWithCondition(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;magicCrit(Lnet/minecraft/world/entity/Entity;)V"))
     private boolean animatium$disableDefaultSharpParticles(Player instance, Entity target) {
-        return !AnimatiumConfig.instance().getAlwaysShowSharpParticles();
+        return !(AnimatiumConfig.instance().getAlwaysShowSharpParticles() && !Minecraft.getInstance().isSingleplayer());
     }
 
     @Inject(method = "getMaxHeadRotationRelativeToBody", at = @At(value = "RETURN"), cancellable = true)

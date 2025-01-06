@@ -7,10 +7,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import me.mixces.animatium.config.AnimatiumConfig;
-import me.mixces.animatium.mixins.accessor.ClientLevelDataAccessor;
 import me.mixces.animatium.mixins.accessor.SkyRendererAccessor;
 import me.mixces.animatium.util.MathUtils;
-import me.mixces.animatium.util.ShaderUtils;
+import me.mixces.animatium.util.RenderUtils;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -18,6 +17,7 @@ import net.minecraft.client.renderer.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -55,7 +55,16 @@ public abstract class MixinLevelRenderer {
             assert this.level != null;
             // can't get it via local, so have to re-get it this way
             int skyColor = this.level.getSkyColor(this.minecraft.gameRenderer.getMainCamera().getPosition(), tickDelta);
-            this.animatium$renderSkyBlueVoid(poseStack, skyColor, this.minecraft.player.getEyePosition(tickDelta).y - animatium$getHorizonHeight(this.level));
+            this.animatium$renderSkyBlueVoid(poseStack, skyColor, this.minecraft.player.getEyePosition(tickDelta).y - RenderUtils.getLevelHorizonHeight(this.level));
+        }
+    }
+
+    @WrapOperation(method = "shouldRenderDarkDisc", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel$ClientLevelData;getHorizonHeight(Lnet/minecraft/world/level/LevelHeightAccessor;)D"))
+    private double animatium$oldSkyHorizonHeight(ClientLevel.ClientLevelData instance, LevelHeightAccessor levelHeightAccessor, Operation<Double> original) {
+        if (AnimatiumConfig.instance().getOldSkyHorizonHeight() && this.level != null) {
+            return RenderUtils.getLevelHorizonHeight(this.level);
+        } else {
+            return original.call(instance, levelHeightAccessor);
         }
     }
 
@@ -92,26 +101,17 @@ public abstract class MixinLevelRenderer {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    @Unique
-    public double animatium$getHorizonHeight(ClientLevel level) {
-        if (((ClientLevelDataAccessor) level.getLevelData()).isFlatWorld()) {
-            return AnimatiumConfig.instance().getOldSkyHorizonHeight() ? 0.0D : level.getMinY();
-        } else {
-            return 63.0D;
-        }
-    }
-
     @Inject(method = "renderBlockOutline", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;renderHitOutline(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;DDDLnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)V", shift = At.Shift.BEFORE))
     private void animatium$setBlockOutlineWidth$on(Camera camera, MultiBufferSource.BufferSource bufferSource, PoseStack poseStack, boolean bl, CallbackInfo ci) {
         if (AnimatiumConfig.instance().getLegacyBlockOutlineRendering()) {
-            ShaderUtils.setLineWidth(2.0F);
+            RenderUtils.setLineWidth(2.0F);
         }
     }
 
     @Inject(method = "renderBlockOutline", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;renderHitOutline(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;DDDLnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)V", shift = At.Shift.BEFORE))
     private void animatium$setBlockOutlineWidth$off(Camera camera, MultiBufferSource.BufferSource bufferSource, PoseStack poseStack, boolean bl, CallbackInfo ci) {
         if (AnimatiumConfig.instance().getLegacyBlockOutlineRendering()) {
-            ShaderUtils.setLineWidth(-1.0F);
+            RenderUtils.setLineWidth(-1.0F);
         }
     }
 

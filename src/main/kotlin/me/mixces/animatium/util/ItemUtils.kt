@@ -5,7 +5,6 @@ import com.mojang.math.Axis
 import me.mixces.animatium.config.AnimatiumConfig
 import net.minecraft.client.renderer.entity.state.EntityRenderState
 import net.minecraft.client.renderer.item.ItemStackRenderState
-import net.minecraft.core.component.DataComponents
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.BucketItem
@@ -191,68 +190,5 @@ object ItemUtils {
             // TODO?: Trims? eh, if someone requests it ig
             stack.rarity
         }
-    }
-
-    @JvmStatic
-    fun areEquals1_8(left: ItemStack, right: ItemStack): Boolean {
-        // TODO: manually match the object stuff as doing equals checks on them break it
-        // TODO/NOTE: For example, components, tags, etc
-        return (left.count == right.count) &&
-                (left.itemName == right.itemName) &&
-                (left.customName == right.customName) &&
-                (left.rarity == right.rarity) &&
-                (left.maxStackSize == right.maxStackSize) &&
-                (left.maxDamage == right.maxDamage) &&
-                (left.isDamaged == right.isDamaged) &&
-                (left.useAnimation == right.useAnimation) &&
-                (left.isEnchanted == right.isEnchanted) &&
-                (left.components.size() == right.components.size()) &&
-                (left.components.get(DataComponents.CUSTOM_DATA) == right.components.get(DataComponents.CUSTOM_DATA)) &&
-                (left.components.get(DataComponents.UNBREAKABLE) == right.components.get(DataComponents.UNBREAKABLE)) &&
-                (left.components.get(DataComponents.LORE) == right.components.get(DataComponents.LORE)) &&
-                (left.components.get(DataComponents.ENCHANTMENTS) == right.components.get(DataComponents.ENCHANTMENTS)) &&
-                (left.components.get(DataComponents.ATTRIBUTE_MODIFIERS) == right.components.get(DataComponents.ATTRIBUTE_MODIFIERS)) &&
-                (left.components.get(DataComponents.CUSTOM_MODEL_DATA) == right.components.get(DataComponents.CUSTOM_MODEL_DATA)) &&
-                (left.components.get(DataComponents.REPAIR_COST) == right.components.get(DataComponents.REPAIR_COST)) &&
-                (left.components.get(DataComponents.ENCHANTMENT_GLINT_OVERRIDE) == right.components.get(DataComponents.ENCHANTMENT_GLINT_OVERRIDE)) &&
-                (left.components.get(DataComponents.INTANGIBLE_PROJECTILE) == right.components.get(DataComponents.INTANGIBLE_PROJECTILE)) &&
-                (left.components.get(DataComponents.FOOD) == right.components.get(DataComponents.FOOD)) &&
-                (left.components.get(DataComponents.CONSUMABLE) == right.components.get(DataComponents.CONSUMABLE)) &&
-                (left.components.get(DataComponents.USE_REMAINDER) == right.components.get(DataComponents.USE_REMAINDER)) &&
-                (left.components.get(DataComponents.USE_COOLDOWN) == right.components.get(DataComponents.USE_COOLDOWN)) &&
-                (left.components.get(DataComponents.DAMAGE_RESISTANT) == right.components.get(DataComponents.DAMAGE_RESISTANT)) &&
-                (left.components.get(DataComponents.TOOL) == right.components.get(DataComponents.TOOL)) &&
-                (left.components.get(DataComponents.ENCHANTABLE) == right.components.get(DataComponents.ENCHANTABLE)) &&
-                (left.components.get(DataComponents.REPAIRABLE) == right.components.get(DataComponents.REPAIRABLE)) &&
-                (left.components.get(DataComponents.GLIDER) == right.components.get(DataComponents.GLIDER)) &&
-                (left.components.get(DataComponents.TOOLTIP_STYLE) == right.components.get(DataComponents.TOOLTIP_STYLE)) &&
-                (left.components.get(DataComponents.DEATH_PROTECTION) == right.components.get(DataComponents.DEATH_PROTECTION)) &&
-                (left.components.get(DataComponents.STORED_ENCHANTMENTS) == right.components.get(DataComponents.STORED_ENCHANTMENTS)) &&
-                (left.components.get(DataComponents.DYED_COLOR) == right.components.get(DataComponents.DYED_COLOR)) &&
-                (left.components.get(DataComponents.MAP_COLOR) == right.components.get(DataComponents.MAP_COLOR)) &&
-                (left.components.get(DataComponents.MAP_ID) == right.components.get(DataComponents.MAP_ID)) &&
-                (left.components.get(DataComponents.CHARGED_PROJECTILES) == right.components.get(DataComponents.CHARGED_PROJECTILES)) &&
-                (left.components.get(DataComponents.POTION_CONTENTS) == right.components.get(DataComponents.POTION_CONTENTS)) &&
-                (left.components.get(DataComponents.SUSPICIOUS_STEW_EFFECTS) == right.components.get(DataComponents.SUSPICIOUS_STEW_EFFECTS)) &&
-                (left.components.get(DataComponents.WRITABLE_BOOK_CONTENT) == right.components.get(DataComponents.WRITABLE_BOOK_CONTENT)) &&
-                (left.components.get(DataComponents.WRITTEN_BOOK_CONTENT) == right.components.get(DataComponents.WRITTEN_BOOK_CONTENT)) &&
-                (left.components.get(DataComponents.TRIM) == right.components.get(DataComponents.TRIM)) &&
-                (left.components.get(DataComponents.ENTITY_DATA) == right.components.get(DataComponents.ENTITY_DATA)) &&
-                (left.components.get(DataComponents.BUCKET_ENTITY_DATA) == right.components.get(DataComponents.BUCKET_ENTITY_DATA)) &&
-                (left.components.get(DataComponents.BLOCK_ENTITY_DATA) == right.components.get(DataComponents.BLOCK_ENTITY_DATA)) &&
-                (left.components.get(DataComponents.INSTRUMENT) == right.components.get(DataComponents.INSTRUMENT)) &&
-                (left.components.get(DataComponents.OMINOUS_BOTTLE_AMPLIFIER) == right.components.get(DataComponents.OMINOUS_BOTTLE_AMPLIFIER)) &&
-                (left.components.get(DataComponents.JUKEBOX_PLAYABLE) == right.components.get(DataComponents.JUKEBOX_PLAYABLE)) &&
-                (left.components.get(DataComponents.LODESTONE_TRACKER) == right.components.get(DataComponents.LODESTONE_TRACKER)) &&
-                (left.components.get(DataComponents.FIREWORK_EXPLOSION) == right.components.get(DataComponents.FIREWORK_EXPLOSION)) &&
-                (left.components.get(DataComponents.FIREWORKS) == right.components.get(DataComponents.FIREWORKS)) &&
-                (left.components.get(DataComponents.PROFILE) == right.components.get(DataComponents.PROFILE)) &&
-                (left.components.get(DataComponents.NOTE_BLOCK_SOUND) == right.components.get(DataComponents.NOTE_BLOCK_SOUND)) &&
-                (left.components.get(DataComponents.BANNER_PATTERNS) == right.components.get(DataComponents.BANNER_PATTERNS)) &&
-                (left.components.get(DataComponents.BASE_COLOR) == right.components.get(DataComponents.BASE_COLOR)) &&
-                (left.components.get(DataComponents.POT_DECORATIONS) == right.components.get(DataComponents.POT_DECORATIONS)) &&
-                (left.components.get(DataComponents.BLOCK_STATE) == right.components.get(DataComponents.BLOCK_STATE)) &&
-                (left.components.get(DataComponents.LOCK) == right.components.get(DataComponents.LOCK)) &&
-                (left.components.get(DataComponents.EQUIPPABLE) == right.components.get(DataComponents.EQUIPPABLE))
     }
 }

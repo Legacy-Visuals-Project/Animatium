@@ -25,6 +25,7 @@
 		"network.MixinClientPacketListener",
 		"network.MixinConnection",
 		"network.MixinMultiPlayerGameMode",
+		"network.MixinRegistrationPayload",
 		"renderer.MixinCompiledShaderProgram",
 		"renderer.MixinDrawContext",
 		"renderer.MixinGameRenderer",

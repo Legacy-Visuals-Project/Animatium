@@ -7,6 +7,7 @@ import dev.isxander.yacl3.api.OptionGroup
 import dev.isxander.yacl3.api.YetAnotherConfigLib
 import dev.isxander.yacl3.api.controller.ColorControllerBuilder
 import dev.isxander.yacl3.api.controller.EnumControllerBuilder
+import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler
 import dev.isxander.yacl3.config.v2.api.SerialEntry
@@ -253,6 +254,17 @@ class AnimatiumConfig {
                                 { config.disableParticlePhysics },
                                 { newVal -> config.disableParticlePhysics = newVal })
                             .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
+                    category.option(
+                        Option.createBuilder<Int>()
+                            .name(Component.translatable("animatium.particleMultiplier"))
+                            .description(OptionDescription.of(Component.translatable("animatium.particleMultiplier.description")))
+                            .binding(
+                                defaults.particleMultiplier,
+                                { config.particleMultiplier },
+                                { newVal -> config.particleMultiplier = newVal })
+                            .controller { opt -> IntegerSliderControllerBuilder.create(opt).range(0, 20).step(1) }
                             .build()
                     )
                     builder.category(category.build())
@@ -1120,6 +1132,7 @@ class AnimatiumConfig {
     @SerialEntry var customHitColor = Color(255, 0, 0)
     @SerialEntry var deepRedHurtTint = false
     @SerialEntry var disableParticlePhysics = false
+    @SerialEntry var particleMultiplier = 1
 
     // Movement
     @SerialEntry var rotateBackwardsWalking = true

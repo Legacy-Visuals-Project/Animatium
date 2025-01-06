@@ -35,7 +35,8 @@ public abstract class MixinItemInHandRenderer {
     protected abstract void applyItemArmAttackTransform(PoseStack matrices, HumanoidArm arm, float swingProgress);
 
     @Shadow
-    @Final private Minecraft minecraft;
+    @Final
+    private Minecraft minecraft;
 
     // TODO: Make arm partially translucent/transparent like the third-person player model (like on a team)
     @WrapOperation(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/AbstractClientPlayer;isInvisible()Z"))

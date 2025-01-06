@@ -80,17 +80,25 @@ Allows the server to enable/disable the swing miss penalty on the client.
       pixels that cause issues.
     - Type: BOOLEAN
 - [X] fakeMissPenaltySwing
-  - Description: In vanilla Minecraft, if the player has missed their hit, there will be a 10 ms delay on top of the attack cooldown before they can can swing again. Enable this feature to play a fake swing animation during that 10 ms delay to match <=1.7.x.
-  - Type: BOOLEAN
+    - Description: In vanilla Minecraft, if the player has missed their hit, there will be a 10 ms delay on top of the
+      attack cooldown before they can can swing again. Enable this feature to play a fake swing animation during that 10
+      ms delay to match <=1.7.x.
+    - Type: BOOLEAN
 - [X] showUsageSwingingParticles
-  - Description: Shows fake block-breaking particles during usage swinging to match <=1.7.x.
-  - Type: BOOLEAN
+    - Description: Shows fake block-breaking particles during usage swinging to match <=1.7.x.
+    - Type: BOOLEAN
 - [X] customHitColor
-  - Description: Modifies the entity damage tint color.
-  - Type: BOOLEAN 
+    - Description: Modifies the entity damage tint color.
+    - Type: BOOLEAN
 - [X] deepRedHurtTint
-  - Description: Modifies the entity damage tint alpha to be less like in Oranges Old Animations mod.
-  - Type: BOOLEAN 
+    - Description: Modifies the entity damage tint alpha to be less like in Oranges Old Animations mod.
+    - Type: BOOLEAN
+- [X] disableParticlePhysics
+    - Description: Allows particles to bypass collision logic.
+    - Type: BOOLEAN
+- [X] particleMultiplier
+    - Description: Changes how many sharpness particles are shown on entity damage/hit.
+    - Type: BOOLEAN
   </details>
 
 <details>
@@ -228,7 +236,8 @@ Allows the server to enable/disable the swing miss penalty on the client.
     - Description: Fixes item usage whilst inside a GUI, for example prevents continuous visual blocking, etc.
     - Type: BOOLEAN
 - [X] fixFireballClientsideVisual
-    - Description: Makes fire charges not place fire clientside like in older mc versions. Doesn't cause issues on servers, and is clientside only.
+    - Description: Makes fire charges not place fire clientside like in older mc versions. Doesn't cause issues on
+      servers, and is clientside only.
     - Type: BOOLEAN
 - [X] oldFishingRodTextureStackCheck
     - Description: Brings back old fishing rod stack texture check from <=1.8.

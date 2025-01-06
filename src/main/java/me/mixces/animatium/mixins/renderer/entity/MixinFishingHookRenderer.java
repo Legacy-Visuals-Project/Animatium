@@ -7,7 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.mixins.accessor.CameraAccessor;
 import me.mixces.animatium.util.PlayerUtils;
-import me.mixces.animatium.util.ShaderUtils;
+import me.mixces.animatium.util.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -49,9 +49,9 @@ public abstract class MixinFishingHookRenderer extends EntityRenderer<FishingHoo
     private void animatium$oldFishingRodLineThickness(FishingHookRenderState fishingHookRenderState, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
         // TODO/NOTE: Seems to be ok to set it like this and not have to set -1.0F after?
         if (AnimatiumConfig.instance().getThinFishingRodLineThickness()) {
-            ShaderUtils.setLineWidth(1.0F);
+            RenderUtils.setLineWidth(1.0F);
         } else if (AnimatiumConfig.instance().getOldFishingRodLineThickness()) {
-            ShaderUtils.setLineWidth(2.0F);
+            RenderUtils.setLineWidth(2.0F);
         }
     }
 

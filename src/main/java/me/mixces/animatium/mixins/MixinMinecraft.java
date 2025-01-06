@@ -134,8 +134,9 @@ public abstract class MixinMinecraft {
     private boolean animatium$removeEquipAnimationOnItemUse(ItemInHandRenderer instance, InteractionHand interactionHand) {
         // TODO: This fixes projectile equip, but it isn't going to be 100% accurate in some other areas. This needs to be worked on :)
         if (AnimatiumConfig.instance().getRemoveEquipAnimationOnItemUse()) {
-            return hitResult != null && hitResult.getType() == HitResult.Type.BLOCK && player!= null && player.isCreative();
+            return hitResult != null && hitResult.getType() == HitResult.Type.BLOCK && player != null && player.isCreative();
+        } else {
+            return true;
         }
-        return true;
     }
 }
