@@ -26,14 +26,11 @@ object RenderUtils {
     @JvmStatic
     fun getLevelHorizonHeight(level: ClientLevel): Double {
         return if (AnimatiumConfig.instance().oldSkyHorizonHeight) {
-            if ((level.getLevelData() as ClientLevelDataAccessor).isFlatWorld()) {
-                if (AnimatiumConfig.instance().oldSkyHorizonHeight)
-                    0.0
-                else
-                    level.minY.toDouble()
-            } else {
+            if ((level.getLevelData() as ClientLevelDataAccessor).isFlatWorld())
+                0.0
+            else
                 63.0
-            }
+
         } else {
             level.levelData.getHorizonHeight(level)
         }
