@@ -85,7 +85,7 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
     private boolean animatium$fixItemUsageCheck(ItemStack left, ItemStack right, Operation<Boolean> original) {
         boolean value = original.call(left, right);
         if (AnimatiumConfig.instance().getFixItemUsageCheck()) {
-            return left.getDamageValue() == right.getDamageValue() ? ItemStack.matches(left, right) : value;
+            return left.getDamageValue() == right.getDamageValue() ? left == right : value;
         } else {
             return value;
         }
