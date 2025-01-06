@@ -24,6 +24,7 @@ import net.minecraft.world.item.ShieldItem;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Slice;
@@ -37,6 +38,12 @@ public abstract class MixinItemInHandRenderer {
     @Shadow
     @Final
     private Minecraft minecraft;
+
+    @Shadow
+    private float mainHandHeight;
+
+    @Unique
+    private int currentSlot = -1;
 
     // TODO: Make arm partially translucent/transparent like the third-person player model (like on a team)
     @WrapOperation(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/AbstractClientPlayer;isInvisible()Z"))
@@ -136,12 +143,33 @@ public abstract class MixinItemInHandRenderer {
 
     // TODO/NOTE: I need to make sure this accounts for EVERYTHING.
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;shouldInstantlyReplaceVisibleItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z", ordinal = 0))
-    private boolean animatium$fixEquipAnimationItemCheck(ItemInHandRenderer instance, ItemStack itemStack, ItemStack itemStack2, Operation<Boolean> original) {
+    private boolean animatium$fixEquipAnimationItemCheck(ItemInHandRenderer instance, ItemStack itemStack, ItemStack itemStack2, Operation<Boolean> original, @Local LocalPlayer localPlayer) {
         boolean value = original.call(instance, itemStack, itemStack2);
         if (AnimatiumConfig.instance().getFixEquipAnimationItemCheck()) {
-            return (ItemStack.isSameItem(itemStack, itemStack2) && !ItemStack.matches(itemStack, itemStack2) && itemStack.getDamageValue() != itemStack2.getDamageValue() && minecraft.screen == null) || value;
+            // In order to make sure this code doesn't break switching slots, lets ensure the slot changed
+            boolean slotsMatch = this.currentSlot == localPlayer.getInventory().selected;
+            // We make sure the actual item class is the same as the class of the item being swapped to (SwordItem, BowItem, etc...)
+            boolean itemsMatch = ItemStack.isSameItem(itemStack, itemStack2);
+            // Because the durability changes the itemstack and that results in the item equip update code reading it as a different itemstack,
+            // we must ensure the durabilities are different before we skip the equip update
+            boolean durabilitiesMatch = itemStack.getDamageValue() == itemStack2.getDamageValue();
+            // Similar to the durability, the stack count changing results in the item equip update code reading the stack as a different stack
+            boolean countMatch = itemStack.getCount() == itemStack2.getCount();
+            // This check is not ideal. I need a better to check for inventory slots :( This presents a bug with mending items while a gui is open
+            boolean notInGui = this.minecraft.screen == null;
+            // If these conditions are met, the item update code will skip the equip animation as the stack will be immediately updated
+            // Some of these checks may or may not be redundant. I will have to rewrite this to be simpler someday :)
+            return (slotsMatch && itemsMatch && notInGui && (!durabilitiesMatch || !countMatch)) || value;
         } else {
             return value;
+        }
+    }
+
+    @Inject(method = "tick", at = @At("TAIL"))
+    private void animatium$setEquippedItemSlot(CallbackInfo ci, @Local LocalPlayer localPlayer) {
+        if (AnimatiumConfig.instance().getFixEquipAnimationItemCheck() && this.mainHandHeight < 0.1F) {
+            // Cache the previous slot item to use in our comparison above
+            this.currentSlot = localPlayer.getInventory().selected;
         }
     }
 }
