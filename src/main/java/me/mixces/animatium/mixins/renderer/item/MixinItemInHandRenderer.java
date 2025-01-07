@@ -137,8 +137,8 @@ public abstract class MixinItemInHandRenderer {
     }
 
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isHandsBusy()Z"))
-    private boolean animatium$showHeldItemInBoat(LocalPlayer instance, Operation<ItemStack> original) {
-        return !AnimatiumConfig.instance().getShowHeldItemInBoat();
+    private boolean animatium$showHeldItemInBoat(LocalPlayer instance, Operation<Boolean> original) {
+        return !AnimatiumConfig.instance().getShowHeldItemInBoat() && original.call(instance);
     }
 
     // TODO/NOTE: I need to make sure this accounts for EVERYTHING.

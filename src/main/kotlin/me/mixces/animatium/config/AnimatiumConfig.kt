@@ -95,17 +95,6 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Component.translatable("animatium.fixMirrorArmSwing"))
-                            .description(OptionDescription.of(Component.translatable("animatium.fixMirrorArmSwing.description")))
-                            .binding(
-                                defaults.fixMirrorArmSwing,
-                                { config.fixMirrorArmSwing },
-                                { newVal -> config.fixMirrorArmSwing = newVal })
-                            .controller(TickBoxControllerBuilder::create)
-                            .build()
-                    )
-                    category.option(
-                        Option.createBuilder<Boolean>()
                             .name(Component.translatable("animatium.persistentBlockOutline"))
                             .description(OptionDescription.of(Component.translatable("animatium.persistentBlockOutline.description")))
                             .binding(
@@ -150,37 +139,12 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
-                            .name(Component.translatable("animatium.disableServerPoseAndBlockingVisualUpdates"))
-                            .description(OptionDescription.of(Component.translatable("animatium.disableServerPoseAndBlockingVisualUpdates.description")))
-                            .binding(
-                                defaults.disableServerPoseAndBlockingVisualUpdates,
-                                { config.disableServerPoseAndBlockingVisualUpdates },
-                                { newVal -> config.disableServerPoseAndBlockingVisualUpdates = newVal })
-                            .controller(TickBoxControllerBuilder::create)
-                            .build()
-                    )
-                    category.option(
-                        Option.createBuilder<Boolean>()
                             .name(Component.translatable("animatium.showArmWhileInvisible"))
                             .description(OptionDescription.of(Component.translatable("animatium.showArmWhileInvisible.description")))
                             .binding(
                                 defaults.showArmWhileInvisible,
                                 { config.showArmWhileInvisible },
                                 { newVal -> config.showArmWhileInvisible = newVal })
-                            .controller(TickBoxControllerBuilder::create)
-                            .build()
-                    )
-                    category.option(
-                        Option.createBuilder<Boolean>()
-                            .name(Component.translatable("animatium.upMinPixelTransparencyLimit"))
-                            .description(OptionDescription.of(Component.translatable("animatium.upMinPixelTransparencyLimit.description")))
-                            .binding(
-                                defaults.upMinPixelTransparencyLimit,
-                                { config.upMinPixelTransparencyLimit },
-                                { newVal ->
-                                    config.upMinPixelTransparencyLimit = newVal
-                                    Minecraft.getInstance().reloadResourcePacks()
-                                })
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
@@ -267,6 +231,50 @@ class AnimatiumConfig {
                             .controller { opt -> IntegerSliderControllerBuilder.create(opt).range(0, 20).step(1) }
                             .build()
                     )
+
+                    // Fixes
+                    run {
+                        val qolFixesGroup = OptionGroup.createBuilder()
+                        qolFixesGroup.name(Component.translatable("animatium.category.qol.group.qol_fixes"))
+                        qolFixesGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Component.translatable("animatium.fixMirrorArmSwing"))
+                                .description(OptionDescription.of(Component.translatable("animatium.fixMirrorArmSwing.description")))
+                                .binding(
+                                    defaults.fixMirrorArmSwing,
+                                    { config.fixMirrorArmSwing },
+                                    { newVal -> config.fixMirrorArmSwing = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        qolFixesGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Component.translatable("animatium.disableServerPoseAndBlockingVisualUpdates"))
+                                .description(OptionDescription.of(Component.translatable("animatium.disableServerPoseAndBlockingVisualUpdates.description")))
+                                .binding(
+                                    defaults.disableServerPoseAndBlockingVisualUpdates,
+                                    { config.disableServerPoseAndBlockingVisualUpdates },
+                                    { newVal -> config.disableServerPoseAndBlockingVisualUpdates = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        qolFixesGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Component.translatable("animatium.upMinPixelTransparencyLimit"))
+                                .description(OptionDescription.of(Component.translatable("animatium.upMinPixelTransparencyLimit.description")))
+                                .binding(
+                                    defaults.upMinPixelTransparencyLimit,
+                                    { config.upMinPixelTransparencyLimit },
+                                    { newVal ->
+                                        config.upMinPixelTransparencyLimit = newVal
+                                        Minecraft.getInstance().reloadResourcePacks()
+                                    })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        category.group(qolFixesGroup.build())
+                    }
+
                     builder.category(category.build())
                 }
 
@@ -720,6 +728,79 @@ class AnimatiumConfig {
                         category.group(fishingRodGroup.build())
                     }
 
+                    // Fixes
+                    run {
+                        val itemFixesGroup = OptionGroup.createBuilder()
+                        itemFixesGroup.name(Component.translatable("animatium.category.items.group.item_fixes"))
+                        itemFixesGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Component.translatable("animatium.fixItemUseTextureCheck"))
+                                .description(OptionDescription.of(Component.translatable("animatium.fixItemUseTextureCheck.description")))
+                                .binding(
+                                    defaults.fixItemUseTextureCheck,
+                                    { config.fixItemUseTextureCheck },
+                                    { newVal -> config.fixItemUseTextureCheck = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        itemFixesGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Component.translatable("animatium.fixEquipAnimationItemCheck"))
+                                .description(OptionDescription.of(Component.translatable("animatium.fixEquipAnimationItemCheck.description")))
+                                .binding(
+                                    defaults.fixEquipAnimationItemCheck,
+                                    { config.fixEquipAnimationItemCheck },
+                                    { newVal -> config.fixEquipAnimationItemCheck = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        itemFixesGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Component.translatable("animatium.removeEquipAnimationOnItemUse"))
+                                .description(OptionDescription.of(Component.translatable("animatium.removeEquipAnimationOnItemUse.description")))
+                                .binding(
+                                    defaults.removeEquipAnimationOnItemUse,
+                                    { config.removeEquipAnimationOnItemUse },
+                                    { newVal -> config.removeEquipAnimationOnItemUse = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        itemFixesGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Component.translatable("animatium.removeClientsideBlockingDelay"))
+                                .description(OptionDescription.of(Component.translatable("animatium.removeClientsideBlockingDelay.description")))
+                                .binding(
+                                    defaults.removeClientsideBlockingDelay,
+                                    { config.removeClientsideBlockingDelay },
+                                    { newVal -> config.removeClientsideBlockingDelay = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        itemFixesGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Component.translatable("animatium.fixItemUsageCheck"))
+                                .description(OptionDescription.of(Component.translatable("animatium.fixItemUsageCheck.description")))
+                                .binding(
+                                    defaults.fixItemUsageCheck,
+                                    { config.fixItemUsageCheck },
+                                    { newVal -> config.fixItemUsageCheck = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        itemFixesGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Component.translatable("animatium.fixFireballClientsideVisual"))
+                                .description(OptionDescription.of(Component.translatable("animatium.fixFireballClientsideVisual.description")))
+                                .binding(
+                                    defaults.fixFireballClientsideVisual,
+                                    { config.fixFireballClientsideVisual },
+                                    { newVal -> config.fixFireballClientsideVisual = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        category.group(itemFixesGroup.build())
+                    }
+
                     // Other
                     run {
                         val otherGroup = OptionGroup.createBuilder()
@@ -798,28 +879,6 @@ class AnimatiumConfig {
                                     defaults.disableSwingOnEntityInteract,
                                     { config.disableSwingOnEntityInteract },
                                     { newVal -> config.disableSwingOnEntityInteract = newVal })
-                                .controller(TickBoxControllerBuilder::create)
-                                .build()
-                        )
-                        otherGroup.option(
-                            Option.createBuilder<Boolean>()
-                                .name(Component.translatable("animatium.fixEquipAnimationItemCheck"))
-                                .description(OptionDescription.of(Component.translatable("animatium.fixEquipAnimationItemCheck.description")))
-                                .binding(
-                                    defaults.fixEquipAnimationItemCheck,
-                                    { config.fixEquipAnimationItemCheck },
-                                    { newVal -> config.fixEquipAnimationItemCheck = newVal })
-                                .controller(TickBoxControllerBuilder::create)
-                                .build()
-                        )
-                        otherGroup.option(
-                            Option.createBuilder<Boolean>()
-                                .name(Component.translatable("animatium.removeEquipAnimationOnItemUse"))
-                                .description(OptionDescription.of(Component.translatable("animatium.removeEquipAnimationOnItemUse.description")))
-                                .binding(
-                                    defaults.removeEquipAnimationOnItemUse,
-                                    { config.removeEquipAnimationOnItemUse },
-                                    { newVal -> config.removeEquipAnimationOnItemUse = newVal })
                                 .controller(TickBoxControllerBuilder::create)
                                 .build()
                         )
@@ -919,39 +978,6 @@ class AnimatiumConfig {
                                     defaults.oldItemRarities,
                                     { config.oldItemRarities },
                                     { newVal -> config.oldItemRarities = newVal })
-                                .controller(TickBoxControllerBuilder::create)
-                                .build()
-                        )
-                        otherGroup.option(
-                            Option.createBuilder<Boolean>()
-                                .name(Component.translatable("animatium.removeClientsideBlockingDelay"))
-                                .description(OptionDescription.of(Component.translatable("animatium.removeClientsideBlockingDelay.description")))
-                                .binding(
-                                    defaults.removeClientsideBlockingDelay,
-                                    { config.removeClientsideBlockingDelay },
-                                    { newVal -> config.removeClientsideBlockingDelay = newVal })
-                                .controller(TickBoxControllerBuilder::create)
-                                .build()
-                        )
-                        otherGroup.option(
-                            Option.createBuilder<Boolean>()
-                                .name(Component.translatable("animatium.fixItemUsageCheck"))
-                                .description(OptionDescription.of(Component.translatable("animatium.fixItemUsageCheck.description")))
-                                .binding(
-                                    defaults.fixItemUsageCheck,
-                                    { config.fixItemUsageCheck },
-                                    { newVal -> config.fixItemUsageCheck = newVal })
-                                .controller(TickBoxControllerBuilder::create)
-                                .build()
-                        )
-                        otherGroup.option(
-                            Option.createBuilder<Boolean>()
-                                .name(Component.translatable("animatium.fixFireballClientsideVisual"))
-                                .description(OptionDescription.of(Component.translatable("animatium.fixFireballClientsideVisual.description")))
-                                .binding(
-                                    defaults.fixFireballClientsideVisual,
-                                    { config.fixFireballClientsideVisual },
-                                    { newVal -> config.fixFireballClientsideVisual = newVal })
                                 .controller(TickBoxControllerBuilder::create)
                                 .build()
                         )
@@ -1140,14 +1166,11 @@ class AnimatiumConfig {
     @SerialEntry var hideNameTagBackground = false
     @SerialEntry var applyTextShadowToNametag = false
     @SerialEntry var oldDebugHudTextColor = false
-    @SerialEntry var fixMirrorArmSwing = false
     @SerialEntry var persistentBlockOutline = false
     @SerialEntry var allowOffhandUsageSwinging = false
     @SerialEntry var alwaysShowSharpParticles = false
     @SerialEntry var disableRecipeAndTutorialToasts = false
-    @SerialEntry var disableServerPoseAndBlockingVisualUpdates = false
     @SerialEntry var showArmWhileInvisible = false
-    @SerialEntry var upMinPixelTransparencyLimit = false
     @SerialEntry var fakeMissPenaltySwing = false
     @SerialEntry var showUsageSwingingParticles = false
     @SerialEntry var disableEntityDeathTopple = false
@@ -1155,6 +1178,9 @@ class AnimatiumConfig {
     @SerialEntry var deepRedHurtTint = false
     @SerialEntry var disableParticlePhysics = false
     @SerialEntry var particleMultiplier = 1
+    @SerialEntry var fixMirrorArmSwing = false
+    @SerialEntry var disableServerPoseAndBlockingVisualUpdates = false
+    @SerialEntry var upMinPixelTransparencyLimit = false
 
     // Movement
     @SerialEntry var rotateBackwardsWalking = true
@@ -1197,8 +1223,6 @@ class AnimatiumConfig {
     @SerialEntry var disableSwingOnUse = true
     @SerialEntry var disableSwingOnDrop = true
     @SerialEntry var disableSwingOnEntityInteract = true
-    @SerialEntry var fixEquipAnimationItemCheck = true
-    @SerialEntry var removeEquipAnimationOnItemUse = true
     @SerialEntry var disableItemUsingTextureInGui = true
     @SerialEntry var itemDropsFaceCamera = true
     @SerialEntry var itemDrops2D = true
@@ -1208,9 +1232,6 @@ class AnimatiumConfig {
     @SerialEntry var disableGlintOnItemFramed2D = false
     @SerialEntry var oldDurabilityBarColors = true
     @SerialEntry var oldItemRarities = true
-    @SerialEntry var removeClientsideBlockingDelay = true
-    @SerialEntry var fixItemUsageCheck = true
-    @SerialEntry var fixFireballClientsideVisual = true
     @SerialEntry var showHeldItemInBoat = true
     @SerialEntry var oldFishingRodTextureStackCheck = true
     @SerialEntry var fishingRodLineInterpolation = false
@@ -1220,6 +1241,12 @@ class AnimatiumConfig {
     @SerialEntry var thinFishingRodLineThickness = false
     @SerialEntry var fixCastLineCheck = false
     @SerialEntry var fixCastLineSwing = false
+    @SerialEntry var fixItemUseTextureCheck = true
+    @SerialEntry var fixEquipAnimationItemCheck = true
+    @SerialEntry var removeEquipAnimationOnItemUse = true
+    @SerialEntry var removeClientsideBlockingDelay = true
+    @SerialEntry var fixItemUsageCheck = true
+    @SerialEntry var fixFireballClientsideVisual = true
 
     // Other
     @SerialEntry var oldBlueVoidSky = true
