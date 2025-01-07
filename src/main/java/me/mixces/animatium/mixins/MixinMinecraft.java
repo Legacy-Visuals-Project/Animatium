@@ -51,6 +51,8 @@ public abstract class MixinMinecraft {
     @Nullable
     public ClientLevel level;
 
+    @Shadow @Nullable public MultiPlayerGameMode gameMode;
+
     @Inject(method = "startAttack", at = @At(value = "RETURN", ordinal = 0))
     private void animatium$missPenaltySwing(CallbackInfoReturnable<Boolean> cir) {
         if (AnimatiumConfig.instance().getFakeMissPenaltySwing() && player != null) {
@@ -130,11 +132,16 @@ public abstract class MixinMinecraft {
         }
     }
 
-    @WrapWithCondition(method = "startUseItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;itemUsed(Lnet/minecraft/world/InteractionHand;)V", ordinal = 1))
+    @WrapWithCondition(method = "startUseItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;itemUsed(Lnet/minecraft/world/InteractionHand;)V"))
     private boolean animatium$removeEquipAnimationOnItemUse(ItemInHandRenderer instance, InteractionHand interactionHand) {
         // TODO: This fixes projectile equip, but it isn't going to be 100% accurate in some other areas. This needs to be worked on :)
         if (AnimatiumConfig.instance().getRemoveEquipAnimationOnItemUse()) {
-            return hitResult != null && hitResult.getType() == HitResult.Type.BLOCK && player != null && player.isCreative();
+            // The equip animation plays when right clicking blocks in creative mode in <1.8.x
+            boolean isAimedAtBlock = this.hitResult != null && this.hitResult.getType() == HitResult.Type.BLOCK;
+            // This might need to be revamped a bit. We are already checking for creative mode in the actual method,
+            // however this seems to narrow things down
+            boolean isInCreative = this.gameMode != null && this.gameMode.hasInfiniteItems();
+            return isAimedAtBlock && isInCreative;
         } else {
             return true;
         }

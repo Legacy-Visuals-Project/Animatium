@@ -83,10 +83,11 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
 
     @WrapOperation(method = "updatingUsingItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isSameItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"))
     private boolean animatium$fixItemUsageCheck(ItemStack left, ItemStack right, Operation<Boolean> original) {
+        boolean value = original.call(left, right);
         if (AnimatiumConfig.instance().getFixItemUsageCheck()) {
-            return left == right;
+            return left.getDamageValue() == right.getDamageValue() ? left == right : value;
         } else {
-            return original.call(left, right);
+            return value;
         }
     }
 
