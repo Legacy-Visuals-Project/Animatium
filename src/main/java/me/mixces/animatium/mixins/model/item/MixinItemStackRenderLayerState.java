@@ -2,6 +2,7 @@ package me.mixces.animatium.mixins.model.item;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import me.mixces.animatium.AnimatiumClient;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.util.ItemUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -25,7 +26,7 @@ public abstract class MixinItemStackRenderLayerState {
     private ItemStackRenderState.FoilType animatium$disableGlintOn2dItems(ItemStackRenderState.FoilType glint) {
         boolean glintDropped = AnimatiumConfig.instance().getDisableGlintOnItemDrops2D();
         boolean glintFramed = AnimatiumConfig.instance().getDisableGlintOnItemFramed2D();
-        if (ItemUtils.getDisplayContext() != null && (glintDropped && ItemUtils.getDisplayContext() == ItemDisplayContext.GROUND) ||
+        if (AnimatiumClient.getEnabled() && ItemUtils.getDisplayContext() != null && (glintDropped && ItemUtils.getDisplayContext() == ItemDisplayContext.GROUND) ||
                 (glintFramed && ItemUtils.getDisplayContext() == ItemDisplayContext.FIXED)) {
             return ItemStackRenderState.FoilType.NONE;
         } else {
@@ -35,7 +36,7 @@ public abstract class MixinItemStackRenderLayerState {
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/block/model/ItemTransform;apply(ZLcom/mojang/blaze3d/vertex/PoseStack;)V"))
     private void animatium$tiltItemPositionsRod(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, int overlay, CallbackInfo ci) {
-        if (AnimatiumConfig.instance().getTiltItemPositions()) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getTiltItemPositions()) {
             ItemStack stack = ItemUtils.getStack();
             if (stack != null && ItemUtils.isFishingRodItem(stack)) {
                 ItemDisplayContext displayContext = ItemUtils.getDisplayContext();

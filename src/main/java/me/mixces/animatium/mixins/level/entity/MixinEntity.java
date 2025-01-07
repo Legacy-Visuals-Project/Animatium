@@ -1,5 +1,6 @@
 package me.mixces.animatium.mixins.level.entity;
 
+import me.mixces.animatium.AnimatiumClient;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.util.ViewBobbingStorage;
 import net.minecraft.core.BlockPos;
@@ -22,14 +23,14 @@ public abstract class MixinEntity implements ViewBobbingStorage {
 
     @Inject(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;handlePortal()V", shift = At.Shift.AFTER))
     private void animatium$storePreviousHorizontalSpeed(CallbackInfo ci) {
-        if (AnimatiumConfig.instance().getOldViewBobbing()) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldViewBobbing()) {
             this.animatium$previousHorizontalSpeed = this.animatium$horizontalSpeed;
         }
     }
 
     @Inject(method = "applyMovementEmissionAndPlaySound", at = @At("HEAD"))
     private void animatium$storeHorizontalSpeed(Entity.MovementEmission movementEmission, Vec3 vec3d, BlockPos blockPos, BlockState blockState, CallbackInfo ci) {
-        if (AnimatiumConfig.instance().getOldViewBobbing()) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldViewBobbing()) {
             this.animatium$horizontalSpeed = this.animatium$horizontalSpeed + (float) vec3d.horizontalDistance() * 0.6F;
         }
     }

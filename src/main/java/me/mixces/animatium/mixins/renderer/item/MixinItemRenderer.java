@@ -2,6 +2,7 @@ package me.mixces.animatium.mixins.renderer.item;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import me.mixces.animatium.AnimatiumClient;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.util.ItemUtils;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -23,7 +24,7 @@ public abstract class MixinItemRenderer {
     @WrapOperation(method = "renderModelLists", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/model/BakedModel;getQuads(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;Lnet/minecraft/util/RandomSource;)Ljava/util/List;", ordinal = 1))
     private static List<BakedQuad> animatium$itemDrops2D(BakedModel instance, BlockState state, Direction direction, RandomSource random, Operation<List<BakedQuad>> original) {
         List<BakedQuad> quads = original.call(instance, state, direction, random);
-        if (animatium$isTransformationModeValid() && !instance.isGui3d()) {
+        if (AnimatiumClient.getEnabled() && animatium$isTransformationModeValid() && !instance.isGui3d()) {
             return quads.stream().filter(baked -> baked.getDirection() == Direction.SOUTH).collect(Collectors.toList());
         } else {
             return quads;

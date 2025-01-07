@@ -1,5 +1,6 @@
 package me.mixces.animatium.mixins.screen.components.toasts;
 
+import me.mixces.animatium.AnimatiumClient;
 import me.mixces.animatium.config.AnimatiumConfig;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -14,14 +15,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinTutorialToast {
     @Inject(method = "update", at = @At("HEAD"), cancellable = true)
     private void animatium$disableRecipeAndTutorialToasts(ToastManager toastManager, long l, CallbackInfo ci) {
-        if (AnimatiumConfig.instance().getDisableRecipeAndTutorialToasts()) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getDisableRecipeAndTutorialToasts()) {
             ci.cancel();
         }
     }
 
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void animatium$disableRecipeAndTutorialToasts(GuiGraphics guiGraphics, Font font, long l, CallbackInfo ci) {
-        if (AnimatiumConfig.instance().getDisableRecipeAndTutorialToasts()) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getDisableRecipeAndTutorialToasts()) {
             ci.cancel();
         }
     }

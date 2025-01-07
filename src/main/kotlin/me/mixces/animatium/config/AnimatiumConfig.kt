@@ -812,7 +812,7 @@ class AnimatiumConfig {
                                 .binding(
                                     defaults.tiltItemPositions,
                                     { config.tiltItemPositions },
-                                    { newVal -> config.tiltItemPositions = newVal })
+                                    { newVal -> config.tiltItemPositions = newVal } )
                                 .controller(TickBoxControllerBuilder::create)
                                 .build()
                         )

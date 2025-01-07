@@ -1,5 +1,6 @@
 package me.mixces.animatium.mixins.screen;
 
+import me.mixces.animatium.AnimatiumClient;
 import me.mixces.animatium.config.AnimatiumConfig;
 import net.minecraft.client.gui.Font;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,7 +15,7 @@ public abstract class MixinFontStringRenderOutput {
 
     @ModifyArg(method = "accept", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/font/glyphs/BakedGlyph$Effect;<init>(FFFFFIIF)V", ordinal = 0), index = 1)
     private float animatium$fixTextStrikethroughStyle$minY(float minY) {
-        if (AnimatiumConfig.instance().getFixTextStrikethroughStyle()) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getFixTextStrikethroughStyle()) {
             return minY - animatium$strikethroughOffset;
         } else {
             return minY;
@@ -23,7 +24,7 @@ public abstract class MixinFontStringRenderOutput {
 
     @ModifyArg(method = "accept", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/font/glyphs/BakedGlyph$Effect;<init>(FFFFFIIF)V", ordinal = 0), index = 3)
     private float animatium$fixTextStrikethroughStyle$maxY(float maxY) {
-        if (AnimatiumConfig.instance().getFixTextStrikethroughStyle()) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getFixTextStrikethroughStyle()) {
             return maxY - animatium$strikethroughOffset;
         } else {
             return maxY;

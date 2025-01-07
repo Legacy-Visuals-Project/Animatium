@@ -1,6 +1,7 @@
 package me.mixces.animatium.mixins.screen.components.toasts;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import me.mixces.animatium.AnimatiumClient;
 import me.mixces.animatium.config.AnimatiumConfig;
 import net.minecraft.client.gui.components.toasts.RecipeToast;
 import net.minecraft.client.gui.components.toasts.Toast;
@@ -20,6 +21,6 @@ public abstract class MixinToastManagerToastInstance<T extends Toast> {
 
     @WrapWithCondition(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/toasts/Toast$Visibility;playSound(Lnet/minecraft/client/sounds/SoundManager;)V"))
     private boolean animatium$disableRecipeAndTutorialToasts(Toast.Visibility instance, SoundManager soundManager) {
-        return !AnimatiumConfig.instance().getDisableRecipeAndTutorialToasts() || (!(this.toast instanceof RecipeToast) && !(this.toast instanceof TutorialToast));
+        return !AnimatiumClient.getEnabled() || !AnimatiumConfig.instance().getDisableRecipeAndTutorialToasts() || (!(this.toast instanceof RecipeToast) && !(this.toast instanceof TutorialToast));
     }
 }

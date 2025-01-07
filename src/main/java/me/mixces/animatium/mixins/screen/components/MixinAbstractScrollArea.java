@@ -1,5 +1,6 @@
 package me.mixces.animatium.mixins.screen.components;
 
+import me.mixces.animatium.AnimatiumClient;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.mixins.accessor.AbstractSelectionListAccessor;
 import net.minecraft.client.gui.components.AbstractScrollArea;
@@ -24,7 +25,7 @@ public abstract class MixinAbstractScrollArea {
 
     @Inject(method = "setScrollAmount", at = @At("HEAD"), cancellable = true)
     private void animatium$allowNegativeScrolling(double scrollY, CallbackInfo ci) {
-        if (AnimatiumConfig.instance().getCenterScrollableListWidgets() && (AbstractScrollArea) (Object) this instanceof AbstractSelectionList<?> abstractSelectionList) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getCenterScrollableListWidgets() && (AbstractScrollArea) (Object) this instanceof AbstractSelectionList<?> abstractSelectionList) {
             ci.cancel();
             int maxScrollY = maxScrollAmount();
             if (maxScrollY < 0) {
@@ -41,7 +42,7 @@ public abstract class MixinAbstractScrollArea {
 
     @Inject(method = "maxScrollAmount", at = @At("HEAD"), cancellable = true)
     public void animatium$modifyMaxScroll(CallbackInfoReturnable<Integer> cir) {
-        if (AnimatiumConfig.instance().getCenterScrollableListWidgets() && (AbstractScrollArea) (Object) this instanceof AbstractSelectionList<?> abstractSelectionList) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getCenterScrollableListWidgets() && (AbstractScrollArea) (Object) this instanceof AbstractSelectionList<?> abstractSelectionList) {
             cir.setReturnValue(this.contentHeight() - abstractSelectionList.getHeight());
         }
     }

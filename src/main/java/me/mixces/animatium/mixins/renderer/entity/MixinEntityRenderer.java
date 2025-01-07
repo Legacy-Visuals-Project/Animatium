@@ -2,6 +2,7 @@ package me.mixces.animatium.mixins.renderer.entity;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import me.mixces.animatium.AnimatiumClient;
 import me.mixces.animatium.config.AnimatiumConfig;
 import me.mixces.animatium.util.EntityUtils;
 import net.minecraft.client.Options;
@@ -25,7 +26,7 @@ public abstract class MixinEntityRenderer {
 
     @WrapOperation(method = "renderNameTag", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/entity/state/EntityRenderState;isDiscrete:Z"))
     private boolean animatium$sneakAnimationWhileFlying(EntityRenderState instance, Operation<Boolean> original) {
-        if (AnimatiumConfig.instance().getSneakAnimationWhileFlying() && instance instanceof LivingEntityRenderState livingEntityRenderState) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getSneakAnimationWhileFlying() && instance instanceof LivingEntityRenderState livingEntityRenderState) {
             return livingEntityRenderState.isDiscrete || livingEntityRenderState.hasPose(Pose.CROUCHING);
         } else {
             return original.call(instance);
@@ -34,7 +35,7 @@ public abstract class MixinEntityRenderer {
 
     @WrapOperation(method = "renderNameTag", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Options;getBackgroundOpacity(F)F"))
     private float animatium$hideNameTagBackground(Options instance, float fallback, Operation<Float> original) {
-        if (AnimatiumConfig.instance().getHideNameTagBackground()) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getHideNameTagBackground()) {
             return 0F;
         } else {
             return original.call(instance, fallback);
@@ -43,7 +44,7 @@ public abstract class MixinEntityRenderer {
 
     @ModifyArg(method = "renderNameTag", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Font;drawInBatch(Lnet/minecraft/network/chat/Component;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/gui/Font$DisplayMode;II)I"), index = 4)
     private boolean animatium$applyTextShadowToNametag(boolean shadow) {
-        if (AnimatiumConfig.instance().getApplyTextShadowToNametag()) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getApplyTextShadowToNametag()) {
             return true;
         } else {
             return shadow;

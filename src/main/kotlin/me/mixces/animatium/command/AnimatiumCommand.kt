@@ -31,6 +31,26 @@ class AnimatiumCommand : Command<FabricClientCommandSource> {
                 )
             }
 
+            run {
+                command.then(
+                    LiteralArgumentBuilder.literal<FabricClientCommandSource>("on").executes { context ->
+                        context.source.sendFeedback(Component.literal("Mod enabled.").withColor(0x00FF00))
+                        AnimatiumClient.enabled = true
+                        return@executes Command.SINGLE_SUCCESS
+                    }
+                )
+            }
+
+            run {
+                command.then(
+                    LiteralArgumentBuilder.literal<FabricClientCommandSource>("off").executes { context ->
+                        context.source.sendFeedback(Component.literal("Mod disabled.").withColor(0xFF0000))
+                        AnimatiumClient.enabled = false
+                        return@executes Command.SINGLE_SUCCESS
+                    }
+                )
+            }
+
             dispatcher.register(command)
         }
     }

@@ -1,5 +1,6 @@
 package me.mixces.animatium.mixins.renderer;
 
+import me.mixces.animatium.AnimatiumClient;
 import me.mixces.animatium.config.AnimatiumConfig;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.world.phys.AABB;
@@ -22,7 +23,7 @@ public abstract class MixinParticle {
 
     @Inject(method = "move", at = @At("HEAD"), cancellable = true)
     private void animatium$disableParticlePhysics(double d, double e, double f, CallbackInfo ci) {
-        if (AnimatiumConfig.instance().getDisableParticlePhysics()) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getDisableParticlePhysics()) {
             ci.cancel();
             setBoundingBox(this.getBoundingBox().move(d, e, f));
             this.setLocationFromBoundingbox();

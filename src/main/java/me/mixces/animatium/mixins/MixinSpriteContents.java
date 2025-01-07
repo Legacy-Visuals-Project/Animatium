@@ -2,6 +2,7 @@ package me.mixces.animatium.mixins;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import me.mixces.animatium.AnimatiumClient;
 import me.mixces.animatium.config.AnimatiumConfig;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,7 +14,7 @@ public abstract class MixinSpriteContents {
     private int animatium$upMinPixelTransparencyLimit(int argb, Operation<Integer> original) {
         int alpha = original.call(argb);
         // NOTE: Would have used ColorHelper#floatFromChannel, but it is private & accessWidener stinky
-        if (AnimatiumConfig.instance().getUpMinPixelTransparencyLimit() && (alpha / 255.0F) <= 0.1F) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getUpMinPixelTransparencyLimit() && (alpha / 255.0F) <= 0.1F) {
             return 0;
         } else {
             return alpha;

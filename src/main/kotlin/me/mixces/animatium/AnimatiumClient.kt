@@ -42,6 +42,9 @@ class AnimatiumClient : ClientModInitializer {
         fun getInfoPayload(): AnimatiumInfoPayloadPacket {
             return AnimatiumInfoPayloadPacket(VERSION, DEVELOPMENT_VERSION)
         }
+
+        @JvmStatic
+        var enabled = true
     }
 
     override fun onInitializeClient() {

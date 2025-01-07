@@ -1,5 +1,6 @@
 package me.mixces.animatium.mixins.screen.components;
 
+import me.mixces.animatium.AnimatiumClient;
 import me.mixces.animatium.config.AnimatiumConfig;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -16,7 +17,7 @@ public abstract class MixinAbstractButton extends AbstractWidget {
 
     @ModifyConstant(method = "renderWidget", constant = @Constant(intValue = 0xFFFFFF))
     private int renderWidget$old$textColor(int constant) {
-        if (AnimatiumConfig.instance().getOldButtonTextColors()) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldButtonTextColors()) {
             return !active ? 0xE0E0E0 : (isHoveredOrFocused() ? 0xFFFFA0 : 0xE0E0E0);
         } else {
             return constant;
