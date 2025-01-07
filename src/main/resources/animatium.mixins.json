@@ -1,6 +1,6 @@
 {
 	"required": true,
-	"package": "me.mixces.animatium.mixins",
+	"package": "btw.mixces.animatium.mixins",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
 		"MixinMinecraft",

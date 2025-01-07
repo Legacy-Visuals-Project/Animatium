@@ -3,7 +3,7 @@
 	"id": "animatium",
 	"version": "${version}",
 	"name": "Animatium",
-	"description": "Visual tweaks/qol settings for modern minecraft versions, aimed at 1.7/1.8 players.",
+	"description": "Visual Tweaks/QOL settings For Modern Minecraft Versions, Aimed At 1.7/1.8 players.",
 	"authors": [
 		"Mixces",
 		"lowercasebtw"
@@ -18,19 +18,24 @@
 	"entrypoints": {
 		"client": [
 			{
-				"value": "me.mixces.animatium.AnimatiumClient",
+				"value": "btw.mixces.animatium.AnimatiumClient",
 				"adapter": "kotlin"
 			}
 		],
 		"modmenu": [
 			{
-				"value": "me.mixces.animatium.config.ModMenuIntegration",
+				"value": "btw.mixces.animatium.config.ModMenuIntegration",
 				"adapter": "kotlin"
 			}
 		]
 	},
 	"custom": {
-		"modmenu": {}
+		"modmenu": {
+			"links": {
+				"modmenu.discord": "https://discord.gg/U48eDmst68"
+			},
+			"update_checker": true
+		}
 	},
 	"mixins": [
 		{
