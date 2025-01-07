@@ -583,6 +583,28 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Component.translatable("animatium.oldTooltipStyleRendering"))
+                            .description(OptionDescription.of(Component.translatable("animatium.oldTooltipStyleRendering.description")))
+                            .binding(
+                                defaults.oldTooltipStyleRendering,
+                                { config.oldTooltipStyleRendering },
+                                { newVal -> config.oldTooltipStyleRendering = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Component.translatable("animatium.oldSlotHoverStyleRendering"))
+                            .description(OptionDescription.of(Component.translatable("animatium.oldSlotHoverStyleRendering.description")))
+                            .binding(
+                                defaults.oldSlotHoverStyleRendering,
+                                { config.oldSlotHoverStyleRendering },
+                                { newVal -> config.oldSlotHoverStyleRendering = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
                     category.option(Option.createBuilder<CameraVersion>()
                         .name(Component.translatable("animatium.cameraVersion"))
                         .description(OptionDescription.of(Component.translatable("animatium.cameraVersion.description")))
@@ -1163,6 +1185,8 @@ class AnimatiumConfig {
     @SerialEntry var debugHudTextShadow = true
     @SerialEntry var oldChatPosition = false
     @SerialEntry var disableCameraTransparentPassthrough = true
+    @SerialEntry var oldTooltipStyleRendering = true
+    @SerialEntry var oldSlotHoverStyleRendering = true
     @SerialEntry var cameraVersion = CameraVersion.V1_8
 
     // Items

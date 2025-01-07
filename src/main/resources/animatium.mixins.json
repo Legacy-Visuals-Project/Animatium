@@ -44,6 +44,7 @@
 		"renderer.item.MixinItemInHandLayer",
 		"renderer.item.MixinItemInHandRenderer",
 		"renderer.item.MixinItemRenderer",
+		"screen.MixinAbstractContainerScreen",
 		"screen.MixinAbstractSelectionList",
 		"screen.MixinCamera",
 		"screen.MixinChatScreen",

@@ -186,8 +186,16 @@ Allows the server to enable/disable the swing miss penalty on the client.
     - Description: Moves chat down 12 pixels like in <=1.8.x.
     - Type: BOOLEAN
 - [X] disableCameraTransparentPassthrough
-    - Description: Stops camera passthrough in thirdperson in glass/etc.
+    - Description: Stops camera passthrough in thirdperson in glass/etc like in <=1.15.
     - Type: BOOLEAN
+- [X] oldTooltipStyleRendering
+    - Description: Restores the corners of the tooltip texture that were removed in 1.21.2.
+    - Type: BOOLEAN
+    - Note: If you are using a resource pack with a custom tooltip texture, turn this setting OFF to not cause issues!
+- [X] oldSlotHoverStyleRendering
+    - Description: Restores the old inventory slot hover visual to how it was prior to 1.21.2.
+    - Type: BOOLEAN
+    - Note: If you are using a resource pack with a custom slot hover texture, turn this setting OFF to not cause issues!
 - [X] cameraVersion
     - Description: Change the camera position to be as it was in said version range.
     - Type: ENUM
