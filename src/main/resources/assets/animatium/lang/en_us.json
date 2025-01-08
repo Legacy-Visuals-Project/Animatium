@@ -36,6 +36,8 @@
 	"animatium.disableParticlePhysics.description": "Allows particles to bypass collision logic.",
 	"animatium.particleMultiplier": "Particle Multiplier",
 	"animatium.particleMultiplier.description": "Changes how many sharpness particles are shown on entity damage/hit.",
+	"animatium.hideFirstpersonParticles": "Hide first-person particles",
+	"animatium.hideFirstpersonParticles.description": "Hides potion particle effects coming from you whilst in first-person.",
 	"animatium.category.qol.group.qol_fixes": "Fixes",
 	"animatium.fixMirrorArmSwing": "Fix arm swing mirroring",
 	"animatium.fixMirrorArmSwing.description": "Fix the left-arm swing mirroring.",

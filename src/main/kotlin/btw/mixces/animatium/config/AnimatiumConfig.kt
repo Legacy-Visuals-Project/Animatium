@@ -231,6 +231,17 @@ class AnimatiumConfig {
                             .controller { opt -> IntegerSliderControllerBuilder.create(opt).range(0, 20).step(1) }
                             .build()
                     )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Component.translatable("animatium.hideFirstpersonParticles"))
+                            .description(OptionDescription.of(Component.translatable("animatium.hideFirstpersonParticles.description")))
+                            .binding(
+                                defaults.hideFirstpersonParticles,
+                                { config.hideFirstpersonParticles },
+                                { newVal -> config.hideFirstpersonParticles = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
 
                     // Fixes
                     run {
@@ -1178,6 +1189,7 @@ class AnimatiumConfig {
     @SerialEntry var deepRedHurtTint = false
     @SerialEntry var disableParticlePhysics = false
     @SerialEntry var particleMultiplier = 1
+    @SerialEntry var hideFirstpersonParticles = true
     @SerialEntry var fixMirrorArmSwing = false
     @SerialEntry var disableServerPoseAndBlockingVisualUpdates = false
     @SerialEntry var upMinPixelTransparencyLimit = false

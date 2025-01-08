@@ -89,7 +89,7 @@ Allows the server to enable/disable the swing miss penalty on the client.
     - Type: BOOLEAN
 - [X] customHitColor
     - Description: Modifies the entity damage tint color.
-    - Type: BOOLEAN
+    - Type: COLOR (#RRGGBB)
 - [X] deepRedHurtTint
     - Description: Modifies the entity damage tint alpha to be less like in Oranges Old Animations mod.
     - Type: BOOLEAN
@@ -98,6 +98,9 @@ Allows the server to enable/disable the swing miss penalty on the client.
     - Type: BOOLEAN
 - [X] particleMultiplier
     - Description: Changes how many sharpness particles are shown on entity damage/hit.
+    - Type: INT
+- [X] hideFirstpersonParticles
+    - Description: Hides potion particle effects coming from you whilst in first-person.
     - Type: BOOLEAN
   </details>
 
@@ -195,7 +198,8 @@ Allows the server to enable/disable the swing miss penalty on the client.
 - [X] oldSlotHoverStyleRendering
     - Description: Restores the old inventory slot hover visual to how it was prior to 1.21.2.
     - Type: BOOLEAN
-    - Note: If you are using a resource pack with a custom slot hover texture, turn this setting OFF to not cause issues!
+    - Note: If you are using a resource pack with a custom slot hover texture, turn this setting OFF to not cause
+      issues!
 - [X] cameraVersion
     - Description: Change the camera position to be as it was in said version range.
     - Type: ENUM
