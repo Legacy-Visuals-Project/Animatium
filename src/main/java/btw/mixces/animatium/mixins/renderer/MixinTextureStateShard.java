@@ -14,7 +14,8 @@ public class MixinTextureStateShard {
     private static ResourceLocation animatium$useItemGlint$init(ResourceLocation original) {
         if (AnimatiumConfig.instance().getForceItemGlintOnEntity() && original == ItemRenderer.ENCHANTED_GLINT_ENTITY) {
             return ItemRenderer.ENCHANTED_GLINT_ITEM;
+        } else {
+            return original;
         }
-        return original;
     }
 }

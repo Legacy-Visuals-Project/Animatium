@@ -1314,6 +1314,6 @@ class AnimatiumConfig {
     @SerialEntry var legacyBlockOutlineRendering = true
     @SerialEntry var hideModelWhilstSleeping = true
     @SerialEntry var entityArmorHurtTint = true
-    @SerialEntry var forceItemGlintOnEntity = false
-    @SerialEntry var forceMaxGlintProperties = false
+    @SerialEntry var forceItemGlintOnEntity = true
+    @SerialEntry var forceMaxGlintProperties = true
 }

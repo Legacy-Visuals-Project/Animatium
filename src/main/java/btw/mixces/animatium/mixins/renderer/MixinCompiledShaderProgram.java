@@ -1,9 +1,9 @@
 package btw.mixces.animatium.mixins.renderer;
 
 import btw.mixces.animatium.config.AnimatiumConfig;
+import btw.mixces.animatium.util.RenderUtils;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import btw.mixces.animatium.util.RenderUtils;
 import net.minecraft.client.renderer.CompiledShaderProgram;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
