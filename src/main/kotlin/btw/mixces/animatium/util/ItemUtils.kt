@@ -82,7 +82,6 @@ object ItemUtils {
     fun isHandheldItem(stack: ItemStack): Boolean {
         return if (!stack.isEmpty) {
             val item = stack.item
-            // TODO: is this the best way? probably not
             item is DiggerItem || item is SwordItem
                     || item is MaceItem || item is TridentItem
                     || isFishingRodItem(stack)
@@ -150,14 +149,6 @@ object ItemUtils {
     }
 
     @JvmStatic
-    fun applyLegacyThirdpersonTransforms(poseStack: PoseStack, direction: Int, runnable: Runnable) {
-        // TODO
-        runnable.run()
-        // TODO
-    }
-
-    @JvmStatic
-    // TODO: jesus this name
     fun shouldTiltItemPositionsInThirdperson(entityState: EntityRenderState): Boolean {
         return if (AnimatiumConfig.instance().tiltItemPositionsInThirdperson) {
             true

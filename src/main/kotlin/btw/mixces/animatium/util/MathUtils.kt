@@ -11,11 +11,6 @@ object MathUtils {
     }
 
     @JvmStatic
-    fun toAngle(radians: Float): Float {
-        return radians / Math.PI.toFloat() * 180F
-    }
-
-    @JvmStatic
     fun expandVoxelShape(shape: VoxelShape, value: Float): VoxelShape {
         // Code from VoxelShape#simplify
         // TODO: simplify this code? or find alternative?
