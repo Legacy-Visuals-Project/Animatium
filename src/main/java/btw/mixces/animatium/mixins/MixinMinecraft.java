@@ -1,12 +1,12 @@
 package btw.mixces.animatium.mixins;
 
-import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
 import btw.mixces.animatium.util.ItemUtils;
 import btw.mixces.animatium.util.PlayerUtils;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -85,7 +85,7 @@ public abstract class MixinMinecraft {
     private int animatium$disableSwingMissPenalty(Minecraft instance, Operation<Integer> original) {
         // TODO/NOTE: This also disables the miss penalty on a block, should that be fixed?
         // TODO/NOTE: For now, this should be fine.
-        if (AnimatiumClient.getEnabled() && AnimatiumClient.getDisableSwingMissPenalty()) {
+        if (AnimatiumClient.getDisableSwingMissPenalty()) {
             return 0;
         } else {
             return original.call(instance);
@@ -94,7 +94,7 @@ public abstract class MixinMinecraft {
 
     @WrapOperation(method = "startUseItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/MultiPlayerGameMode;isDestroying()Z"))
     private boolean animatium$leftClickItemUsage(MultiPlayerGameMode instance, Operation<Boolean> original) {
-        if (AnimatiumClient.getEnabled() && AnimatiumClient.getLeftClickItemUsage()) {
+        if (AnimatiumClient.getLeftClickItemUsage()) {
             return false;
         } else {
             return original.call(instance);
