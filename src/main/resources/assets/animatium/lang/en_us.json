@@ -211,5 +211,9 @@
 	"animatium.hideModelWhilstSleeping": "Hide player model whilst sleeping",
 	"animatium.hideModelWhilstSleeping.description": "Hides the player model whilst sleeping like in <=1.12? Only affects you.",
 	"animatium.entityArmorHurtTint": "Show damage tint on armor",
-	"animatium.entityArmorHurtTint.description": "Tints the armor when an entity is damaged like in <=1.7.x."
+	"animatium.entityArmorHurtTint.description": "Tints the armor when an entity is damaged like in <=1.7.x.",
+	"animatium.forceItemGlintOnEntity": "Force item glint on armor glint",
+	"animatium.forceItemGlintOnEntity.description": "Forces the glint on armor to use the item glint texture. This therefore unifies the glint texture similar to older mc versions.",
+	"animatium.forceMaxGlintProperties": "Force max speed/strength glint",
+	"animatium.forceMaxGlintProperties.description": "Forces the glint to use the maximum speed and strength by default similar to older mc versions."
 }

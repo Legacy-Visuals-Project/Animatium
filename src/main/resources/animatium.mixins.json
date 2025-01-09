@@ -5,7 +5,6 @@
 	"client": [
 		"MixinMinecraft",
 		"MixinOverlayTexture",
-		"renderer.MixinRenderStateShard",
 		"MixinSpriteContents",
 		"accessor.AbstractSelectionListAccessor",
 		"accessor.CameraAccessor",
@@ -32,6 +31,9 @@
 		"renderer.MixinGameRenderer",
 		"renderer.MixinLevelRenderer",
 		"renderer.MixinParticle",
+		"renderer.MixinRenderStateShard",
+		"renderer.MixinTextureManager",
+		"renderer.MixinTextureStateShard",
 		"renderer.MixinVertexConsumer",
 		"renderer.entity.MixinEntityRenderer",
 		"renderer.entity.MixinFishingHookRenderer",

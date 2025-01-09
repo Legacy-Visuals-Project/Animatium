@@ -1170,6 +1170,28 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Component.translatable("animatium.forceItemGlintOnEntity"))
+                            .description(OptionDescription.of(Component.translatable("animatium.forceItemGlintOnEntity.description")))
+                            .binding(
+                                defaults.forceItemGlintOnEntity,
+                                { config.forceItemGlintOnEntity },
+                                { newVal -> config.forceItemGlintOnEntity = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Component.translatable("animatium.forceMaxGlintProperties"))
+                            .description(OptionDescription.of(Component.translatable("animatium.forceMaxGlintProperties.description")))
+                            .binding(
+                                defaults.forceMaxGlintProperties,
+                                { config.forceMaxGlintProperties },
+                                { newVal -> config.forceMaxGlintProperties = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
                     builder.category(category.build())
                 }
 
@@ -1292,4 +1314,6 @@ class AnimatiumConfig {
     @SerialEntry var legacyBlockOutlineRendering = true
     @SerialEntry var hideModelWhilstSleeping = true
     @SerialEntry var entityArmorHurtTint = true
+    @SerialEntry var forceItemGlintOnEntity = false
+    @SerialEntry var forceMaxGlintProperties = false
 }
