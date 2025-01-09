@@ -5,7 +5,7 @@ import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import java.util.Optional
 
-class AnimatiumInfoPayloadPacket(val version: Double, val development_version: Optional<Double>) :
+class AnimatiumInfoPayloadPacket(val version: Double, val development_version: Optional<Int>) :
     CustomPacketPayload {
     companion object {
         val CODEC = CustomPacketPayload.codec(AnimatiumInfoPayloadPacket::write, null)
@@ -15,8 +15,8 @@ class AnimatiumInfoPayloadPacket(val version: Double, val development_version: O
 
     private fun write(buffer: FriendlyByteBuf) {
         buffer.writeDouble(version)
-        buffer.writeOptional<Double>(development_version) { buf, value ->
-            buf.writeDouble(value)
+        buffer.writeOptional<Int>(development_version) { buf, value ->
+            buf.writeShort(value)
         }
     }
 
