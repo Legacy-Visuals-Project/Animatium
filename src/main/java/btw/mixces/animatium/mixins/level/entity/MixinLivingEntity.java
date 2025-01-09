@@ -7,9 +7,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -95,38 +93,6 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
             return left.getDamageValue() == right.getDamageValue() ? left == right : value;
         } else {
             return value;
-        }
-    }
-
-    @Unique
-    private int animatium$blend(List<ParticleOptions> effects) {
-        if (effects.isEmpty()) {
-            return 3694022;
-        } else {
-            float f = 0.0F;
-            float g = 0.0F;
-            float h = 0.0F;
-            int j = 0;
-
-            for (ParticleOptions option : effects) {
-                if (option instanceof ColorParticleOption colorParticleOption) {
-                    int k = ARGB.colorFromFloat(colorParticleOption.getAlpha(), colorParticleOption.getRed(), colorParticleOption.getGreen(), colorParticleOption.getBlue());// option.getEffect().value().getColor();
-                    int l = 1;//option.getAmplifier() + 1; TODO
-                    f += (float) (l * (k >> 16 & 0xFF)) / 255.0F;
-                    g += (float) (l * (k >> 8 & 0xFF)) / 255.0F;
-                    h += (float) (l * (k & 0xFF)) / 255.0F;
-                    j += l;
-                }
-            }
-
-            if (j == 0) {
-                return 0;
-            } else {
-                f = f / (float) j * 255.0F;
-                g = g / (float) j * 255.0F;
-                h = h / (float) j * 255.0F;
-                return (int) f << 16 | (int) g << 8 | (int) h;
-            }
         }
     }
 
