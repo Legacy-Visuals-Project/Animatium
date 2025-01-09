@@ -48,7 +48,7 @@ class AnimatiumClient : ClientModInitializer {
     }
 
     override fun onInitializeClient() {
-        AnimatiumConfig.Companion.load()
+        AnimatiumConfig.load()
         initializeCommands()
         initializePackets()
     }
@@ -60,9 +60,11 @@ class AnimatiumClient : ClientModInitializer {
     }
 
     private fun initializePackets() {
-        PayloadTypeRegistry.playC2S().register(AnimatiumInfoPayloadPacket.Companion.PAYLOAD_ID, AnimatiumInfoPayloadPacket.Companion.CODEC)
+        PayloadTypeRegistry.playC2S()
+            .register(AnimatiumInfoPayloadPacket.Companion.PAYLOAD_ID, AnimatiumInfoPayloadPacket.Companion.CODEC)
 
-        PayloadTypeRegistry.playS2C().register(SetFeaturesPayloadPacket.Companion.PAYLOAD_ID, SetFeaturesPayloadPacket.Companion.CODEC)
+        PayloadTypeRegistry.playS2C()
+            .register(SetFeaturesPayloadPacket.Companion.PAYLOAD_ID, SetFeaturesPayloadPacket.Companion.CODEC)
 
         ClientPlayNetworking.registerGlobalReceiver(SetFeaturesPayloadPacket.Companion.PAYLOAD_ID) { payload, context ->
             context.client().execute {
