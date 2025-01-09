@@ -812,6 +812,46 @@ class AnimatiumConfig {
                         category.group(itemFixesGroup.build())
                     }
 
+                    // Glint
+                    run {
+                        val glintGroup = OptionGroup.createBuilder()
+                        glintGroup.name(Component.translatable("animatium.category.items.group.glint"))
+                        glintGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Component.translatable("animatium.oldGlintSpeed"))
+                                .description(OptionDescription.of(Component.translatable("animatium.oldGlintSpeed.description")))
+                                .binding(
+                                    defaults.oldGlintSpeed,
+                                    { config.oldGlintSpeed },
+                                    { newVal -> config.oldGlintSpeed = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        glintGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Component.translatable("animatium.disableGlintOnItemDrops2D"))
+                                .description(OptionDescription.of(Component.translatable("animatium.disableGlintOnItemDrops2D.description")))
+                                .binding(
+                                    defaults.disableGlintOnItemDrops2D,
+                                    { config.disableGlintOnItemDrops2D },
+                                    { newVal -> config.disableGlintOnItemDrops2D = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        glintGroup.option(
+                            Option.createBuilder<Boolean>()
+                                .name(Component.translatable("animatium.disableGlintOnItemFramed2D"))
+                                .description(OptionDescription.of(Component.translatable("animatium.disableGlintOnItemFramed2D.description")))
+                                .binding(
+                                    defaults.disableGlintOnItemFramed2D,
+                                    { config.disableGlintOnItemFramed2D },
+                                    { newVal -> config.disableGlintOnItemFramed2D = newVal })
+                                .controller(TickBoxControllerBuilder::create)
+                                .build()
+                        )
+                        category.group(glintGroup.build())
+                    }
+
                     // Other
                     run {
                         val otherGroup = OptionGroup.createBuilder()
@@ -950,28 +990,6 @@ class AnimatiumConfig {
                         )
                         otherGroup.option(
                             Option.createBuilder<Boolean>()
-                                .name(Component.translatable("animatium.disableGlintOnItemDrops2D"))
-                                .description(OptionDescription.of(Component.translatable("animatium.disableGlintOnItemDrops2D.description")))
-                                .binding(
-                                    defaults.disableGlintOnItemDrops2D,
-                                    { config.disableGlintOnItemDrops2D },
-                                    { newVal -> config.disableGlintOnItemDrops2D = newVal })
-                                .controller(TickBoxControllerBuilder::create)
-                                .build()
-                        )
-                        otherGroup.option(
-                            Option.createBuilder<Boolean>()
-                                .name(Component.translatable("animatium.disableGlintOnItemFramed2D"))
-                                .description(OptionDescription.of(Component.translatable("animatium.disableGlintOnItemFramed2D.description")))
-                                .binding(
-                                    defaults.disableGlintOnItemFramed2D,
-                                    { config.disableGlintOnItemFramed2D },
-                                    { newVal -> config.disableGlintOnItemFramed2D = newVal })
-                                .controller(TickBoxControllerBuilder::create)
-                                .build()
-                        )
-                        otherGroup.option(
-                            Option.createBuilder<Boolean>()
                                 .name(Component.translatable("animatium.oldDurabilityBarColors"))
                                 .description(OptionDescription.of(Component.translatable("animatium.oldDurabilityBarColors.description")))
                                 .binding(
@@ -1005,7 +1023,6 @@ class AnimatiumConfig {
                         )
                         category.group(otherGroup.build())
                     }
-
                     builder.category(category.build())
                 }
 
@@ -1240,11 +1257,14 @@ class AnimatiumConfig {
     @SerialEntry var itemDrops2D = true
     @SerialEntry var itemFramed2D = true
     @SerialEntry var item2DColors = true
-    @SerialEntry var disableGlintOnItemDrops2D = false
-    @SerialEntry var disableGlintOnItemFramed2D = false
     @SerialEntry var oldDurabilityBarColors = true
     @SerialEntry var oldItemRarities = true
     @SerialEntry var showHeldItemInBoat = true
+
+    @SerialEntry var oldGlintSpeed = true
+    @SerialEntry var disableGlintOnItemDrops2D = false
+    @SerialEntry var disableGlintOnItemFramed2D = false
+
     @SerialEntry var oldFishingRodTextureStackCheck = true
     @SerialEntry var fishingRodLineInterpolation = false
     @SerialEntry var noMoveFishingRodLine = false

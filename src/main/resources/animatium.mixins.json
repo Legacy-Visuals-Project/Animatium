@@ -5,6 +5,7 @@
 	"client": [
 		"MixinMinecraft",
 		"MixinOverlayTexture",
+		"MixinRenderStateShard",
 		"MixinSpriteContents",
 		"accessor.AbstractSelectionListAccessor",
 		"accessor.CameraAccessor",
