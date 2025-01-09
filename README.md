@@ -26,14 +26,23 @@ If more are requested/wanted, we will add and update this here.
 
 ### Payloads
 
-#### Swing Miss Penalty
+#### Set Features (Clientbound)
 
-Allows the server to enable/disable the swing miss penalty on the client.
+Allows the server to enable/disable server-only features that enhance gameplay.
 
-| Identifier            | Field Name            | Field Type | Description                                                             |
-|-----------------------|-----------------------|------------|-------------------------------------------------------------------------|
-| animatium:set_feature | Miss Penalty          | Boolean    | Turn on/off the swing miss penalty                                      |
-|                       | Left Click Item Usage | Boolean    | Turn on/off the ability to start using a item whilst holding left click |
+| Identifier             | Field Name            | Field Type | Description                                                             |
+|------------------------|-----------------------|------------|-------------------------------------------------------------------------|
+| animatium:set_features | Miss Penalty          | Boolean    | Turn on/off the swing miss penalty                                      |
+|                        | Left Click Item Usage | Boolean    | Turn on/off the ability to start using a item whilst holding left click |
+
+#### Info (Serverbound)
+
+Sent to the server when receiving the "minecraft:register" payload and it contains "Animatium".
+
+| Identifier     | Field Name          | Field Type      | Description                                                                            |
+|----------------|---------------------|-----------------|----------------------------------------------------------------------------------------|
+| animatium:info | Version             | Double          | Current release version of the mod.                                                    |
+|                | Development Version | Optional Double | Current development version of the mod. Only provided when mod is a development build. |
 
 # Available Config Categories
 
