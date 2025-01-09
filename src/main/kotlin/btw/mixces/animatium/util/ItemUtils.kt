@@ -159,12 +159,12 @@ object ItemUtils {
     @JvmStatic
     // TODO: jesus this name
     fun shouldTiltItemPositionsInThirdperson(entityState: EntityRenderState): Boolean {
-        return if (AnimatiumConfig.Companion.instance().tiltItemPositionsInThirdperson) {
+        return if (AnimatiumConfig.instance().tiltItemPositionsInThirdperson) {
             true
         } else {
             val entity = EntityUtils.getEntityByState(entityState) ?: return false
             if (entity is LivingEntity) {
-                AnimatiumConfig.Companion.instance().legacyThirdpersonSwordBlockingPosition && entity.isBlocking
+                AnimatiumConfig.instance().legacyThirdpersonSwordBlockingPosition && entity.isBlocking
             } else {
                 false
             }

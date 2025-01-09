@@ -19,11 +19,11 @@ class AnimatiumCommand : Command<FabricClientCommandSource> {
                 command.then(
                     LiteralArgumentBuilder.literal<FabricClientCommandSource>("debug").executes { context ->
                         context.source.sendFeedback(
-                            Component.literal("Disabled miss swing penalty? " + AnimatiumClient.Companion.disableSwingMissPenalty)
+                            Component.literal("Disabled miss swing penalty? " + AnimatiumClient.disableSwingMissPenalty)
                                 .withColor(ColorUtils.randomColor())
                         )
                         context.source.sendFeedback(
-                            Component.literal("Enabled left-click item usage on ground? " + AnimatiumClient.Companion.leftClickItemUsage)
+                            Component.literal("Enabled left-click item usage on ground? " + AnimatiumClient.leftClickItemUsage)
                                 .withColor(ColorUtils.randomColor())
                         )
                         return@executes Command.SINGLE_SUCCESS
@@ -35,7 +35,7 @@ class AnimatiumCommand : Command<FabricClientCommandSource> {
                 command.then(
                     LiteralArgumentBuilder.literal<FabricClientCommandSource>("on").executes { context ->
                         context.source.sendFeedback(Component.literal("Mod enabled.").withColor(0x00FF00))
-                        AnimatiumClient.Companion.enabled = true
+                        AnimatiumClient.enabled = true
                         return@executes Command.SINGLE_SUCCESS
                     }
                 )
@@ -45,7 +45,7 @@ class AnimatiumCommand : Command<FabricClientCommandSource> {
                 command.then(
                     LiteralArgumentBuilder.literal<FabricClientCommandSource>("off").executes { context ->
                         context.source.sendFeedback(Component.literal("Mod disabled.").withColor(0xFF0000))
-                        AnimatiumClient.Companion.enabled = false
+                        AnimatiumClient.enabled = false
                         return@executes Command.SINGLE_SUCCESS
                     }
                 )

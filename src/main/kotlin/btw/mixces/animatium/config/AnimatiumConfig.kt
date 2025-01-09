@@ -190,7 +190,7 @@ class AnimatiumConfig {
                                 { config.customHitColor },
                                 { newVal ->
                                     config.customHitColor = newVal
-                                    AnimatiumClient.Companion.reloadOverlayTexture()
+                                    AnimatiumClient.reloadOverlayTexture()
                                 })
                             .controller(ColorControllerBuilder::create)
                             .build()
@@ -204,7 +204,7 @@ class AnimatiumConfig {
                                 { config.deepRedHurtTint },
                                 { newVal ->
                                     config.deepRedHurtTint = newVal
-                                    AnimatiumClient.Companion.reloadOverlayTexture()
+                                    AnimatiumClient.reloadOverlayTexture()
                                 })
                             .controller(TickBoxControllerBuilder::create)
                             .build()

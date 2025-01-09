@@ -4,11 +4,10 @@ import btw.mixces.animatium.AnimatiumClient
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 
-class SetFeaturesPayloadPacket(val miss_penalty: Boolean, val left_click_item_usage: Boolean) : CustomPacketPayload {
+class SetFeaturesPayloadPacket(val missPenalty: Boolean, val leftClickItemUsage: Boolean) : CustomPacketPayload {
     companion object {
         val CODEC = CustomPacketPayload.codec(null, SetFeaturesPayloadPacket::read)
-        val PAYLOAD_ID =
-            CustomPacketPayload.Type<SetFeaturesPayloadPacket>(AnimatiumClient.Companion.location("set_features"))
+        val PAYLOAD_ID = CustomPacketPayload.Type<SetFeaturesPayloadPacket>(AnimatiumClient.location("set_features"))
 
         private fun read(buffer: FriendlyByteBuf): SetFeaturesPayloadPacket {
             return SetFeaturesPayloadPacket(buffer.readBoolean(), buffer.readBoolean())

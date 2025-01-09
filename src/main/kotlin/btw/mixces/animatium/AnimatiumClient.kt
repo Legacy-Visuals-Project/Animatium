@@ -31,7 +31,7 @@ class AnimatiumClient : ClientModInitializer {
         // Info
         @JvmStatic
         val VERSION = 1.0
-        val DEVELOPMENT_VERSION = Optional.ofNullable(8)
+        val DEVELOPMENT_VERSION = Optional.ofNullable(9)
 
         @JvmStatic
         fun location(path: String): ResourceLocation {
@@ -55,21 +55,17 @@ class AnimatiumClient : ClientModInitializer {
 
     private fun initializeCommands() {
         ClientCommandRegistrationCallback.EVENT.register { dispatcher, registryAccess ->
-            AnimatiumCommand.Companion.register(dispatcher)
+            AnimatiumCommand.register(dispatcher)
         }
     }
 
     private fun initializePackets() {
-        PayloadTypeRegistry.playC2S()
-            .register(AnimatiumInfoPayloadPacket.Companion.PAYLOAD_ID, AnimatiumInfoPayloadPacket.Companion.CODEC)
-
-        PayloadTypeRegistry.playS2C()
-            .register(SetFeaturesPayloadPacket.Companion.PAYLOAD_ID, SetFeaturesPayloadPacket.Companion.CODEC)
-
-        ClientPlayNetworking.registerGlobalReceiver(SetFeaturesPayloadPacket.Companion.PAYLOAD_ID) { payload, context ->
+        PayloadTypeRegistry.playC2S().register(AnimatiumInfoPayloadPacket.PAYLOAD_ID, AnimatiumInfoPayloadPacket.CODEC)
+        PayloadTypeRegistry.playS2C().register(SetFeaturesPayloadPacket.PAYLOAD_ID, SetFeaturesPayloadPacket.CODEC)
+        ClientPlayNetworking.registerGlobalReceiver(SetFeaturesPayloadPacket.PAYLOAD_ID) { payload, context ->
             context.client().execute {
-                disableSwingMissPenalty = payload.miss_penalty
-                leftClickItemUsage = payload.left_click_item_usage
+                disableSwingMissPenalty = payload.missPenalty
+                leftClickItemUsage = payload.leftClickItemUsage
             }
         }
     }

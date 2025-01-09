@@ -1,8 +1,8 @@
 package btw.mixces.animatium.util
 
 import btw.mixces.animatium.config.AnimatiumConfig
-import com.mojang.blaze3d.systems.RenderSystem
 import btw.mixces.animatium.mixins.accessor.ClientLevelDataAccessor
+import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.multiplayer.ClientLevel
 
@@ -26,7 +26,7 @@ object RenderUtils {
 
     @JvmStatic
     fun getLevelHorizonHeight(level: ClientLevel): Double {
-        return if (AnimatiumConfig.Companion.instance().oldSkyHorizonHeight) {
+        return if (AnimatiumConfig.instance().oldSkyHorizonHeight) {
             if ((level.getLevelData() as ClientLevelDataAccessor).isFlatWorld())
                 0.0
             else
