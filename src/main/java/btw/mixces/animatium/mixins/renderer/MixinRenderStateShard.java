@@ -1,4 +1,4 @@
-package btw.mixces.animatium.mixins;
+package btw.mixces.animatium.mixins.renderer;
 
 import btw.mixces.animatium.config.AnimatiumConfig;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
