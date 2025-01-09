@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinConnection {
     @Inject(method = "disconnect(Lnet/minecraft/network/DisconnectionDetails;)V", at = @At("HEAD"))
     private void animatium$restoreVanillaFunctionality(DisconnectionDetails disconnectionDetails, CallbackInfo ci) {
-        AnimatiumClient.setDisableSwingMissPenalty(false);
-        AnimatiumClient.setLeftClickItemUsage(false);
+        AnimatiumClient.getEnabledFeatures().clear();
     }
 }

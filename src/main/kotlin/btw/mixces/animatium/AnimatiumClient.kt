@@ -4,6 +4,7 @@ import btw.mixces.animatium.command.AnimatiumCommand
 import btw.mixces.animatium.config.AnimatiumConfig
 import btw.mixces.animatium.packet.AnimatiumInfoPayloadPacket
 import btw.mixces.animatium.packet.SetFeaturesPayloadPacket
+import btw.mixces.animatium.util.Feature
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
@@ -15,10 +16,7 @@ class AnimatiumClient : ClientModInitializer {
     companion object {
         // Settings
         @JvmStatic
-        var disableSwingMissPenalty = false
-
-        @JvmStatic
-        var leftClickItemUsage = false
+        val enabledFeatures = arrayListOf<Feature>()
 
         @JvmStatic
         var shouldReloadOverlayTexture = false
@@ -31,7 +29,7 @@ class AnimatiumClient : ClientModInitializer {
         // Info
         @JvmStatic
         val VERSION = 1.0
-        val DEVELOPMENT_VERSION = Optional.ofNullable(10)
+        val DEVELOPMENT_VERSION = Optional.ofNullable(11)
 
         @JvmStatic
         fun location(path: String): ResourceLocation {
@@ -64,8 +62,10 @@ class AnimatiumClient : ClientModInitializer {
         PayloadTypeRegistry.playS2C().register(SetFeaturesPayloadPacket.PAYLOAD_ID, SetFeaturesPayloadPacket.CODEC)
         ClientPlayNetworking.registerGlobalReceiver(SetFeaturesPayloadPacket.PAYLOAD_ID) { payload, context ->
             context.client().execute {
-                disableSwingMissPenalty = payload.missPenalty
-                leftClickItemUsage = payload.leftClickItemUsage
+                enabledFeatures.clear()
+                for (feature in payload.features) {
+                    enabledFeatures.add(feature)
+                }
             }
         }
     }

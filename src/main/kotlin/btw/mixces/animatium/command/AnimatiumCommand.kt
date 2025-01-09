@@ -2,6 +2,7 @@ package btw.mixces.animatium.command
 
 import btw.mixces.animatium.AnimatiumClient
 import btw.mixces.animatium.util.ColorUtils
+import btw.mixces.animatium.util.Feature
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
@@ -19,11 +20,19 @@ class AnimatiumCommand : Command<FabricClientCommandSource> {
                 command.then(
                     LiteralArgumentBuilder.literal<FabricClientCommandSource>("debug").executes { context ->
                         context.source.sendFeedback(
-                            Component.literal("Disabled miss swing penalty? " + AnimatiumClient.disableSwingMissPenalty)
+                            Component.literal(
+                                "Disabled miss swing penalty? " + AnimatiumClient.enabledFeatures.contains(
+                                    Feature.MISS_PENALTY
+                                )
+                            )
                                 .withColor(ColorUtils.randomColor())
                         )
                         context.source.sendFeedback(
-                            Component.literal("Enabled left-click item usage on ground? " + AnimatiumClient.leftClickItemUsage)
+                            Component.literal(
+                                "Enabled left-click item usage on ground? " + AnimatiumClient.enabledFeatures.contains(
+                                    Feature.LEFT_CLICK_ITEM_USAGE
+                                )
+                            )
                                 .withColor(ColorUtils.randomColor())
                         )
                         return@executes Command.SINGLE_SUCCESS

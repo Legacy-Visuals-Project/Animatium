@@ -30,10 +30,14 @@ If more are requested/wanted, we will add and update this here.
 
 Allows the server to enable/disable server-only features that enhance gameplay.
 
-| Identifier             | Field Name            | Field Type | Description                                                             |
-|------------------------|-----------------------|------------|-------------------------------------------------------------------------|
-| animatium:set_features | Miss Penalty          | Boolean    | Turn on/off the swing miss penalty                                      |
-|                        | Left Click Item Usage | Boolean    | Turn on/off the ability to start using a item whilst holding left click |
+| Feature Name          | Identifier            | Description                                                             |
+|-----------------------|:----------------------|:------------------------------------------------------------------------|
+| Miss Penalty          | miss_penalty          | Turn on/off the swing miss penalty                                      |
+| Left Click Item Usage | left_click_item_usage | Turn on/off the ability to start using a item whilst holding left click |
+
+| Identifier             | Field Name    | Field Type     | Description                                                                                  |
+|------------------------|:--------------|:---------------|:---------------------------------------------------------------------------------------------|
+| animatium:set_features | Features List | List\<String\> | List of features the client should use currently, maps to Feature above or skips if unknown. |
 
 #### Info (Serverbound)
 
