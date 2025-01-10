@@ -85,6 +85,7 @@ public abstract class MixinItemInHandLayer<S extends ArmedEntityRenderState, M e
                         poseStack.mulPose(Axis.XP.rotationDegrees(180));
                         poseStack.mulPose(Axis.XP.rotationDegrees(100.0F));
                         poseStack.mulPose(Axis.YP.rotationDegrees(direction * -145.0F));
+                        poseStack.translate(-0.011765625F, 0.0F, 0.002125F);
                     } else if (ItemUtils.isHandheldItem(stack)) {
                         float scale = 0.625F;
                         if (ItemUtils.isFishingRodItem(stack)) {
@@ -104,6 +105,7 @@ public abstract class MixinItemInHandLayer<S extends ArmedEntityRenderState, M e
                         poseStack.mulPose(Axis.XP.rotationDegrees(180));
                         poseStack.mulPose(Axis.XP.rotationDegrees(100));
                         poseStack.mulPose(Axis.YP.rotationDegrees(direction * -145));
+                        poseStack.translate(-0.011765625F, 0.0F, 0.002125F);
                     } else {
                         float scale = 0.375F;
                         poseStack.translate(direction * 0.25F, 0.1875F, -0.1875F);
