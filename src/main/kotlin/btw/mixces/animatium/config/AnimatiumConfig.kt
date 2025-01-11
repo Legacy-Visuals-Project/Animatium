@@ -1214,6 +1214,17 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Component.translatable("animatium.oldArmorHurtRendering"))
+                            .description(OptionDescription.of(Component.translatable("animatium.oldArmorHurtRendering.description")))
+                            .binding(
+                                defaults.oldArmorHurtRendering,
+                                { config.oldArmorHurtRendering },
+                                { newVal -> config.oldArmorHurtRendering = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
                     builder.category(category.build())
                 }
 
@@ -1306,11 +1317,9 @@ class AnimatiumConfig {
     @SerialEntry var oldDurabilityBarColors = true
     @SerialEntry var oldItemRarities = true
     @SerialEntry var showHeldItemInBoat = true
-
     @SerialEntry var oldGlintSpeed = true
     @SerialEntry var disableGlintOnItemDrops2D = false
     @SerialEntry var disableGlintOnItemFramed2D = false
-
     @SerialEntry var oldFishingRodTextureStackCheck = true
     @SerialEntry var fishingRodLineInterpolation = false
     @SerialEntry var noMoveFishingRodLine = false
@@ -1340,4 +1349,5 @@ class AnimatiumConfig {
     @SerialEntry var entityArmorHurtTint = true
     @SerialEntry var forceItemGlintOnEntity = true
     @SerialEntry var forceMaxGlintProperties = true
+    @SerialEntry var oldArmorHurtRendering = true
 }

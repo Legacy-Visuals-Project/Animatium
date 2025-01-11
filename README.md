@@ -338,6 +338,16 @@ Sent to the server when receiving the "minecraft:register" payload and it contai
 - [X] entityArmorHurtTint
     - Description: Tints the armor when an entity is damaged like in <=1.7.x.
     - Type: BOOLEAN
+- [X] forceItemGlintOnEntity
+    - Description: Forces the glint on armor to use the item glint texture. This therefore unifies the glint texture
+      like in older mc versions.
+    - Type: BOOLEAN
+- [X] forceMaxGlintProperties
+    - Description: Forces the glint to use the maximum speed and strength by default like in older mc versions.
+    - Type: BOOLEAN
+- [X] oldArmorHurtRendering
+    - Description: Restores the old armor hurt tint rendering from ~1.8.
+    - Type: BOOLEAN
   </details>
 
 ## Support
