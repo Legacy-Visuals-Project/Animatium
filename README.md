@@ -119,7 +119,7 @@ Sent to the server when receiving the "minecraft:register" payload and it contai
     - Description: Stops minecraft from clearing chat when disconnecting/leaving the world/server.
     - Type: BOOLEAN
 - [X] dontCloseChat
-    - Description: Stops minecraft from closing the chat screen on servers.
+    - Description: Stops minecraft from closing the chat screen on teleport/some situations.
     - Type: BOOLEAN
   </details>
 

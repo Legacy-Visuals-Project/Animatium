@@ -41,7 +41,7 @@
 	"animatium.dontClearChatOnDisconnect": "Don't clear chat on disconnect",
 	"animatium.dontClearChatOnDisconnect.description": "Stops minecraft from clearing chat when disconnecting/leaving the world/server.",
 	"animatium.dontCloseChat": "Don't close chat",
-	"animatium.dontCloseChat.description": "Stops minecraft from closing the chat screen on servers.",
+	"animatium.dontCloseChat.description": "Stops minecraft from closing the chat screen on teleport/some situations.",
 	"animatium.category.qol.group.qol_fixes": "Fixes",
 	"animatium.fixMirrorArmSwing": "Fix arm swing mirroring",
 	"animatium.fixMirrorArmSwing.description": "Fix the left-arm swing mirroring.",
