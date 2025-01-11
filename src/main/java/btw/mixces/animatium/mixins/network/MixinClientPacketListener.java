@@ -37,7 +37,7 @@ public abstract class MixinClientPacketListener {
     }
 
     @WrapWithCondition(method = "handleContainerClose", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;clientSideCloseContainer()V"))
-    private boolean animatium$dontCloseChat(LocalPlayer instance) {
-        return !(AnimatiumConfig.instance().getDontCloseChat() && Minecraft.getInstance().screen instanceof ChatScreen);
+    private boolean animatium$dontCloseChat$containerClose(LocalPlayer instance) {
+        return !AnimatiumClient.getEnabled() || !AnimatiumConfig.instance().getDontCloseChat() || !(Minecraft.getInstance().screen instanceof ChatScreen);
     }
 }

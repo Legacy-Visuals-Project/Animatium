@@ -21,7 +21,7 @@ import java.util.function.Function;
 public abstract class MixinInGameHud {
     @WrapWithCondition(method = "onDisconnected", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/ChatComponent;clearMessages(Z)V"))
     private boolean animatium$dontClearChatOnDisconnect(ChatComponent instance, boolean bl) {
-        return !AnimatiumConfig.instance().getDontClearChatOnDisconnect();
+        return !AnimatiumClient.getEnabled() || !AnimatiumConfig.instance().getDontClearChatOnDisconnect();
     }
 
     @WrapOperation(method = "renderChat", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/ChatComponent;render(Lnet/minecraft/client/gui/GuiGraphics;IIIZ)V"))
