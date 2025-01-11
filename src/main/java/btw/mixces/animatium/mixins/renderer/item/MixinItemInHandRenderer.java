@@ -41,7 +41,7 @@ public abstract class MixinItemInHandRenderer {
     private ItemStack mainHandItem;
 
     @Unique
-    private int currentSlot = -1;
+    private int animatium$currentSlot = -1;
 
     // TODO: Make arm partially translucent/transparent like the third-person player model (like on a team)
     @WrapOperation(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/AbstractClientPlayer;isInvisible()Z"))
@@ -146,7 +146,7 @@ public abstract class MixinItemInHandRenderer {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getFixEquipAnimationItemCheck()) {
             if (itemStack == this.mainHandItem && itemStack2 == mainHandItem) {
                 // In order to make sure this code doesn't break switching hotbar slots, lets ensure the slot changed
-                boolean slotsMatch = this.currentSlot == localPlayer.getInventory().selected;
+                boolean slotsMatch = this.animatium$currentSlot == localPlayer.getInventory().selected;
                 return (slotsMatch && ItemUtils.areItemsEqual1_8(itemStack, itemStack2)) || value;
             } else {
                 // Off-hand items
@@ -161,7 +161,7 @@ public abstract class MixinItemInHandRenderer {
     private void animatium$setEquippedItemSlot(CallbackInfo ci, @Local LocalPlayer localPlayer) {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getFixEquipAnimationItemCheck() && this.mainHandHeight < 0.1F) {
             // Cache the previous slot item to use in our comparison above
-            this.currentSlot = localPlayer.getInventory().selected;
+            this.animatium$currentSlot = localPlayer.getInventory().selected;
         }
     }
 }
