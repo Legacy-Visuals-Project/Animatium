@@ -115,6 +115,12 @@ Sent to the server when receiving the "minecraft:register" payload and it contai
 - [X] hideFirstpersonParticles
     - Description: Hides potion particle effects coming from you whilst in first-person.
     - Type: BOOLEAN
+- [X] dontClearChatOnDisconnect
+    - Description: Stops minecraft from clearing chat when disconnecting/leaving the world/server.
+    - Type: BOOLEAN
+- [X] dontCloseChat
+    - Description: Stops minecraft from closing the chat screen on servers.
+    - Type: BOOLEAN
   </details>
 
 <details>

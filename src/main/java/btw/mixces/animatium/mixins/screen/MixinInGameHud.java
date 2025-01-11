@@ -1,11 +1,11 @@
 package btw.mixces.animatium.mixins.screen;
 
+import btw.mixces.animatium.AnimatiumClient;
+import btw.mixces.animatium.config.AnimatiumConfig;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import btw.mixces.animatium.AnimatiumClient;
-import btw.mixces.animatium.config.AnimatiumConfig;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
@@ -19,6 +19,11 @@ import java.util.function.Function;
 
 @Mixin(Gui.class)
 public abstract class MixinInGameHud {
+    @WrapWithCondition(method = "onDisconnected", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/ChatComponent;clearMessages(Z)V"))
+    private boolean animatium$dontClearChatOnDisconnect(ChatComponent instance, boolean bl) {
+        return !AnimatiumConfig.instance().getDontClearChatOnDisconnect();
+    }
+
     @WrapOperation(method = "renderChat", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/ChatComponent;render(Lnet/minecraft/client/gui/GuiGraphics;IIIZ)V"))
     private void animatium$oldChatPosition(ChatComponent instance, GuiGraphics context, int currentTick, int mouseX, int mouseY, boolean focused, Operation<Void> original) {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldChatPosition()) {

@@ -94,7 +94,7 @@ public abstract class MixinCamera {
     @Unique
     private float animatium$getStandingEyeHeight() {
         float standingEyeHeight = this.entity.getEyeHeight();
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getFakeOldSneakEyeHeight() && this.entity.isShiftKeyDown() && this.entity instanceof Player player && ((PlayerAccessor) player).canChangeIntoPose$(Pose.STANDING)) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getFakeOldSneakEyeHeight() && this.entity.isShiftKeyDown() && this.entity instanceof Player player && ((PlayerAccessor) player).canChangeIntoPose(Pose.STANDING)) {
             return 1.54F;
         } else {
             return standingEyeHeight;

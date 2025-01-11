@@ -1,15 +1,15 @@
 package btw.mixces.animatium.mixins.renderer.item;
 
+import btw.mixces.animatium.AnimatiumClient;
+import btw.mixces.animatium.util.EntityUtils;
+import btw.mixces.animatium.util.ItemUtils;
+import btw.mixces.animatium.util.PlayerUtils;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import btw.mixces.animatium.AnimatiumClient;
-import btw.mixces.animatium.util.EntityUtils;
-import btw.mixces.animatium.util.ItemUtils;
-import btw.mixces.animatium.util.PlayerUtils;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;

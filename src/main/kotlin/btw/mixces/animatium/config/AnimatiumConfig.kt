@@ -242,6 +242,28 @@ class AnimatiumConfig {
                             .controller(TickBoxControllerBuilder::create)
                             .build()
                     )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Component.translatable("animatium.dontClearChatOnDisconnect"))
+                            .description(OptionDescription.of(Component.translatable("animatium.dontClearChatOnDisconnect.description")))
+                            .binding(
+                                defaults.dontClearChatOnDisconnect,
+                                { config.dontClearChatOnDisconnect },
+                                { newVal -> config.dontClearChatOnDisconnect = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
+                    category.option(
+                        Option.createBuilder<Boolean>()
+                            .name(Component.translatable("animatium.dontCloseChat"))
+                            .description(OptionDescription.of(Component.translatable("animatium.dontCloseChat.description")))
+                            .binding(
+                                defaults.dontCloseChat,
+                                { config.dontCloseChat },
+                                { newVal -> config.dontCloseChat = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
 
                     // Fixes
                     run {
@@ -1232,6 +1254,8 @@ class AnimatiumConfig {
     @SerialEntry var fixMirrorArmSwing = false
     @SerialEntry var disableServerPoseAndBlockingVisualUpdates = false
     @SerialEntry var upMinPixelTransparencyLimit = false
+    @SerialEntry var dontClearChatOnDisconnect = false
+    @SerialEntry var dontCloseChat = false
 
     // Movement
     @SerialEntry var rotateBackwardsWalking = true

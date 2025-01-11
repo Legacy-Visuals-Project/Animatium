@@ -8,5 +8,5 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(Player.class)
 public interface PlayerAccessor {
     @Invoker("canPlayerFitWithinBlocksAndEntitiesWhen")
-    boolean canChangeIntoPose$(Pose pose);
+    boolean canChangeIntoPose(Pose pose);
 }
