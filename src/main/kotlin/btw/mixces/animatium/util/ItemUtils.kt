@@ -3,27 +3,11 @@ package btw.mixces.animatium.util
 import btw.mixces.animatium.config.AnimatiumConfig
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
+import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.entity.state.EntityRenderState
 import net.minecraft.client.renderer.item.ItemStackRenderState
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.item.BlockItem
-import net.minecraft.world.item.BucketItem
-import net.minecraft.world.item.CrossbowItem
-import net.minecraft.world.item.DiggerItem
-import net.minecraft.world.item.EnderpearlItem
-import net.minecraft.world.item.FishingRodItem
-import net.minecraft.world.item.FoodOnAStickItem
-import net.minecraft.world.item.ItemDisplayContext
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
-import net.minecraft.world.item.MaceItem
-import net.minecraft.world.item.ProjectileItem
-import net.minecraft.world.item.ProjectileWeaponItem
-import net.minecraft.world.item.Rarity
-import net.minecraft.world.item.ShearsItem
-import net.minecraft.world.item.ShieldItem
-import net.minecraft.world.item.SwordItem
-import net.minecraft.world.item.TridentItem
+import net.minecraft.world.item.*
 import net.minecraft.world.level.block.BannerBlock
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.RodBlock
@@ -181,5 +165,21 @@ object ItemUtils {
             // TODO?: Trims? eh, if someone requests it ig
             stack.rarity
         }
+    }
+
+    @JvmStatic
+    fun areItemsEqual1_8(itemStack: ItemStack, itemStack2: ItemStack): Boolean {
+        // We must make sure the actual item class is the same as the class of the item being swapped to (SwordItem, BowItem, etc...)
+        val itemsMatch = ItemStack.isSameItem(itemStack, itemStack2)
+        // Because the durability changes the itemstack and that results in the item equip update code reading it as a different itemstack,
+        // we must ensure the durabilities are different before we skip the equip update
+        val durabilitiesMatch = itemStack.damageValue == itemStack2.damageValue
+        // Similar to the durability, the stack count changing results in the item equip update code reading the stack as a different stack
+        val countMatch = itemStack.count == itemStack2.count
+        // This check is not ideal. I need a better to check for inventory slots :( This presents a bug with mending items while a gui is open
+        val notInGui = Minecraft.getInstance().screen == null
+        // If these conditions are met, the item update code will skip the equip animation as the stack will be immediately updated
+        // Some of these checks may or may not be redundant. I will have to rewrite this logic to be simpler someday :)
+        return (itemsMatch && notInGui && (!durabilitiesMatch || !countMatch))
     }
 }

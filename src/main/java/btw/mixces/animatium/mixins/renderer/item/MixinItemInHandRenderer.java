@@ -43,6 +43,7 @@ public abstract class MixinItemInHandRenderer {
     @Shadow
     private float mainHandHeight;
 
+    @Shadow private ItemStack mainHandItem;
     @Unique
     private int currentSlot = -1;
 
@@ -143,24 +144,18 @@ public abstract class MixinItemInHandRenderer {
     }
 
     // TODO/NOTE: I need to make sure this accounts for EVERYTHING.
-    @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;shouldInstantlyReplaceVisibleItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z", ordinal = 0))
-    private boolean animatium$fixEquipAnimationItemCheck(ItemInHandRenderer instance, ItemStack itemStack, ItemStack itemStack2, Operation<Boolean> original, @Local LocalPlayer localPlayer) {
+    @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;shouldInstantlyReplaceVisibleItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"))
+    private boolean animatium$fixEquipAnimationItemCheck(ItemInHandRenderer instance, ItemStack itemStack, ItemStack itemStack2, Operation<Boolean> original, @Local LocalPlayer localPlayer, @Local(ordinal = 0) ItemStack mainHandItem) {
         boolean value = original.call(instance, itemStack, itemStack2);
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getFixEquipAnimationItemCheck()) {
-            // In order to make sure this code doesn't break switching slots, lets ensure the slot changed
-            boolean slotsMatch = this.currentSlot == localPlayer.getInventory().selected;
-            // We make sure the actual item class is the same as the class of the item being swapped to (SwordItem, BowItem, etc...)
-            boolean itemsMatch = ItemStack.isSameItem(itemStack, itemStack2);
-            // Because the durability changes the itemstack and that results in the item equip update code reading it as a different itemstack,
-            // we must ensure the durabilities are different before we skip the equip update
-            boolean durabilitiesMatch = itemStack.getDamageValue() == itemStack2.getDamageValue();
-            // Similar to the durability, the stack count changing results in the item equip update code reading the stack as a different stack
-            boolean countMatch = itemStack.getCount() == itemStack2.getCount();
-            // This check is not ideal. I need a better to check for inventory slots :( This presents a bug with mending items while a gui is open
-            boolean notInGui = this.minecraft.screen == null;
-            // If these conditions are met, the item update code will skip the equip animation as the stack will be immediately updated
-            // Some of these checks may or may not be redundant. I will have to rewrite this to be simpler someday :)
-            return (slotsMatch && itemsMatch && notInGui && (!durabilitiesMatch || !countMatch)) || value;
+            if (itemStack == this.mainHandItem && itemStack2 == mainHandItem) {
+                // In order to make sure this code doesn't break switching hotbar slots, lets ensure the slot changed
+                boolean slotsMatch = this.currentSlot == localPlayer.getInventory().selected;
+                return (slotsMatch && ItemUtils.areItemsEqual1_8(itemStack, itemStack2)) || value;
+            } else {
+                // Off-hand items
+                return ItemUtils.areItemsEqual1_8(itemStack, itemStack2) || value;
+            }
         } else {
             return value;
         }
