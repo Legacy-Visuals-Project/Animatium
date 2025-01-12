@@ -58,7 +58,7 @@ public abstract class MixinEquipmentLayerRenderer {
     @WrapOperation(method = "renderLayers(Lnet/minecraft/client/resources/model/EquipmentClientInfo$LayerType;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/client/model/Model;Lnet/minecraft/world/item/ItemStack;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/resources/ResourceLocation;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/Model;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V"))
     private void animatium$oldArmorHurtRendering(Model instance, PoseStack poseStack, VertexConsumer vertexConsumer, int light, int overlay, int color, Operation<Void> original) {
         original.call(instance, poseStack, vertexConsumer, light, overlay, color);
-        if (AnimatiumConfig.instance().getOldArmorHurtRendering()) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getEntityArmorHurtTint() && AnimatiumConfig.instance().getOldArmorHurtRendering()) {
             HumanoidRenderState humanRenderState = EntityUtils.getHumanRenderState();
             Level level = Minecraft.getInstance().level;
             if (humanRenderState == null || level == null) {
