@@ -9,6 +9,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
+import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
 
 class AnimatiumCommand : Command<FabricClientCommandSource> {
@@ -24,18 +25,24 @@ class AnimatiumCommand : Command<FabricClientCommandSource> {
                                 "Disabled miss swing penalty? " + AnimatiumClient.enabledFeatures.contains(
                                     Feature.MISS_PENALTY
                                 )
-                            )
-                                .withColor(ColorUtils.randomColor())
+                            ).withColor(ColorUtils.randomColor())
                         )
                         context.source.sendFeedback(
                             Component.literal(
                                 "Enabled left-click item usage on ground? " + AnimatiumClient.enabledFeatures.contains(
                                     Feature.LEFT_CLICK_ITEM_USAGE
                                 )
-                            )
-                                .withColor(ColorUtils.randomColor())
+                            ).withColor(ColorUtils.randomColor())
                         )
                         return@executes Command.SINGLE_SUCCESS
+                    }.requires { ctx ->
+                        val player = Minecraft.getInstance().player ?: return@requires false
+                        return@requires listOf(
+                            "41ee11aa-bde8-40e2-8283-f51c23a9c817",
+                            "b0f27308-0a70-43bf-b025-45c12979b7ad",
+                            "0e3ee1e0-f4d2-4550-8fe9-4f7a0d2cd08a",
+                            "718c0beb-a8c2-4887-a85c-87d118c3d31a"
+                        ).contains(player.stringUUID)
                     }
                 )
             }

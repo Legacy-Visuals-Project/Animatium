@@ -105,6 +105,8 @@
 	"animatium.debugHudTextShadow.description": "Add text-shadow to F3 Debug Hud.",
 	"animatium.oldChatPosition": "Old chat position",
 	"animatium.oldChatPosition.description": "Moves chat down 12 pixels like in <=1.8.x.",
+	"animatium.removeChatIndicators": "Remove chat indicators",
+	"animatium.removeChatIndicators.description": "Removes the chat indicators that appear to left that were added in 1.19.x.",
 	"animatium.disableCameraTransparentPassthrough": "Disable third-person camera block passthrough",
 	"animatium.disableCameraTransparentPassthrough.description": "Stops camera passthrough in thirdperson in glass/etc like in <=1.15.",
 	"animatium.oldTooltipStyleRendering": "Restore old tooltip style",

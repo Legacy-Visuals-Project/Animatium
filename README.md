@@ -184,6 +184,9 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - [X] oldChatPosition
     - Description: Moves chat down 12 pixels like in <=1.8.x.
     - Type: BOOLEAN
+- [X] removeChatIndicators
+    - Description: Removes the chat indicators that appear to left that were added in 1.19.x.
+    - Type: BOOLEAN
 - [X] disableCameraTransparentPassthrough
     - Description: Stops camera passthrough in thirdperson in glass/etc like in <=1.15.
     - Type: BOOLEAN
