@@ -13,7 +13,7 @@ class SetFeaturesPayloadPacket(val features: List<Feature>) : CustomPacketPayloa
         private fun read(buffer: FriendlyByteBuf): SetFeaturesPayloadPacket {
             val features = arrayListOf<Feature>()
             val size = buffer.readVarInt()
-            for (i in 0..size) {
+            for (index in 1..size) {
                 features.add(Feature.byId(buffer.readUtf()) ?: continue)
             }
             return SetFeaturesPayloadPacket(features)
