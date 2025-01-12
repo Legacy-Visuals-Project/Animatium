@@ -16,6 +16,9 @@ class AnimatiumClient : ClientModInitializer {
     companion object {
         // Settings
         @JvmStatic
+        var enabled = true
+
+        @JvmStatic
         val enabledFeatures = arrayListOf<Feature>()
 
         @JvmStatic
@@ -29,7 +32,7 @@ class AnimatiumClient : ClientModInitializer {
         // Info
         @JvmStatic
         val VERSION = 1.0
-        val DEVELOPMENT_VERSION = Optional.ofNullable(19)
+        val DEVELOPMENT_VERSION = Optional.ofNullable(20)
 
         @JvmStatic
         fun location(path: String): ResourceLocation {
@@ -40,9 +43,6 @@ class AnimatiumClient : ClientModInitializer {
         fun getInfoPayload(): AnimatiumInfoPayloadPacket {
             return AnimatiumInfoPayloadPacket(VERSION, DEVELOPMENT_VERSION)
         }
-
-        @JvmStatic
-        var enabled = true
     }
 
     override fun onInitializeClient() {

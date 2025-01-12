@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id 'fabric-loom' version '1.9-SNAPSHOT'
     id 'maven-publish'
@@ -26,9 +28,9 @@ loom {
 
 dependencies {
     // To change the versions see the gradle.properties file
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    minecraft("com.mojang:minecraft:${project.minecraft_version}")
+    mappings(loom.officialMojangMappings())
+    modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
 
     // Fabric Command API
     modImplementation(fabricApi.module("fabric-command-api-v2", project.fabric_version))
@@ -37,13 +39,13 @@ dependencies {
     modImplementation(fabricApi.module("fabric-networking-api-v1", project.fabric_version))
 
     // Kotlin
-    modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
+    include("net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}")
 
     // Mod Menu
     modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
 
     // YACL
-    modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
+    modImplementation("dev.isxander:yet-another-config-lib:${project.yacl_version}")
 }
 
 processResources {
@@ -57,7 +59,7 @@ tasks.withType(JavaCompile).configureEach {
     it.options.release = 21
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+tasks.withType(KotlinCompile).configureEach {
     kotlinOptions {
         jvmTarget = 21
     }

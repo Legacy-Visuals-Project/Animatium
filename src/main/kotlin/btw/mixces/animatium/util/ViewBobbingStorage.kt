@@ -1,6 +1,7 @@
 package btw.mixces.animatium.util
 
 interface ViewBobbingStorage {
+    // Bobbing Tilt
     fun `animatium$setBobbingTilt`(bobbingTilt: Float)
 
     fun `animatium$setPreviousBobbingTilt`(previousBobbingTilt: Float)
