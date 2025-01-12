@@ -615,6 +615,17 @@ class AnimatiumConfig {
                     )
                     category.option(
                         Option.createBuilder<Boolean>()
+                            .name(Component.translatable("animatium.removeChatIndicators"))
+                            .description(OptionDescription.of(Component.translatable("animatium.removeChatIndicators.description")))
+                            .binding(
+                                defaults.removeChatIndicators,
+                                { config.removeChatIndicators },
+                                { newVal -> config.removeChatIndicators = newVal })
+                            .controller(TickBoxControllerBuilder::create)
+                            .build()
+                    )
+                    category.option(
+                        Option.createBuilder<Boolean>()
                             .name(Component.translatable("animatium.disableCameraTransparentPassthrough"))
                             .description(OptionDescription.of(Component.translatable("animatium.disableCameraTransparentPassthrough.description")))
                             .binding(
@@ -1296,6 +1307,7 @@ class AnimatiumConfig {
     @SerialEntry var removeDebugHudBackground = true
     @SerialEntry var debugHudTextShadow = true
     @SerialEntry var oldChatPosition = false
+    @SerialEntry var removeChatIndicators = false
     @SerialEntry var disableCameraTransparentPassthrough = true
     @SerialEntry var oldTooltipStyleRendering = true
     @SerialEntry var oldSlotHoverStyleRendering = true
