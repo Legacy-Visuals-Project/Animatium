@@ -16,37 +16,14 @@ them [here](https://github.com/Legacy-Visuals-Project/Animatium/actions).
 This mod uses [YACL](https://modrinth.com/mod/yacl) as it's config library of choice. Make sure you install the correct
 version to prevent crashing.
 It is recommended that you also install [Mod Menu](https://modrinth.com/mod/modmenu/) in order to access the Animatium
-config while in-game.
+config while in-game but it is not required exactly.
 
-## Server Features
+## Support
 
-We currently have one payload which servers can use to change game functionality for pvp. Only servers can
-enable/disable this, to not cause issues on other servers.
-If more are requested/wanted, we will add and update this here.
-
-### Payloads
-
-#### Set Features (Clientbound)
-
-Allows the server to enable/disable server-only features that enhance gameplay.
-
-| Feature Name          | Identifier            | Description                                                             |
-|-----------------------|:----------------------|:------------------------------------------------------------------------|
-| Miss Penalty          | miss_penalty          | Turn on/off the swing miss penalty                                      |
-| Left Click Item Usage | left_click_item_usage | Turn on/off the ability to start using a item whilst holding left click |
-
-| Identifier             | Field Name    | Field Type     | Description                                                                                  |
-|------------------------|:--------------|:---------------|:---------------------------------------------------------------------------------------------|
-| animatium:set_features | Features List | List\<String\> | List of features the client should use currently, maps to Feature above or skips if unknown. |
-
-#### Info (Serverbound)
-
-Sent to the server when receiving the "minecraft:register" payload and it contains "Animatium".
-
-| Identifier     | Field Name          | Field Type      | Description                                                                            |
-|----------------|---------------------|-----------------|----------------------------------------------------------------------------------------|
-| animatium:info | Version             | Double          | Current release version of the mod.                                                    |
-|                | Development Version | Optional Double | Current development version of the mod. Only provided when mod is a development build. |
+Have any issues or need support? Feel free to use
+our [issue tracker](https://github.com/Legacy-Visuals-Project/Animatium/issues) to address that. If you are reporting a
+crash, make sure you include information about the mods you are using and attach any relevant log files you have. If you
+want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 
 # Available Config Categories
 
@@ -350,9 +327,32 @@ Sent to the server when receiving the "minecraft:register" payload and it contai
     - Type: BOOLEAN
   </details>
 
-## Support
+## Server Features
 
-Have any issues or need support? Feel free to use
-our [issue tracker](https://github.com/Legacy-Visuals-Project/Animatium/issues) to address that. If you are reporting a
-crash, make sure you include information about the mods you are using and attach any relevant log files you have. If you
-want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
+We currently have one payload which servers can use to change game functionality for pvp. Only servers can
+enable/disable this, to not cause issues on other servers.
+If more are requested/wanted, we will add and update this here.
+
+### Payloads
+
+#### Set Features (Clientbound)
+
+Allows the server to enable/disable server-only features that enhance gameplay.
+
+| Feature Name          | Identifier            | Description                                                             |
+|-----------------------|:----------------------|:------------------------------------------------------------------------|
+| Miss Penalty          | miss_penalty          | Turn on/off the swing miss penalty                                      |
+| Left Click Item Usage | left_click_item_usage | Turn on/off the ability to start using a item whilst holding left click |
+
+| Identifier             | Field Name    | Field Type     | Description                                                                                  |
+|------------------------|:--------------|:---------------|:---------------------------------------------------------------------------------------------|
+| animatium:set_features | Features List | List\<String\> | List of features the client should use currently, maps to Feature above or skips if unknown. |
+
+#### Info (Serverbound)
+
+Sent to the server when receiving the "minecraft:register" payload and it contains "Animatium".
+
+| Identifier     | Field Name          | Field Type      | Description                                                                            |
+|----------------|---------------------|-----------------|----------------------------------------------------------------------------------------|
+| animatium:info | Version             | Double          | Current release version of the mod.                                                    |
+|                | Development Version | Optional Double | Current development version of the mod. Only provided when mod is a development build. |
