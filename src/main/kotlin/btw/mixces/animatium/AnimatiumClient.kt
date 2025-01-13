@@ -31,7 +31,7 @@ class AnimatiumClient : ClientModInitializer {
 
         // Info
         const val VERSION = 1.0
-        val DEVELOPMENT_VERSION = Optional.ofNullable(24)
+        val DEVELOPMENT_VERSION = Optional.ofNullable(25)
 
         @JvmStatic
         fun location(path: String): ResourceLocation {
