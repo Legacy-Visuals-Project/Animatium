@@ -118,9 +118,9 @@ class AnimatiumConfig {
     @SerialEntry var fishingRodLineInterpolation = false
     @SerialEntry var noMoveFishingRodLine = false
     @SerialEntry var oldFishingRodLinePositionThirdPerson = true
-    @SerialEntry var oldFishingRodLineThickness = false
+    @SerialEntry var oldFishingRodLineThickness = true
     @SerialEntry var thinFishingRodLineThickness = false
-    @SerialEntry var useStickModelWhenCastInThirdperson = false
+    @SerialEntry var useStickModelWhenCastInThirdperson = true
     @SerialEntry var fixCastLineCheck = true
     @SerialEntry var fixCastLineSwing = true
     // (Items) Fixes
