@@ -4,7 +4,7 @@ Join our discord: https://discord.gg/U48eDmst68
 
 ## License
 
-This project is licensed under the LGPL-2.1 license.
+This project is licensed under the LGPL-3 license.
 
 ## Download
 
