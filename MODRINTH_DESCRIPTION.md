@@ -9,8 +9,6 @@ Join our discord: https://discord.gg/U48eDmst68
 
 This mod uses [YACL](https://modrinth.com/mod/yacl) as it's config library of choice. Make sure you install the correct
 version to prevent crashing.
-It is recommended that you also install [Mod Menu](https://modrinth.com/mod/modmenu/) in order to access the Animatium
-config while in-game but it is not required exactly.
 
 ## Notes
 
