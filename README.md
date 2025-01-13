@@ -18,6 +18,18 @@ version to prevent crashing.
 It is recommended that you also install [Mod Menu](https://modrinth.com/mod/modmenu/) in order to access the Animatium
 config while in-game but it is not required exactly.
 
+## Notes
+
+If you are using Lunar Client, some features will not work as intended.
+If you find anything else not working, please report it on the GitHub and we will try to fix it.
+Do note that, Lunar does take priority in some places for enabled/disabled settings.
+These features currently won't work properly:
+
+- Always sharp particles
+- Custom hit color
+- Armor damage tint
+- 2d dropped items
+
 ## Support
 
 Have any issues or need support? Feel free to use
@@ -327,6 +339,10 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
     - Type: BOOLEAN
 - [X] oldArmorHurtRendering
     - Description: Restores the old armor hurt tint rendering from ~1.8.
+    - Type: BOOLEAN
+- [X] forceHighAttackSpeedVisual
+    - Description: Fakes the high attack speed visual, which stops the attack cooldown animation on items like the
+      sword.
     - Type: BOOLEAN
   </details>
 

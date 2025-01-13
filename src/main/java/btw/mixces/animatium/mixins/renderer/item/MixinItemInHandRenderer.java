@@ -128,6 +128,15 @@ public abstract class MixinItemInHandRenderer {
         }
     }
 
+    @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;getAttackStrengthScale(F)F"))
+    private float animatium$forceHighAttackSpeedVisual(LocalPlayer instance, float defaultAttackScale, Operation<Float> original) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getForceHighAttackSpeedVisual()) {
+            return defaultAttackScale;
+        } else {
+            return original.call(instance, defaultAttackScale);
+        }
+    }
+
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;getMainHandItem()Lnet/minecraft/world/item/ItemStack;"))
     private ItemStack animatium$fixCopyStack(LocalPlayer instance, Operation<ItemStack> original) {
         // TODO/NOTE: This is 90% done. 10% not done. :)

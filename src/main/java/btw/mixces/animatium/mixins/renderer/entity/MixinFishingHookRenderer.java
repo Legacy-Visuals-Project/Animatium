@@ -45,7 +45,7 @@ public abstract class MixinFishingHookRenderer extends EntityRenderer<FishingHoo
         // TODO/NOTE: Seems to be ok to set it like this and not have to set -1.0F after?
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getThinFishingRodLineThickness()) {
             RenderUtils.setLineWidth(1.0F);
-        } else if (AnimatiumConfig.instance().getOldFishingRodLineThickness()) {
+        } else if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldFishingRodLineThickness()) {
             RenderUtils.setLineWidth(2.0F);
         }
     }

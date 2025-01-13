@@ -1,6 +1,7 @@
 package btw.mixces.animatium.command
 
 import btw.mixces.animatium.AnimatiumClient
+import btw.mixces.animatium.config.AnimatiumConfig
 import btw.mixces.animatium.util.ColorUtils
 import btw.mixces.animatium.util.Feature
 import com.mojang.brigadier.Command
@@ -52,6 +53,8 @@ class AnimatiumCommand : Command<FabricClientCommandSource> {
                     LiteralArgumentBuilder.literal<FabricClientCommandSource>("on").executes { context ->
                         context.source.sendFeedback(Component.literal("Mod enabled.").withColor(0x00FF00))
                         AnimatiumClient.enabled = true
+                        AnimatiumClient.shouldReloadOverlayTexture = true
+                        Minecraft.getInstance().reloadResourcePacks()
                         return@executes Command.SINGLE_SUCCESS
                     }
                 )
@@ -62,6 +65,20 @@ class AnimatiumCommand : Command<FabricClientCommandSource> {
                     LiteralArgumentBuilder.literal<FabricClientCommandSource>("off").executes { context ->
                         context.source.sendFeedback(Component.literal("Mod disabled.").withColor(0xFF0000))
                         AnimatiumClient.enabled = false
+                        AnimatiumClient.shouldReloadOverlayTexture = true
+                        Minecraft.getInstance().reloadResourcePacks()
+                        return@executes Command.SINGLE_SUCCESS
+                    }
+                )
+            }
+
+            run {
+                command.then(
+                    LiteralArgumentBuilder.literal<FabricClientCommandSource>("configure").executes { context ->
+                        context.source.sendFeedback(Component.literal("Opening config menu...").withColor(0x00FF00))
+                        context.source.client.schedule {
+                            context.source.client.setScreen(AnimatiumConfig.getConfigScreen(null))
+                        }
                         return@executes Command.SINGLE_SUCCESS
                     }
                 )

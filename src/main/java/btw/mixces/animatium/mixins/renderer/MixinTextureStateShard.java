@@ -1,21 +1,24 @@
 package btw.mixces.animatium.mixins.renderer;
 
+import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
+
+import java.util.Optional;
 
 @Mixin(RenderStateShard.TextureStateShard.class)
 public class MixinTextureStateShard {
-    @ModifyVariable(method = "<init>", at = @At(value = "LOAD"), argsOnly = true)
-    private static ResourceLocation animatium$useItemGlint$init(ResourceLocation original) {
-        if (AnimatiumConfig.instance().getForceItemGlintOnEntity() && original == ItemRenderer.ENCHANTED_GLINT_ENTITY) {
-            return ItemRenderer.ENCHANTED_GLINT_ITEM;
+    @WrapOperation(method = "<init>", at = @At(value = "INVOKE", target = "Ljava/util/Optional;of(Ljava/lang/Object;)Ljava/util/Optional;"))
+    private Optional<Object> animatium$useItemGlint(Object value, Operation<Optional<Object>> original) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getForceItemGlintOnEntity() && value == ItemRenderer.ENCHANTED_GLINT_ENTITY) {
+            return Optional.of(ItemRenderer.ENCHANTED_GLINT_ITEM);
         } else {
-            return original;
+            return original.call(value);
         }
     }
 }

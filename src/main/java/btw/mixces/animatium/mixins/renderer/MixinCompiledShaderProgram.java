@@ -1,5 +1,6 @@
 package btw.mixces.animatium.mixins.renderer;
 
+import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
 import btw.mixces.animatium.util.RenderUtils;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -18,7 +19,7 @@ public abstract class MixinCompiledShaderProgram {
 
     @ModifyArg(method = "setDefaultUniforms", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/shaders/Uniform;set(F)V", ordinal = 0))
     private float animatium$forceMaxGlintStrength(float original) {
-        if (AnimatiumConfig.instance().getForceMaxGlintProperties()) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getForceMaxGlintProperties()) {
             // 100% glint strength
             return 1.0F;
         } else {

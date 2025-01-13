@@ -84,9 +84,7 @@ public abstract class MixinMinecraft {
 
     @WrapOperation(method = "startAttack", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Minecraft;missTime:I", ordinal = 0))
     private int animatium$disableSwingMissPenalty(Minecraft instance, Operation<Integer> original) {
-        // TODO/NOTE: This also disables the miss penalty on a block, should that be fixed?
-        // TODO/NOTE: For now, this should be fine.
-        if (AnimatiumClient.getEnabledFeatures().contains(Feature.MISS_PENALTY)) {
+        if (AnimatiumClient.getEnabledFeatures().contains(Feature.MISS_PENALTY) && (this.hitResult != null && this.hitResult.getType() != HitResult.Type.BLOCK)) {
             return 0;
         } else {
             return original.call(instance);
