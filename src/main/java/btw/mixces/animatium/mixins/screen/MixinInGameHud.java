@@ -48,9 +48,7 @@ public abstract class MixinInGameHud {
     @WrapWithCondition(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V", ordinal = 2))
     private boolean animatium$fixHighAttackSpeedIndicator(GuiGraphics instance, Function<ResourceLocation, RenderType> function, ResourceLocation resourceLocation, int i, int j, int k, int l, @Local float f) {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getFixHighAttackSpeedIndicator()) {
-            // NOTE: Couldn't grab it locally, so just copied it. Should be fine.
-            int progressWidth = (int) (f * 17.0F);
-            return progressWidth != 0;
+            return (int) (f * 17.0F) != 0;
         } else {
             return true;
         }

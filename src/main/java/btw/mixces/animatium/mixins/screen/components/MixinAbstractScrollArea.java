@@ -3,6 +3,8 @@ package btw.mixces.animatium.mixins.screen.components;
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
 import btw.mixces.animatium.mixins.accessor.AbstractSelectionListAccessor;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.gui.components.AbstractScrollArea;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,7 +12,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractScrollArea.class)
 public abstract class MixinAbstractScrollArea {
@@ -40,10 +41,12 @@ public abstract class MixinAbstractScrollArea {
         }
     }
 
-    @Inject(method = "maxScrollAmount", at = @At("HEAD"), cancellable = true)
-    public void animatium$modifyMaxScroll(CallbackInfoReturnable<Integer> cir) {
+    @WrapOperation(method = "maxScrollAmount", at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(II)I"))
+    public int animatium$modifyMaxScroll(int a, int b, Operation<Integer> original) {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getCenterScrollableListWidgets() && (AbstractScrollArea) (Object) this instanceof AbstractSelectionList<?> abstractSelectionList) {
-            cir.setReturnValue(this.contentHeight() - abstractSelectionList.getHeight());
+            return this.contentHeight() - abstractSelectionList.getHeight();
+        } else {
+            return original.call(a, b);
         }
     }
 }

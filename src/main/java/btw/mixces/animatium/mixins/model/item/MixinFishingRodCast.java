@@ -1,9 +1,9 @@
 package btw.mixces.animatium.mixins.model.item;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import com.llamalad7.mixinextras.sugar.Local;
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.renderer.item.properties.conditional.FishingRodCast;
 import net.minecraft.world.item.ItemDisplayContext;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,7 +16,7 @@ public abstract class MixinFishingRodCast {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getDisableItemUsingTextureInGui() && displayContext == ItemDisplayContext.GUI) {
             return false;
         } else {
-            return AnimatiumConfig.instance().getOldFishingRodTextureStackCheck() || original;
+            return (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldFishingRodTextureStackCheck()) || original;
         }
     }
 }

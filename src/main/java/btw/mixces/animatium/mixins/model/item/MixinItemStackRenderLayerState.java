@@ -1,10 +1,10 @@
 package btw.mixces.animatium.mixins.model.item;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
 import btw.mixces.animatium.util.ItemUtils;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransform;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
@@ -26,7 +26,8 @@ public abstract class MixinItemStackRenderLayerState {
     private ItemStackRenderState.FoilType animatium$disableGlintOn2dItems(ItemStackRenderState.FoilType glint) {
         boolean glintDropped = AnimatiumConfig.instance().getDisableGlintOnItemDrops2D();
         boolean glintFramed = AnimatiumConfig.instance().getDisableGlintOnItemFramed2D();
-        if (AnimatiumClient.getEnabled() && ItemUtils.getDisplayContext() != null && (glintDropped && ItemUtils.getDisplayContext() == ItemDisplayContext.GROUND) ||
+        if (AnimatiumClient.getEnabled() && ItemUtils.getDisplayContext() != null &&
+                (glintDropped && ItemUtils.getDisplayContext() == ItemDisplayContext.GROUND) ||
                 (glintFramed && ItemUtils.getDisplayContext() == ItemDisplayContext.FIXED)) {
             return ItemStackRenderState.FoilType.NONE;
         } else {

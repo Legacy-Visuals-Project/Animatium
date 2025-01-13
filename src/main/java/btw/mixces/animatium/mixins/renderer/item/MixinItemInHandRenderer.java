@@ -157,10 +157,10 @@ public abstract class MixinItemInHandRenderer {
                 // In order to make sure this code doesn't break switching hotbar slots, lets ensure the slot changed
                 boolean slotsMatch = this.animatium$currentSlot == localPlayer.getInventory().selected;
                 return (slotsMatch && ItemUtils.areItemsEqual1_8(itemStack, itemStack2)) || value;
-            } else {
-                // Off-hand items
-                return ItemUtils.areItemsEqual1_8(itemStack, itemStack2) || value;
             }
+
+            // Off-hand items
+            return ItemUtils.areItemsEqual1_8(itemStack, itemStack2) || value;
         } else {
             return value;
         }

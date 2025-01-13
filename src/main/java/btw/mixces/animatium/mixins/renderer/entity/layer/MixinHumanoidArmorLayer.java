@@ -1,7 +1,7 @@
 package btw.mixces.animatium.mixins.renderer.entity.layer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import btw.mixces.animatium.util.EntityUtils;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;

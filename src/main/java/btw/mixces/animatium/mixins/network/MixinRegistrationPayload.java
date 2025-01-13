@@ -1,8 +1,8 @@
 package btw.mixces.animatium.mixins.network;
 
+import btw.mixces.animatium.AnimatiumClient;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import btw.mixces.animatium.AnimatiumClient;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.impl.networking.RegistrationPayload;
 import net.minecraft.client.Minecraft;

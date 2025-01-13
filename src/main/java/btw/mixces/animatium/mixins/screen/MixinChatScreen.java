@@ -17,24 +17,24 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(ChatScreen.class)
 public abstract class MixinChatScreen {
     @Unique
-    private static final float animatium$offset = 12.0F;
+    private static final float animatium$chatOffset = 12.0F;
 
     @WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/ChatComponent;render(Lnet/minecraft/client/gui/GuiGraphics;IIIZ)V"))
     private void animatium$oldChatPosition(ChatComponent instance, GuiGraphics context, int currentTick, int mouseX, int mouseY, boolean focused, Operation<Void> original) {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldChatPosition()) {
-            context.pose().translate(0F, animatium$offset, 0F);
+            context.pose().translate(0F, animatium$chatOffset, 0F);
         }
 
         original.call(instance, context, currentTick, mouseX, mouseY, focused);
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldChatPosition()) {
-            context.pose().translate(0F, -animatium$offset, 0F);
+            context.pose().translate(0F, -animatium$chatOffset, 0F);
         }
     }
 
     @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/ChatScreen;getComponentStyleAt(DD)Lnet/minecraft/network/chat/Style;"), index = 1)
     private double animatium$oldChatPosition$fixY(double d) {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldChatPosition()) {
-            return d - animatium$offset;
+            return d - animatium$chatOffset;
         } else {
             return d;
         }

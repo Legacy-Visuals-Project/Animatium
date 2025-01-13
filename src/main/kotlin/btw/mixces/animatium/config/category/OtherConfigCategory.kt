@@ -120,17 +120,6 @@ object OtherConfigCategory {
                 .controller(TickBoxControllerBuilder::create)
                 .build()
         )
-//                    category.option(
-//                        Option.createBuilder<Boolean>()
-//                            .name(Component.translatable("animatium.removeFOVBasedProjection"))
-//                            .description(OptionDescription.of(Component.translatable("animatium.removeFOVBasedProjection.description")))
-//                            .binding(
-//                                defaults.removeFOVBasedProjection,
-//                                { config.removeFOVBasedProjection },
-//                                { newVal -> config.removeFOVBasedProjection = newVal })
-//                            .controller(TickBoxControllerBuilder::create)
-//                            .build()
-//                    )
         category.option(
             Option.createBuilder<Boolean>()
                 .name(Component.translatable("animatium.hideModelWhilstSleeping"))

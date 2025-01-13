@@ -1,9 +1,9 @@
 package btw.mixces.animatium.mixins.renderer;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
 import btw.mixces.animatium.util.ItemUtils;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.world.item.ItemDisplayContext;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,9 +1,9 @@
 package btw.mixces.animatium.mixins.network;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
@@ -27,7 +27,7 @@ public abstract class MixinMultiPlayerGameMode {
     @Inject(method = "getDestroyStage", at = @At(value = "RETURN"), cancellable = true)
     private void animatium$oldBlockMiningProgress(CallbackInfoReturnable<Integer> cir) {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldBlockMiningProgress() && destroyProgress > 0.0F) {
-            cir.setReturnValue((int) (this.destroyProgress * 10.0f));
+            cir.setReturnValue((int) (this.destroyProgress * 10.0F));
         }
     }
 

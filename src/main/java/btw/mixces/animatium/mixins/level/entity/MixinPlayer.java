@@ -1,12 +1,12 @@
 package btw.mixces.animatium.mixins.level.entity;
 
-import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
 import btw.mixces.animatium.util.PlayerUtils;
 import btw.mixces.animatium.util.ViewBobbingStorage;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
@@ -38,6 +38,7 @@ public abstract class MixinPlayer extends LivingEntity {
                 target.isAttackable() &&
                 !target.skipAttackInteraction(this) &&
                 !Minecraft.getInstance().isSingleplayer()) {
+            // TODO: Fix always sharp particles on Lunar client
             for (int i = 0; i < AnimatiumConfig.instance().getParticleMultiplier(); ++i) {
                 this.magicCrit(target);
             }

@@ -1,10 +1,10 @@
 package btw.mixces.animatium.mixins.renderer.item;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
 import btw.mixces.animatium.util.ItemUtils;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;
@@ -36,8 +36,6 @@ public abstract class MixinItemRenderer {
         ItemDisplayContext displayContext = ItemUtils.getDisplayContext();
         boolean itemDrops2D = AnimatiumConfig.instance().getItemDrops2D();
         boolean itemFramed2D = AnimatiumConfig.instance().getItemFramed2D();
-        // TODO: Separate dropped items from thrown items
-        return (itemDrops2D && displayContext == ItemDisplayContext.GROUND) ||
-                (itemFramed2D && displayContext == ItemDisplayContext.FIXED);
+        return (itemDrops2D && displayContext == ItemDisplayContext.GROUND) || (itemFramed2D && displayContext == ItemDisplayContext.FIXED);
     }
 }

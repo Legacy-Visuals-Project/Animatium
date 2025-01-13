@@ -1,13 +1,13 @@
 package btw.mixces.animatium.mixins.model.entity;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
 import btw.mixces.animatium.util.EntityUtils;
 import btw.mixces.animatium.util.PlayerUtils;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -31,10 +31,6 @@ import java.util.function.Function;
 
 @Mixin(HumanoidModel.class)
 public abstract class MixinHumanoidModel<T extends HumanoidRenderState> extends EntityModel<T> {
-    protected MixinHumanoidModel(ModelPart modelPart, Function<ResourceLocation, RenderType> function) {
-        super(modelPart, function);
-    }
-
     @Shadow
     @Final
     public ModelPart rightArm;
@@ -59,10 +55,15 @@ public abstract class MixinHumanoidModel<T extends HumanoidRenderState> extends 
     @Final
     public ModelPart leftLeg;
 
+    protected MixinHumanoidModel(ModelPart modelPart, Function<ResourceLocation, RenderType> function) {
+        super(modelPart, function);
+    }
+
     @WrapOperation(method = "setupAnim(Lnet/minecraft/client/renderer/entity/state/HumanoidRenderState;)V", at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/renderer/entity/state/HumanoidRenderState;isCrouching:Z"))
     private boolean animatium$oldSneakingFeetPosition(HumanoidRenderState instance, Operation<Boolean> original) {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldSneakingFeetPosition() && instance.isCrouching) {
             // Values sourced from older versions
+            // TODO/NOTE: Better way to do this possibly?
             body.xRot = 0.5F;
             rightArm.xRot += 0.4F;
             leftArm.xRot += 0.4F;

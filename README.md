@@ -59,27 +59,18 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - [X] oldDebugHudTextColor
     - Description: Makes the debug hud text color white again.
     - Type: BOOLEAN
-- [X] fixMirrorArmSwing
-    - Description: Fix the left-arm swing mirroring.
-    - Type: BOOLEAN
 - [X] persistentBlockOutline
     - Description: Always show block outline, no matter the gamemode or state.
     - Type: BOOLEAN
+
 - [X] alwaysShowSharpParticles
     - Description: Always show the sharpness particles when damaging/hitting an entity.
     - Type: BOOLEAN
 - [X] disableRecipeAndTutorialToasts
     - Description: Disable recipe and tutorial toasts.
     - Type: BOOLEAN
-- [X] disableServerPoseAndBlockingVisualUpdates
-    - Description: Stops the server from updating your pose/animations. (Fixes MC-159163)
-    - Type: BOOLEAN
 - [X] showArmWhileInvisible
     - Description: Shows the arm as partially visible whilst invisible, like spectator mode or invisibly effect.
-    - Type: BOOLEAN
-- [X] upMinPixelTransparencyLimit
-    - Description: Makes the minimum 0-transparency value less than or equal to 0.1. This fixes textures with invisible
-      pixels that cause issues.
     - Type: BOOLEAN
 - [X] fakeMissPenaltySwing
     - Description: In vanilla Minecraft, if the player has missed their hit, there will be a 10 ms delay on top of the
@@ -88,6 +79,9 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
     - Type: BOOLEAN
 - [X] showUsageSwingingParticles
     - Description: Shows fake block-breaking particles during usage swinging to match <=1.7.x.
+    - Type: BOOLEAN
+- [X] disableEntityDeathTopple
+    - Description: Prevents the dying entity from rotating 90 degrees.
     - Type: BOOLEAN
 - [X] customHitColor
     - Description: Modifies the entity damage tint color.
@@ -110,12 +104,51 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - [X] dontCloseChat
     - Description: Stops minecraft from closing the chat screen on teleport/some situations.
     - Type: BOOLEAN
+
+### Fixes
+
+- [X] fixMirrorArmSwing
+    - Description: Fix the left-arm swing mirroring.
+    - Type: BOOLEAN
+- [X] disableServerPoseAndBlockingVisualUpdates
+    - Description: Stops the server from updating your pose/animations. (Fixes MC-159163)
+    - Type: BOOLEAN
+- [X] upMinPixelTransparencyLimit
+    - Description: Makes the minimum 0-transparency value less than or equal to 0.1. This fixes textures with invisible
+      pixels that cause issues.
+    - Type: BOOLEAN
   </details>
 
 <details>
   <summary>Movement</summary>
 
 ## 🏃 Movement
+
+### Sneaking
+
+- [X] removeSmoothSneaking
+    - Description: Removes the smooth sneaking camera animation, making it like it was in 1.8-1.12.2.
+    - Type: BOOLEAN
+- [X] oldSneakAnimationInterpolation
+    - Description: Brings back the <=1.7.x sneaking camera animation interpolation.
+    - Type: BOOLEAN
+- [X] fakeOldSneakEyeHeight
+    - Description: Changes the sneak eye height to be as it was in <=1.13.2 visually.
+    - Type: BOOLEAN
+- [X] fixSneakingFeetPosition
+    - Description: Fixes the sneaking model offset to be like <=1.11.x.
+    - Type: BOOLEAN
+- [X] oldSneakingFeetPosition
+    - Description: Fixes the sneaking model offset to be like <1.14?
+    - Type: BOOLEAN
+- [X] syncPlayerModelWithEyeHeight
+    - Description: Synchronizes the player model to the eye height like in <=1.7.x.
+    - Type: BOOLEAN
+- [X] sneakAnimationWhileFlying
+    - Description: Shows the sneaking animation in third-person whilst flying down like in <=1.13.x.
+    - Type: BOOLEAN
+
+### Other
 
 - [X] rotateBackwardsWalking
     - Description: Rotates the entity body sideways when walking backwards like it was in <=1.11.2.
@@ -138,26 +171,8 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - [X] fixBowArmMovement
     - Description: Restores old player body movement in third-person when using the bow like in <=1.7?
     - Type: BOOLEAN
-- [X] removeSmoothSneaking
-    - Description: Removes the smooth sneaking camera animation, making it like it was in 1.8-1.12.2.
-    - Type: BOOLEAN
-- [X] oldSneakAnimationInterpolation
-    - Description: Brings back the <=1.7.x sneaking camera animation interpolation.
-    - Type: BOOLEAN
-- [X] fakeOldSneakEyeHeight
-    - Description: Changes the sneak eye height to be as it was in <=1.13.2 visually.
-    - Type: BOOLEAN
-- [X] fixSneakingFeetPosition
-    - Description: Fixes the sneaking model offset to be like <=1.11.x.
-    - Type: BOOLEAN
-- [X] oldSneakingFeetPosition
-    - Description: Fixes the sneaking model offset to be like <1.14?
-    - Type: BOOLEAN
-- [X] syncPlayerModelWithEyeHeight
-    - Description: Synchronizes the player model to the eye height like in <=1.7.x.
-    - Type: BOOLEAN
-- [X] sneakAnimationWhileFlying
-    - Description: Shows the sneaking animation in third-person whilst flying down like in <=1.13.x.
+- [X] oldDamageTilt
+    - Description: Reverts the damage tilt to it's old logic which will tilt in one direction <1.19.4.
     - Type: BOOLEAN
   </details>
 
@@ -197,7 +212,7 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
     - Description: Moves chat down 12 pixels like in <=1.8.x.
     - Type: BOOLEAN
 - [X] removeChatIndicators
-    - Description: Removes the chat indicators that appear to left that were added in 1.19.x.
+    - Description: Removes the chat indicators that appear to the left that were added in 1.19.x.
     - Type: BOOLEAN
 - [X] disableCameraTransparentPassthrough
     - Description: Stops camera passthrough in thirdperson in glass/etc like in <=1.15.
@@ -228,14 +243,14 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - [X] tiltItemPositions
     - Description: Tilts the held item position to make held items look like they did in <=1.7.x.
     - Type: BOOLEAN
-- [X] tiltItemPositions
+- [X] tiltItemPositionsInThirdperson
     - Description: Tilts the third-person held item position to make held items look like they did in <=1.7.x.
+    - Type: BOOLEAN
+- [X] oldSkullPosition
+    - Description: Positions the skull block items' held positions to be how it was in 1.8.x.
     - Type: BOOLEAN
 - [X] applyItemSwingUsage
     - Description: Block hitting (apply swing offset in item usage code).
-    - Type: BOOLEAN
-- [X] removeEquipAnimationOnItemUse
-    - Description: Fixes the blocking animation which plays the equip animation on use, and others.
     - Type: BOOLEAN
 - [X] disableItemUsingTextureInGui
     - Description: Disables the item usage texture in the GUI like in <=1.8.x (mainly rod/bow/crossbow).
@@ -252,15 +267,20 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - [X] oldItemRarities
     - Description: Restores the old rarities for items visually from <1.21.2. (also old trident rarity from <1.21)
     - Type: BOOLEAN
-- [X] removeClientsideBlockingDelay
-    - Description: Removes the pesky blocking delay that modern clients have. Shouldn't flag on servers.
+- [X] showHeldItemInBoat
+    - Description:
     - Type: BOOLEAN
-- [X] fixItemUsageCheck
-    - Description: Fixes item usage whilst inside a GUI, for example prevents continuous visual blocking, etc.
+
+### Glint
+
+- [X] oldGlintSpeed
+    - Description:
     - Type: BOOLEAN
-- [X] fixFireballClientsideVisual
-    - Description: Makes fire charges not place fire clientside like in older mc versions. Doesn't cause issues on
-      servers, and is clientside only.
+- [X] disableGlintOnItemDrops2D
+    - Description:
+    - Type: BOOLEAN
+- [X] disableGlintOnItemFramed2D
+    - Description:
     - Type: BOOLEAN
 - [X] oldFishingRodTextureStackCheck
     - Description: Brings back old fishing rod stack texture check from <=1.8.
@@ -287,12 +307,33 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - [X] fixCastLineSwing
     - Description: Fixes the swing logic for casting the fishing rod.
     - Type: BOOLEAN
+- [X] fixItemUseTextureCheck
+    - Description:
+    - Type: BOOLEAN
+- [X] fixEquipAnimationItemCheck
+    - Description:
+    - Type: BOOLEAN
+- [X] removeEquipAnimationOnItemUse
+    - Description: Fixes the blocking animation which plays the equip animation on use, and others.
+    - Type: BOOLEAN
+- [X] removeClientsideBlockingDelay
+    - Description: Removes the pesky blocking delay that modern clients have. Shouldn't flag on servers.
+    - Type: BOOLEAN
+- [X] fixItemUsageCheck
+    - Description: Fixes item usage whilst inside a GUI, for example prevents continuous visual blocking, etc.
+    - Type: BOOLEAN
+- [X] fixFireballClientsideVisual
+    - Description: Makes fire charges not place fire clientside like in older mc versions. Doesn't cause issues on
+      servers, and is clientside only.
+    - Type: BOOLEAN
   </details>
 
 <details>
   <summary>Old Settings</summary>
 
 ## 🛠️ Old Settings
+
+### Sky
 
 - [X] oldBlueVoidSky
     - Description: Brings back the forgotten blue void part of the sky. (Fixes MC-257056)
@@ -303,6 +344,9 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - [X] oldCloudHeight
     - Description: Changes the cloud height back to 128 like in <=1.16.5.
     - Type: BOOLEAN
+
+### Other
+
 - [X] legacyThirdpersonSwordBlockingPosition
     - Description: Brings back the old third-person sword blocking look from <=1.7.
     - Type: BOOLEAN
@@ -320,9 +364,6 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
     - Type: BOOLEAN
 - [X] legacyBlockOutlineRendering
     - Description: Restores the legacy block outline rendering from <=1.14.4.
-    - Type: BOOLEAN
-- [X] removeFOVBasedProjection
-    - Description: Removes the inclusion of FOV in the camera projection calculations.
     - Type: BOOLEAN
 - [X] hideModelWhilstSleeping
     - Description: Hides the player model whilst sleeping like in <=1.12? Only affects you.

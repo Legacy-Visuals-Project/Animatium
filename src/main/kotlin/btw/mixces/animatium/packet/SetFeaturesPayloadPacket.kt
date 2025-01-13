@@ -1,14 +1,15 @@
 package btw.mixces.animatium.packet
 
-import btw.mixces.animatium.AnimatiumClient
 import btw.mixces.animatium.util.Feature
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
+import net.minecraft.resources.ResourceLocation
 
 class SetFeaturesPayloadPacket(val features: List<Feature>) : CustomPacketPayload {
     companion object {
         val CODEC = CustomPacketPayload.codec(null, SetFeaturesPayloadPacket::read)
-        val PAYLOAD_ID = CustomPacketPayload.Type<SetFeaturesPayloadPacket>(AnimatiumClient.location("set_features"))
+        val PAYLOAD_ID =
+            CustomPacketPayload.Type<SetFeaturesPayloadPacket>(ResourceLocation.parse("animatium:set_features"))
 
         private fun read(buffer: FriendlyByteBuf): SetFeaturesPayloadPacket {
             val features = arrayListOf<Feature>()

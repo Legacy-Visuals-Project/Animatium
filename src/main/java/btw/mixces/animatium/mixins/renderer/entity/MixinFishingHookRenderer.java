@@ -42,11 +42,14 @@ public abstract class MixinFishingHookRenderer extends EntityRenderer<FishingHoo
 
     @Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/FishingHookRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;last()Lcom/mojang/blaze3d/vertex/PoseStack$Pose;", ordinal = 1, shift = At.Shift.AFTER))
     private void animatium$oldFishingRodLineThickness(FishingHookRenderState fishingHookRenderState, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
-        // TODO/NOTE: Seems to be ok to set it like this and not have to set -1.0F after?
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getThinFishingRodLineThickness()) {
-            RenderUtils.setLineWidth(1.0F);
-        } else if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldFishingRodLineThickness()) {
-            RenderUtils.setLineWidth(2.0F);
+        if (AnimatiumClient.getEnabled()) {
+            // TODO/NOTE: Seems to be ok to set it like this and not have to set -1.0F after?
+            // TODO/NOTE: Might be able to do that for MixinWorldRenderer
+            if (AnimatiumConfig.instance().getThinFishingRodLineThickness()) {
+                RenderUtils.setLineWidth(1.0F);
+            } else if (AnimatiumConfig.instance().getOldFishingRodLineThickness()) {
+                RenderUtils.setLineWidth(2.0F);
+            }
         }
     }
 
@@ -84,8 +87,7 @@ public abstract class MixinFishingHookRenderer extends EntityRenderer<FishingHoo
     @ModifyArg(method = "extractRenderState(Lnet/minecraft/world/entity/projectile/FishingHook;Lnet/minecraft/client/renderer/entity/state/FishingHookRenderState;F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/FishingHookRenderer;getPlayerHandPos(Lnet/minecraft/world/entity/player/Player;FF)Lnet/minecraft/world/phys/Vec3;"), index = 1)
     private float animatium$fixCastLineSwing(float original) {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getFixCastLineSwing()) {
-            int multiplier = PlayerUtils.getHandMultiplier(Objects.requireNonNull(Minecraft.getInstance().player));
-            return original * multiplier;
+            return original * PlayerUtils.getHandMultiplier(Objects.requireNonNull(Minecraft.getInstance().player));
         } else {
             return original;
         }

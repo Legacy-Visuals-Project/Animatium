@@ -1,8 +1,8 @@
 package btw.mixces.animatium.mixins.screen;
 
-import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.DebugScreenOverlay;
 import org.spongepowered.asm.mixin.Mixin;

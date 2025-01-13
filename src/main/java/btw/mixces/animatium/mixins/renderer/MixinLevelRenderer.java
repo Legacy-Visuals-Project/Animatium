@@ -1,16 +1,16 @@
 package btw.mixces.animatium.mixins.renderer;
 
+import btw.mixces.animatium.AnimatiumClient;
+import btw.mixces.animatium.config.AnimatiumConfig;
+import btw.mixces.animatium.mixins.accessor.SkyRendererAccessor;
+import btw.mixces.animatium.util.MathUtils;
+import btw.mixces.animatium.util.RenderUtils;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexBuffer;
-import btw.mixces.animatium.AnimatiumClient;
-import btw.mixces.animatium.config.AnimatiumConfig;
-import btw.mixces.animatium.mixins.accessor.SkyRendererAccessor;
-import btw.mixces.animatium.util.MathUtils;
-import btw.mixces.animatium.util.RenderUtils;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -34,8 +34,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LevelRenderer.class)
 public abstract class MixinLevelRenderer {
-    // TODO: Iris functionality/support?
     // TODO: Make blue void work in FabricSkyBoxes/Nuit
+    // TODO: Fix <=1.21.1 void horizon fog
 
     @Shadow
     @Final
@@ -54,7 +54,6 @@ public abstract class MixinLevelRenderer {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldBlueVoidSky() && skyType != DimensionSpecialEffects.SkyType.END) {
             assert this.minecraft.player != null;
             assert this.level != null;
-            // can't get it via local, so have to re-get it this way
             int skyColor = this.level.getSkyColor(this.minecraft.gameRenderer.getMainCamera().getPosition(), tickDelta);
             this.animatium$renderSkyBlueVoid(poseStack, skyColor, this.minecraft.player.getEyePosition(tickDelta).y - RenderUtils.getLevelHorizonHeight(this.level));
         }

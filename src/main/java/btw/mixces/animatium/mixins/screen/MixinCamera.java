@@ -23,6 +23,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Camera.class)
 public abstract class MixinCamera {
+    // TODO: Fix sneaking fast causing original eye height / same for disable pose setting
+
     @Shadow
     private float eyeHeightOld;
 
@@ -61,7 +63,6 @@ public abstract class MixinCamera {
         }
     }
 
-    // TODO/NOTE: Could we also just do this in TransparentBlock?
     @WrapOperation(method = "getMaxZoom", at = @At(value = "FIELD", target = "Lnet/minecraft/world/level/ClipContext$Block;VISUAL:Lnet/minecraft/world/level/ClipContext$Block;"))
     private ClipContext.Block animatium$disableCameraTransparentPassthrough(Operation<ClipContext.Block> original) {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getDisableCameraTransparentPassthrough()) {
@@ -71,10 +72,10 @@ public abstract class MixinCamera {
         }
     }
 
+    // TODO: Fix bed/sleeping position
     @Inject(method = "setup", at = @At(value = "TAIL"))
     private void animatium$oldCameraVersion(BlockGetter area, Entity entity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci) {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getCameraVersion() != CameraVersion.LATEST && !thirdPerson && !(entity instanceof LivingEntity && ((LivingEntity) entity).isSleeping())) {
-            // TODO: Fix bed/sleeping position
             final int ordinal = AnimatiumConfig.instance().getCameraVersion().ordinal();
             if (ordinal <= CameraVersion.V1_14_V1_14_3.ordinal()) {
                 // <= 1.14.3

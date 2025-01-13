@@ -48,7 +48,9 @@ class AnimatiumConfig {
         }
     }
 
-    // QOL
+    // TODO/NOTE: Category for just fixes?
+
+    // (QOL)
     @SerialEntry var minimalViewBobbing = false
     @SerialEntry var showNametagInThirdperson = false
     @SerialEntry var hideNameTagBackground = false
@@ -67,13 +69,23 @@ class AnimatiumConfig {
     @SerialEntry var disableParticlePhysics = false
     @SerialEntry var particleMultiplier = 1
     @SerialEntry var hideFirstpersonParticles = true
-    @SerialEntry var fixMirrorArmSwing = false
-    @SerialEntry var disableServerPoseAndBlockingVisualUpdates = false
-    @SerialEntry var upMinPixelTransparencyLimit = false
     @SerialEntry var dontClearChatOnDisconnect = false
     @SerialEntry var dontCloseChat = false
+    // (QOL) Fixes
+    @SerialEntry var fixMirrorArmSwing = true // NOTE: The only QOL setting to default to true, because it's a minecraft bug fix
+    @SerialEntry var disableServerPoseAndBlockingVisualUpdates = false
+    @SerialEntry var upMinPixelTransparencyLimit = false
 
-    // Movement
+    // (Movement)
+    // (Movement) Sneaking
+    @SerialEntry var removeSmoothSneaking = false
+    @SerialEntry var oldSneakAnimationInterpolation = false
+    @SerialEntry var fakeOldSneakEyeHeight = false
+    @SerialEntry var fixSneakingFeetPosition = true
+    @SerialEntry var oldSneakingFeetPosition = false
+    @SerialEntry var syncPlayerModelWithEyeHeight = false
+    @SerialEntry var sneakAnimationWhileFlying = true
+    // (Movement) Other
     @SerialEntry var rotateBackwardsWalking = true
     @SerialEntry var uncapBlockingHeadRotation = true
     @SerialEntry var removeHeadRotationInterpolation = true
@@ -82,15 +94,8 @@ class AnimatiumConfig {
     @SerialEntry var oldDeathLimbs = true
     @SerialEntry var fixBowArmMovement = true
     @SerialEntry var oldDamageTilt = true
-    @SerialEntry var removeSmoothSneaking = false
-    @SerialEntry var oldSneakAnimationInterpolation = false
-    @SerialEntry var fakeOldSneakEyeHeight = false
-    @SerialEntry var fixSneakingFeetPosition = true
-    @SerialEntry var oldSneakingFeetPosition = false
-    @SerialEntry var syncPlayerModelWithEyeHeight = false
-    @SerialEntry var sneakAnimationWhileFlying = true
 
-    // Screen
+    // (Screen)
     @SerialEntry var showCrosshairInThirdperson = true
     @SerialEntry var fixHighAttackSpeedIndicator = true
     @SerialEntry var removeHeartFlash = true
@@ -107,7 +112,7 @@ class AnimatiumConfig {
     @SerialEntry var oldSlotHoverStyleRendering = true
     @SerialEntry var cameraVersion = CameraVersion.V1_8
 
-    // Items
+    // (Items)
     @SerialEntry var tiltItemPositions = true
     @SerialEntry var tiltItemPositionsInThirdperson = true
     @SerialEntry var oldSkullPosition = true
@@ -123,6 +128,7 @@ class AnimatiumConfig {
     @SerialEntry var oldDurabilityBarColors = true
     @SerialEntry var oldItemRarities = true
     @SerialEntry var showHeldItemInBoat = true
+    // (Items) Glint
     @SerialEntry var oldGlintSpeed = true
     @SerialEntry var disableGlintOnItemDrops2D = false
     @SerialEntry var disableGlintOnItemFramed2D = false
@@ -132,8 +138,8 @@ class AnimatiumConfig {
     @SerialEntry var oldFishingRodLinePositionThirdPerson = true
     @SerialEntry var oldFishingRodLineThickness = false
     @SerialEntry var thinFishingRodLineThickness = false
-    @SerialEntry var fixCastLineCheck = false
-    @SerialEntry var fixCastLineSwing = false
+    @SerialEntry var fixCastLineCheck = true
+    @SerialEntry var fixCastLineSwing = true
     @SerialEntry var fixItemUseTextureCheck = true
     @SerialEntry var fixEquipAnimationItemCheck = true
     @SerialEntry var removeEquipAnimationOnItemUse = true
@@ -141,7 +147,7 @@ class AnimatiumConfig {
     @SerialEntry var fixItemUsageCheck = true
     @SerialEntry var fixFireballClientsideVisual = true
 
-    // Other
+    // (Other)
     @SerialEntry var oldBlueVoidSky = true
     @SerialEntry var oldSkyHorizonHeight = true
     @SerialEntry var oldCloudHeight = true

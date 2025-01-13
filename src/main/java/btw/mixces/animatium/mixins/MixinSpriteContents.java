@@ -13,7 +13,6 @@ public abstract class MixinSpriteContents {
     @WrapOperation(method = "isTransparent", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/ARGB;alpha(I)I"))
     private int animatium$upMinPixelTransparencyLimit(int argb, Operation<Integer> original) {
         int alpha = original.call(argb);
-        // NOTE: Would have used ColorHelper#floatFromChannel, but it is private & accessWidener stinky
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getUpMinPixelTransparencyLimit() && (alpha / 255.0F) <= 0.1F) {
             return 0;
         } else {
