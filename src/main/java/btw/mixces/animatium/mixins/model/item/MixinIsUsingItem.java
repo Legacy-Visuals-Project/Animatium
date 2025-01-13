@@ -20,7 +20,7 @@ public abstract class MixinIsUsingItem {
             if (AnimatiumConfig.instance().getDisableItemUsingTextureInGui() && ItemUtils.isRangedWeaponItem(stack) && displayContext == ItemDisplayContext.GUI) {
                 return false;
             } else if (AnimatiumConfig.instance().getFixItemUseTextureCheck()) {
-                return livingEntity != null && livingEntity.isUsingItem();
+                return livingEntity != null && livingEntity.isUsingItem() && livingEntity.getItemInHand(livingEntity.getUsedItemHand()) == stack;
             }
         }
 
