@@ -151,9 +151,6 @@ class AnimatiumConfig {
     @SerialEntry var showHeldItemInBoat = true
 
     // (Other)
-    @SerialEntry var oldBlueVoidSky = true
-    @SerialEntry var oldSkyHorizonHeight = true
-    @SerialEntry var oldCloudHeight = true
     @SerialEntry var legacyThirdpersonSwordBlockingPosition = true
     @SerialEntry var lockBlockingArmRotation = true
     @SerialEntry var disableProjectileAgeCheck = true
@@ -166,4 +163,8 @@ class AnimatiumConfig {
     @SerialEntry var forceMaxGlintProperties = true
     @SerialEntry var oldArmorHurtRendering = true
     @SerialEntry var forceHighAttackSpeedVisual = false
+    // (Other) Sky
+    @SerialEntry var oldBlueVoidSky = true
+    @SerialEntry var oldSkyHorizonHeight = true
+    @SerialEntry var oldCloudHeight = true
 }

@@ -341,20 +341,6 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 
 ## 🛠️ Old Settings
 
-### Sky
-
-- [X] oldBlueVoidSky
-    - Description: Brings back the forgotten blue void part of the sky. (Fixes MC-257056)
-    - Type: BOOLEAN
-- [X] oldSkyHorizonHeight
-    - Description: Changes the horizon height to how it was in <=1.16.5.
-    - Type: BOOLEAN
-- [X] oldCloudHeight
-    - Description: Changes the cloud height back to 128 like in <=1.16.5.
-    - Type: BOOLEAN
-
-### Other
-
 - [X] legacyThirdpersonSwordBlockingPosition
     - Description: Brings back the old third-person sword blocking look from <=1.7.
     - Type: BOOLEAN
@@ -392,6 +378,18 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - [X] forceHighAttackSpeedVisual
     - Description: Fakes the high attack speed visual, which stops the attack cooldown animation on items like the
       sword.
+    - Type: BOOLEAN
+
+### Sky
+
+- [X] oldBlueVoidSky
+    - Description: Brings back the forgotten blue void part of the sky. (Fixes MC-257056)
+    - Type: BOOLEAN
+- [X] oldSkyHorizonHeight
+    - Description: Changes the horizon height to how it was in <=1.16.5.
+    - Type: BOOLEAN
+- [X] oldCloudHeight
+    - Description: Changes the cloud height back to 128 like in <=1.16.5.
     - Type: BOOLEAN
   </details>
 

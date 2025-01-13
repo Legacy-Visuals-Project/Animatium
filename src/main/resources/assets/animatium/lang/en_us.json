@@ -191,13 +191,6 @@
 	"animatium.fixFireballClientsideVisual.description": "Makes fire charges not place fire clientside like in older mc versions. Doesn't cause issues on servers, and is clientside only.",
 
 	"animatium.category.other": "Other",
-	"animatium.category.other.group.sky": "Sky",
-	"animatium.oldBlueVoidSky": "Bring back the old blue void skybox",
-	"animatium.oldBlueVoidSky.description": "Brings back the forgotten blue void part of the sky. (Fixes MC-257056)",
-	"animatium.oldSkyHorizonHeight": "Revert the 1.17 sky horizon height",
-	"animatium.oldSkyHorizonHeight.description": "Changes the horizon height to how it was in <=1.16.5.",
-	"animatium.oldCloudHeight": "Bring back the old cloud height",
-	"animatium.oldCloudHeight.description": "Changes the cloud height back to 128 like in <=1.16.5.",
 	"animatium.legacyThirdpersonSwordBlockingPosition": "Legacy third-person sword block animation",
 	"animatium.legacyThirdpersonSwordBlockingPosition.description": "Brings back the old third-person sword blocking look from <=1.7.",
 	"animatium.lockBlockingArmRotation": "Lock third-person arm rotation whilst blocking",
@@ -221,5 +214,12 @@
 	"animatium.oldArmorHurtRendering": "Old armor hurt rendering",
 	"animatium.oldArmorHurtRendering.description": "Restores the old armor hurt tint rendering from ~1.8.",
 	"animatium.forceHighAttackSpeedVisual": "Force high attack speed visual",
-	"animatium.forceHighAttackSpeedVisual.description": "Fakes the high attack speed visual, which stops the attack cooldown animation on items like the sword."
+	"animatium.forceHighAttackSpeedVisual.description": "Fakes the high attack speed visual, which stops the attack cooldown animation on items like the sword.",
+	"animatium.category.other.group.sky": "Sky",
+	"animatium.oldBlueVoidSky": "Bring back the old blue void skybox",
+	"animatium.oldBlueVoidSky.description": "Brings back the forgotten blue void part of the sky. (Fixes MC-257056)",
+	"animatium.oldSkyHorizonHeight": "Revert the 1.17 sky horizon height",
+	"animatium.oldSkyHorizonHeight.description": "Changes the horizon height to how it was in <=1.16.5.",
+	"animatium.oldCloudHeight": "Bring back the old cloud height",
+	"animatium.oldCloudHeight.description": "Changes the cloud height back to 128 like in <=1.16.5."
 }
