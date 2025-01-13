@@ -172,6 +172,8 @@
 	"animatium.oldFishingRodLineThickness.description": "Restores the old fishing rod line thickness from <1.13?",
 	"animatium.thinFishingRodLineThickness": "Make the fishing rod line super thin",
 	"animatium.thinFishingRodLineThickness.description": "Makes the fishing rod line super thin. Overrides the above setting.",
+	"animatium.useStickModelWhenCastInThirdperson": "Use stick model in third-person whilst casted",
+	"animatium.useStickModelWhenCastInThirdperson.description": "Makes the fishing rod model in third-person a stick when cast like in <=1.7.x.",
 	"animatium.fixCastLineCheck": "Fix arm-related fishing rod cast line check (Fixes MC-109263)",
 	"animatium.fixCastLineCheck.description": "Fixes the arm logic for casting the fishing rod.",
 	"animatium.fixCastLineSwing": "Fix left handed fishing rod swing bug",

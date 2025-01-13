@@ -4,6 +4,7 @@
 	"compatibilityLevel": "JAVA_21",
 	"client": [
 		"MixinMinecraft",
+		"renderer.item.MixinItemModelResolver",
 		"MixinOverlayTexture",
 		"MixinSpriteContents",
 		"accessor.AbstractSelectionListAccessor",

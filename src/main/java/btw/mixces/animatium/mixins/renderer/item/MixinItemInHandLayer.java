@@ -1,6 +1,7 @@
 package btw.mixces.animatium.mixins.renderer.item;
 
 import btw.mixces.animatium.AnimatiumClient;
+import btw.mixces.animatium.config.AnimatiumConfig;
 import btw.mixces.animatium.util.EntityUtils;
 import btw.mixces.animatium.util.ItemUtils;
 import btw.mixces.animatium.util.PlayerUtils;
@@ -25,6 +26,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -70,6 +72,10 @@ public abstract class MixinItemInHandLayer<S extends ArmedEntityRenderState, M e
                 ItemStack stack = livingEntity.getItemHeldByArm(humanoidArm);
                 Item item = stack.getItem();
                 if (!stack.isEmpty() && !ItemUtils.isItemBlacklisted(stack)) {
+                    boolean isStickRod = AnimatiumClient.getEnabled() &&
+                            AnimatiumConfig.instance().getUseStickModelWhenCastInThirdperson() &&
+                            item == Items.FISHING_ROD &&
+                            (livingEntity instanceof Player player && player.fishing != null);
                     if (ItemUtils.isBlock3d(stack, itemStackRenderState)) {
                         float scale = 0.375F;
                         poseStack.translate(0.0F, 0.1875F, -0.3125F);
@@ -88,7 +94,7 @@ public abstract class MixinItemInHandLayer<S extends ArmedEntityRenderState, M e
                         poseStack.translate(-0.011765625F, 0.0F, 0.002125F);
                     } else if (ItemUtils.isHandheldItem(stack)) {
                         float scale = 0.625F;
-                        if (ItemUtils.isFishingRodItem(stack)) {
+                        if (ItemUtils.isFishingRodItem(stack) && !isStickRod) {
                             poseStack.mulPose(Axis.ZP.rotationDegrees(direction * 180.0F));
                             poseStack.translate(0.0F, -0.125F, 0.0F);
                         }
@@ -138,7 +144,7 @@ public abstract class MixinItemInHandLayer<S extends ArmedEntityRenderState, M e
                         poseStack.mulPose(Axis.XP.rotationDegrees(80.0F));
                         poseStack.translate(direction * 0.0625F, 2.0F * 0.0625F, -2.5F * 0.0625F);
                     } else if (ItemUtils.isHandheldItem(stack)) {
-                        boolean isRod = ItemUtils.isFishingRodItem(stack);
+                        boolean isRod = ItemUtils.isFishingRodItem(stack) && !isStickRod;
                         poseStack.scale(1 / 0.85F, 1 / 0.85F, 1 / 0.85F);
                         poseStack.mulPose(Axis.ZP.rotationDegrees(direction * -55.0F));
                         poseStack.mulPose(Axis.YP.rotationDegrees(direction * 90.0F));

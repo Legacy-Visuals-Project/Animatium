@@ -261,6 +261,9 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - [X] thinFishingRodLineThickness
     - Description: Makes the fishing rod line super thin. Overrides the above setting.
     - Type: BOOLEAN
+- [X] useStickModelWhenCastInThirdperson
+    - Description: Makes the fishing rod model in third-person a stick when cast like in <=1.7.x.
+    - Type: BOOLEAN
 - [X] fixCastLineCheck
     - Description: Fixes the arm logic for casting the fishing rod.
     - Type: BOOLEAN
@@ -271,10 +274,11 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 ### Fixes
 
 - [X] fixItemUseTextureCheck
-    - Description:
+    - Description: Brings back old using item texture check from <=1.8.
     - Type: BOOLEAN
 - [X] fixEquipAnimationItemCheck
-    - Description:
+    - Description: Instead of comparing item stacks directly to determine the equip animation, compare the durability
+      and stack count of the items like in <=1.8.x.
     - Type: BOOLEAN
 - [X] removeEquipAnimationOnItemUse
     - Description: Fixes the blocking animation which plays the equip animation on use, and others.
@@ -293,13 +297,15 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 ### Enchantment Glint
 
 - [X] oldGlintSpeed
-    - Description:
+    - Description: Restores the old enchantment glint speed like in <=1.8.x.
     - Type: BOOLEAN
 - [X] disableGlintOnItemDrops2D
-    - Description:
+    - Description: Disables the enchantment glint on dropped items. Intended to be used along side the 2D dropped items
+      feature to match <1.7.x.
     - Type: BOOLEAN
 - [X] disableGlintOnItemFramed2D
-    - Description:
+    - Description: Disables the enchantment glint on framed items. Intended to be used along side the 2D framed items
+      feature to match <1.7.x.
     - Type: BOOLEAN
 
 ### Other
@@ -332,7 +338,7 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
     - Description: Restores the old rarities for items visually from <1.21.2. (also old trident rarity from <1.21)
     - Type: BOOLEAN
 - [X] showHeldItemInBoat
-    - Description:
+    - Description: Shows your held item while you're in a moving boat like <=1.8.x.
     - Type: BOOLEAN
   </details>
 

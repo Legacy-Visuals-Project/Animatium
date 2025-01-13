@@ -86,6 +86,17 @@ object ItemsConfigCategory {
             )
             fishingRodGroup.option(
                 Option.createBuilder<Boolean>()
+                    .name(Component.translatable("animatium.useStickModelWhenCastInThirdperson"))
+                    .description(OptionDescription.of(Component.translatable("animatium.useStickModelWhenCastInThirdperson.description")))
+                    .binding(
+                        defaults.useStickModelWhenCastInThirdperson,
+                        { config.useStickModelWhenCastInThirdperson },
+                        { newVal -> config.useStickModelWhenCastInThirdperson = newVal })
+                    .controller(TickBoxControllerBuilder::create)
+                    .build()
+            )
+            fishingRodGroup.option(
+                Option.createBuilder<Boolean>()
                     .name(Component.translatable("animatium.fixCastLineCheck"))
                     .description(OptionDescription.of(Component.translatable("animatium.fixCastLineCheck.description")))
                     .binding(
