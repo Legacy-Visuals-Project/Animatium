@@ -113,6 +113,27 @@ class AnimatiumConfig {
     @SerialEntry var cameraVersion = CameraVersion.V1_8
 
     // (Items)
+    // (Items) Fishing Rod
+    @SerialEntry var oldFishingRodTextureStackCheck = true
+    @SerialEntry var fishingRodLineInterpolation = false
+    @SerialEntry var noMoveFishingRodLine = false
+    @SerialEntry var oldFishingRodLinePositionThirdPerson = true
+    @SerialEntry var oldFishingRodLineThickness = false
+    @SerialEntry var thinFishingRodLineThickness = false
+    @SerialEntry var fixCastLineCheck = true
+    @SerialEntry var fixCastLineSwing = true
+    // (Items) Fixes
+    @SerialEntry var fixItemUseTextureCheck = true
+    @SerialEntry var fixEquipAnimationItemCheck = true
+    @SerialEntry var removeEquipAnimationOnItemUse = true
+    @SerialEntry var removeClientsideBlockingDelay = true
+    @SerialEntry var fixItemUsageCheck = true
+    @SerialEntry var fixFireballClientsideVisual = true
+    // (Items) Enchantment Glint
+    @SerialEntry var oldGlintSpeed = true
+    @SerialEntry var disableGlintOnItemDrops2D = false
+    @SerialEntry var disableGlintOnItemFramed2D = false
+    // (Items) Other
     @SerialEntry var tiltItemPositions = true
     @SerialEntry var tiltItemPositionsInThirdperson = true
     @SerialEntry var oldSkullPosition = true
@@ -128,24 +149,6 @@ class AnimatiumConfig {
     @SerialEntry var oldDurabilityBarColors = true
     @SerialEntry var oldItemRarities = true
     @SerialEntry var showHeldItemInBoat = true
-    // (Items) Glint
-    @SerialEntry var oldGlintSpeed = true
-    @SerialEntry var disableGlintOnItemDrops2D = false
-    @SerialEntry var disableGlintOnItemFramed2D = false
-    @SerialEntry var oldFishingRodTextureStackCheck = true
-    @SerialEntry var fishingRodLineInterpolation = false
-    @SerialEntry var noMoveFishingRodLine = false
-    @SerialEntry var oldFishingRodLinePositionThirdPerson = true
-    @SerialEntry var oldFishingRodLineThickness = false
-    @SerialEntry var thinFishingRodLineThickness = false
-    @SerialEntry var fixCastLineCheck = true
-    @SerialEntry var fixCastLineSwing = true
-    @SerialEntry var fixItemUseTextureCheck = true
-    @SerialEntry var fixEquipAnimationItemCheck = true
-    @SerialEntry var removeEquipAnimationOnItemUse = true
-    @SerialEntry var removeClientsideBlockingDelay = true
-    @SerialEntry var fixItemUsageCheck = true
-    @SerialEntry var fixFireballClientsideVisual = true
 
     // (Other)
     @SerialEntry var oldBlueVoidSky = true

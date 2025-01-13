@@ -240,6 +240,70 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 
 ## 🥍 Items
 
+### Fishing Rod
+
+- [X] oldFishingRodTextureStackCheck
+    - Description: Brings back old fishing rod stack texture check from <=1.8.
+    - Type: BOOLEAN
+- [X] fishingRodLineInterpolation
+    - Description: Correctly interpolates the fishing rod cast line with the eye height from <1.14?
+    - Type: BOOLEAN
+- [X] noMoveFishingRodLine
+    - Description: Does not move the fishing rod cast line while sneaking when viewed in the third person mode from <
+      =1.7.
+    - Type: BOOLEAN
+- [X] oldFishingRodLinePositionThirdPerson
+    - Description: Adjusts the position of the fishing rod cast line horizontally like in <=1.7.
+    - Type: BOOLEAN
+- [X] oldFishingRodLineThickness
+    - Description: Restores the old fishing rod line thickness from <1.13?
+    - Type: BOOLEAN
+- [X] thinFishingRodLineThickness
+    - Description: Makes the fishing rod line super thin. Overrides the above setting.
+    - Type: BOOLEAN
+- [X] fixCastLineCheck
+    - Description: Fixes the arm logic for casting the fishing rod.
+    - Type: BOOLEAN
+- [X] fixCastLineSwing
+    - Description: Fixes the swing logic for casting the fishing rod.
+    - Type: BOOLEAN
+
+### Fixes
+
+- [X] fixItemUseTextureCheck
+    - Description:
+    - Type: BOOLEAN
+- [X] fixEquipAnimationItemCheck
+    - Description:
+    - Type: BOOLEAN
+- [X] removeEquipAnimationOnItemUse
+    - Description: Fixes the blocking animation which plays the equip animation on use, and others.
+    - Type: BOOLEAN
+- [X] removeClientsideBlockingDelay
+    - Description: Removes the pesky blocking delay that modern clients have. Shouldn't flag on servers.
+    - Type: BOOLEAN
+- [X] fixItemUsageCheck
+    - Description: Fixes item usage whilst inside a GUI, for example prevents continuous visual blocking, etc.
+    - Type: BOOLEAN
+- [X] fixFireballClientsideVisual
+    - Description: Makes fire charges not place fire clientside like in older mc versions. Doesn't cause issues on
+      servers, and is clientside only.
+    - Type: BOOLEAN
+
+### Enchantment Glint
+
+- [X] oldGlintSpeed
+    - Description:
+    - Type: BOOLEAN
+- [X] disableGlintOnItemDrops2D
+    - Description:
+    - Type: BOOLEAN
+- [X] disableGlintOnItemFramed2D
+    - Description:
+    - Type: BOOLEAN
+
+### Other
+
 - [X] tiltItemPositions
     - Description: Tilts the held item position to make held items look like they did in <=1.7.x.
     - Type: BOOLEAN
@@ -269,62 +333,6 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
     - Type: BOOLEAN
 - [X] showHeldItemInBoat
     - Description:
-    - Type: BOOLEAN
-
-### Glint
-
-- [X] oldGlintSpeed
-    - Description:
-    - Type: BOOLEAN
-- [X] disableGlintOnItemDrops2D
-    - Description:
-    - Type: BOOLEAN
-- [X] disableGlintOnItemFramed2D
-    - Description:
-    - Type: BOOLEAN
-- [X] oldFishingRodTextureStackCheck
-    - Description: Brings back old fishing rod stack texture check from <=1.8.
-    - Type: BOOLEAN
-- [X] fishingRodLineInterpolation
-    - Description: Correctly interpolates the fishing rod cast line with the eye height from <1.14?
-    - Type: BOOLEAN
-- [X] noMoveFishingRodLine
-    - Description: Does not move the fishing rod cast line while sneaking when viewed in the third person mode from <
-      =1.7.
-    - Type: BOOLEAN
-- [X] oldFishingRodLinePositionThirdPerson
-    - Description: Adjusts the position of the fishing rod cast line horizontally like in <=1.7.
-    - Type: BOOLEAN
-- [X] oldFishingRodLineThickness
-    - Description: Restores the old fishing rod line thickness from <1.13?
-    - Type: BOOLEAN
-- [X] thinFishingRodLineThickness
-    - Description: Makes the fishing rod line super thin. Overrides the above setting.
-    - Type: BOOLEAN
-- [X] fixCastLineCheck
-    - Description: Fixes the arm logic for casting the fishing rod.
-    - Type: BOOLEAN
-- [X] fixCastLineSwing
-    - Description: Fixes the swing logic for casting the fishing rod.
-    - Type: BOOLEAN
-- [X] fixItemUseTextureCheck
-    - Description:
-    - Type: BOOLEAN
-- [X] fixEquipAnimationItemCheck
-    - Description:
-    - Type: BOOLEAN
-- [X] removeEquipAnimationOnItemUse
-    - Description: Fixes the blocking animation which plays the equip animation on use, and others.
-    - Type: BOOLEAN
-- [X] removeClientsideBlockingDelay
-    - Description: Removes the pesky blocking delay that modern clients have. Shouldn't flag on servers.
-    - Type: BOOLEAN
-- [X] fixItemUsageCheck
-    - Description: Fixes item usage whilst inside a GUI, for example prevents continuous visual blocking, etc.
-    - Type: BOOLEAN
-- [X] fixFireballClientsideVisual
-    - Description: Makes fire charges not place fire clientside like in older mc versions. Doesn't cause issues on
-      servers, and is clientside only.
     - Type: BOOLEAN
   </details>
 
