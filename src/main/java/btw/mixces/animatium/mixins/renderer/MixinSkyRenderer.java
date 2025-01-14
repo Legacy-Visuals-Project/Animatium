@@ -24,7 +24,7 @@ public abstract class MixinSkyRenderer {
     @Final
     private VertexBuffer bottomSkyBuffer;
 
-    @Inject(method = "renderDarkDisc", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V", ordinal = 0, shift = At.Shift.AFTER))
+    @Inject(method = "renderDarkDisc", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;pushPose()V", shift = At.Shift.AFTER))
     private void animatium$oldVoidSkyRendering$position(PoseStack poseStack, CallbackInfo ci) {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldVoidSkyFogHeight()) {
             poseStack.mulPose(RenderSystem.getModelViewMatrix());
