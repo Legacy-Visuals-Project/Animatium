@@ -30,7 +30,7 @@ class AnimatiumClient : ClientModInitializer {
 
         // Info
         const val VERSION = 1.0
-        val DEVELOPMENT_VERSION = Optional.ofNullable(30)
+        val DEVELOPMENT_VERSION = Optional.ofNullable(31)
 
         @JvmStatic
         fun getInfoPayload(): AnimatiumInfoPayloadPacket {
