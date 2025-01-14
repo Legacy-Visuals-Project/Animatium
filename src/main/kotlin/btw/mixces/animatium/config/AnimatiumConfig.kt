@@ -167,5 +167,6 @@ class AnimatiumConfig {
     // (Other) Sky
     @SerialEntry var oldBlueVoidSky = true
     @SerialEntry var oldSkyHorizonHeight = true
+    @SerialEntry var oldVoidSkyFogHeight = true
     @SerialEntry var oldCloudHeight = true
 }

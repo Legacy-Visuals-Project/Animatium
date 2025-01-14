@@ -222,6 +222,8 @@
 	"animatium.oldBlueVoidSky.description": "Brings back the forgotten blue void part of the sky. (Fixes MC-257056)",
 	"animatium.oldSkyHorizonHeight": "Revert the 1.17 sky horizon height",
 	"animatium.oldSkyHorizonHeight.description": "Changes the horizon height to how it was in <=1.16.5.",
+	"animatium.oldVoidSkyFogHeight": "Old void sky fog height",
+	"animatium.oldVoidSkyFogHeight.description": "Restores the old void sky fog height to what it was in <=1.21.1.",
 	"animatium.oldCloudHeight": "Bring back the old cloud height",
 	"animatium.oldCloudHeight.description": "Changes the cloud height back to 128 like in <=1.16.5."
 }

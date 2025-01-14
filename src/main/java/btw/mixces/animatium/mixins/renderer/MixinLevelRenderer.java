@@ -49,11 +49,9 @@ public abstract class MixinLevelRenderer {
     @Final
     private SkyRenderer skyRenderer;
 
-    @Inject(method = "method_62215", at = @At(value = "TAIL"))
+    @Inject(method = "method_62215", at = @At("TAIL"))
     private void animatium$oldBlueVoidSky(FogParameters fog, DimensionSpecialEffects.SkyType skyType, float tickDelta, DimensionSpecialEffects dimensionSpecialEffects, CallbackInfo ci, @Local PoseStack poseStack) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldBlueVoidSky() && skyType != DimensionSpecialEffects.SkyType.END) {
-            assert this.minecraft.player != null;
-            assert this.level != null;
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldBlueVoidSky() && skyType != DimensionSpecialEffects.SkyType.END && this.level != null && this.minecraft.player != null) {
             int skyColor = this.level.getSkyColor(this.minecraft.gameRenderer.getMainCamera().getPosition(), tickDelta);
             this.animatium$renderSkyBlueVoid(poseStack, skyColor, this.minecraft.player.getEyePosition(tickDelta).y - RenderUtils.getLevelHorizonHeight(this.level));
         }
@@ -71,6 +69,7 @@ public abstract class MixinLevelRenderer {
     @WrapOperation(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/DimensionSpecialEffects;getCloudHeight()F"))
     private float animatium$oldCloudHeight(DimensionSpecialEffects instance, Operation<Float> original) {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldCloudHeight()) {
+            // TODO/FIX: Clouds showing in the nether/end supposedly?
             return instance.skyType() == DimensionSpecialEffects.SkyType.END ? 8.0F : 128.0F;
         } else {
             return original.call(instance);
@@ -79,8 +78,6 @@ public abstract class MixinLevelRenderer {
 
     @Unique
     private void animatium$renderSkyBlueVoid(PoseStack poseStack, int skyColor, double depth) {
-        CompiledShaderProgram shaderProgram = RenderSystem.setShader(CoreShaders.POSITION);
-
         assert this.level != null;
         Vector3f skyColorVec = ARGB.vector3fFromRGB24(skyColor);
         if (this.level.effects().hasGround()) {
@@ -94,7 +91,7 @@ public abstract class MixinLevelRenderer {
         poseStack.translate(0.0F, -((float) (depth - 16.0)), 0.0F);
         SkyRendererAccessor skyRendererAccessor = (SkyRendererAccessor) this.skyRenderer;
         skyRendererAccessor.getBottomSkyBuffer().bind();
-        skyRendererAccessor.getBottomSkyBuffer().drawWithShader(poseStack.last().pose(), RenderSystem.getProjectionMatrix(), shaderProgram);
+        skyRendererAccessor.getBottomSkyBuffer().drawWithShader(poseStack.last().pose(), RenderSystem.getProjectionMatrix(), RenderSystem.setShader(CoreShaders.POSITION));
         VertexBuffer.unbind();
         poseStack.popPose();
 

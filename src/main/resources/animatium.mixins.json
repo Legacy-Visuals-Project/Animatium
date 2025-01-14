@@ -4,7 +4,6 @@
 	"compatibilityLevel": "JAVA_21",
 	"client": [
 		"MixinMinecraft",
-		"renderer.item.MixinItemModelResolver",
 		"MixinOverlayTexture",
 		"MixinSpriteContents",
 		"accessor.AbstractSelectionListAccessor",
@@ -33,6 +32,7 @@
 		"renderer.MixinLevelRenderer",
 		"renderer.MixinParticle",
 		"renderer.MixinRenderStateShard",
+		"renderer.MixinSkyRenderer",
 		"renderer.MixinTextureManager",
 		"renderer.MixinTextureStateShard",
 		"renderer.MixinVertexConsumer",
@@ -47,6 +47,7 @@
 		"renderer.item.MixinItemFrameRenderer",
 		"renderer.item.MixinItemInHandLayer",
 		"renderer.item.MixinItemInHandRenderer",
+		"renderer.item.MixinItemModelResolver",
 		"renderer.item.MixinItemRenderer",
 		"screen.MixinAbstractContainerScreen",
 		"screen.MixinAbstractSelectionList",

@@ -392,6 +392,9 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - [X] oldSkyHorizonHeight
     - Description: Changes the horizon height to how it was in <=1.16.5.
     - Type: BOOLEAN
+- [X] oldVoidSkyFogHeight
+    - Description: Restores the old void sky fog height to what it was in <=1.21.1.
+    - Type: BOOLEAN
 - [X] oldCloudHeight
     - Description: Changes the cloud height back to 128 like in <=1.16.5.
     - Type: BOOLEAN
