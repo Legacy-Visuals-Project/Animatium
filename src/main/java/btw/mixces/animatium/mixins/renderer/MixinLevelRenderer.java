@@ -10,7 +10,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexBuffer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -90,10 +89,7 @@ public abstract class MixinLevelRenderer {
         Matrix4fStack modelViewStack = RenderSystem.getModelViewStack();
         modelViewStack.pushMatrix();
         modelViewStack.translate(0.0F, -((float) (depth - 16.0)), 0.0F);
-        SkyRendererAccessor skyRendererAccessor = (SkyRendererAccessor) this.skyRenderer;
-        skyRendererAccessor.getBottomSkyBuffer().bind();
-        skyRendererAccessor.getBottomSkyBuffer().drawWithShader(modelViewStack, RenderSystem.getProjectionMatrix(), RenderSystem.setShader(CoreShaders.POSITION));
-        VertexBuffer.unbind();
+        ((SkyRendererAccessor) this.skyRenderer).getBottomSkyBuffer().drawWithRenderType(RenderType.sky());
         modelViewStack.popMatrix();
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
