@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4fStack;
 import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -53,7 +54,7 @@ public abstract class MixinLevelRenderer {
     private void animatium$oldBlueVoidSky(FogParameters fog, DimensionSpecialEffects.SkyType skyType, float tickDelta, DimensionSpecialEffects dimensionSpecialEffects, CallbackInfo ci, @Local PoseStack poseStack) {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldBlueVoidSky() && skyType != DimensionSpecialEffects.SkyType.END && this.level != null && this.minecraft.player != null) {
             int skyColor = this.level.getSkyColor(this.minecraft.gameRenderer.getMainCamera().getPosition(), tickDelta);
-            this.animatium$renderSkyBlueVoid(poseStack, skyColor, this.minecraft.player.getEyePosition(tickDelta).y - RenderUtils.getLevelHorizonHeight(this.level));
+            this.animatium$renderSkyBlueVoid(skyColor, this.minecraft.player.getEyePosition(tickDelta).y - RenderUtils.getLevelHorizonHeight(this.level));
         }
     }
 
@@ -77,7 +78,7 @@ public abstract class MixinLevelRenderer {
     }
 
     @Unique
-    private void animatium$renderSkyBlueVoid(PoseStack poseStack, int skyColor, double depth) {
+    private void animatium$renderSkyBlueVoid(int skyColor, double depth) {
         assert this.level != null;
         Vector3f skyColorVec = ARGB.vector3fFromRGB24(skyColor);
         if (this.level.effects().hasGround()) {
@@ -86,14 +87,14 @@ public abstract class MixinLevelRenderer {
             RenderSystem.setShaderColor(skyColorVec.x, skyColorVec.y, skyColorVec.z, 1.0F);
         }
 
-        poseStack.pushPose();
-        poseStack.mulPose(RenderSystem.getModelViewMatrix());
-        poseStack.translate(0.0F, -((float) (depth - 16.0)), 0.0F);
+        Matrix4fStack modelViewStack = RenderSystem.getModelViewStack();
+        modelViewStack.pushMatrix();
+        modelViewStack.translate(0.0F, -((float) (depth - 16.0)), 0.0F);
         SkyRendererAccessor skyRendererAccessor = (SkyRendererAccessor) this.skyRenderer;
         skyRendererAccessor.getBottomSkyBuffer().bind();
-        skyRendererAccessor.getBottomSkyBuffer().drawWithShader(poseStack.last().pose(), RenderSystem.getProjectionMatrix(), RenderSystem.setShader(CoreShaders.POSITION));
+        skyRendererAccessor.getBottomSkyBuffer().drawWithShader(modelViewStack, RenderSystem.getProjectionMatrix(), RenderSystem.setShader(CoreShaders.POSITION));
         VertexBuffer.unbind();
-        poseStack.popPose();
+        modelViewStack.popMatrix();
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
