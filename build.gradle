@@ -6,11 +6,15 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "2.1.0"
 }
 
-version = project.mod_version
+version = "${project.mod_version}-${getCheckedOutGitCommitHash()}"
 group = project.maven_group
 
 base {
     archivesName = project.archives_base_name
+}
+
+static def getCheckedOutGitCommitHash() {
+    'git rev-parse --verify --short HEAD'.execute().text.trim()
 }
 
 repositories {

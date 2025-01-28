@@ -5,7 +5,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.resources.ResourceLocation
 import java.util.Optional
 
-class AnimatiumInfoPayloadPacket(val version: Double, val developmentVersion: Optional<Int>) :
+class AnimatiumInfoPayloadPacket(val version: Double, val developmentVersion: Optional<String>) :
     CustomPacketPayload {
     companion object {
         val CODEC = CustomPacketPayload.codec(AnimatiumInfoPayloadPacket::write, null)
@@ -14,8 +14,8 @@ class AnimatiumInfoPayloadPacket(val version: Double, val developmentVersion: Op
 
     private fun write(buffer: FriendlyByteBuf) {
         buffer.writeDouble(version)
-        buffer.writeOptional<Int>(developmentVersion) { buf, value ->
-            buf.writeShort(value)
+        buffer.writeOptional<String>(developmentVersion) { buf, value ->
+            buf.writeUtf(value)
         }
     }
 
