@@ -7,6 +7,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
@@ -29,8 +30,8 @@ public abstract class MixinLevel {
             SoundEvents.PLAYER_ATTACK_NODAMAGE
     );
 
-    @WrapWithCondition(method = "playSeededSound(Lnet/minecraft/world/entity/player/Player;DDDLnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FFJ)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;playSeededSound(Lnet/minecraft/world/entity/player/Player;DDDLnet/minecraft/core/Holder;Lnet/minecraft/sounds/SoundSource;FFJ)V"))
-    private boolean animatium$disableModernCombatSounds(Level instance, @Nullable Player player, double x, double y, double z, Holder<SoundEvent> soundEventHolder, SoundSource soundSource, float volume, float pitch, long unknown) {
+    @WrapWithCondition(method = "playSeededSound(Lnet/minecraft/world/entity/Entity;DDDLnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FFJ)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;playSeededSound(Lnet/minecraft/world/entity/Entity;DDDLnet/minecraft/core/Holder;Lnet/minecraft/sounds/SoundSource;FFJ)V"))
+    private boolean animatium$disableModernCombatSounds(Level instance, @Nullable Entity player, double x, double y, double z, Holder<SoundEvent> soundEventHolder, SoundSource soundSource, float volume, float pitch, long unknown) {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getDisableModernCombatSounds()) {
             return !animatium$ignoreSounds.contains(soundEventHolder.value());
         } else {
