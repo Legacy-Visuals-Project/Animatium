@@ -34,13 +34,10 @@ class AnimatiumClient : ClientModInitializer {
             shouldReloadOverlayTexture = true
         }
 
-        val modContainer: ModContainer = FabricLoader.getInstance().getModContainer("animatium").orElseThrow {
-            RuntimeException(
-                "Mod not found"
-            )
-        }
-
         // Info
+        // TODO/NOTE: Find a better way/cleanup
+        val modContainer: ModContainer =
+            FabricLoader.getInstance().getModContainer("animatium").orElseThrow { RuntimeException("Mod not found") }
         val VERSION_FULL = modContainer.metadata.version.friendlyString.split("-")
 
         val VERSION = VERSION_FULL[0].toDouble()
