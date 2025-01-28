@@ -1,0 +1,89 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+    id 'fabric-loom' version '1.9-SNAPSHOT'
+    id 'maven-publish'
+    id "org.jetbrains.kotlin.jvm" version "2.1.0"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    maven { url = "https://maven.terraformersmc.com/" }
+    maven { url "https://maven.isxander.dev/releases" }
+}
+
+loom {
+    runs {
+        remove server
+    }
+
+    accessWidenerPath = file("src/main/resources/animatium.accesswidener")
+}
+
+dependencies {
+    // To change the versions see the gradle.properties file
+    minecraft("com.mojang:minecraft:${project.minecraft_version}")
+    mappings(loom.officialMojangMappings())
+    modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
+
+    // Fabric API - Needs to be specified, otherwise an older version might be defaulted and cause issues.
+    modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
+
+    // Kotlin
+    include("net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}")
+
+    // YACL - TO BE REPLACED WITH LIGHTCONFIG
+    modImplementation("dev.isxander:yet-another-config-lib:${project.yacl_version}")
+
+    // Mod Menu
+    modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
+}
+
+processResources {
+    inputs.property "version", project.version
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+}
+
+tasks.withType(KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = 21
+    }
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.base.archivesName.get()}" }
+    }
+}
+
+// configure the maven publication
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            artifactId = project.archives_base_name
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+    }
+}
