@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.loader.api.FabricLoader
+import net.fabricmc.loader.api.ModContainer
 import java.io.File
 import java.util.Optional
 
@@ -33,9 +34,17 @@ class AnimatiumClient : ClientModInitializer {
             shouldReloadOverlayTexture = true
         }
 
+        val modContainer: ModContainer = FabricLoader.getInstance().getModContainer("animatium").orElseThrow {
+            RuntimeException(
+                "Mod not found"
+            )
+        }
+
         // Info
-        const val VERSION = 1.0
-        val DEVELOPMENT_VERSION: Optional<Int> = Optional.ofNullable(1)
+        val VERSION_FULL = modContainer.metadata.version.friendlyString.split("-")
+
+        val VERSION = VERSION_FULL[0].toDouble()
+        val DEVELOPMENT_VERSION: Optional<String> = Optional.ofNullable(VERSION_FULL[1])
 
         @JvmStatic
         fun getInfoPayload(): AnimatiumInfoPayloadPacket {
