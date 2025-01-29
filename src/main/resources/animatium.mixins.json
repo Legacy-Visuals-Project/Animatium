@@ -31,6 +31,7 @@
 		"renderer.MixinDrawContext",
 		"renderer.MixinGameRenderer",
 		"renderer.MixinLevelRenderer",
+		"renderer.MixinOverlayTexture",
 		"renderer.MixinParticle",
 		"renderer.MixinRenderStateShard",
 		"renderer.MixinSkyRenderer",
