@@ -96,10 +96,10 @@ publishing {
 // Header
 spotless {
     def licenseHeader = rootProject.file("HEADER")
-
     java {
         licenseHeaderFile(licenseHeader)
     }
+
     kotlin {
         licenseHeaderFile(licenseHeader)
     }
