@@ -89,7 +89,7 @@ public abstract class MixinItemInHandRenderer {
 
     @WrapOperation(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getUseAnimation()Lnet/minecraft/world/item/ItemUseAnimation;"))
     private ItemUseAnimation animatium$removeItemUsageVisualInGUI(ItemStack instance, Operation<ItemUseAnimation> original) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getRemoveItemUsageVisualInGUI() && this.minecraft.screen != null) {
+        if (AnimatiumConfig.instance().getRemoveItemUsageVisualInGUI() && this.minecraft.screen != null) {
             return ItemUseAnimation.NONE;
         } else {
             return original.call(instance);

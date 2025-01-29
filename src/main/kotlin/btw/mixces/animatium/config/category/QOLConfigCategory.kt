@@ -271,12 +271,12 @@ object QOLConfigCategory {
             )
             qolFixesGroup.option(
                 Option.createBuilder<Boolean>()
-                    .name(Component.translatable("animatium.disableOffHandUsePoseNone"))
-                    .description(OptionDescription.of(Component.translatable("animatium.disableOffHandUsePoseNone.description")))
+                    .name(Component.translatable("animatium.fixOffHandUsingPose"))
+                    .description(OptionDescription.of(Component.translatable("animatium.fixOffHandUsingPose.description")))
                     .binding(
-                        defaults.disableOffHandUsePoseNone,
-                        { config.disableOffHandUsePoseNone },
-                        { newVal -> config.disableOffHandUsePoseNone = newVal })
+                        defaults.fixOffHandUsingPose,
+                        { config.fixOffHandUsingPose },
+                        { newVal -> config.fixOffHandUsingPose = newVal })
                     .controller(TickBoxControllerBuilder::create)
                     .build()
             )

@@ -94,7 +94,7 @@ class AnimatiumConfig {
     // (QOL) Fixes
     @SerialEntry var fixMirrorArmSwing = true
     @SerialEntry var upMinPixelTransparencyLimit = true
-    @SerialEntry var disableOffHandUsePoseNone = true
+    @SerialEntry var fixOffHandUsingPose = true
 
     // (Movement)
     // (Movement) Sneaking
@@ -112,7 +112,7 @@ class AnimatiumConfig {
     @SerialEntry var fixVerticalBobbingTilt = true
     @SerialEntry var oldViewBobbing = true
     @SerialEntry var oldDeathLimbs = true
-    @SerialEntry var fixBowArmMovement = true
+    @SerialEntry var oldBowArmMovement = true
     @SerialEntry var oldDamageTilt = true
     // (Movement) Cape
     @SerialEntry var oldCapeMovement = true
@@ -152,7 +152,7 @@ class AnimatiumConfig {
     // (Items) Fixes
     @SerialEntry var fixEquipAnimation = true
     @SerialEntry var removeEquipAnimationOnItemUse = true
-    @SerialEntry var removeClientsideBlockingDelay = true
+    @SerialEntry var removeClientsideBlockingDelay = true // TODO: To be removed in 1.21.5+
     @SerialEntry var removeItemUsageVisualInGUI = true
     @SerialEntry var fixFireballClientsideVisual = true
     // (Items) Enchantment Glint

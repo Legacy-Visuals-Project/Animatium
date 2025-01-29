@@ -123,7 +123,7 @@ public abstract class MixinFishingHookRenderer extends EntityRenderer<FishingHoo
     @WrapOperation(method = "getPlayerHandPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/FishingHookRenderer;getHoldingArm(Lnet/minecraft/world/entity/player/Player;)Lnet/minecraft/world/entity/HumanoidArm;"))
     private HumanoidArm animatium$fixCastLineCheck(Player player, Operation<HumanoidArm> original) {
         HumanoidArm value = original.call(player);
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getFixCastLineCheck() && value != player.getMainArm() && !(player.getOffhandItem().getItem() instanceof FishingRodItem)) {
+        if (AnimatiumConfig.instance().getFixCastLineCheck() && value != player.getMainArm() && !(player.getOffhandItem().getItem() instanceof FishingRodItem)) {
             return value.getOpposite();
         } else {
             return value;
@@ -132,7 +132,7 @@ public abstract class MixinFishingHookRenderer extends EntityRenderer<FishingHoo
 
     @ModifyArg(method = "extractRenderState(Lnet/minecraft/world/entity/projectile/FishingHook;Lnet/minecraft/client/renderer/entity/state/FishingHookRenderState;F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/FishingHookRenderer;getPlayerHandPos(Lnet/minecraft/world/entity/player/Player;FF)Lnet/minecraft/world/phys/Vec3;"), index = 1)
     private float animatium$fixCastLineSwing(float original) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getFixCastLineSwing()) {
+        if (AnimatiumConfig.instance().getFixCastLineSwing()) {
             return original * PlayerUtils.getHandMultiplier(Objects.requireNonNull(Minecraft.getInstance().player));
         } else {
             return original;

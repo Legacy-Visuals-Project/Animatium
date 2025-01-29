@@ -68,7 +68,7 @@ public abstract class MixinPlayerRenderer {
 
     @WrapOperation(method = "getRenderOffset(Lnet/minecraft/client/renderer/entity/state/PlayerRenderState;)Lnet/minecraft/world/phys/Vec3;", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/entity/state/PlayerRenderState;isCrouching:Z"))
     private boolean animatium$fixSneakingFeetPosition(PlayerRenderState instance, Operation<Boolean> original) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getFixSneakingFeetPosition()) {
+        if (AnimatiumConfig.instance().getFixSneakingFeetPosition()) {
             return false;
         } else {
             return original.call(instance);

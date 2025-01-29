@@ -98,7 +98,7 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
 
     @Inject(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;tickEffects()V", shift = At.Shift.BEFORE))
     private void animatium$updatePreviousBobbingTiltValue(CallbackInfo ci) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getFixVerticalBobbingTilt()) {
+        if (AnimatiumConfig.instance().getFixVerticalBobbingTilt()) {
             this.animatium$previousBobbingTilt = this.animatium$bobbingTilt;
         }
     }

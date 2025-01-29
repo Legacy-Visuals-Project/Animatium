@@ -76,7 +76,7 @@ public abstract class MixinGameRenderer {
 
     @Inject(method = "bobView", at = @At("TAIL"))
     private void animatium$fixVerticalBobbingTilt(PoseStack poseStack, float tickDelta, CallbackInfo ci) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getFixVerticalBobbingTilt() && this.minecraft.getCameraEntity() instanceof Player player) {
+        if (AnimatiumConfig.instance().getFixVerticalBobbingTilt() && this.minecraft.getCameraEntity() instanceof Player player) {
             ViewBobbingStorage bobbingAccessor = (ViewBobbingStorage) player;
             float j = Mth.lerp(tickDelta, bobbingAccessor.animatium$getPreviousBobbingTilt(), bobbingAccessor.animatium$getBobbingTilt());
             poseStack.mulPose(Axis.XP.rotationDegrees(j));

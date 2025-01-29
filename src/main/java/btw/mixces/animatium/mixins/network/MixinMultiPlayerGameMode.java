@@ -56,7 +56,7 @@ public abstract class MixinMultiPlayerGameMode {
 
     @WrapOperation(method = "performUseItemOn", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;useOn(Lnet/minecraft/world/item/context/UseOnContext;)Lnet/minecraft/world/InteractionResult;"))
     private InteractionResult animatium$fixFireballClientsideVisual(ItemStack stack, UseOnContext useOnContext, Operation<InteractionResult> original) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getFixFireballClientsideVisual() && !stack.isEmpty() && stack.is(Items.FIRE_CHARGE) && useOnContext.getLevel().isClientSide() && !this.localPlayerMode.isCreative()) {
+        if (AnimatiumConfig.instance().getFixFireballClientsideVisual() && !stack.isEmpty() && stack.is(Items.FIRE_CHARGE) && useOnContext.getLevel().isClientSide() && !this.localPlayerMode.isCreative()) {
             return InteractionResult.SUCCESS;
         } else {
             return original.call(stack, useOnContext);

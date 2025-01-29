@@ -254,12 +254,12 @@ object MovementConfigCategory {
             )
             otherGroup.option(
                 Option.createBuilder<Boolean>()
-                    .name(Component.translatable("animatium.fixBowArmMovement"))
-                    .description(OptionDescription.of(Component.translatable("animatium.fixBowArmMovement.description")))
+                    .name(Component.translatable("animatium.oldBowArmMovement"))
+                    .description(OptionDescription.of(Component.translatable("animatium.oldBowArmMovement.description")))
                     .binding(
-                        defaults.fixBowArmMovement,
-                        { config.fixBowArmMovement },
-                        { newVal -> config.fixBowArmMovement = newVal })
+                        defaults.oldBowArmMovement,
+                        { config.oldBowArmMovement },
+                        { newVal -> config.oldBowArmMovement = newVal })
                     .controller(TickBoxControllerBuilder::create)
                     .build()
             )

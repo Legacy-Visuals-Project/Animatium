@@ -105,7 +105,7 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
     - Description: Makes the minimum 0-transparency value less than or equal to 0.1. This fixes textures with invisible
       pixels that cause issues.
     - Type: BOOLEAN
-- disableOffHandUsePoseNone
+- fixOffHandUsingPose
     - Description: Stops the offhand from using the NONE pose with a held item while using an item in the mainhand like
       in <=1.17.
     - Type: BOOLEAN
@@ -179,7 +179,7 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - oldDeathLimbs
     - Description: Makes entities continue their animation even upon death.
     - Type: BOOLEAN
-- fixBowArmMovement
+- oldBowArmMovement
     - Description: Restores old player body movement in third-person when using the bow like in <=1.7?
     - Type: BOOLEAN
 - oldDamageTilt
@@ -455,9 +455,9 @@ Allows the server to enable/disable server-only features that enhance gameplay.
 
 #### Info (Serverbound)
 
-Sent to the server when receiving the "minecraft:register" payload and it contains "Animatium".
+Sent to the server when receiving the "minecraft:register" payload, and it contains "Animatium".
 
-| Identifier     | Field Name          | Field Type      | Description                                                                            |
-|----------------|---------------------|-----------------|----------------------------------------------------------------------------------------|
-| animatium:info | Version             | Double          | Current release version of the mod.                                                    |
-|                | Development Version | Optional Double | Current development version of the mod. Only provided when mod is a development build. |
+| Identifier     | Field Name          | Field Type      | Description                                                                         |
+|----------------|---------------------|-----------------|-------------------------------------------------------------------------------------|
+| animatium:info | Version             | Double          | Current release version of the mod.                                                 |
+|                | Development Version | Optional String | Current dev build commit of the mod. Only provided when mod is a development build. |
