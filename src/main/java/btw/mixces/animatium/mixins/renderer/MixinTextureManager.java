@@ -23,6 +23,7 @@
 
 package btw.mixces.animatium.mixins.renderer;
 
+import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -36,7 +37,7 @@ public class MixinTextureManager {
     // TODO/NOTE: Do we need this when we have MixinTextureStateShard
     @ModifyVariable(method = "getTexture", at = @At("HEAD"), argsOnly = true)
     private ResourceLocation animatium$useItemGlint(ResourceLocation original) {
-        if (AnimatiumConfig.instance().getForceItemGlintOnEntity() && original == ItemRenderer.ENCHANTED_GLINT_ENTITY) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getForceItemGlintOnEntity() && original == ItemRenderer.ENCHANTED_GLINT_ENTITY) {
             return ItemRenderer.ENCHANTED_GLINT_ITEM;
         } else {
             return original;
