@@ -17,8 +17,6 @@ If you find anything else not working, please report it on the GitHub and we wil
 Do note that, Lunar does take priority in some places for enabled/disabled settings.
 These features currently won't work properly:
 
-- Custom hit color
-- Armor damage tint
 - 2d dropped items (Lunar probably needs to update their sodium lmao)
 
 ## Support
