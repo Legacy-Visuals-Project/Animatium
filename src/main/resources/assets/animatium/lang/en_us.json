@@ -239,7 +239,7 @@
 	"animatium.oldSkyHorizonHeight": "Revert the 1.17 sky horizon height",
 	"animatium.oldSkyHorizonHeight.description": "Changes the horizon height to how it was in <=1.16.5.",
 	"animatium.oldVoidSkyFogHeight": "Old void sky fog height",
-	"animatium.oldVoidSkyFogHeight.description": "Restores the old void sky fog height to what it was in <=1.21.1.",
+	"animatium.oldVoidSkyFogHeight.description": "Restores the old void sky fog height to what it was in <=1.21.1. (Fixes MC-279472)",
 	"animatium.oldCloudHeight": "Bring back the old cloud height",
 	"animatium.oldCloudHeight.description": "Changes the cloud height back to 128 like in <=1.16.5."
 }
