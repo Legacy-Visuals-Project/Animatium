@@ -10,7 +10,7 @@
 		"accessor.ClientLevelDataAccessor",
 		"accessor.PlayerAccessor",
 		"accessor.SkyRendererAccessor",
-		"level.MixinLevel",
+		"level.MixinSoundManager",
 		"level.entity.MixinEntity",
 		"level.entity.MixinLivingEntity",
 		"level.entity.MixinPlayer",
