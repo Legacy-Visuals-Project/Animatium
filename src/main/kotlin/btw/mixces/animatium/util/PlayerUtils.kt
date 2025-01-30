@@ -114,8 +114,8 @@ object PlayerUtils {
         return if (MobEffectUtil.hasDigSpeed(entity)) {
             6 - (1 + MobEffectUtil.getDigSpeedAmplification(entity))
         } else {
-            if (entity.hasEffect(MobEffects.DIG_SLOWDOWN)) {
-                6 + (1 + Objects.requireNonNull(entity.getEffect(MobEffects.DIG_SLOWDOWN))!!.amplifier) * 2
+            if (entity.hasEffect(MobEffects.MINING_FATIGUE)) {
+                6 + (1 + Objects.requireNonNull(entity.getEffect(MobEffects.MINING_FATIGUE))!!.amplifier) * 2
             } else {
                 6
             }

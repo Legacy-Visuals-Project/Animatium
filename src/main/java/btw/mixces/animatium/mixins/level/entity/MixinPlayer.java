@@ -52,7 +52,7 @@ public abstract class MixinPlayer extends LivingEntity {
         super(entityType, level);
     }
 
-    @ModifyExpressionValue(method = "attack", at = @At(value = "CONSTANT", args = "floatValue=0.0", ordinal = 6))
+    @ModifyExpressionValue(method = "attack", at = @At(value = "CONSTANT", args = "floatValue=0.0", ordinal = 5))
     private float animatium$alwaysShowSharpParticles(float original) {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getAlwaysShowSharpParticles()) {
             return -1.0F;

@@ -103,16 +103,6 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
         }
     }
 
-    @ModifyExpressionValue(method = "getItemBlockingWith", at = @At(value = "CONSTANT", args = "intValue=5"))
-    private int animatium$removeClientsideBlockingDelay(int original, @Local Item item) {
-        // TODO/NOTE: REMOVE THIS WHEN 1.21.5 IS OUT
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getRemoveClientsideBlockingDelay() && item != Items.SHIELD /* Keeps vanilla functionality */) {
-            return 0;
-        } else {
-            return original;
-        }
-    }
-
     @WrapOperation(method = "tickEffects", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z"))
     private boolean animatium$hideFirstpersonParticles(List<ParticleOptions> particleOptions, Operation<Boolean> original) {
         Minecraft client = Minecraft.getInstance();
