@@ -64,6 +64,7 @@
 		"screen.components.MixinAbstractButton",
 		"screen.components.MixinAbstractScrollArea",
 		"screen.components.MixinAbstractSliderButton",
+		"screen.components.MixinChatComponent",
 		"screen.components.toasts.MixinRecipeToast",
 		"screen.components.toasts.MixinToastManagerToastInstance",
 		"screen.components.toasts.MixinTutorialToast"

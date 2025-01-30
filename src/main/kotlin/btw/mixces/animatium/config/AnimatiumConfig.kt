@@ -89,7 +89,7 @@ class AnimatiumConfig {
     @SerialEntry var deepRedHurtTint = false
     @SerialEntry var disableParticlePhysics = false
     @SerialEntry var hideFirstpersonParticles = false
-    @SerialEntry var dontClearChatOnDisconnect = false
+    @SerialEntry var dontClearChat = false
     @SerialEntry var dontCloseChat = false
     // (QOL) Fixes
     @SerialEntry var fixMirrorArmSwing = true
@@ -131,8 +131,7 @@ class AnimatiumConfig {
     @SerialEntry var oldButtonTextColors = true
     @SerialEntry var removeDebugHudBackground = true
     @SerialEntry var debugHudTextShadow = true
-    @SerialEntry var oldChatPosition = true
-    @SerialEntry var removeChatIndicators = true // TODO/NOTE: Doesn't do what I initally wanted it to do.
+    @SerialEntry var oldChatVisual = true
     @SerialEntry var disableCameraTransparentPassthrough = true
     @SerialEntry var oldTooltipStyleRendering = true // TODO/NOTE: Feather breaks this/causes crash. Not our fault.
     @SerialEntry var oldSlotHoverStyleRendering = true

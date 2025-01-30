@@ -42,19 +42,14 @@ import java.util.function.Function;
 
 @Mixin(Gui.class)
 public abstract class MixinInGameHud {
-    @WrapWithCondition(method = "onDisconnected", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/ChatComponent;clearMessages(Z)V"))
-    private boolean animatium$dontClearChatOnDisconnect(ChatComponent instance, boolean bl) {
-        return !AnimatiumClient.getEnabled() || !AnimatiumConfig.instance().getDontClearChatOnDisconnect();
-    }
-
     @WrapOperation(method = "renderChat", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/ChatComponent;render(Lnet/minecraft/client/gui/GuiGraphics;IIIZ)V"))
     private void animatium$oldChatPosition(ChatComponent instance, GuiGraphics context, int currentTick, int mouseX, int mouseY, boolean focused, Operation<Void> original) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldChatPosition()) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldChatVisual()) {
             context.pose().translate(0F, 12F, 0F);
         }
 
         original.call(instance, context, currentTick, mouseX, mouseY, focused);
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldChatPosition()) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldChatVisual()) {
             context.pose().translate(0F, -12F, 0F);
         }
     }

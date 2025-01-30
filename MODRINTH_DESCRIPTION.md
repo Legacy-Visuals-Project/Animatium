@@ -81,8 +81,8 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - hideFirstpersonParticles
     - Description: Hides potion particle effects coming from you whilst in first-person.
     - Type: BOOLEAN
-- dontClearChatOnDisconnect
-    - Description: Stops minecraft from clearing chat when disconnecting/leaving the world/server.
+- dontClearChat
+    - Description: Stops minecraft from clearing chat.
     - Type: BOOLEAN
 - dontCloseChat
     - Description: Stops minecraft from closing the chat screen on teleport/some situations.
@@ -211,11 +211,8 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - debugHudTextShadow
     - Description: Add text-shadow to F3 Debug Hud.
     - Type: BOOLEAN
-- oldChatPosition
-    - Description: Moves chat down 12 pixels like in <=1.8.x.
-    - Type: BOOLEAN
-- removeChatIndicators
-    - Description: Removes the chat indicators that appear to the left that were added in 1.19.x.
+- oldChatVisual
+    - Description: Restores the old chatbox position/visual from <=1.8.
     - Type: BOOLEAN
 - disableCameraTransparentPassthrough
     - Description: Stops camera passthrough in thirdperson in glass/etc like in <=1.15.

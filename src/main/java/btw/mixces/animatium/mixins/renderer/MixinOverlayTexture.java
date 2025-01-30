@@ -25,15 +25,15 @@ package btw.mixces.animatium.mixins.renderer;
 
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ARGB;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(OverlayTexture.class)
 public abstract class MixinOverlayTexture {
-    @ModifyConstant(method = "<init>", constant = @Constant(intValue = -1291911168))
+    @ModifyExpressionValue(method = "<init>", at = @At(value = "CONSTANT", args = "intValue=-1291911168"))
     private int animatium$deepRedHurtTint(int constant) {
         if (AnimatiumClient.getEnabled()) {
             float alpha = AnimatiumConfig.instance().getDeepRedHurtTint() ? 128 : ARGB.alphaFloat(constant);
