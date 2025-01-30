@@ -35,8 +35,11 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientLoginConnectionEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.ModContainer
+import net.minecraft.resources.ResourceLocation
 import java.io.File
 import java.util.Optional
 
@@ -93,6 +96,13 @@ class AnimatiumClient : ClientModInitializer {
     override fun onInitializeClient() {
         AnimatiumConfig.load()
         loadEnabledState()
+
+        // Packs
+        ResourceManagerHelper.registerBuiltinResourcePack(
+            ResourceLocation.parse("animatium:classic_textures"),
+            modContainer,
+            ResourcePackActivationType.NORMAL
+        )
 
         // Commands
         ClientCommandRegistrationCallback.EVENT.register { dispatcher, registryAccess ->
