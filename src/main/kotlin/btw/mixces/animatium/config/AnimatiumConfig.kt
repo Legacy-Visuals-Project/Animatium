@@ -133,7 +133,7 @@ class AnimatiumConfig {
     @SerialEntry var debugHudTextShadow = true
     @SerialEntry var oldChatVisual = true
     @SerialEntry var disableCameraTransparentPassthrough = true
-    @SerialEntry var oldTooltipStyleRendering = true // TODO/NOTE: Feather breaks this/causes crash. Not our fault.
+    @SerialEntry var oldTooltipStyleRendering = true
     @SerialEntry var oldSlotHoverStyleRendering = true
     @SerialEntry var cameraVersion = CameraVersion.V1_8
 
