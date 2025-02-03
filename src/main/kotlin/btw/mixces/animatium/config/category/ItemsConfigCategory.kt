@@ -307,11 +307,11 @@ object ItemsConfigCategory {
             category.group(drops2dGroup.build())
         }
 
-        // Other
+        // 2d Drops
         run {
-            val otherGroup = OptionGroup.createBuilder()
-            otherGroup.name(Component.translatable("animatium.category.items.group.other"))
-            otherGroup.option(
+            val transformationsGroup = OptionGroup.createBuilder()
+            transformationsGroup.name(Component.translatable("animatium.category.items.group.transformations"))
+            transformationsGroup.option(
                 Option.createBuilder<Boolean>()
                     .name(Component.translatable("animatium.tiltItemPositions"))
                     .description(OptionDescription.of(Component.translatable("animatium.tiltItemPositions.description")))
@@ -322,7 +322,7 @@ object ItemsConfigCategory {
                     .controller(TickBoxControllerBuilder::create)
                     .build()
             )
-            otherGroup.option(
+            transformationsGroup.option(
                 Option.createBuilder<Boolean>()
                     .name(Component.translatable("animatium.tiltItemPositionsInThirdperson"))
                     .description(OptionDescription.of(Component.translatable("animatium.tiltItemPositionsInThirdperson.description")))
@@ -333,7 +333,29 @@ object ItemsConfigCategory {
                     .controller(TickBoxControllerBuilder::create)
                     .build()
             )
-            otherGroup.option(
+            transformationsGroup.option(
+                Option.createBuilder<Boolean>()
+                    .name(Component.translatable("animatium.oldThinBlockPositions"))
+                    .description(OptionDescription.of(Component.translatable("animatium.oldThinBlockPositions.description")))
+                    .binding(
+                        defaults.oldThinBlockPositions,
+                        { config.oldThinBlockPositions },
+                        { newVal -> config.oldThinBlockPositions = newVal })
+                    .controller(TickBoxControllerBuilder::create)
+                    .build()
+            )
+            transformationsGroup.option(
+                Option.createBuilder<Boolean>()
+                    .name(Component.translatable("animatium.oldRodPosition"))
+                    .description(OptionDescription.of(Component.translatable("animatium.oldRodPosition.description")))
+                    .binding(
+                        defaults.oldRodPosition,
+                        { config.oldRodPosition },
+                        { newVal -> config.oldRodPosition = newVal })
+                    .controller(TickBoxControllerBuilder::create)
+                    .build()
+            )
+            transformationsGroup.option(
                 Option.createBuilder<Boolean>()
                     .name(Component.translatable("animatium.oldSkullPosition"))
                     .description(OptionDescription.of(Component.translatable("animatium.oldSkullPosition.description")))
@@ -344,6 +366,13 @@ object ItemsConfigCategory {
                     .controller(TickBoxControllerBuilder::create)
                     .build()
             )
+            category.group(transformationsGroup.build())
+        }
+
+        // Other
+        run {
+            val otherGroup = OptionGroup.createBuilder()
+            otherGroup.name(Component.translatable("animatium.category.items.group.other"))
             otherGroup.option(
                 Option.createBuilder<Boolean>()
                     .name(Component.translatable("animatium.applyItemSwingUsage"))

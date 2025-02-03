@@ -27,15 +27,15 @@ import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.entity.projectile.Fireball;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(ThrowableProjectile.class)
-public abstract class MixinThrowableProjectile {
-    @WrapOperation(method = "shouldRenderAtSqrDistance", at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/world/entity/projectile/ThrowableProjectile;tickCount:I"))
-    private int animatium$disableProjectileAgeCheck(ThrowableProjectile instance, Operation<Integer> original) {
+@Mixin(Fireball.class)
+public class MixinFireball {
+    @WrapOperation(method = "shouldRenderAtSqrDistance", at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/world/entity/projectile/Fireball;tickCount:I"))
+    private int animatium$disableProjectileAgeCheck(Fireball instance, Operation<Integer> original) {
         int originalTick = original.call(instance);
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getDisableProjectileAgeCheck()) {
             return originalTick + 2;

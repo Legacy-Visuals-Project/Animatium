@@ -61,7 +61,7 @@ public abstract class MixinFishingHookRenderer extends EntityRenderer<FishingHoo
 
     @ModifyArg(method = "getPlayerHandPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera$NearPlane;getPointOnPlane(FF)Lnet/minecraft/world/phys/Vec3;"), index = 1)
     private float animatium$moveCastLineY(float original) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getTiltItemPositions()) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldRodPosition()) {
             return original + 0.15F;
         } else {
             return original;

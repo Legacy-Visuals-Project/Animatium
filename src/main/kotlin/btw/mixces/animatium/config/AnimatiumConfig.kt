@@ -164,10 +164,13 @@ class AnimatiumConfig {
     @SerialEntry var itemDrops2D = true
     @SerialEntry var itemFramed2D = true
     @SerialEntry var item2DColors = false
-    // (Items) Other
+    // (Items) Transformations
     @SerialEntry var tiltItemPositions = true
     @SerialEntry var tiltItemPositionsInThirdperson = true
+    @SerialEntry var oldThinBlockPositions = true
     @SerialEntry var oldSkullPosition = true
+    @SerialEntry var oldRodPosition = true
+    // (Items) Other
     @SerialEntry var applyItemSwingUsage = true
     @SerialEntry var disableSwingOnUse = true
     @SerialEntry var disableSwingOnDrop = true

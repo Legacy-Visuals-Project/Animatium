@@ -26,6 +26,7 @@ package btw.mixces.animatium.mixins.model.item;
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
 import btw.mixces.animatium.util.ItemUtils;
+import btw.mixces.animatium.util.MathUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -35,6 +36,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -60,24 +62,61 @@ public abstract class MixinItemStackRenderLayerState {
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/block/model/ItemTransform;apply(ZLcom/mojang/blaze3d/vertex/PoseStack;)V"))
     private void animatium$tiltItemPositionsRod(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, int overlay, CallbackInfo ci) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getTiltItemPositions()) {
+        if (AnimatiumClient.getEnabled()) {
             ItemStack stack = ItemUtils.getStack();
-            if (stack != null && ItemUtils.isFishingRodItem(stack)) {
-                ItemDisplayContext displayContext = ItemUtils.getDisplayContext();
-                if (displayContext != null) {
-                    boolean isFirstPerson = displayContext == ItemDisplayContext.FIRST_PERSON_LEFT_HAND || displayContext == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND;
+            ItemDisplayContext displayContext = ItemUtils.getDisplayContext();
+            if (stack != null && displayContext != null) {
+                boolean isGui = displayContext == ItemDisplayContext.GUI;
+                boolean isFirstPerson = displayContext == ItemDisplayContext.FIRST_PERSON_LEFT_HAND || displayContext == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND;
+                boolean isThirdPerson = displayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND || displayContext == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND;
+                ItemTransform transform = transform();
+                float x = transform.translation.x();
+                float y = transform.translation.y();
+                float z = transform.translation.z();
+                float rotX = transform.rotation.x();
+                float rotY = transform.rotation.y();
+                float rotZ = transform.rotation.z();
+                float scaleX = transform.scale.x();
+                float scaleY = transform.scale.y();
+                float scaleZ = transform.scale.z();
+                if (AnimatiumConfig.instance().getOldRodPosition() && ItemUtils.isFishingRodItem(stack)) {
                     if (isFirstPerson) {
-                        ItemTransform transform = transform();
-                        float x = transform.translation.x();
-                        float y = transform.translation.y();
-                        float z = transform.translation.z();
                         poseStack.translate(0.070625, 0.1, 0.020625);
                         poseStack.translate(x, y, z);
                         poseStack.mulPose(Axis.YP.rotationDegrees(180));
                         poseStack.translate(-x, -y, -z);
                     }
                 }
+                if (AnimatiumConfig.instance().getOldThinBlockPositions() && ItemUtils.isThinBlockItem(stack)) {
+                    if (isFirstPerson) {
+                        poseStack.translate(0, -4.2 * 0.0625, 0);
+                    } else if (isThirdPerson) {
+                        poseStack.translate(0, 0, -2 * 0.0625);
+                    }
+                }
+                if (AnimatiumConfig.instance().getOldSkullPosition() && ItemUtils.isSkullBlock(stack)) {
+                    if (isGui) {
+                        poseStack.translate(x, y, z);
+                        poseStack.mulPose(Axis.XP.rotationDegrees(MathUtils.toRadians(rotZ)));
+                        poseStack.mulPose(Axis.YP.rotationDegrees(MathUtils.toRadians(rotY)));
+                        poseStack.mulPose(Axis.ZP.rotationDegrees(MathUtils.toRadians(rotX)));
+                        poseStack.scale(0.9f, 0.9f, 0.9f);
+                        poseStack.scale(scaleX, scaleY, scaleZ);
+
+                        animatium$doInverseTransformations(poseStack);
+                    }
+                }
             }
         }
+    }
+
+    @Unique
+    private void animatium$doInverseTransformations(PoseStack poseStack) {
+        ItemTransform transform = transform();
+        poseStack.scale(1 / transform.scale.x(), 1 / transform.scale.y(), 1 / transform.scale.z());
+        poseStack.mulPose(Axis.ZP.rotationDegrees(-MathUtils.toRadians(transform.rotation.x())));
+        poseStack.mulPose(Axis.YP.rotationDegrees(-MathUtils.toRadians(transform.rotation.y())));
+        poseStack.mulPose(Axis.XP.rotationDegrees(-MathUtils.toRadians(transform.rotation.z())));
+        poseStack.translate(-transform.translation.x(), -transform.translation.y(), -transform.translation.z());
     }
 }

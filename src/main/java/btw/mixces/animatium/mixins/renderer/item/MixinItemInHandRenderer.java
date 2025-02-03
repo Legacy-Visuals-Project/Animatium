@@ -132,11 +132,11 @@ public abstract class MixinItemInHandRenderer {
     private void animatium$tiltItemPositions(AbstractClientPlayer player, float tickDelta, float pitch, InteractionHand hand, float swingProgress, ItemStack stack, float equipProgress, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, CallbackInfo ci) {
         int direction = PlayerUtils.getHandMultiplier(player, hand);
         if (AnimatiumClient.getEnabled()) {
+            if (AnimatiumConfig.instance().getOldRodPosition() && ItemUtils.isFishingRodItem(stack)) {
+                poseStack.mulPose(Axis.YP.rotationDegrees(direction * 180.0F));
+            }
             if (AnimatiumConfig.instance().getTiltItemPositions() && !ItemUtils.isBlock3d(stack, new ItemStackRenderState()) && !ItemUtils.isItemBlacklisted(stack)) {
                 float angle = MathUtils.toRadians(25);
-                if (ItemUtils.isFishingRodItem(stack)) {
-                    poseStack.mulPose(Axis.YP.rotationDegrees(direction * 180.0F));
-                }
 
                 poseStack.scale(0.6F, 0.6F, 0.6F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(direction * 275.0F));
