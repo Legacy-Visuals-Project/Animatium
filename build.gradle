@@ -47,7 +47,9 @@ dependencies {
     modImplementation("dev.isxander:yet-another-config-lib:${project.yacl_version}")
 
     // Mod Menu
-    modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
+    modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}") {
+        exclude group: 'net.fabricmc.fabric-api'
+    }
 }
 
 processResources {

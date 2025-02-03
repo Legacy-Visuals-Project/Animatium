@@ -39,6 +39,7 @@ public abstract class MixinSkyRenderer {
     private void animatium$pushMatrix(PoseStack instance, Operation<Void> original) {
         if (AnimatiumConfig.instance().getOldVoidSkyFogHeight()) {
             RenderSystem.getModelViewStack().pushMatrix();
+            RenderSystem.getModelViewStack().mul(instance.last().pose());
         }
     }
 
