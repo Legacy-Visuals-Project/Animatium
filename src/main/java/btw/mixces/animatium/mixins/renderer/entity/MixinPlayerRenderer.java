@@ -113,6 +113,7 @@ public abstract class MixinPlayerRenderer extends LivingEntityRenderer<AbstractC
             AbstractClientPlayer player = Minecraft.getInstance().player;
             HumanoidArm arm = modelPart == model.rightArm ? HumanoidArm.RIGHT : HumanoidArm.LEFT;
             if (player != null && getArmPose(player, arm) == HumanoidModel.ArmPose.ITEM) {
+                // Adapted from the ITEM arm pose rotations in HumanoidModel#poseRightArm/poseLeftArm
                 modelPart.xRot = modelPart.xRot * 0.5F - (float) (Math.PI / 10);
                 modelPart.yRot = 0.0F;
             }
