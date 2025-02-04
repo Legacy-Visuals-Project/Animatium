@@ -197,6 +197,7 @@ class AnimatiumConfig {
     @SerialEntry var disableEntityGlowOutline = false
     @SerialEntry var disableModernCombatSounds = true // TODO/NOTE: Fix, it's broken on servers
     @SerialEntry var disableModernCombatParticles = true // TODO/NOTE: Fix, it's broken on servers
+    @SerialEntry var oldHeldItemArmLogic = true
     // (Other) Sky
     @SerialEntry var oldBlueVoidSky = true
     @SerialEntry var oldSkyHorizonHeight = true

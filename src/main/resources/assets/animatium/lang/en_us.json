@@ -236,6 +236,8 @@
 	"animatium.disableModernCombatSounds.description": "Disables the 1.9+ combat sounds that were added.",
 	"animatium.disableModernCombatParticles": "Disable modern combat particles",
 	"animatium.disableModernCombatParticles.description": "Disables the 1.9+ combat particles that were added.",
+	"animatium.oldHeldItemArmLogic": "1.8 held item arm position",
+	"animatium.oldHeldItemArmLogic.description": "In 1.8, the player's arm (when viewed from the first person POV) will be positioned at an angle when holding an item. This is only truly visible when going from an empty slot to an item. This happens due it applying the held item arm rotation meant for the third person model.",
 	"animatium.category.other.group.sky": "Sky",
 	"animatium.oldBlueVoidSky": "Bring back the old blue void skybox",
 	"animatium.oldBlueVoidSky.description": "Brings back the forgotten blue void part of the sky. (Fixes MC-257056)",

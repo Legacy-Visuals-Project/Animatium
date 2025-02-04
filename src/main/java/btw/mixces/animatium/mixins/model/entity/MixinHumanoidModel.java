@@ -101,12 +101,12 @@ public abstract class MixinHumanoidModel<T extends HumanoidRenderState> extends 
         }
     }
 
-    @WrapOperation(method = "setupAttackAnimation", at = @At(value = "FIELD", target = "Lnet/minecraft/client/model/HumanoidModel;leftArm:Lnet/minecraft/client/model/geom/ModelPart;", ordinal = 3, opcode = Opcodes.GETFIELD))
-    public ModelPart animatium$fixMirrorArmSwing$field(HumanoidModel<?> instance, Operation<ModelPart> original, @Local ModelPart modelPart) {
-        if (AnimatiumConfig.instance().getFixMirrorArmSwing()) {
-            return modelPart;
+    @WrapOperation(method = "setupAttackAnimation", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD, target = "Lnet/minecraft/client/model/geom/ModelPart;xRot:F", ordinal = 0))
+    public void animatium$fixMirrorArmSwing$field(ModelPart instance, float value, Operation<Void> original, @Local HumanoidArm arm) {
+        if (AnimatiumConfig.instance().getFixMirrorArmSwing() && arm == HumanoidArm.LEFT) {
+            this.rightArm.xRot -= this.body.yRot;
         } else {
-            return original.call(instance);
+            original.call(instance, value);
         }
     }
 
