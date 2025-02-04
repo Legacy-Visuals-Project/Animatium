@@ -374,7 +374,7 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 ## 🛠️ Old Settings
 
 - legacyThirdpersonSwordBlockingPosition
-    - Description: Brings back the old third-person sword blocking look from <=1.7.
+    - Description: Brings back the old third-person arm blocking rotations from <=1.7
     - Type: BOOLEAN
 - lockBlockingArmRotation
     - Description: Locks the third-person blocking arm rotation.

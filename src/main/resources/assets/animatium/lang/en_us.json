@@ -206,8 +206,8 @@
 	"animatium.oldItemPickupPosition.description": "Removes the eye-height level item pickup position to match 1.8-1.17. Disable this feature to match <=1.7.x",
 
 	"animatium.category.other": "Other",
-	"animatium.legacyThirdpersonSwordBlockingPosition": "Legacy third-person sword block animation",
-	"animatium.legacyThirdpersonSwordBlockingPosition.description": "Brings back the old third-person sword blocking look from <=1.7.",
+	"animatium.legacyThirdpersonSwordBlockingPosition": "Legacy third-person arm block animation",
+	"animatium.legacyThirdpersonSwordBlockingPosition.description": "Brings back the old third-person arm blocking rotations from <=1.7.",
 	"animatium.lockBlockingArmRotation": "Lock third-person arm rotation whilst blocking",
 	"animatium.lockBlockingArmRotation.description": "Locks the third-person blocking arm rotation.",
 	"animatium.disableProjectileAgeCheck": "Render projectile at all ages",

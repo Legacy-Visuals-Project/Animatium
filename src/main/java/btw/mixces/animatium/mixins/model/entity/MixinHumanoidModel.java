@@ -162,6 +162,7 @@ public abstract class MixinHumanoidModel<T extends HumanoidRenderState> extends 
             if (entity instanceof LivingEntity livingEntity && state instanceof HumanoidRenderState) {
                 ItemStack stack = rightArm ? livingEntity.getItemHeldByArm(HumanoidArm.RIGHT) : livingEntity.getItemHeldByArm(HumanoidArm.LEFT);
                 if (!(stack.getItem() instanceof ShieldItem)) {
+                    arm.xRot = arm.xRot * 0.5F - ((float) Math.PI / 10F) * 2F;
                     arm.yRot = 0;
                 }
             }
