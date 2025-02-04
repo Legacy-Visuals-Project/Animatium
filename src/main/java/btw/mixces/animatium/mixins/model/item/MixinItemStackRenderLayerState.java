@@ -87,6 +87,7 @@ public abstract class MixinItemStackRenderLayerState {
                         poseStack.translate(-x, -y, -z);
                     }
                 }
+
                 if (AnimatiumConfig.instance().getOldThinBlockPositions() && ItemUtils.isThinBlockItem(stack)) {
                     if (isFirstPerson) {
                         poseStack.translate(0, -4.2 * 0.0625, 0);
@@ -94,6 +95,7 @@ public abstract class MixinItemStackRenderLayerState {
                         poseStack.translate(0, 0, -2 * 0.0625);
                     }
                 }
+
                 if (AnimatiumConfig.instance().getOldSkullPosition() && ItemUtils.isSkullBlock(stack)) {
                     if (isGui) {
                         poseStack.translate(x, y, z);
@@ -102,7 +104,6 @@ public abstract class MixinItemStackRenderLayerState {
                         poseStack.mulPose(Axis.ZP.rotationDegrees(MathUtils.toRadians(rotX)));
                         poseStack.scale(0.9f, 0.9f, 0.9f);
                         poseStack.scale(scaleX, scaleY, scaleZ);
-
                         animatium$doInverseTransformations(poseStack);
                     }
                 }

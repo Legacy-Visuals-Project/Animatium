@@ -333,20 +333,21 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 ### Item Transformations
 
 - tiltItemPositions
-  - Description: Tilts the held item position to make held items look like they did in <=1.7.x.
-  - Type: BOOLEAN
+    - Description: Tilts the held item position to make held items look like they did in <=1.7.x.
+    - Type: BOOLEAN
 - tiltItemPositionsInThirdperson
-  - Description: Tilts the third-person held item position to make held items look like they did in <=1.7.x.
-  - Type: BOOLEAN
+    - Description: Tilts the third-person held item position to make held items look like they did in <=1.7.x.
+    - Type: BOOLEAN
 - oldThinBlockPositions
-  - Description: Translates the held item position of blocks like carpet/slabs/daylight sensors/pressure plates to look like how they did in <=1.7.x.
-  - Type: BOOLEAN
+    - Description: Translates the held item position of blocks like carpet/slabs/daylight sensors/pressure plates to
+      look like how they did in <=1.7.x.
+    - Type: BOOLEAN
 - oldRodPosition
-  - Description: Bring back 1.7 first-person rod position
-  - Type: BOOLEAN
+    - Description: Bring back 1.7 first-person rod position
+    - Type: BOOLEAN
 - oldSkullPosition
-  - Description: Positions the skull block items' held/gui positions to be how it was in 1.8.x.
-  - Type: BOOLEAN
+    - Description: Positions the skull block items' held/gui positions to be how it was in 1.8.x.
+    - Type: BOOLEAN
 
 ### Other
 
