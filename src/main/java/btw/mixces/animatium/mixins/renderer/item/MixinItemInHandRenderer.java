@@ -41,7 +41,7 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.*;
@@ -70,6 +70,10 @@ public abstract class MixinItemInHandRenderer {
     @Shadow
     @Final
     private Minecraft minecraft;
+
+    @Shadow
+    @Final
+    private ItemRenderer itemRenderer;
 
     @Unique
     private int animatium$currentSlot = -1;
@@ -135,7 +139,7 @@ public abstract class MixinItemInHandRenderer {
             if (AnimatiumConfig.instance().getOldRodPosition() && ItemUtils.isFishingRodItem(stack)) {
                 poseStack.mulPose(Axis.YP.rotationDegrees(direction * 180.0F));
             }
-            if (AnimatiumConfig.instance().getTiltItemPositions() && !ItemUtils.isBlock3d(stack, new ItemStackRenderState()) && !ItemUtils.isItemBlacklisted(stack)) {
+            if (AnimatiumConfig.instance().getTiltItemPositions() && !ItemUtils.isBlock3d(stack, itemRenderer.scratchItemStackRenderState) && !ItemUtils.isItemBlacklisted(stack)) {
                 float angle = MathUtils.toRadians(25);
 
                 poseStack.scale(0.6F, 0.6F, 0.6F);
