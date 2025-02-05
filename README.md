@@ -421,7 +421,9 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
     - Description: Disables the 1.9+ combat particles that were added.
     - Type: BOOLEAN
 - oldHeldItemArmLogic
-    - Description: In 1.8, the player's arm (when viewed from the first person POV) will be positioned at an angle when holding an item. This is only truly visible when going from an empty slot to an item. This happens due it applying the held item arm rotation meant for the third person model.
+    - Description: In 1.8, the player's arm (when viewed from the first person POV) will be positioned at an angle when
+      holding an item. This is only truly visible when going from an empty slot to an item. This happens due it applying
+      the held item arm rotation meant for the third person model.
     - Type: BOOLEAN
 
 ### Sky
