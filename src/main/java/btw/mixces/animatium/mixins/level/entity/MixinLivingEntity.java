@@ -25,17 +25,21 @@ package btw.mixces.animatium.mixins.level.entity;
 
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
+import btw.mixces.animatium.util.PlayerUtils;
 import btw.mixces.animatium.util.ViewBobbingStorage;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -110,6 +114,15 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
             return true;
         } else {
             return original.call(particleOptions);
+        }
+    }
+
+    @WrapOperation(method = "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;swing(Lnet/minecraft/world/InteractionHand;)V"))
+    private void animatium$disableSwingOnDropInventory(LivingEntity entity, InteractionHand hand, Operation<Void> original) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getDisableSwingOnDrop()) {
+            PlayerUtils.sendSwingPacket((LocalPlayer) entity, hand);
+        } else {
+            original.call(entity, hand);
         }
     }
 

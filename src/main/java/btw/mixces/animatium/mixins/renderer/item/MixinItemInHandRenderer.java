@@ -192,7 +192,7 @@ public abstract class MixinItemInHandRenderer {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getFixEquipAnimation()) {
             // Initialize our copied stack
             copyStack.set(itemStack.copy());
-            boolean slotsMatch = this.animatium$currentSlot == localPlayer.getInventory().selected;
+            boolean slotsMatch = this.animatium$currentSlot == localPlayer.getInventory().getSelectedSlot();
             // Equip logic fix
             boolean shouldSwap1_8 = ItemUtils.shouldInstantlyReplaceVisibleItem1_8(this.animatium$mainHandItem, copyStack.get());
             // Original equip logic
@@ -208,7 +208,7 @@ public abstract class MixinItemInHandRenderer {
         boolean value = original.call(instance, itemStack, itemStack2);
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getFixEquipAnimation()) {
             // Apply our equip logic fix to offhand items
-            boolean slotsMatch = this.animatium$currentSlot == localPlayer.getInventory().selected;
+            boolean slotsMatch = this.animatium$currentSlot == localPlayer.getInventory().getSelectedSlot();
             return (slotsMatch && ItemUtils.shouldInstantlyReplaceVisibleItem1_8(itemStack, itemStack2)) || value;
         } else {
             return value;
@@ -253,7 +253,7 @@ public abstract class MixinItemInHandRenderer {
             // Update our copied stack
             this.animatium$mainHandItem = copyStack.get();
             // Cache the previous slot item to use in our comparison above
-            this.animatium$currentSlot = localPlayer.getInventory().selected;
+            this.animatium$currentSlot = localPlayer.getInventory().getSelectedSlot();
         }
     }
 
