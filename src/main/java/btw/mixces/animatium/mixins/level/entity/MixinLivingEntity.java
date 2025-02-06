@@ -119,8 +119,8 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
 
     @WrapOperation(method = "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;swing(Lnet/minecraft/world/InteractionHand;)V"))
     private void animatium$disableSwingOnDropInventory(LivingEntity entity, InteractionHand hand, Operation<Void> original) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getDisableSwingOnDrop() && entity instanceof LocalPlayer) {
-            PlayerUtils.sendSwingPacket((LocalPlayer) entity, hand);
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getDisableSwingOnDrop() && entity instanceof LocalPlayer localPlayer) {
+            PlayerUtils.sendSwingPacket(localPlayer, hand);
         } else {
             original.call(entity, hand);
         }
