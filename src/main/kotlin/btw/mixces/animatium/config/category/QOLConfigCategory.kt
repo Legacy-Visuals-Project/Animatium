@@ -219,12 +219,12 @@ object QOLConfigCategory {
         )
         category.option(
             Option.createBuilder<Boolean>()
-                .name(Component.translatable("animatium.dontClearChatOnDisconnect"))
-                .description(OptionDescription.of(Component.translatable("animatium.dontClearChatOnDisconnect.description")))
+                .name(Component.translatable("animatium.dontClearChat"))
+                .description(OptionDescription.of(Component.translatable("animatium.dontClearChat.description")))
                 .binding(
-                    defaults.dontClearChatOnDisconnect,
-                    { config.dontClearChatOnDisconnect },
-                    { newVal -> config.dontClearChatOnDisconnect = newVal })
+                    defaults.dontClearChat,
+                    { config.dontClearChat },
+                    { newVal -> config.dontClearChat = newVal })
                 .controller(TickBoxControllerBuilder::create)
                 .build()
         )

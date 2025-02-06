@@ -138,23 +138,12 @@ object ScreenConfigCategory {
         )
         category.option(
             Option.createBuilder<Boolean>()
-                .name(Component.translatable("animatium.oldChatPosition"))
-                .description(OptionDescription.of(Component.translatable("animatium.oldChatPosition.description")))
+                .name(Component.translatable("animatium.oldChatVisual"))
+                .description(OptionDescription.of(Component.translatable("animatium.oldChatVisual.description")))
                 .binding(
-                    defaults.oldChatPosition,
-                    { config.oldChatPosition },
-                    { newVal -> config.oldChatPosition = newVal })
-                .controller(TickBoxControllerBuilder::create)
-                .build()
-        )
-        category.option(
-            Option.createBuilder<Boolean>()
-                .name(Component.translatable("animatium.removeChatIndicators"))
-                .description(OptionDescription.of(Component.translatable("animatium.removeChatIndicators.description")))
-                .binding(
-                    defaults.removeChatIndicators,
-                    { config.removeChatIndicators },
-                    { newVal -> config.removeChatIndicators = newVal })
+                    defaults.oldChatVisual,
+                    { config.oldChatVisual },
+                    { newVal -> config.oldChatVisual = newVal })
                 .controller(TickBoxControllerBuilder::create)
                 .build()
         )

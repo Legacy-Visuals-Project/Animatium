@@ -89,7 +89,7 @@ class AnimatiumConfig {
     @SerialEntry var deepRedHurtTint = false
     @SerialEntry var disableParticlePhysics = false
     @SerialEntry var hideFirstpersonParticles = false
-    @SerialEntry var dontClearChatOnDisconnect = false
+    @SerialEntry var dontClearChat = false
     @SerialEntry var dontCloseChat = false
     // (QOL) Fixes
     @SerialEntry var fixMirrorArmSwing = true
@@ -131,10 +131,9 @@ class AnimatiumConfig {
     @SerialEntry var oldButtonTextColors = true
     @SerialEntry var removeDebugHudBackground = true
     @SerialEntry var debugHudTextShadow = true
-    @SerialEntry var oldChatPosition = true
-    @SerialEntry var removeChatIndicators = true // TODO/NOTE: Doesn't do what I initally wanted it to do.
+    @SerialEntry var oldChatVisual = true
     @SerialEntry var disableCameraTransparentPassthrough = true
-    @SerialEntry var oldTooltipStyleRendering = true // TODO/NOTE: Feather breaks this/causes crash. Not our fault.
+    @SerialEntry var oldTooltipStyleRendering = true
     @SerialEntry var oldSlotHoverStyleRendering = true
     @SerialEntry var cameraVersion = CameraVersion.V1_8
 
@@ -164,10 +163,13 @@ class AnimatiumConfig {
     @SerialEntry var itemDrops2D = true
     @SerialEntry var itemFramed2D = true
     @SerialEntry var item2DColors = false
-    // (Items) Other
+    // (Items) Transformations
     @SerialEntry var tiltItemPositions = true
     @SerialEntry var tiltItemPositionsInThirdperson = true
+    @SerialEntry var oldThinBlockPositions = true
     @SerialEntry var oldSkullPosition = true
+    @SerialEntry var oldRodPosition = true
+    // (Items) Other
     @SerialEntry var applyItemSwingUsage = true
     @SerialEntry var disableSwingOnUse = true
     @SerialEntry var disableSwingOnDrop = true
@@ -194,6 +196,7 @@ class AnimatiumConfig {
     @SerialEntry var disableEntityGlowOutline = false
     @SerialEntry var disableModernCombatSounds = true // TODO/NOTE: Fix, it's broken on servers
     @SerialEntry var disableModernCombatParticles = true // TODO/NOTE: Fix, it's broken on servers
+    @SerialEntry var oldHeldItemArmLogic = true
     // (Other) Sky
     @SerialEntry var oldBlueVoidSky = true
     @SerialEntry var oldSkyHorizonHeight = true

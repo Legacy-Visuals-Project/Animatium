@@ -30,10 +30,7 @@ import net.minecraft.client.renderer.entity.state.EntityRenderState
 import net.minecraft.client.renderer.item.ItemStackRenderState
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.*
-import net.minecraft.world.level.block.BannerBlock
-import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.RodBlock
-import net.minecraft.world.level.block.SkullBlock
+import net.minecraft.world.level.block.*
 import kotlin.math.roundToInt
 
 object ItemUtils {
@@ -98,6 +95,18 @@ object ItemUtils {
                         Items.BREEZE_ROD,
                         Items.BLAZE_ROD
                     ).contains(stack.item)
+        } else {
+            false
+        }
+    }
+
+    @JvmStatic
+    fun isThinBlockItem(stack: ItemStack): Boolean {
+        return if (!stack.isEmpty) {
+            val item = Block.byItem(stack.item)
+            item is CarpetBlock ||
+                    item is TrapDoorBlock || item is PressurePlateBlock ||
+                    item is SnowLayerBlock || item is DaylightDetectorBlock
         } else {
             false
         }

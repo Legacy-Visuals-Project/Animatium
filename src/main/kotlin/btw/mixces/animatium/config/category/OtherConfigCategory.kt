@@ -253,6 +253,17 @@ object OtherConfigCategory {
                 .controller(TickBoxControllerBuilder::create)
                 .build()
         )
+        category.option(
+            Option.createBuilder<Boolean>()
+                .name(Component.translatable("animatium.oldHeldItemArmLogic"))
+                .description(OptionDescription.of(Component.translatable("animatium.oldHeldItemArmLogic.description")))
+                .binding(
+                    defaults.oldHeldItemArmLogic,
+                    { config.oldHeldItemArmLogic },
+                    { newVal -> config.oldHeldItemArmLogic = newVal })
+                .controller(TickBoxControllerBuilder::create)
+                .build()
+        )
         builder.category(category.build())
     }
 }

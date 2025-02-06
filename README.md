@@ -87,8 +87,8 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - hideFirstpersonParticles
     - Description: Hides potion particle effects coming from you whilst in first-person.
     - Type: BOOLEAN
-- dontClearChatOnDisconnect
-    - Description: Stops minecraft from clearing chat when disconnecting/leaving the world/server.
+- dontClearChat
+    - Description: Stops minecraft from clearing chat.
     - Type: BOOLEAN
 - dontCloseChat
     - Description: Stops minecraft from closing the chat screen on teleport/some situations.
@@ -217,11 +217,8 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - debugHudTextShadow
     - Description: Add text-shadow to F3 Debug Hud.
     - Type: BOOLEAN
-- oldChatPosition
-    - Description: Moves chat down 12 pixels like in <=1.8.x.
-    - Type: BOOLEAN
-- removeChatIndicators
-    - Description: Removes the chat indicators that appear to the left that were added in 1.19.x.
+- oldChatVisual
+    - Description: Restores the old chatbox position/visual from <=1.8.
     - Type: BOOLEAN
 - disableCameraTransparentPassthrough
     - Description: Stops camera passthrough in thirdperson in glass/etc like in <=1.15.
@@ -330,7 +327,7 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
     - Description: Restores the old color of 2D items by swapping the Y and Z components of the vertex normal.
     - Type: BOOLEAN
 
-### Other
+### Item Transformations
 
 - tiltItemPositions
     - Description: Tilts the held item position to make held items look like they did in <=1.7.x.
@@ -338,9 +335,19 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - tiltItemPositionsInThirdperson
     - Description: Tilts the third-person held item position to make held items look like they did in <=1.7.x.
     - Type: BOOLEAN
-- oldSkullPosition
-    - Description: Positions the skull block items' held positions to be how it was in 1.8.x.
+- oldThinBlockPositions
+    - Description: Translates the held item position of blocks like carpet/slabs/daylight sensors/pressure plates to
+      look like how they did in <=1.7.x.
     - Type: BOOLEAN
+- oldRodPosition
+    - Description: Bring back 1.7 first-person rod position
+    - Type: BOOLEAN
+- oldSkullPosition
+    - Description: Positions the skull block items' held/gui positions to be how it was in 1.8.x.
+    - Type: BOOLEAN
+
+### Other
+
 - applyItemSwingUsage
     - Description: Block hitting (apply swing offset in item usage code).
     - Type: BOOLEAN
@@ -364,7 +371,7 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 ## 🛠️ Old Settings
 
 - legacyThirdpersonSwordBlockingPosition
-    - Description: Brings back the old third-person sword blocking look from <=1.7.
+    - Description: Brings back the old third-person arm blocking rotations from <=1.7
     - Type: BOOLEAN
 - lockBlockingArmRotation
     - Description: Locks the third-person blocking arm rotation.
@@ -409,6 +416,11 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
     - Type: BOOLEAN
 - disableModernCombatParticles
     - Description: Disables the 1.9+ combat particles that were added.
+    - Type: BOOLEAN
+- oldHeldItemArmLogic
+    - Description: In 1.8, the player's arm (when viewed from the first person POV) will be positioned at an angle when
+      holding an item. This is only truly visible when going from an empty slot to an item. This happens due it applying
+      the held item arm rotation meant for the third person model.
     - Type: BOOLEAN
 
 ### Sky

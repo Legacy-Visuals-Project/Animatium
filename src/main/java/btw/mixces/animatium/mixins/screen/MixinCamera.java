@@ -46,8 +46,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Camera.class)
 public abstract class MixinCamera {
-    // TODO: Fix sneaking fast causing original eye height / same for disable pose setting
-
     @Shadow
     private float eyeHeightOld;
 
