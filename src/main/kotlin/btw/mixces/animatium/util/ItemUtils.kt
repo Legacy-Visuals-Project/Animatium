@@ -162,7 +162,8 @@ object ItemUtils {
     @JvmStatic
     fun isBlock3d(stack: ItemStack, itemStackRenderState: ItemStackRenderState): Boolean {
         return if (!stack.isEmpty) {
-            stack.item is BlockItem && itemStackRenderState.isGui3d
+            stack.item is BlockItem // TODO: Fix
+//            stack.item is BlockItem && itemStackRenderState.isGui3d
         } else {
             false
         }

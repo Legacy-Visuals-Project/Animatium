@@ -25,13 +25,9 @@ package btw.mixces.animatium
 
 import btw.mixces.animatium.util.MathUtils
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.DefaultVertexFormat
-import com.mojang.blaze3d.vertex.VertexFormat
 import net.minecraft.Util
 import net.minecraft.client.renderer.RenderStateShard
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.renderer.entity.ItemRenderer
-import net.minecraft.util.TriState
 import org.joml.Matrix4f
 
 object LegacyGlintType {
@@ -99,56 +95,54 @@ object LegacyGlintType {
         texturingStateShard: RenderStateShard.TexturingStateShard,
         translucent: Boolean,
     ): RenderType {
-        return RenderType.create(
-            "legacy_glint" + (if (translucent) "_translucent" else ""),
-            DefaultVertexFormat.POSITION_TEX,
-            VertexFormat.Mode.QUADS,
-            1536,
-            RenderType.CompositeState.builder()
-                .setShaderState(RenderStateShard.ShaderStateShard(AnimatiumClient.renderTypeLegacyGlint))
-                .setTextureState(
-                    RenderStateShard.TextureStateShard(
-                        ItemRenderer.ENCHANTED_GLINT_ITEM,
-                        TriState.DEFAULT,
-                        false
-                    )
-                )
-                .setWriteMaskState(RenderType.COLOR_WRITE)
-                .setCullState(RenderType.CULL)
-                .setDepthTestState(RenderType.EQUAL_DEPTH_TEST)
-                .setTransparencyState(RenderType.GLINT_TRANSPARENCY)
-                .setTexturingState(texturingStateShard)
-                .setOutputState(if (translucent) RenderType.ITEM_ENTITY_TARGET else RenderType.MAIN_TARGET)
-                .createCompositeState(false)
-        )
+        return RenderType.glint()
+//        return RenderType.create(
+//            "legacy_glint" + (if (translucent) "_translucent" else ""),
+//            1536,
+//            AnimatiumClient.legacyGlintPipeline,
+//            RenderType.CompositeState.builder()
+//                .setTextureState(
+//                    RenderStateShard.TextureStateShard(
+//                        ItemRenderer.ENCHANTED_GLINT_ITEM,
+//                        TriState.DEFAULT,
+//                        false
+//                    )
+//                )
+//                .setWriteMaskState(RenderType.COLOR_WRITE)
+//                .setCullState(RenderType.CULL)
+//                .setDepthTestState(RenderType.EQUAL_DEPTH_TEST)
+//                .setTransparencyState(RenderType.GLINT_TRANSPARENCY)
+//                .setTexturingState(texturingStateShard)
+//                .setOutputState(if (translucent) RenderType.ITEM_ENTITY_TARGET else RenderType.MAIN_TARGET)
+//                .createCompositeState(false)
+//        )
     }
 
     private fun makeEntityGlintLayer(
         texturingStateShard: RenderStateShard.TexturingStateShard,
         armor: Boolean,
     ): RenderType {
-        return RenderType.create(
-            "legacy_" + (if (armor) "armor_" else "") + "entity_glint",
-            DefaultVertexFormat.POSITION_TEX,
-            VertexFormat.Mode.QUADS,
-            1536,
-            RenderType.CompositeState.builder()
-                .setShaderState(RenderStateShard.ShaderStateShard(AnimatiumClient.renderTypeLegacyGlint))
-                .setTextureState(
-                    RenderStateShard.TextureStateShard(
-                        ItemRenderer.ENCHANTED_GLINT_ITEM, // <=1.19.3 uses item glint texture, we will to
-                        TriState.DEFAULT,
-                        false
-                    )
-                )
-                .setWriteMaskState(RenderType.COLOR_WRITE)
-                .setCullState(RenderType.CULL)
-                .setDepthTestState(RenderType.EQUAL_DEPTH_TEST)
-                .setTransparencyState(RenderType.GLINT_TRANSPARENCY)
-                .setTexturingState(texturingStateShard)
-                .setLayeringState(if (armor) RenderType.VIEW_OFFSET_Z_LAYERING else RenderType.NO_LAYERING)
-                .createCompositeState(false)
-        )
+        return RenderType.entityGlint()
+//        return RenderType.create(
+//            "legacy_" + (if (armor) "armor_" else "") + "entity_glint",
+//            1536,
+//            AnimatiumClient.legacyGlintPipeline,
+//            RenderType.CompositeState.builder()
+//                .setTextureState(
+//                    RenderStateShard.TextureStateShard(
+//                        ItemRenderer.ENCHANTED_GLINT_ITEM, // <=1.19.3 uses item glint texture, we will to
+//                        TriState.DEFAULT,
+//                        false
+//                    )
+//                )
+//                .setWriteMaskState(RenderType.COLOR_WRITE)
+//                .setCullState(RenderType.CULL)
+//                .setDepthTestState(RenderType.EQUAL_DEPTH_TEST)
+//                .setTransparencyState(RenderType.GLINT_TRANSPARENCY)
+//                .setTexturingState(texturingStateShard)
+//                .setLayeringState(if (armor) RenderType.VIEW_OFFSET_Z_LAYERING else RenderType.NO_LAYERING)
+//                .createCompositeState(false)
+//        )
     }
 
     private fun setupItemGlintTexturing(angle: Float, negative: Boolean, clampedTime: Long) {

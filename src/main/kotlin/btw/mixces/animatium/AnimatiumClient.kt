@@ -28,7 +28,6 @@ import btw.mixces.animatium.config.AnimatiumConfig
 import btw.mixces.animatium.packet.AnimatiumInfoPayloadPacket
 import btw.mixces.animatium.packet.SetFeaturesPayloadPacket
 import btw.mixces.animatium.util.Feature
-import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationConnectionEvents
@@ -40,10 +39,6 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.ModContainer
-import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.CoreShaders
-import net.minecraft.client.renderer.ShaderDefines
-import net.minecraft.client.renderer.ShaderProgram
 import net.minecraft.resources.ResourceLocation
 import java.io.File
 import java.util.Optional
@@ -79,6 +74,11 @@ class AnimatiumClient : ClientModInitializer {
             return AnimatiumInfoPayloadPacket(VERSION, DEVELOPMENT_VERSION)
         }
 
+        @JvmStatic
+        fun getPath(key: String): ResourceLocation {
+            return ResourceLocation.fromNamespaceAndPath("animatium", key)
+        }
+
         // Other
         val stateFile = File(FabricLoader.getInstance().gameDir.toFile(), "animatium_state.txt")
         fun saveEnabledState() {
@@ -98,25 +98,27 @@ class AnimatiumClient : ClientModInitializer {
         }
 
         // Shaders
-        val renderTypeLegacyGlint = ShaderProgram(
-            ResourceLocation.fromNamespaceAndPath("animatium", "core/rendertype_legacy_glint"),
-            DefaultVertexFormat.POSITION_TEX,
-            ShaderDefines.EMPTY
-        )
+//        val legacyGlintPipeline = RenderPipelinesAccessor.registerPipeline(
+//            RenderPipeline.builder(RenderPipelinesAccessor.getMatricesColorSnippet())
+//                .withLocation(getPath("pipeline/legacy_glint"))
+//                .withVertexShader(getPath("core/legacy_glint"))
+//                .withFragmentShader(getPath("core/legacy_glint"))
+//                .withSampler("Sampler0")
+//                .withUniform("GlintColor", Uniform.Type.VEC3)
+//                .withUniform("TextureMat", Uniform.Type.MATRIX4X4)
+//                .withVertexFormat(DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS)
+//                .build()
+//        )
 
         @JvmStatic
         fun setGlintColor(red: Float, green: Float, blue: Float) {
-            val minecraft = Minecraft.getInstance()
-            minecraft.execute {
-                val shaderManager = Minecraft.getInstance().shaderManager ?: return@execute
-                val compiledShader = shaderManager.getProgram(renderTypeLegacyGlint) ?: return@execute
-                val glintColorUniform = compiledShader.getUniform("GlintColor") ?: return@execute
-                glintColorUniform.set(red, green, blue)
-            }
-        }
-
-        init {
-            CoreShaders.getProgramsToPreload().add(renderTypeLegacyGlint)
+//            val minecraft = Minecraft.getInstance()
+//            minecraft.schedule {
+//                val shaderManager = Minecraft.getInstance().shaderManager ?: return@schedule
+//                val compiledShader = shaderManager.getProgram(legacyGlintPipeline) ?: return@schedule
+//                val glintColorUniform = compiledShader.getUniform("GlintColor") ?: return@schedule
+//                glintColorUniform.set(red, green, blue)
+//            }
         }
     }
 
@@ -130,6 +132,8 @@ class AnimatiumClient : ClientModInitializer {
             modContainer,
             ResourcePackActivationType.NORMAL
         )
+
+        setGlintColor(0.5019607843137255F, 0.25098039215686274F, 0.8F)
 
         // Commands
         ClientCommandRegistrationCallback.EVENT.register { dispatcher, registryAccess ->

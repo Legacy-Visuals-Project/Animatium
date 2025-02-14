@@ -24,7 +24,6 @@
 package btw.mixces.animatium.mixins.renderer;
 
 import btw.mixces.animatium.AnimatiumClient;
-import btw.mixces.animatium.LegacyGlintType;
 import btw.mixces.animatium.config.AnimatiumConfig;
 import btw.mixces.animatium.mixins.accessor.SkyRendererAccessor;
 import btw.mixces.animatium.util.MathUtils;
@@ -32,7 +31,6 @@ import btw.mixces.animatium.util.RenderUtils;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.resource.ResourceHandle;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -64,9 +62,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LevelRenderer.class)
 public abstract class MixinLevelRenderer {
-    // TODO: Make blue void work in FabricSkyBoxes/Nuit
-    // TODO: Fix <=1.21.1 void horizon fog
-
     @Shadow
     @Final
     private Minecraft minecraft;
@@ -155,34 +150,36 @@ public abstract class MixinLevelRenderer {
 
     @Inject(method = "method_62214", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;endBatch(Lnet/minecraft/client/renderer/RenderType;)V", ordinal = 16, shift = At.Shift.AFTER))
     private void animatium$legacyGlintRendering$endBatch(FogParameters fogParameters, DeltaTracker deltaTracker, Camera camera, ProfilerFiller profilerFiller, Matrix4f matrix4f, Matrix4f matrix4f2, ResourceHandle resourceHandle, ResourceHandle resourceHandle2, ResourceHandle resourceHandle3, boolean bl, Frustum frustum, ResourceHandle resourceHandle4, CallbackInfo ci) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldGlintRendering()) {
-            renderBuffers.bufferSource().endBatch(LegacyGlintType.getItemGlintLayer());
-            renderBuffers.bufferSource().endBatch(LegacyGlintType.getItemGlint2ndLayer());
-            renderBuffers.bufferSource().endBatch(LegacyGlintType.getItemGlintTranslucentLayer());
-            renderBuffers.bufferSource().endBatch(LegacyGlintType.getItemGlintTranslucent2ndLayer());
-            renderBuffers.bufferSource().endBatch(LegacyGlintType.getEntityGlintLayer());
-            renderBuffers.bufferSource().endBatch(LegacyGlintType.getEntityArmorGlintLayer());
-        }
+//        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldGlintRendering()) {
+//            renderBuffers.bufferSource().endBatch(LegacyGlintType.getItemGlintLayer());
+//            renderBuffers.bufferSource().endBatch(LegacyGlintType.getItemGlint2ndLayer());
+//            renderBuffers.bufferSource().endBatch(LegacyGlintType.getItemGlintTranslucentLayer());
+//            renderBuffers.bufferSource().endBatch(LegacyGlintType.getItemGlintTranslucent2ndLayer());
+//            renderBuffers.bufferSource().endBatch(LegacyGlintType.getEntityGlintLayer());
+//            renderBuffers.bufferSource().endBatch(LegacyGlintType.getEntityArmorGlintLayer());
+//        }
     }
 
     // TODO/NOTE: The reason we redirect width/height instead of changing the outcome of shouldShowEntityOutlines
     // TODO/NOTE: is that it caused issues with Iris/shaders. As simple as that. Until that is fixed/we find another way
     // TODO/NOTE: it will stay like this. Sorry!
-    @WrapOperation(method = "doEntityOutline", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/Window;getWidth()I"))
-    private int animatium$disableEntityGlowOutline$width(Window instance, Operation<Integer> original) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getDisableEntityGlowOutline()) {
-            return 0;
-        } else {
-            return original.call(instance);
-        }
-    }
 
-    @WrapOperation(method = "doEntityOutline", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/Window;getHeight()I"))
-    private int animatium$disableEntityGlowOutline$height(Window instance, Operation<Integer> original) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getDisableEntityGlowOutline()) {
-            return 0;
-        } else {
-            return original.call(instance);
-        }
-    }
+    // TODO: Fix
+//    @WrapOperation(method = "doEntityOutline", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/Window;getWidth()I"))
+//    private int animatium$disableEntityGlowOutline$width(Window instance, Operation<Integer> original) {
+//        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getDisableEntityGlowOutline()) {
+//            return 0;
+//        } else {
+//            return original.call(instance);
+//        }
+//    }
+
+//    @WrapOperation(method = "doEntityOutline", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/Window;getHeight()I"))
+//    private int animatium$disableEntityGlowOutline$height(Window instance, Operation<Integer> original) {
+//        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getDisableEntityGlowOutline()) {
+//            return 0;
+//        } else {
+//            return original.call(instance);
+//        }
+//    }
 }

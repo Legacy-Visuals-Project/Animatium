@@ -13,6 +13,7 @@
 		"accessor.ItemRendererAccessor",
 		"accessor.LivingEntityAccessor",
 		"accessor.PlayerAccessor",
+		"accessor.RenderPipelinesAccessor",
 		"accessor.SkyRendererAccessor",
 		"level.entity.MixinEntity",
 		"level.entity.MixinEyeOfEnder",
@@ -41,7 +42,6 @@
 		"renderer.MixinParticle",
 		"renderer.MixinRenderBuffers",
 		"renderer.MixinRenderStateShard",
-		"renderer.MixinSkyRenderer",
 		"renderer.MixinTextureManager",
 		"renderer.MixinTextureStateShard",
 		"renderer.MixinVertexConsumer",
@@ -77,7 +77,7 @@
 		"screen.inventory.MixinAbstractRecipeBookScreen",
 		"screen.inventory.MixinEffectsInInventory",
 		"screen.inventory.MixinInventoryScreen",
-		"screen.recipebook.MixinRecipeBookComponent"
+		"screen.recipe_book.MixinRecipeBookComponent"
 	],
 	"injectors": {
 		"defaultRequire": 1
