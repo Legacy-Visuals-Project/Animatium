@@ -154,7 +154,7 @@ public abstract class MixinLevelRenderer {
     }
 
     @Inject(method = "method_62214", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;endBatch(Lnet/minecraft/client/renderer/RenderType;)V", ordinal = 16, shift = At.Shift.AFTER))
-    private void animatium$legacyGlintRendering$endBatch(FogParameters fogParameters, DeltaTracker deltaTracker, Camera camera, ProfilerFiller profilerFiller, Matrix4f matrix4f, Matrix4f matrix4f2, ResourceHandle resourceHandle, ResourceHandle resourceHandle2, ResourceHandle resourceHandle3, ResourceHandle resourceHandle4, boolean bl, Frustum frustum, ResourceHandle resourceHandle5, CallbackInfo ci) {
+    private void animatium$legacyGlintRendering$endBatch(FogParameters fogParameters, DeltaTracker deltaTracker, Camera camera, ProfilerFiller profilerFiller, Matrix4f matrix4f, Matrix4f matrix4f2, ResourceHandle resourceHandle, ResourceHandle resourceHandle2, ResourceHandle resourceHandle3, boolean bl, Frustum frustum, ResourceHandle resourceHandle4, CallbackInfo ci) {
         if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldGlintRendering()) {
             renderBuffers.bufferSource().endBatch(LegacyGlintType.getItemGlintLayer());
             renderBuffers.bufferSource().endBatch(LegacyGlintType.getItemGlint2ndLayer());

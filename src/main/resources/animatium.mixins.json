@@ -72,7 +72,6 @@
 		"screen.components.MixinChatComponent",
 		"screen.components.MixinDebugScreenOverlay",
 		"screen.components.toasts.MixinRecipeToast",
-		"screen.components.toasts.MixinToastManagerToastInstance",
 		"screen.components.toasts.MixinTutorialToast",
 		"screen.inventory.MixinAbstractContainerScreen",
 		"screen.inventory.MixinAbstractRecipeBookScreen",
