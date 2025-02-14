@@ -211,6 +211,17 @@ object OtherConfigCategory {
         )
         category.option(
             Option.createBuilder<Boolean>()
+                .name(Component.translatable("animatium.oldGlintRendering"))
+                .description(OptionDescription.of(Component.translatable("animatium.oldGlintRendering.description")))
+                .binding(
+                    defaults.oldGlintRendering,
+                    { config.oldGlintRendering },
+                    { newVal -> config.oldGlintRendering = newVal })
+                .controller(TickBoxControllerBuilder::create)
+                .build()
+        )
+        category.option(
+            Option.createBuilder<Boolean>()
                 .name(Component.translatable("animatium.forceHighAttackSpeedVisual"))
                 .description(OptionDescription.of(Component.translatable("animatium.forceHighAttackSpeedVisual.description")))
                 .binding(
@@ -261,6 +272,28 @@ object OtherConfigCategory {
                     defaults.oldHeldItemArmLogic,
                     { config.oldHeldItemArmLogic },
                     { newVal -> config.oldHeldItemArmLogic = newVal })
+                .controller(TickBoxControllerBuilder::create)
+                .build()
+        )
+        category.option(
+            Option.createBuilder<Boolean>()
+                .name(Component.translatable("animatium.oldFlameDimensions"))
+                .description(OptionDescription.of(Component.translatable("animatium.oldFlameDimensions.description")))
+                .binding(
+                    defaults.oldFlameDimensions,
+                    { config.oldFlameDimensions },
+                    { newVal -> config.oldFlameDimensions = newVal })
+                .controller(TickBoxControllerBuilder::create)
+                .build()
+        )
+        category.option(
+            Option.createBuilder<Boolean>()
+                .name(Component.translatable("animatium.oldFlameOffset"))
+                .description(OptionDescription.of(Component.translatable("animatium.oldFlameOffset.description")))
+                .binding(
+                    defaults.oldFlameOffset,
+                    { config.oldFlameOffset },
+                    { newVal -> config.oldFlameOffset = newVal })
                 .controller(TickBoxControllerBuilder::create)
                 .build()
         )

@@ -21,29 +21,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package btw.mixces.animatium.mixins.screen.components;
+package btw.mixces.animatium.mixins.screen.inventory;
 
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
-import net.minecraft.client.gui.components.AbstractSliderButton;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.network.chat.Component;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(AbstractSliderButton.class)
-public abstract class MixinAbstractSliderButton extends AbstractWidget {
-    public MixinAbstractSliderButton(int x, int y, int width, int height, Component message) {
-        super(x, y, width, height, message);
+@Mixin(InventoryScreen.class)
+public abstract class MixinInventoryScreen {
+    @WrapWithCondition(method = "renderEntityInInventoryFollowsMouse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;enableScissor(IIII)V"))
+    private static boolean animatium$disableEntityScissor(GuiGraphics instance, int i, int j, int k, int l) {
+        return !AnimatiumClient.getEnabled() || !AnimatiumConfig.instance().getDisableInventoryEntityScissor();
     }
 
-    @ModifyConstant(method = "renderWidget", constant = @Constant(intValue = 0xFFFFFF))
-    private int animatium$renderWidget$old$textColor(int constant) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldButtonTextColors()) {
-            return !active ? 0xE0E0E0 : (isHoveredOrFocused() ? 0xFFFFA0 : 0xE0E0E0);
-        } else {
-            return constant;
-        }
+    @WrapWithCondition(method = "renderEntityInInventoryFollowsMouse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;disableScissor()V"))
+    private static boolean animatium$disableEntityScissor(GuiGraphics instance) {
+        return !AnimatiumClient.getEnabled() || !AnimatiumConfig.instance().getDisableInventoryEntityScissor();
     }
 }

@@ -29,6 +29,7 @@ import btw.mixces.animatium.config.category.OtherConfigCategory
 import btw.mixces.animatium.config.category.QOLConfigCategory
 import btw.mixces.animatium.config.category.ScreenConfigCategory
 import btw.mixces.animatium.util.CameraVersion
+import btw.mixces.animatium.util.FishingRodVersion
 import dev.isxander.yacl3.api.YetAnotherConfigLib
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler
 import dev.isxander.yacl3.config.v2.api.SerialEntry
@@ -119,7 +120,7 @@ class AnimatiumConfig {
     @SerialEntry var dontClampCapeLean = false
     @SerialEntry var capeSwingRotation = true
     @SerialEntry var capeChestplateTranslation = true
-    @SerialEntry var oldCapePosition = false
+    @SerialEntry var oldCapeSneakPosition = false
 
     // (Screen)
     @SerialEntry var showCrosshairInThirdperson = true
@@ -135,6 +136,8 @@ class AnimatiumConfig {
     @SerialEntry var disableCameraTransparentPassthrough = true
     @SerialEntry var oldTooltipStyleRendering = true
     @SerialEntry var oldSlotHoverStyleRendering = true
+    @SerialEntry var oldEffectsInventoryPosition = true
+    @SerialEntry var hideRecipeBook = true
     @SerialEntry var cameraVersion = CameraVersion.V1_8
 
     // (Items)
@@ -162,13 +165,13 @@ class AnimatiumConfig {
     @SerialEntry var itemDropsFaceCameraRotationFix = false
     @SerialEntry var itemDrops2D = true
     @SerialEntry var itemFramed2D = true
-    @SerialEntry var item2DColors = false
+    @SerialEntry var item2DColors = true
     // (Items) Transformations
     @SerialEntry var tiltItemPositions = true
     @SerialEntry var tiltItemPositionsInThirdperson = true
     @SerialEntry var oldThinBlockPositions = true
     @SerialEntry var oldSkullPosition = true
-    @SerialEntry var oldRodPosition = true
+    @SerialEntry var fishingRodVersion = FishingRodVersion.V1_7
     // (Items) Other
     @SerialEntry var applyItemSwingUsage = true
     @SerialEntry var disableSwingOnUse = true
@@ -192,11 +195,14 @@ class AnimatiumConfig {
     @SerialEntry var forceItemGlintOnEntity = true
     @SerialEntry var forceMaxGlintProperties = true
     @SerialEntry var oldArmorHurtRendering = false
+    @SerialEntry var oldGlintRendering = false
     @SerialEntry var forceHighAttackSpeedVisual = false
     @SerialEntry var disableEntityGlowOutline = false
-    @SerialEntry var disableModernCombatSounds = true // TODO/NOTE: Fix, it's broken on servers
+    @SerialEntry var disableModernCombatSounds = true
     @SerialEntry var disableModernCombatParticles = true // TODO/NOTE: Fix, it's broken on servers
     @SerialEntry var oldHeldItemArmLogic = true
+    @SerialEntry var oldFlameDimensions = true
+    @SerialEntry var oldFlameOffset = true
     // (Other) Sky
     @SerialEntry var oldBlueVoidSky = true
     @SerialEntry var oldSkyHorizonHeight = true
