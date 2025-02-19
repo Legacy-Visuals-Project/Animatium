@@ -28,7 +28,6 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(ItemRenderer.class)
 public abstract class MixinItemRenderer {
-    // TODO: Fix
 //    @WrapOperation(method = "getArmorFoilBuffer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;armorEntityGlint()Lnet/minecraft/client/renderer/RenderType;"))
 //    private static RenderType animatium$legacyGlintRendering$armorEntityGlint(Operation<RenderType> original) {
 //        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldGlintRendering()) {

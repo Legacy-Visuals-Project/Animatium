@@ -79,12 +79,12 @@ object OtherConfigCategory {
 
         category.option(
             Option.createBuilder<Boolean>()
-                .name(Component.translatable("animatium.legacyThirdpersonSwordBlockingPosition"))
-                .description(OptionDescription.of(Component.translatable("animatium.legacyThirdpersonSwordBlockingPosition.description")))
+                .name(Component.translatable("animatium.oldThirdpersonSwordBlockingPosition"))
+                .description(OptionDescription.of(Component.translatable("animatium.oldThirdpersonSwordBlockingPosition.description")))
                 .binding(
-                    defaults.legacyThirdpersonSwordBlockingPosition,
-                    { config.legacyThirdpersonSwordBlockingPosition },
-                    { newVal -> config.legacyThirdpersonSwordBlockingPosition = newVal })
+                    defaults.oldThirdpersonSwordBlockingPosition,
+                    { config.oldThirdpersonSwordBlockingPosition },
+                    { newVal -> config.oldThirdpersonSwordBlockingPosition = newVal })
                 .controller(TickBoxControllerBuilder::create)
                 .build()
         )
@@ -134,12 +134,12 @@ object OtherConfigCategory {
         )
         category.option(
             Option.createBuilder<Boolean>()
-                .name(Component.translatable("animatium.legacyBlockOutlineRendering"))
-                .description(OptionDescription.of(Component.translatable("animatium.legacyBlockOutlineRendering.description")))
+                .name(Component.translatable("animatium.oldBlockOutlineRendering"))
+                .description(OptionDescription.of(Component.translatable("animatium.oldBlockOutlineRendering.description")))
                 .binding(
-                    defaults.legacyBlockOutlineRendering,
-                    { config.legacyBlockOutlineRendering },
-                    { newVal -> config.legacyBlockOutlineRendering = newVal })
+                    defaults.oldBlockOutlineRendering,
+                    { config.oldBlockOutlineRendering },
+                    { newVal -> config.oldBlockOutlineRendering = newVal })
                 .controller(TickBoxControllerBuilder::create)
                 .build()
         )
@@ -198,17 +198,17 @@ object OtherConfigCategory {
                 .controller(TickBoxControllerBuilder::create)
                 .build()
         )
-        category.option(
-            Option.createBuilder<Boolean>()
-                .name(Component.translatable("animatium.oldGlintRendering"))
-                .description(OptionDescription.of(Component.translatable("animatium.oldGlintRendering.description")))
-                .binding(
-                    defaults.oldGlintRendering,
-                    { config.oldGlintRendering },
-                    { newVal -> config.oldGlintRendering = newVal })
-                .controller(TickBoxControllerBuilder::create)
-                .build()
-        )
+//        category.option(
+//            Option.createBuilder<Boolean>()
+//                .name(Component.translatable("animatium.oldGlintRendering"))
+//                .description(OptionDescription.of(Component.translatable("animatium.oldGlintRendering.description")))
+//                .binding(
+//                    defaults.oldGlintRendering,
+//                    { config.oldGlintRendering },
+//                    { newVal -> config.oldGlintRendering = newVal })
+//                .controller(TickBoxControllerBuilder::create)
+//                .build()
+//        )
         category.option(
             Option.createBuilder<Boolean>()
                 .name(Component.translatable("animatium.forceHighAttackSpeedVisual"))
