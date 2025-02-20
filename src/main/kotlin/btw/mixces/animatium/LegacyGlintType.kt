@@ -23,13 +23,6 @@
 
 package btw.mixces.animatium
 
-import btw.mixces.animatium.util.MathUtils
-import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.Util
-import net.minecraft.client.renderer.RenderStateShard
-import net.minecraft.client.renderer.RenderType
-import org.joml.Matrix4f
-
 object LegacyGlintType {
 //    @JvmStatic
 //    val itemGlintLayer = makeItemGlintLayer(
