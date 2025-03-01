@@ -29,12 +29,12 @@ import btw.mixces.animatium.util.MathUtils;
 import btw.mixces.animatium.util.RenderUtils;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.mojang.blaze3d.buffers.BufferType;
+import com.mojang.blaze3d.buffers.BufferUsage;
+import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexBuffer;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -69,12 +69,6 @@ public abstract class MixinLevelRenderer {
     @Shadow
     @Nullable
     private ClientLevel level;
-
-    @Unique
-    private final VertexBuffer animatium$blueVoidSkyBuffer = VertexBuffer.uploadStatic(
-            VertexFormat.Mode.QUADS,
-            DefaultVertexFormat.POSITION,
-            (vertexConsumer) -> RenderUtils.buildSkyHalf(vertexConsumer, -16.0F, true));
 
     @Inject(method = "method_62215", at = @At("TAIL"))
     private void animatium$oldBlueVoidSky(FogParameters fogParameters, DimensionSpecialEffects.SkyType skyType, float tickDelta, DimensionSpecialEffects dimensionSpecialEffects, CallbackInfo ci) {
@@ -121,12 +115,21 @@ public abstract class MixinLevelRenderer {
             modelViewStack.translate(0.0F, -((float) (depth - 16.0)), 0.0F);
         }
 
-        try (RenderPass renderPass = RenderSystem.getDevice()
-                .createCommandEncoder()
-                .createRenderPass(Minecraft.getInstance().getMainRenderTarget().getColorTexture(), OptionalInt.empty(), Minecraft.getInstance().getMainRenderTarget().getDepthTexture(), OptionalDouble.empty())) {
-            renderPass.setPipeline(RenderPipelines.SKY);
-            renderPass.setVertexBuffer(0, ((SkyRendererAccessor) this.skyRenderer).getBottomSkyBuffer());
-            renderPass.draw(0, 10);
+        VertexFormat.Mode mode = VertexFormat.Mode.QUADS;
+        VertexFormat format = DefaultVertexFormat.POSITION;
+        BufferBuilder builder = Tesselator.getInstance().begin(mode, format);
+        RenderUtils.buildSkyHalf(builder, -16.0F, true);
+        try (MeshData meshData = builder.buildOrThrow()) {
+            RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(Minecraft.getInstance().getMainRenderTarget().getColorTexture(), OptionalInt.empty(), Minecraft.getInstance().getMainRenderTarget().getDepthTexture(), OptionalDouble.empty());
+            try (GpuBuffer gpuBuffer = RenderSystem.getDevice().createBuffer(() -> "Legacy Blue Void Sky", BufferType.VERTICES, BufferUsage.DYNAMIC_WRITE, 24 * format.getVertexSize())) {
+                RenderSystem.AutoStorageIndexBuffer autoStorageIndexBuffer = RenderSystem.getSequentialBuffer(mode);
+                renderPass.setPipeline(RenderPipelines.SKY);
+                renderPass.setVertexBuffer(0, gpuBuffer);
+                renderPass.setIndexBuffer(autoStorageIndexBuffer.getBuffer(meshData.drawState().indexCount()), autoStorageIndexBuffer.type());
+                RenderSystem.getDevice().createCommandEncoder().writeToBuffer(gpuBuffer, meshData.vertexBuffer(), 0);
+                renderPass.draw(0, meshData.drawState().indexCount());
+            }
+            renderPass.close();
         }
 
         modelViewStack.popMatrix();
