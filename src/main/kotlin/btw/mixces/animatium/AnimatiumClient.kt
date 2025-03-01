@@ -25,9 +25,13 @@ package btw.mixces.animatium
 
 import btw.mixces.animatium.command.AnimatiumCommand
 import btw.mixces.animatium.config.AnimatiumConfig
+import btw.mixces.animatium.mixins.accessor.RenderPipelinesAccessor
 import btw.mixces.animatium.packet.AnimatiumInfoPayloadPacket
 import btw.mixces.animatium.packet.SetFeaturesPayloadPacket
 import btw.mixces.animatium.util.Feature
+import com.mojang.blaze3d.pipeline.RenderPipeline
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
+import com.mojang.blaze3d.vertex.VertexFormat
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationConnectionEvents
@@ -98,6 +102,17 @@ class AnimatiumClient : ClientModInitializer {
         }
 
         // Shaders
+        @JvmStatic
+        val legacySkyPipeline = RenderPipelinesAccessor.registerPipeline(
+            RenderPipeline.builder(RenderPipelinesAccessor.getMatricesColorFogSnippet())
+                .withLocation("pipeline/legacy_sky")
+                .withVertexShader("core/position")
+                .withFragmentShader("core/position")
+                .withDepthWrite(false)
+                .withVertexFormat(DefaultVertexFormat.POSITION, VertexFormat.Mode.QUADS)
+                .build()
+        )
+
 //        @JvmStatic
 //        val legacyGlintPipeline = RenderPipelinesAccessor.registerPipeline(
 //            RenderPipeline.builder(

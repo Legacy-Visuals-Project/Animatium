@@ -36,6 +36,11 @@ public interface RenderPipelinesAccessor {
         return null;
     }
 
+    @Accessor("MATRICES_COLOR_FOG_SNIPPET")
+    static RenderPipeline.Snippet getMatricesColorFogSnippet() {
+        return null;
+    }
+
     @Accessor("FOG_NO_COLOR_SNIPPET")
     static RenderPipeline.Snippet getFogNoColorSnippet() {
         return null;

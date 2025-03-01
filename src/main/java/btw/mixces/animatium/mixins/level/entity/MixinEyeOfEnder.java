@@ -33,7 +33,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(EyeOfEnder.class)
-public class MixinEyeOfEnder {
+public abstract class MixinEyeOfEnder {
     @WrapOperation(method = "shouldRenderAtSqrDistance", at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/world/entity/projectile/EyeOfEnder;tickCount:I"))
     private int animatium$disableProjectileAgeCheck(EyeOfEnder instance, Operation<Integer> original) {
         int originalTick = original.call(instance);
