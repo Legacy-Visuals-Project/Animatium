@@ -33,7 +33,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(TextureManager.class)
-public class MixinTextureManager {
+public abstract class MixinTextureManager {
     // TODO/NOTE: Do we need this when we have MixinTextureStateShard
     @ModifyVariable(method = "getTexture", at = @At("HEAD"), argsOnly = true)
     private ResourceLocation animatium$useItemGlint(ResourceLocation original) {
