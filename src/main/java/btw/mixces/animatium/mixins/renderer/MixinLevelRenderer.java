@@ -25,14 +25,16 @@ package btw.mixces.animatium.mixins.renderer;
 
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
-import btw.mixces.animatium.mixins.accessor.SkyRendererAccessor;
 import btw.mixces.animatium.util.MathUtils;
 import btw.mixces.animatium.util.RenderUtils;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexBuffer;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -68,9 +70,11 @@ public abstract class MixinLevelRenderer {
     @Nullable
     private ClientLevel level;
 
-    @Shadow
-    @Final
-    private SkyRenderer skyRenderer;
+    @Unique
+    private final VertexBuffer animatium$blueVoidSkyBuffer = VertexBuffer.uploadStatic(
+            VertexFormat.Mode.QUADS,
+            DefaultVertexFormat.POSITION,
+            (vertexConsumer) -> RenderUtils.buildSkyHalf(vertexConsumer, -16.0F, true));
 
     @Inject(method = "method_62215", at = @At("TAIL"))
     private void animatium$oldBlueVoidSky(FogParameters fogParameters, DimensionSpecialEffects.SkyType skyType, float tickDelta, DimensionSpecialEffects dimensionSpecialEffects, CallbackInfo ci) {

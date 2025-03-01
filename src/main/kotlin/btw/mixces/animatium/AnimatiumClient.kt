@@ -137,7 +137,7 @@ class AnimatiumClient : ClientModInitializer {
         ResourceManagerHelper.registerBuiltinResourcePack(
             ResourceLocation.parse("animatium:classic_textures"),
             modContainer,
-            ResourcePackActivationType.NORMAL
+            ResourcePackActivationType.DEFAULT_ENABLED
         )
 
         setGlintColor(0.5019607843137255F, 0.25098039215686274F, 0.8F)
@@ -155,7 +155,7 @@ class AnimatiumClient : ClientModInitializer {
         PayloadTypeRegistry.playC2S().register(AnimatiumInfoPayloadPacket.PAYLOAD_ID, AnimatiumInfoPayloadPacket.CODEC)
         PayloadTypeRegistry.playS2C().register(SetFeaturesPayloadPacket.PAYLOAD_ID, SetFeaturesPayloadPacket.CODEC)
         ClientPlayNetworking.registerGlobalReceiver(SetFeaturesPayloadPacket.PAYLOAD_ID) { payload, context ->
-            context.client().execute {
+            context.client().schedule {
                 enabledFeatures.clear()
                 for (feature in payload.features) {
                     enabledFeatures.add(feature)

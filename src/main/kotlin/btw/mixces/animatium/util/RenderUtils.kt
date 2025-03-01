@@ -30,6 +30,7 @@ import com.mojang.blaze3d.platform.GlConst
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.platform.SourceFactor
 import com.mojang.blaze3d.systems.RenderSystem
+import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.multiplayer.ClientLevel
 
@@ -91,5 +92,27 @@ object RenderUtils {
     @JvmStatic
     fun fillRectangle(context: GuiGraphics, startX: Int, startY: Int, endX: Int, endY: Int, padding: Int, color: Int) {
         context.fill(startX, startY, startX + endX, startY + endY, padding, color);
+    }
+
+    @JvmStatic
+    fun buildSkyHalf(vertexConsumer: VertexConsumer, y: Float, bottom: Boolean) {
+        val width = 64
+        for (k in -384..384 step width) {
+            for (l in -384..384 step width) {
+                var g = k.toFloat()
+                var h = (k + 64).toFloat()
+                if (bottom) {
+                    // Swap them
+                    var b = g
+                    g = h
+                    h = b
+                }
+
+                vertexConsumer.addVertex(g, y, l.toFloat())
+                vertexConsumer.addVertex(h, y, l.toFloat())
+                vertexConsumer.addVertex(h, y, (l + width).toFloat())
+                vertexConsumer.addVertex(g, y, (l + width).toFloat())
+            }
+        }
     }
 }

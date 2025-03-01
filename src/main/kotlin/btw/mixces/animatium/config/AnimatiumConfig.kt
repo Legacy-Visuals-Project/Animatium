@@ -157,6 +157,7 @@ class AnimatiumConfig {
     @SerialEntry var removeEquipAnimationOnItemUse = true
     @SerialEntry var removeItemUsageVisualInGUI = true
     @SerialEntry var fixFireballClientsideVisual = true
+    @SerialEntry var fixDoubleBlockingVisual = false // TODO: Fix weirdness
     // (Items) Enchantment Glint
     @SerialEntry var oldGlintSpeed = true
     @SerialEntry var disableGlintOnItemDrops2D = false
