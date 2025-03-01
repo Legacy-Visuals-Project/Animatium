@@ -25,6 +25,7 @@ package btw.mixces.animatium.mixins.renderer;
 
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
+import btw.mixces.animatium.mixins.accessor.RenderPipelinesAccessor;
 import btw.mixces.animatium.util.MathUtils;
 import btw.mixces.animatium.util.RenderUtils;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -32,6 +33,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.buffers.BufferType;
 import com.mojang.blaze3d.buffers.BufferUsage;
 import com.mojang.blaze3d.buffers.GpuBuffer;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -69,6 +71,15 @@ public abstract class MixinLevelRenderer {
     @Shadow
     @Nullable
     private ClientLevel level;
+
+    @Unique
+    public final RenderPipeline animatium$legacySkyPipeline = RenderPipeline.builder(RenderPipelinesAccessor.getMatricesColorFogSnippet())
+            .withLocation("pipeline/sky")
+            .withVertexShader("core/position")
+            .withFragmentShader("core/position")
+            .withDepthWrite(false)
+            .withVertexFormat(DefaultVertexFormat.POSITION, VertexFormat.Mode.QUADS)
+            .build();
 
     @Inject(method = "method_62215", at = @At("TAIL"))
     private void animatium$oldBlueVoidSky(FogParameters fogParameters, DimensionSpecialEffects.SkyType skyType, float tickDelta, DimensionSpecialEffects dimensionSpecialEffects, CallbackInfo ci) {
@@ -115,22 +126,16 @@ public abstract class MixinLevelRenderer {
             modelViewStack.translate(0.0F, -((float) (depth - 16.0)), 0.0F);
         }
 
-        VertexFormat.Mode mode = VertexFormat.Mode.QUADS;
-        VertexFormat format = DefaultVertexFormat.POSITION;
-        BufferBuilder builder = Tesselator.getInstance().begin(mode, format);
+        BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
         RenderUtils.buildSkyHalf(builder, -16.0F, true);
-        try (MeshData meshData = builder.buildOrThrow()) {
-            RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(Minecraft.getInstance().getMainRenderTarget().getColorTexture(), OptionalInt.empty(), Minecraft.getInstance().getMainRenderTarget().getDepthTexture(), OptionalDouble.empty());
-            try (GpuBuffer gpuBuffer = RenderSystem.getDevice().createBuffer(() -> "Legacy Blue Void Sky", BufferType.VERTICES, BufferUsage.DYNAMIC_WRITE, 24 * format.getVertexSize())) {
-                RenderSystem.AutoStorageIndexBuffer autoStorageIndexBuffer = RenderSystem.getSequentialBuffer(mode);
-                renderPass.setPipeline(RenderPipelines.SKY);
-                renderPass.setVertexBuffer(0, gpuBuffer);
-                renderPass.setIndexBuffer(autoStorageIndexBuffer.getBuffer(meshData.drawState().indexCount()), autoStorageIndexBuffer.type());
-                RenderSystem.getDevice().createCommandEncoder().writeToBuffer(gpuBuffer, meshData.vertexBuffer(), 0);
-                renderPass.draw(0, meshData.drawState().indexCount());
-            }
-            renderPass.close();
+        MeshData meshData = builder.buildOrThrow();
+        RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(Minecraft.getInstance().getMainRenderTarget().getColorTexture(), OptionalInt.empty(), Minecraft.getInstance().getMainRenderTarget().getDepthTexture(), OptionalDouble.empty());
+        try (GpuBuffer skyBuffer = RenderSystem.getDevice().createBuffer(() -> "Blue void sky buffer", BufferType.VERTICES, BufferUsage.DYNAMIC_WRITE, meshData.vertexBuffer())) {
+            renderPass.setPipeline(RenderPipelines.SKY); // animatium$legacySkyPipeline
+            renderPass.setVertexBuffer(0, skyBuffer);
+            renderPass.draw(0, meshData.drawState().indexCount());
         }
+        renderPass.close();
 
         modelViewStack.popMatrix();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
