@@ -90,11 +90,9 @@ object LegacyGlintType {
 //    ): RenderType {
 //        return RenderType.create(
 //            "legacy_glint" + (if (translucent) "_translucent" else ""),
-//            DefaultVertexFormat.POSITION_TEX,
-//            VertexFormat.Mode.QUADS,
 //            1536,
+//            AnimatiumClient.legacyGlintPipeline,
 //            RenderType.CompositeState.builder()
-//                .setShaderState(RenderStateShard.ShaderStateShard(AnimatiumClient.renderTypeLegacyGlint))
 //                .setTextureState(
 //                    RenderStateShard.TextureStateShard(
 //                        ItemRenderer.ENCHANTED_GLINT_ITEM,
@@ -102,10 +100,6 @@ object LegacyGlintType {
 //                        false
 //                    )
 //                )
-//                .setWriteMaskState(RenderType.COLOR_WRITE)
-//                .setCullState(RenderType.CULL)
-//                .setDepthTestState(RenderType.EQUAL_DEPTH_TEST)
-//                .setTransparencyState(RenderType.GLINT_TRANSPARENCY)
 //                .setTexturingState(texturingStateShard)
 //                .setOutputState(if (translucent) RenderType.ITEM_ENTITY_TARGET else RenderType.MAIN_TARGET)
 //                .createCompositeState(false)
@@ -118,11 +112,9 @@ object LegacyGlintType {
 //    ): RenderType {
 //        return RenderType.create(
 //            "legacy_" + (if (armor) "armor_" else "") + "entity_glint",
-//            DefaultVertexFormat.POSITION_TEX,
-//            VertexFormat.Mode.QUADS,
 //            1536,
+//            AnimatiumClient.legacyGlintPipeline,
 //            RenderType.CompositeState.builder()
-//                .setShaderState(RenderStateShard.ShaderStateShard(AnimatiumClient.renderTypeLegacyGlint))
 //                .setTextureState(
 //                    RenderStateShard.TextureStateShard(
 //                        ItemRenderer.ENCHANTED_GLINT_ITEM, // <=1.19.3 uses item glint texture, we will to
@@ -130,10 +122,6 @@ object LegacyGlintType {
 //                        false
 //                    )
 //                )
-//                .setWriteMaskState(RenderType.COLOR_WRITE)
-//                .setCullState(RenderType.CULL)
-//                .setDepthTestState(RenderType.EQUAL_DEPTH_TEST)
-//                .setTransparencyState(RenderType.GLINT_TRANSPARENCY)
 //                .setTexturingState(texturingStateShard)
 //                .setLayeringState(if (armor) RenderType.VIEW_OFFSET_Z_LAYERING else RenderType.NO_LAYERING)
 //                .createCompositeState(false)

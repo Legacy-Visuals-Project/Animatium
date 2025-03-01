@@ -23,7 +23,7 @@
 
 package btw.mixces.animatium.mixins.accessor;
 
-import com.mojang.blaze3d.vertex.VertexBuffer;
+import com.mojang.blaze3d.buffers.GpuBuffer;
 import net.minecraft.client.renderer.SkyRenderer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,5 +33,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface SkyRendererAccessor {
     @Final
     @Accessor("bottomSkyBuffer")
-    VertexBuffer getBottomSkyBuffer();
+    GpuBuffer getBottomSkyBuffer();
 }

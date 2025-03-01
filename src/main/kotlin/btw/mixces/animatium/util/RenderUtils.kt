@@ -25,7 +25,10 @@ package btw.mixces.animatium.util
 
 import btw.mixces.animatium.config.AnimatiumConfig
 import btw.mixces.animatium.mixins.accessor.ClientLevelDataAccessor
+import com.mojang.blaze3d.platform.DestFactor
+import com.mojang.blaze3d.platform.GlConst
 import com.mojang.blaze3d.platform.GlStateManager
+import com.mojang.blaze3d.platform.SourceFactor
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.multiplayer.ClientLevel
@@ -49,12 +52,12 @@ object RenderUtils {
     }
 
     @JvmStatic
-    fun blendFunc(sourceFactor: GlStateManager.SourceFactor, destFactor: GlStateManager.DestFactor) {
-        RenderSystem.blendFuncSeparate(
-            sourceFactor,
-            destFactor,
-            sourceFactor,
-            destFactor
+    fun blendFunc(sourceFactor: SourceFactor, destFactor: DestFactor) {
+        GlStateManager._blendFuncSeparate(
+            GlConst.toGl(sourceFactor),
+            GlConst.toGl(destFactor),
+            GlConst.toGl(sourceFactor),
+            GlConst.toGl(destFactor)
         )
     }
 

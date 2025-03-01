@@ -30,6 +30,7 @@ import btw.mixces.animatium.util.MathUtils;
 import btw.mixces.animatium.util.RenderUtils;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
@@ -53,6 +54,9 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
 
 @Mixin(LevelRenderer.class)
 public abstract class MixinLevelRenderer {
@@ -113,7 +117,14 @@ public abstract class MixinLevelRenderer {
             modelViewStack.translate(0.0F, -((float) (depth - 16.0)), 0.0F);
         }
 
-        ((SkyRendererAccessor) this.skyRenderer).getBottomSkyBuffer().drawWithRenderType(RenderType.sky());
+        try (RenderPass renderPass = RenderSystem.getDevice()
+                .createCommandEncoder()
+                .createRenderPass(Minecraft.getInstance().getMainRenderTarget().getColorTexture(), OptionalInt.empty(), Minecraft.getInstance().getMainRenderTarget().getDepthTexture(), OptionalDouble.empty())) {
+            renderPass.setPipeline(RenderPipelines.SKY);
+            renderPass.setVertexBuffer(0, ((SkyRendererAccessor) this.skyRenderer).getBottomSkyBuffer());
+            renderPass.draw(0, 10);
+        }
+
         modelViewStack.popMatrix();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }

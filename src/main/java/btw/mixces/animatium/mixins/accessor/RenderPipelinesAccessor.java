@@ -36,6 +36,11 @@ public interface RenderPipelinesAccessor {
         return null;
     }
 
+    @Accessor("FOG_NO_COLOR_SNIPPET")
+    static RenderPipeline.Snippet getFogNoColorSnippet() {
+        return null;
+    }
+
     @Invoker("register")
     static RenderPipeline registerPipeline(RenderPipeline renderPipeline) {
         return null;

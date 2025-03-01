@@ -74,10 +74,10 @@ class AnimatiumClient : ClientModInitializer {
             return AnimatiumInfoPayloadPacket(VERSION, DEVELOPMENT_VERSION)
         }
 
-//        @JvmStatic
-//        fun getPath(key: String): ResourceLocation {
-//            return ResourceLocation.fromNamespaceAndPath("animatium", key)
-//        }
+        @JvmStatic
+        fun getPath(key: String): ResourceLocation {
+            return ResourceLocation.fromNamespaceAndPath("animatium", key)
+        }
 
         // Other
         val stateFile = File(FabricLoader.getInstance().gameDir.toFile(), "animatium_state.txt")
@@ -106,9 +106,13 @@ class AnimatiumClient : ClientModInitializer {
 //            ).withLocation(getPath("pipeline/legacy_glint"))
 //                .withVertexShader(getPath("core/legacy_glint"))
 //                .withFragmentShader(getPath("core/legacy_glint"))
+//                .withColorWrite(true, false)
+//                .withCull(true)
+//                .withBlend(BlendFunction.GLINT)
+//                .withDepthTestFunction(DepthTestFunction.EQUAL_DEPTH_TEST)
 //                .withSampler("Sampler0")
-//                .withUniform("GlintColor", Uniform.Type.VEC3)
-//                .withUniform("TextureMat", Uniform.Type.MATRIX4X4)
+//                .withUniform("GlintColor", UniformType.VEC3)
+//                .withUniform("TextureMat", UniformType.MATRIX4X4)
 //                .withVertexFormat(DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS)
 //                .build()
 //        )
