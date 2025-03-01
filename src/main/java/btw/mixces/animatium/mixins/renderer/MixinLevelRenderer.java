@@ -40,7 +40,10 @@ import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.DimensionSpecialEffects;
+import net.minecraft.client.renderer.FogParameters;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.level.BlockGetter;
@@ -131,10 +134,11 @@ public abstract class MixinLevelRenderer {
         MeshData meshData = builder.buildOrThrow();
         RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(Minecraft.getInstance().getMainRenderTarget().getColorTexture(), OptionalInt.empty(), Minecraft.getInstance().getMainRenderTarget().getDepthTexture(), OptionalDouble.empty());
         try (GpuBuffer skyBuffer = RenderSystem.getDevice().createBuffer(() -> "Blue void sky buffer", BufferType.VERTICES, BufferUsage.DYNAMIC_WRITE, meshData.vertexBuffer())) {
-            renderPass.setPipeline(RenderPipelines.SKY); // animatium$legacySkyPipeline
+            renderPass.setPipeline(animatium$legacySkyPipeline);
             renderPass.setVertexBuffer(0, skyBuffer);
-            renderPass.draw(0, meshData.drawState().indexCount());
+            renderPass.draw(0,  meshData.drawState().indexCount());
         }
+        meshData.close();
         renderPass.close();
 
         modelViewStack.popMatrix();
