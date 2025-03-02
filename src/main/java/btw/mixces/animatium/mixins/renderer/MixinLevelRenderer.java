@@ -34,17 +34,15 @@ import com.mojang.blaze3d.buffers.BufferType;
 import com.mojang.blaze3d.buffers.BufferUsage;
 import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import com.mojang.blaze3d.systems.GpuDevice;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.DimensionSpecialEffects;
-import net.minecraft.client.renderer.FogParameters;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.level.BlockGetter;
@@ -78,12 +76,25 @@ public abstract class MixinLevelRenderer {
 
     @Unique
     public final RenderPipeline animatium$legacySkyPipeline = RenderPipeline.builder(RenderPipelinesAccessor.getMatricesColorFogSnippet())
-            .withLocation("pipeline/sky")
+            .withLocation("pipeline/legacy_sky")
             .withVertexShader("core/position")
             .withFragmentShader("core/position")
             .withDepthWrite(false)
             .withVertexFormat(DefaultVertexFormat.POSITION, VertexFormat.Mode.QUADS)
             .build();
+
+    @Unique
+    private GpuBuffer animatium$blueVoidBuffer = null;
+
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void init(Minecraft minecraft, EntityRenderDispatcher entityRenderDispatcher, BlockEntityRenderDispatcher blockEntityRenderDispatcher, RenderBuffers renderBuffers, CallbackInfo ci) {
+        VertexFormat.Mode mode = VertexFormat.Mode.QUADS;
+        BufferBuilder builder = Tesselator.getInstance().begin(mode, DefaultVertexFormat.POSITION);
+        RenderUtils.buildSkyHalf(builder, -16.0F, true);
+        try (MeshData meshData = builder.buildOrThrow()) {
+            this.animatium$blueVoidBuffer = RenderSystem.getDevice().createBuffer(() -> "Blue void sky vertex buffer", BufferType.VERTICES, BufferUsage.STATIC_WRITE, meshData.vertexBuffer());
+        }
+    }
 
     @Inject(method = "method_62215", at = @At("TAIL"))
     private void animatium$oldBlueVoidSky(FogParameters fogParameters, DimensionSpecialEffects.SkyType skyType, float tickDelta, DimensionSpecialEffects dimensionSpecialEffects, CallbackInfo ci) {
@@ -130,21 +141,17 @@ public abstract class MixinLevelRenderer {
             modelViewStack.translate(0.0F, -((float) (depth - 16.0)), 0.0F);
         }
 
-        VertexFormat.Mode mode = VertexFormat.Mode.QUADS;
-        BufferBuilder builder = Tesselator.getInstance().begin(mode, DefaultVertexFormat.POSITION);
-        RenderUtils.buildSkyHalf(builder, -16.0F, true);
-        MeshData meshData = builder.buildOrThrow();
-        GpuDevice device = RenderSystem.getDevice();
-        RenderPass renderPass = device.createCommandEncoder().createRenderPass(minecraft.getMainRenderTarget().getColorTexture(), OptionalInt.empty(), minecraft.getMainRenderTarget().getDepthTexture(), OptionalDouble.empty());
-        try (GpuBuffer skyBuffer = device.createBuffer(() -> "Blue void sky buffer", BufferType.VERTICES, BufferUsage.DYNAMIC_WRITE, meshData.vertexBuffer())) {
-            RenderSystem.AutoStorageIndexBuffer autoStorageIndexBuffer = RenderSystem.getSequentialBuffer(mode);
-            renderPass.setPipeline(animatium$legacySkyPipeline);
-            renderPass.setVertexBuffer(0, skyBuffer);
+        try (RenderPass renderPass = RenderSystem.getDevice()
+                .createCommandEncoder()
+                .createRenderPass(
+                        minecraft.getMainRenderTarget().getColorTexture(), OptionalInt.empty(),
+                        minecraft.getMainRenderTarget().getDepthTexture(), OptionalDouble.empty())) {
+            RenderSystem.AutoStorageIndexBuffer autoStorageIndexBuffer = RenderSystem.getSequentialBuffer(VertexFormat.Mode.QUADS);
+            renderPass.setPipeline(this.animatium$legacySkyPipeline);
+            renderPass.setVertexBuffer(0, this.animatium$blueVoidBuffer);
             renderPass.setIndexBuffer(autoStorageIndexBuffer.getBuffer(6), autoStorageIndexBuffer.type());
-            renderPass.drawIndexed(0, meshData.drawState().indexCount());
+            renderPass.drawIndexed(0, 1014);
         }
-        meshData.close();
-        renderPass.close();
 
         modelViewStack.popMatrix();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
