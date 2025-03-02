@@ -34,6 +34,7 @@ import com.mojang.blaze3d.buffers.BufferType;
 import com.mojang.blaze3d.buffers.BufferUsage;
 import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.systems.GpuDevice;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -129,14 +130,18 @@ public abstract class MixinLevelRenderer {
             modelViewStack.translate(0.0F, -((float) (depth - 16.0)), 0.0F);
         }
 
-        BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
+        VertexFormat.Mode mode = VertexFormat.Mode.QUADS;
+        BufferBuilder builder = Tesselator.getInstance().begin(mode, DefaultVertexFormat.POSITION);
         RenderUtils.buildSkyHalf(builder, -16.0F, true);
         MeshData meshData = builder.buildOrThrow();
-        RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(Minecraft.getInstance().getMainRenderTarget().getColorTexture(), OptionalInt.empty(), Minecraft.getInstance().getMainRenderTarget().getDepthTexture(), OptionalDouble.empty());
-        try (GpuBuffer skyBuffer = RenderSystem.getDevice().createBuffer(() -> "Blue void sky buffer", BufferType.VERTICES, BufferUsage.DYNAMIC_WRITE, meshData.vertexBuffer())) {
+        GpuDevice device = RenderSystem.getDevice();
+        RenderPass renderPass = device.createCommandEncoder().createRenderPass(minecraft.getMainRenderTarget().getColorTexture(), OptionalInt.empty(), minecraft.getMainRenderTarget().getDepthTexture(), OptionalDouble.empty());
+        try (GpuBuffer skyBuffer = device.createBuffer(() -> "Blue void sky buffer", BufferType.VERTICES, BufferUsage.DYNAMIC_WRITE, meshData.vertexBuffer())) {
+            RenderSystem.AutoStorageIndexBuffer autoStorageIndexBuffer = RenderSystem.getSequentialBuffer(mode);
             renderPass.setPipeline(animatium$legacySkyPipeline);
             renderPass.setVertexBuffer(0, skyBuffer);
-            renderPass.draw(0,  meshData.drawState().indexCount());
+            renderPass.setIndexBuffer(autoStorageIndexBuffer.getBuffer(6), autoStorageIndexBuffer.type());
+            renderPass.drawIndexed(0, meshData.drawState().indexCount());
         }
         meshData.close();
         renderPass.close();
