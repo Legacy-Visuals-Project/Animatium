@@ -25,7 +25,6 @@ package btw.mixces.animatium.mixins.renderer;
 
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
-import btw.mixces.animatium.mixins.accessor.RenderPipelinesAccessor;
 import btw.mixces.animatium.util.MathUtils;
 import btw.mixces.animatium.util.RenderUtils;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -33,7 +32,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.buffers.BufferType;
 import com.mojang.blaze3d.buffers.BufferUsage;
 import com.mojang.blaze3d.buffers.GpuBuffer;
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -73,15 +71,6 @@ public abstract class MixinLevelRenderer {
     @Shadow
     @Nullable
     private ClientLevel level;
-
-    @Unique
-    public final RenderPipeline animatium$legacySkyPipeline = RenderPipeline.builder(RenderPipelinesAccessor.getMatricesColorFogSnippet())
-            .withLocation("pipeline/legacy_sky")
-            .withVertexShader("core/position")
-            .withFragmentShader("core/position")
-            .withDepthWrite(false)
-            .withVertexFormat(DefaultVertexFormat.POSITION, VertexFormat.Mode.QUADS)
-            .build();
 
     @Unique
     private GpuBuffer animatium$blueVoidBuffer = null;
@@ -147,7 +136,7 @@ public abstract class MixinLevelRenderer {
                         minecraft.getMainRenderTarget().getColorTexture(), OptionalInt.empty(),
                         minecraft.getMainRenderTarget().getDepthTexture(), OptionalDouble.empty())) {
             RenderSystem.AutoStorageIndexBuffer autoStorageIndexBuffer = RenderSystem.getSequentialBuffer(VertexFormat.Mode.QUADS);
-            renderPass.setPipeline(this.animatium$legacySkyPipeline);
+            renderPass.setPipeline(AnimatiumClient.getLegacySkyPipeline());
             renderPass.setVertexBuffer(0, this.animatium$blueVoidBuffer);
             renderPass.setIndexBuffer(autoStorageIndexBuffer.getBuffer(6), autoStorageIndexBuffer.type());
             renderPass.drawIndexed(0, 1014);
