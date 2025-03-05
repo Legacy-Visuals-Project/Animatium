@@ -42,6 +42,7 @@
 		"renderer.MixinParticle",
 		"renderer.MixinRenderBuffers",
 		"renderer.MixinRenderStateShard",
+		"accessor.MixinRenderTypeCompositeStateBuilderAccessor",
 		"renderer.MixinTextureManager",
 		"renderer.MixinTextureStateShard",
 		"renderer.MixinVertexConsumer",

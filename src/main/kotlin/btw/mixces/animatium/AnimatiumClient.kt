@@ -29,7 +29,10 @@ import btw.mixces.animatium.mixins.accessor.RenderPipelinesAccessor
 import btw.mixces.animatium.packet.AnimatiumInfoPayloadPacket
 import btw.mixces.animatium.packet.SetFeaturesPayloadPacket
 import btw.mixces.animatium.util.Feature
+import com.mojang.blaze3d.pipeline.BlendFunction
 import com.mojang.blaze3d.pipeline.RenderPipeline
+import com.mojang.blaze3d.platform.DepthTestFunction
+import com.mojang.blaze3d.shaders.UniformType
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import com.mojang.blaze3d.vertex.VertexFormat
 import net.fabricmc.api.ClientModInitializer
@@ -113,27 +116,27 @@ class AnimatiumClient : ClientModInitializer {
                 .build()
         )
 
-//        @JvmStatic
-//        val legacyGlintPipeline = RenderPipelinesAccessor.registerPipeline(
-//            RenderPipeline.builder(
-//                RenderPipelinesAccessor.getMatricesColorSnippet(),
-//                RenderPipelinesAccessor.getFogNoColorSnippet()
-//            ).withLocation(getPath("pipeline/legacy_glint"))
-//                .withVertexShader(getPath("core/legacy_glint"))
-//                .withFragmentShader(getPath("core/legacy_glint"))
-//                .withColorWrite(true, false)
-//                .withCull(true)
-//                .withBlend(BlendFunction.GLINT)
-//                .withDepthTestFunction(DepthTestFunction.EQUAL_DEPTH_TEST)
-//                .withSampler("Sampler0")
-//                .withUniform("GlintColor", UniformType.VEC3)
-//                .withUniform("TextureMat", UniformType.MATRIX4X4)
-//                .withVertexFormat(DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS)
-//                .build()
-//        )
-
         @JvmStatic
-        fun setGlintColor(red: Float, green: Float, blue: Float) {
+        val legacyGlintPipeline = RenderPipelinesAccessor.registerPipeline(
+            RenderPipeline.builder(
+                RenderPipelinesAccessor.getMatricesColorSnippet(),
+                RenderPipelinesAccessor.getFogNoColorSnippet()
+            ).withLocation(getPath("pipeline/legacy_glint"))
+                .withVertexShader(getPath("core/legacy_glint"))
+                .withFragmentShader(getPath("core/legacy_glint"))
+                .withColorWrite(true, false)
+                .withCull(true)
+                .withBlend(BlendFunction.GLINT)
+                .withDepthTestFunction(DepthTestFunction.EQUAL_DEPTH_TEST)
+                .withSampler("Sampler0")
+//                .withUniform("GlintColor", UniformType.VEC3)
+                .withUniform("TextureMat", UniformType.MATRIX4X4)
+                .withVertexFormat(DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS)
+                .build()
+        )
+
+//        @JvmStatic
+//        fun setGlintColor(red: Float, green: Float, blue: Float) {
 //            val minecraft = Minecraft.getInstance()
 //            minecraft.schedule {
 //                val shaderManager = Minecraft.getInstance().shaderManager ?: return@schedule
@@ -141,7 +144,7 @@ class AnimatiumClient : ClientModInitializer {
 //                val glintColorUniform = compiledShader.getUniform("GlintColor") ?: return@schedule
 //                glintColorUniform.set(red, green, blue)
 //            }
-        }
+//        }
     }
 
     override fun onInitializeClient() {
@@ -155,7 +158,7 @@ class AnimatiumClient : ClientModInitializer {
             ResourcePackActivationType.DEFAULT_ENABLED
         )
 
-        setGlintColor(0.5019607843137255F, 0.25098039215686274F, 0.8F)
+//        setGlintColor(0.5019607843137255F, 0.25098039215686274F, 0.8F)
 
         // Commands
         ClientCommandRegistrationCallback.EVENT.register { dispatcher, registryAccess ->
