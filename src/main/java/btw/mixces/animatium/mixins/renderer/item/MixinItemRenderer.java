@@ -71,7 +71,7 @@ public abstract class MixinItemRenderer {
     private static VertexConsumer animatium$legacyGlintRendering$compassGlintLayer2(MultiBufferSource instance, RenderType renderType, Operation<VertexConsumer> original, @Local(argsOnly = true) MultiBufferSource multiBufferSource) {
         final VertexConsumer finalConsumer = original.call(instance, renderType);
         ItemDisplayContext displayContext = ItemUtils.getDisplayContext();
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldGlintRendering() && displayContext == ItemDisplayContext.GUI) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldGlintRendering() && displayContext != ItemDisplayContext.GUI) {
             return VertexMultiConsumer.create(multiBufferSource.getBuffer(LegacyGlintType.getItemGlint2ndLayer()), finalConsumer);
         } else {
             return finalConsumer;
@@ -91,7 +91,7 @@ public abstract class MixinItemRenderer {
     private static VertexConsumer animatium$legacyGlintRendering$glintLayer2(VertexConsumer leftConsumer, VertexConsumer rightConsumer, Operation<VertexConsumer> original, @Local(argsOnly = true) MultiBufferSource multiBufferSource, @Local(argsOnly = true, ordinal = 0) boolean bl) {
         final VertexConsumer finalConsumer = original.call(leftConsumer, rightConsumer);
         ItemDisplayContext displayContext = ItemUtils.getDisplayContext();
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldGlintRendering() && displayContext == ItemDisplayContext.GUI && bl) {
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldGlintRendering() && displayContext != ItemDisplayContext.GUI && bl) {
             return VertexMultiConsumer.create(multiBufferSource.getBuffer(LegacyGlintType.getItemGlint2ndLayer()), finalConsumer);
         } else {
             return finalConsumer;
