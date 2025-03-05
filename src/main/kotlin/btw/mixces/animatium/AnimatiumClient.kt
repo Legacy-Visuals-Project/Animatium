@@ -129,22 +129,11 @@ class AnimatiumClient : ClientModInitializer {
                 .withBlend(BlendFunction.GLINT)
                 .withDepthTestFunction(DepthTestFunction.EQUAL_DEPTH_TEST)
                 .withSampler("Sampler0")
-//                .withUniform("GlintColor", UniformType.VEC3)
+                .withUniform("GlintColor", UniformType.VEC3)
                 .withUniform("TextureMat", UniformType.MATRIX4X4)
                 .withVertexFormat(DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS)
                 .build()
         )
-
-//        @JvmStatic
-//        fun setGlintColor(red: Float, green: Float, blue: Float) {
-//            val minecraft = Minecraft.getInstance()
-//            minecraft.schedule {
-//                val shaderManager = Minecraft.getInstance().shaderManager ?: return@schedule
-//                val compiledShader = shaderManager.getProgram(legacyGlintPipeline) ?: return@schedule
-//                val glintColorUniform = compiledShader.getUniform("GlintColor") ?: return@schedule
-//                glintColorUniform.set(red, green, blue)
-//            }
-//        }
     }
 
     override fun onInitializeClient() {
@@ -157,8 +146,6 @@ class AnimatiumClient : ClientModInitializer {
             modContainer,
             ResourcePackActivationType.DEFAULT_ENABLED
         )
-
-//        setGlintColor(0.5019607843137255F, 0.25098039215686274F, 0.8F)
 
         // Commands
         ClientCommandRegistrationCallback.EVENT.register { dispatcher, registryAccess ->
