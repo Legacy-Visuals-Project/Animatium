@@ -23,7 +23,7 @@
 
 package btw.mixces.animatium
 
-import btw.mixces.animatium.mixins.accessor.MixinRenderTypeCompositeStateBuilderAccessor
+import btw.mixces.animatium.mixins.accessor.RenderTypeCompositeStateBuilderAccessor
 import btw.mixces.animatium.util.MathUtils
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.Util
@@ -99,7 +99,7 @@ object LegacyGlintType {
         translucent: Boolean,
     ): RenderType {
         val compositeStateBuilder =
-            (RenderType.CompositeState.builder() as MixinRenderTypeCompositeStateBuilderAccessor)
+            (RenderType.CompositeState.builder() as RenderTypeCompositeStateBuilderAccessor)
         compositeStateBuilder.withTextureState(
             RenderStateShard.TextureStateShard(
                 ItemRenderer.ENCHANTED_GLINT_ITEM,
@@ -122,7 +122,7 @@ object LegacyGlintType {
         armor: Boolean,
     ): RenderType {
         val compositeStateBuilder =
-            (RenderType.CompositeState.builder() as MixinRenderTypeCompositeStateBuilderAccessor)
+            (RenderType.CompositeState.builder() as RenderTypeCompositeStateBuilderAccessor)
         compositeStateBuilder.withTextureState(
             RenderStateShard.TextureStateShard(
                 ItemRenderer.ENCHANTED_GLINT_ITEM, // <=1.19.3 uses item glint texture, we will to
