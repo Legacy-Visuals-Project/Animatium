@@ -30,7 +30,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.opengl.GlProgram;
 import com.mojang.blaze3d.opengl.Uniform;
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
@@ -42,8 +41,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.List;
-
 @Mixin(GlProgram.class)
 public abstract class MixinGlProgram {
     @Shadow
@@ -53,13 +50,12 @@ public abstract class MixinGlProgram {
     @Nullable
     private static Uniform animatium$GLINT_COLOR;
 
-    @Inject(method = "setupUniforms", at = @At("TAIL"))
-    private void animatium$setupCustomUniforms(List<RenderPipeline.UniformDescription> uniforms, List<String> samplers, CallbackInfo ci) {
-        animatium$GLINT_COLOR = this.getUniform("GlintColor");
-    }
-
     @Inject(method = "setDefaultUniforms", at = @At("TAIL"))
-    private void animatium$applyCustomUniforms(VertexFormat.Mode mode, Matrix4f matrix4f, Matrix4f matrix4f2, float f, float g, CallbackInfo ci) {
+    private void animatium$setupAndApplyCustomUniforms(VertexFormat.Mode mode, Matrix4f matrix4f, Matrix4f matrix4f2, float f, float g, CallbackInfo ci) {
+        if (animatium$GLINT_COLOR == null) {
+            animatium$GLINT_COLOR = this.getUniform("GlintColor");
+        }
+
         if (animatium$GLINT_COLOR != null) {
             animatium$GLINT_COLOR.set(RenderUtils.getGlintColor());
         }
