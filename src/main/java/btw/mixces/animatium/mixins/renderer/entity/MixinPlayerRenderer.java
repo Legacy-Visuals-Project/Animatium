@@ -25,11 +25,13 @@ package btw.mixces.animatium.mixins.renderer.entity;
 
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
+import btw.mixces.animatium.util.PlayerUtils;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
@@ -41,6 +43,7 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.entity.state.PlayerRenderState;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 import org.jetbrains.annotations.NotNull;
@@ -115,5 +118,12 @@ public abstract class MixinPlayerRenderer extends LivingEntityRenderer<AbstractC
                 modelPart.yRot = 0.0F;
             }
         }
+    }
+
+    @WrapOperation(method = "renderHand", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/geom/ModelPart;render(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V"))
+    private void renderTrans(ModelPart instance, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, Operation<Void> original) {
+        AbstractClientPlayer player = Minecraft.getInstance().player;
+        if (player != null && player.isInvisible()) instance.render(poseStack, buffer, packedLight, packedOverlay, ARGB.colorFromFloat(0.5F, 1F, 1F, 1F)); // TODO: change alpha value to proper value & require config option
+        else original.call(instance, poseStack, buffer, packedLight, packedOverlay);
     }
 }
