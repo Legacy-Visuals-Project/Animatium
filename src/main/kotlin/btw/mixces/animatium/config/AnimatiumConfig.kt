@@ -104,18 +104,18 @@ class AnimatiumConfig {
     @SerialEntry var oldSneakAnimationInterpolation = false
     @SerialEntry var fakeOldSneakEyeHeight = false
     @SerialEntry var fixSneakingFeetPosition = true
-    @SerialEntry var oldSneakingFeetPosition = true
+    @SerialEntry var oldSneakingFeetPosition = false
     @SerialEntry var syncPlayerModelWithEyeHeight = false
-    @SerialEntry var sneakAnimationWhileFlying = true
+    @SerialEntry var sneakAnimationWhileFlying = false
     // (Movement) Other
-    @SerialEntry var rotateBackwardsWalking = true
+    @SerialEntry var rotateBackwardsWalking = false
     @SerialEntry var uncapBlockingHeadRotation = true
     @SerialEntry var removeHeadRotationInterpolation = true
     @SerialEntry var fixVerticalBobbingTilt = true
-    @SerialEntry var oldViewBobbing = true
+    @SerialEntry var oldViewBobbing = false
     @SerialEntry var oldDeathLimbs = true
     @SerialEntry var oldBowArmMovement = true
-    @SerialEntry var oldDamageTilt = true
+    @SerialEntry var oldDamageTilt = false
     // (Movement) Cape
     @SerialEntry var oldCapeMovement = true
     @SerialEntry var dontClampCapeLean = false
@@ -124,76 +124,76 @@ class AnimatiumConfig {
     @SerialEntry var oldCapeSneakPosition = false
 
     // (Screen)
-    @SerialEntry var showCrosshairInThirdperson = true
+    @SerialEntry var showCrosshairInThirdperson = false
     @SerialEntry var fixHighAttackSpeedIndicator = true
     @SerialEntry var removeHeartFlash = true
     @SerialEntry var fixTextStrikethroughStyle = true
-    @SerialEntry var centerScrollableListWidgets = true
-    @SerialEntry var oldListWidgetSelectedBorderColor = true
-    @SerialEntry var oldButtonTextColors = true
-    @SerialEntry var removeDebugHudBackground = true
-    @SerialEntry var debugHudTextShadow = true
-    @SerialEntry var oldChatVisual = true
-    @SerialEntry var disableCameraTransparentPassthrough = true
-    @SerialEntry var oldTooltipStyleRendering = true
-    @SerialEntry var oldSlotHoverStyleRendering = true
-    @SerialEntry var oldEffectsInventoryPosition = true
-    @SerialEntry var hideRecipeBook = true
-    @SerialEntry var cameraVersion = CameraVersion.V1_8
+    @SerialEntry var centerScrollableListWidgets = false
+    @SerialEntry var oldListWidgetSelectedBorderColor = false
+    @SerialEntry var oldButtonTextColors = false
+    @SerialEntry var removeDebugHudBackground = false
+    @SerialEntry var debugHudTextShadow = false
+    @SerialEntry var oldChatVisual = false
+    @SerialEntry var disableCameraTransparentPassthrough = false
+    @SerialEntry var oldTooltipStyleRendering = false
+    @SerialEntry var oldSlotHoverStyleRendering = false
+    @SerialEntry var oldEffectsInventoryPosition = false
+    @SerialEntry var hideRecipeBook = false
+    @SerialEntry var cameraVersion = CameraVersion.LATEST
 
     // (Items)
     // (Items) Fishing Rod
-    @SerialEntry var oldFishingRodTextureStackCheck = true
-    @SerialEntry var fishingRodLineInterpolation = true
+    @SerialEntry var oldFishingRodTextureStackCheck = false
+    @SerialEntry var fishingRodLineInterpolation = false
     @SerialEntry var noMoveFishingRodLine = false
-    @SerialEntry var oldFishingRodLinePositionThirdPerson = true
-    @SerialEntry var oldFishingRodLineThickness = true
+    @SerialEntry var oldFishingRodLinePositionThirdPerson = false
+    @SerialEntry var oldFishingRodLineThickness = false
     @SerialEntry var thinFishingRodLineThickness = false
-    @SerialEntry var useStickModelWhenCastInThirdperson = true
+    @SerialEntry var useStickModelWhenCastInThirdperson = false
     @SerialEntry var fixCastLineCheck = true
     @SerialEntry var fixCastLineSwing = true
     // (Items) Fixes
     @SerialEntry var fixEquipAnimation = true
     @SerialEntry var removeEquipAnimationOnItemUse = true
     @SerialEntry var removeClientsideBlockingDelay = true // TODO: To be removed in 1.21.5+
-    @SerialEntry var removeItemUsageVisualInGUI = true
+    @SerialEntry var removeItemUsageVisualInGUI = false
     @SerialEntry var fixFireballClientsideVisual = true
     @SerialEntry var fixDoubleBlockingVisual = false // TODO: Fix weirdness
     // (Items) Enchantment Glint
-    @SerialEntry var oldGlintSpeed = true
+    @SerialEntry var oldGlintSpeed = false
     @SerialEntry var disableGlintOnItemDrops2D = false
     @SerialEntry var disableGlintOnItemFramed2D = false
     // (Items) 2D Drops
-    @SerialEntry var itemDropsFaceCamera = true
+    @SerialEntry var itemDropsFaceCamera = false
     @SerialEntry var itemDropsFaceCameraRotationFix = false
-    @SerialEntry var itemDrops2D = true
-    @SerialEntry var itemFramed2D = true
-    @SerialEntry var item2DColors = true
+    @SerialEntry var itemDrops2D = false
+    @SerialEntry var itemFramed2D = false
+    @SerialEntry var item2DColors = false
     // (Items) Transformations
     @SerialEntry var tiltItemPositions = true
     @SerialEntry var tiltItemPositionsInThirdperson = true
-    @SerialEntry var oldThinBlockPositions = true
-    @SerialEntry var oldSkullPosition = true
+    @SerialEntry var oldThinBlockPositions = false
+    @SerialEntry var oldSkullPosition = false
     @SerialEntry var fishingRodVersion = FishingRodVersion.V1_7
     // (Items) Other
     @SerialEntry var applyItemSwingUsage = true
-    @SerialEntry var disableSwingOnUse = true
-    @SerialEntry var disableSwingOnDrop = true
-    @SerialEntry var disableSwingOnEntityInteract = true
-    @SerialEntry var disableItemUsingTextureInGui = true
-    @SerialEntry var oldDurabilityBarColors = true
-    @SerialEntry var oldItemRarities = true
+    @SerialEntry var disableSwingOnUse = false
+    @SerialEntry var disableSwingOnDrop = false
+    @SerialEntry var disableSwingOnEntityInteract = false
+    @SerialEntry var disableItemUsingTextureInGui = false
+    @SerialEntry var oldDurabilityBarColors = false
+    @SerialEntry var oldItemRarities = false
     @SerialEntry var showHeldItemInBoat = true
     @SerialEntry var oldItemPickupPosition = true
 
     // (Other)
     @SerialEntry var oldThirdpersonSwordBlockingPosition = true
     @SerialEntry var lockBlockingArmRotation = true
-    @SerialEntry var disableProjectileAgeCheck = true
-    @SerialEntry var oldBlockMiningProgress = true
+    @SerialEntry var disableProjectileAgeCheck = false
+    @SerialEntry var oldBlockMiningProgress = false
     @SerialEntry var disableInventoryEntityScissor = true
-    @SerialEntry var oldBlockOutlineRendering = true
-    @SerialEntry var hideModelWhilstSleeping = true
+    @SerialEntry var oldBlockOutlineRendering = false
+    @SerialEntry var hideModelWhilstSleeping = false
     @SerialEntry var entityArmorHurtTint = true
     @SerialEntry var forceItemGlintOnEntity = true
     @SerialEntry var forceMaxGlintProperties = true
@@ -201,14 +201,14 @@ class AnimatiumConfig {
     @SerialEntry var oldGlintRendering = false
     @SerialEntry var forceHighAttackSpeedVisual = false
     @SerialEntry var disableEntityGlowOutline = false
-    @SerialEntry var disableModernCombatSounds = true
-    @SerialEntry var disableModernCombatParticles = true // TODO/NOTE: Fix, it's broken on servers
-    @SerialEntry var oldHeldItemArmLogic = true
-    @SerialEntry var oldFlameDimensions = true
-    @SerialEntry var oldFlameOffset = true
+    @SerialEntry var disableModernCombatSounds = false
+    @SerialEntry var disableModernCombatParticles = false // TODO/NOTE: Fix, it's broken on servers
+    @SerialEntry var oldHeldItemArmLogic = false
+    @SerialEntry var oldFlameDimensions = false
+    @SerialEntry var oldFlameOffset = false
     // (Other) Sky
-    @SerialEntry var oldBlueVoidSky = true
-    @SerialEntry var oldSkyHorizonHeight = true
+    @SerialEntry var oldBlueVoidSky = false
+    @SerialEntry var oldSkyHorizonHeight = false
     @SerialEntry var oldVoidSkyFogHeight = true // TODO: To be removed in 1.21.5+
-    @SerialEntry var oldCloudHeight = true
+    @SerialEntry var oldCloudHeight = false
 }
