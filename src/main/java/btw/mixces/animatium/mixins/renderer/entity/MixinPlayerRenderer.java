@@ -122,8 +122,8 @@ public abstract class MixinPlayerRenderer extends LivingEntityRenderer<AbstractC
     @WrapOperation(method = "renderHand", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/geom/ModelPart;render(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V"))
     private void animatium$renderTranslucentFirstPersonArm(ModelPart instance, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, Operation<Void> original) {
         AbstractClientPlayer player = Minecraft.getInstance().player;
-        if (player != null && player.isInvisible()) {
-            instance.render(poseStack, buffer, packedLight, packedOverlay, ARGB.colorFromFloat(0.5F, 1F, 1F, 1F)); // TODO: change alpha value to proper value
+        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getShowArmWhileInvisible() && player != null && player.isInvisible()) {
+            instance.render(poseStack, buffer, packedLight, packedOverlay, ARGB.colorFromFloat(38F / 255F, 1F, 1F, 1F)); // TODO: change alpha value to proper value
         } else {
             original.call(instance, poseStack, buffer, packedLight, packedOverlay);
         }
