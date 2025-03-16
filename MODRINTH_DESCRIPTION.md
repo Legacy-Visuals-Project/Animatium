@@ -39,8 +39,8 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - showNametagInThirdperson
     - Description: Show the player nametag whilst in third-person.
     - Type: BOOLEAN
-- hideNameTagBackground
-    - Description: Remove the nametag background.
+- nameTagBackground
+    - Description: Toggle the nametag background.
     - Type: BOOLEAN
 - applyTextShadowToNametag
     - Description: Make the nametag use text shadow.
@@ -51,14 +51,16 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - persistentBlockOutline
     - Description: Always show block outline, no matter the gamemode or state.
     - Type: BOOLEAN
-
-- alwaysShowSharpParticles
+- offhandUsageSwinging
+    - Description: Swings the offhand whilst using item and holding right click.
+    - Type: BOOLEAN
+- alwaysSharpParticles
     - Description: Always show the sharpness particles when damaging/hitting an entity.
     - Type: BOOLEAN
-- disableRecipeAndTutorialToasts
+- recipeAndTutorialToasts
     - Description: Disable recipe and tutorial toasts.
     - Type: BOOLEAN
-- showArmWhileInvisible
+- visibleArmWhileInvisible
     - Description: Shows the arm as partially visible whilst invisible, like spectator mode or invisibly effect.
     - Type: BOOLEAN
 - fakeMissPenaltySwing
@@ -69,20 +71,20 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - dontMoveBlueVoid
     - Description: Stops the blue void sky from moving based on eye height. [Requires oldBlueVoidSky to be enabled]
     - Type: BOOLEAN
-- showUsageSwingingParticles
+- usageSwingingParticles
     - Description: Shows fake block-breaking particles during usage swinging to match <=1.7.x.
     - Type: BOOLEAN
-- disableEntityDeathTopple
-    - Description: Prevents the dying entity from rotating 90 degrees.
+- entityDeathTopple
+    - Description: Toggle the dying entity from rotating 90 degrees.
     - Type: BOOLEAN
 - deepRedHurtTint
     - Description: Modifies the entity damage tint alpha to be less like in Oranges Old Animations mod.
     - Type: BOOLEAN
-- disableParticlePhysics
-    - Description: Allows particles to bypass collision logic.
+- particlePhysics
+    - Description: Toggle particles ability to bypass collision logic.
     - Type: BOOLEAN
-- hideFirstpersonParticles
-    - Description: Hides potion particle effects coming from you whilst in first-person.
+- firstPersonParticles
+    - Description: Toggle potion particle effects coming from you whilst in first-person.
     - Type: BOOLEAN
 - dontClearChat
     - Description: Stops minecraft from clearing chat.
@@ -113,11 +115,11 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 
 ### Sneaking
 
-- removeSmoothSneaking
-    - Description: Removes the smooth sneaking camera animation, making it like it was in 1.8-1.12.2.
+- smoothSneaking
+    - Description: Toggle the smooth sneaking camera animation, making it like it was in 1.8-1.12.2.
     - Type: BOOLEAN
-- oldSneakAnimationInterpolation
-    - Description: Brings back the <=1.7.x sneaking camera animation interpolation.
+- sneakAnimationInterpolation
+    - Description: Brings back the sneaking camera animation interpolation from <=1.7.x.
     - Type: BOOLEAN
 - fakeOldSneakEyeHeight
     - Description: Changes the sneak eye height to be as it was in <=1.13.2 visually.
@@ -214,9 +216,6 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - debugHudTextShadow
     - Description: Add text-shadow to F3 Debug Hud.
     - Type: BOOLEAN
-- oldChatVisual
-    - Description: Restores the old chatbox position/visual from <=1.8.
-    - Type: BOOLEAN
 - disableCameraTransparentPassthrough
     - Description: Stops camera passthrough in thirdperson in glass/etc like in <=1.15.
     - Type: BOOLEAN
@@ -296,9 +295,6 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - fixFireballClientsideVisual
     - Description: Makes fire charges not place fire clientside like in older mc versions. Doesn't cause issues on
       servers, and is clientside only.
-    - Type: BOOLEAN
-- fixDoubleBlockingVisual
-    - Description:
     - Type: BOOLEAN
 
 ### Enchantment Glint

@@ -27,10 +27,8 @@ import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
 import btw.mixces.animatium.util.PlayerUtils;
 import btw.mixces.animatium.util.ViewBobbingStorage;
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleOptions;
@@ -69,7 +67,7 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
 
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;abs(F)F"))
     private float animatium$rotateBackwardsWalking(float value, Operation<Float> original) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getRotateBackwardsWalking()) {
+        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().rotateBackwardsWalking) {
             return 0F;
         } else {
             return original.call(value);
@@ -78,7 +76,7 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
 
     @WrapOperation(method = "tickHeadTurn", at = @At(value = "INVOKE", target = "Ljava/lang/Math;abs(F)F"))
     private float animatium$removeHeadRotationInterpolation(float g, Operation<Float> original) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getRotateBackwardsWalking()) {
+        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().rotateBackwardsWalking) {
             g = Mth.clamp(g, -75.0F, 75.0F);
             this.yBodyRot = this.getYRot() - g;
             if (Math.abs(g) > 50.0F) {
@@ -93,7 +91,7 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
 
     @WrapOperation(method = "lerpHeadRotationStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;rotLerp(DDD)D"))
     public double animatium$removeHeadRotationInterpolation(double delta, double start, double end, Operation<Double> original) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getRemoveHeadRotationInterpolation()) {
+        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().removeHeadRotationInterpolation) {
             return end;
         } else {
             return original.call(delta, start, end);
@@ -102,7 +100,7 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
 
     @Inject(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;tickEffects()V", shift = At.Shift.BEFORE))
     private void animatium$updatePreviousBobbingTiltValue(CallbackInfo ci) {
-        if (AnimatiumConfig.instance().getFixVerticalBobbingTilt()) {
+        if (AnimatiumConfig.instance().fixVerticalBobbingTilt) {
             this.animatium$previousBobbingTilt = this.animatium$bobbingTilt;
         }
     }
@@ -110,7 +108,7 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
     @WrapOperation(method = "tickEffects", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z"))
     private boolean animatium$hideFirstpersonParticles(List<ParticleOptions> particleOptions, Operation<Boolean> original) {
         Minecraft client = Minecraft.getInstance();
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getHideFirstpersonParticles() && (Object) this == client.player && client.options.getCameraType().isFirstPerson()) {
+        if (AnimatiumClient.isEnabled() && !AnimatiumConfig.instance().firstPersonParticles && (Object) this == client.player && client.options.getCameraType().isFirstPerson()) {
             return true;
         } else {
             return original.call(particleOptions);
@@ -129,11 +127,6 @@ public abstract class MixinLivingEntity extends Entity implements ViewBobbingSto
     @Override
     public void animatium$setBobbingTilt(float bobbingTilt) {
         this.animatium$bobbingTilt = bobbingTilt;
-    }
-
-    @Override
-    public void animatium$setPreviousBobbingTilt(float previousBobbingTilt) {
-        this.animatium$previousBobbingTilt = previousBobbingTilt;
     }
 
     @Override

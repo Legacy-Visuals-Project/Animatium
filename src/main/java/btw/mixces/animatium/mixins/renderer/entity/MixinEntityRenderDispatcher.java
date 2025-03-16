@@ -48,7 +48,7 @@ public abstract class MixinEntityRenderDispatcher {
     @ModifyExpressionValue(method = "renderFlame", at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/renderer/entity/state/EntityRenderState;boundingBoxWidth:F"))
     private float animatium$oldFlameWidth(float original, @Local(argsOnly = true) EntityRenderState entityRenderState) {
         Entity entity = EntityUtils.getEntityByState(entityRenderState);
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldFlameDimensions() && entity instanceof Player) {
+        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().oldFlameDimensions && entity instanceof Player) {
             return 0.6F;
         } else {
             return original;
@@ -58,7 +58,7 @@ public abstract class MixinEntityRenderDispatcher {
     @ModifyExpressionValue(method = "renderFlame", at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/renderer/entity/state/EntityRenderState;boundingBoxHeight:F"))
     private float animatium$oldFlameHeight(float original, @Local(argsOnly = true) EntityRenderState entityRenderState) {
         Entity entity = EntityUtils.getEntityByState(entityRenderState);
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldFlameDimensions() && entity instanceof Player) {
+        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().oldFlameDimensions && entity instanceof Player) {
             return 1.8F;
         } else {
             return original;
@@ -68,14 +68,14 @@ public abstract class MixinEntityRenderDispatcher {
     @ModifyArg(method = "renderFlame", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V", ordinal = 0), index = 1)
     private float animatium$oldFlameOffset(float original, @Local(argsOnly = true) EntityRenderState entityRenderState) {
         Entity entity = EntityUtils.getEntityByState(entityRenderState);
-        if (AnimatiumClient.getEnabled() && entity instanceof Player player) {
+        if (AnimatiumClient.isEnabled() && entity instanceof Player player) {
             final float scale = player.getScale();
-            boolean shouldSyncPlayerModelWithEyeHeight = AnimatiumConfig.instance().getSyncPlayerModelWithEyeHeight();
+            boolean shouldSyncPlayerModelWithEyeHeight = AnimatiumConfig.instance().syncPlayerModelWithEyeHeight;
             if (shouldSyncPlayerModelWithEyeHeight) {
                 original = (Player.STANDING_DIMENSIONS.eyeHeight() * scale) - PlayerUtils.lerpCameraPosition(camera);
             }
 
-            if (AnimatiumConfig.instance().getOldFlameOffset()) {
+            if (AnimatiumConfig.instance().oldFlameOffset) {
                 original += ((shouldSyncPlayerModelWithEyeHeight && player.isCrouching() ? 0.140625F : 0.296875F) * scale);
             }
         }

@@ -35,8 +35,8 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class MixinOverlayTexture {
     @ModifyExpressionValue(method = "<init>", at = @At(value = "CONSTANT", args = "intValue=-1291911168"))
     private int animatium$deepRedHurtTint(int constant) {
-        if (AnimatiumClient.getEnabled()) {
-            float alpha = AnimatiumConfig.instance().getDeepRedHurtTint() ? 128 : ARGB.alphaFloat(constant);
+        if (AnimatiumClient.isEnabled()) {
+            float alpha = AnimatiumConfig.instance().deepRedHurtTint ? 128 : ARGB.alphaFloat(constant);
             return ARGB.colorFromFloat(alpha, ARGB.redFloat(constant), ARGB.greenFloat(constant), ARGB.blueFloat(constant));
         } else {
             return constant;

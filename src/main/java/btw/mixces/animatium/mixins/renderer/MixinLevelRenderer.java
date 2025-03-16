@@ -88,7 +88,7 @@ public abstract class MixinLevelRenderer {
 
     @Inject(method = "method_62215", at = @At("TAIL"))
     private void animatium$oldBlueVoidSky(FogParameters fogParameters, DimensionSpecialEffects.SkyType skyType, float tickDelta, DimensionSpecialEffects dimensionSpecialEffects, CallbackInfo ci) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldBlueVoidSky() && skyType != DimensionSpecialEffects.SkyType.END && this.level != null && this.minecraft.player != null) {
+        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().oldBlueVoidSky && skyType != DimensionSpecialEffects.SkyType.END && this.level != null && this.minecraft.player != null) {
             int skyColor = this.level.getSkyColor(this.minecraft.gameRenderer.getMainCamera().getPosition(), tickDelta);
             this.animatium$renderSkyBlueVoid(skyColor, this.minecraft.player.getEyePosition(tickDelta).y - RenderUtils.getLevelHorizonHeight(this.level));
         }
@@ -96,7 +96,7 @@ public abstract class MixinLevelRenderer {
 
     @WrapOperation(method = "shouldRenderDarkDisc", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel$ClientLevelData;getHorizonHeight(Lnet/minecraft/world/level/LevelHeightAccessor;)D"))
     private double animatium$oldSkyHorizonHeight(ClientLevel.ClientLevelData instance, LevelHeightAccessor levelHeightAccessor, Operation<Double> original) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldSkyHorizonHeight() && this.level != null) {
+        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().oldSkyHorizonHeight && this.level != null) {
             return RenderUtils.getLevelHorizonHeight(this.level);
         } else {
             return original.call(instance, levelHeightAccessor);
@@ -105,7 +105,7 @@ public abstract class MixinLevelRenderer {
 
     @WrapOperation(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/DimensionSpecialEffects;getCloudHeight()F"))
     private float animatium$oldCloudHeight(DimensionSpecialEffects instance, Operation<Float> original) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldCloudHeight()) {
+        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().oldCloudHeight) {
             // TODO/FIX: Clouds showing in the nether/end supposedly?
             return instance.skyType() == DimensionSpecialEffects.SkyType.END ? 8.0F : 128.0F;
         } else {
@@ -125,7 +125,7 @@ public abstract class MixinLevelRenderer {
 
         Matrix4fStack modelViewStack = RenderSystem.getModelViewStack();
         modelViewStack.pushMatrix();
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getDontMoveBlueVoid()) {
+        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().dontMoveBlueVoid) {
             modelViewStack.translate(0.0F, 12.0F, 0.0F);
         } else {
             modelViewStack.translate(0.0F, -((float) (depth - 16.0)), 0.0F);
@@ -147,14 +147,14 @@ public abstract class MixinLevelRenderer {
 
     @Inject(method = "renderBlockOutline", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;renderHitOutline(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;DDDLnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)V", shift = At.Shift.BEFORE))
     private void animatium$setBlockOutlineWidth$on(Camera camera, MultiBufferSource.BufferSource bufferSource, PoseStack poseStack, boolean bl, CallbackInfo ci) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldBlockOutlineRendering()) {
+        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().oldBlockOutlineRendering) {
             RenderUtils.setLineWidth(2.0F);
         }
     }
 
     @Inject(method = "renderBlockOutline", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;renderHitOutline(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;DDDLnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)V", shift = At.Shift.BEFORE))
     private void animatium$setBlockOutlineWidth$off(Camera camera, MultiBufferSource.BufferSource bufferSource, PoseStack poseStack, boolean bl, CallbackInfo ci) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldBlockOutlineRendering()) {
+        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().oldBlockOutlineRendering) {
             RenderUtils.setLineWidth(-1.0F);
         }
     }
@@ -162,7 +162,7 @@ public abstract class MixinLevelRenderer {
     @WrapOperation(method = "renderHitOutline", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;"))
     private VoxelShape animatium$oldBlockOutlineRendering(BlockState instance, BlockGetter blockView, BlockPos blockPos, CollisionContext collisionContext, Operation<VoxelShape> original) {
         VoxelShape shape = original.call(instance, blockView, blockPos, collisionContext);
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldBlockOutlineRendering()) {
+        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().oldBlockOutlineRendering) {
             return MathUtils.expandVoxelShape(shape, 0.0020000000949949026F);
         } else {
             return shape;
@@ -172,13 +172,13 @@ public abstract class MixinLevelRenderer {
     @WrapOperation(method = "method_62214", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;endBatch(Lnet/minecraft/client/renderer/RenderType;)V", ordinal = 16))
     private void animatium$legacyGlintRendering$endBatch(MultiBufferSource.BufferSource instance, RenderType renderType, Operation<Void> original) {
         original.call(instance, renderType);
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getOldGlintRendering()) {
-            instance.endBatch(LegacyGlintType.getItemGlintLayer());
-            instance.endBatch(LegacyGlintType.getItemGlint2ndLayer());
-            instance.endBatch(LegacyGlintType.getItemGlintTranslucentLayer());
-            instance.endBatch(LegacyGlintType.getItemGlintTranslucent2ndLayer());
-            instance.endBatch(LegacyGlintType.getEntityGlintLayer());
-            instance.endBatch(LegacyGlintType.getEntityArmorGlintLayer());
+        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().oldGlintRendering) {
+            instance.endBatch(LegacyGlintType.ITEM_GLINT_LAYER);
+            instance.endBatch(LegacyGlintType.ITEM_GLINT_2ND_LAYER);
+            instance.endBatch(LegacyGlintType.ITEM_GLINT_TRANSLUCENT_LAYER);
+            instance.endBatch(LegacyGlintType.ITEM_GLINT_TRANSLUCENT_2ND_LAYER);
+            instance.endBatch(LegacyGlintType.ENTITY_GLINT_LAYER);
+            instance.endBatch(LegacyGlintType.ENTITY_ARMOR_GLINT_LAYER);
         }
     }
 
@@ -198,7 +198,7 @@ public abstract class MixinLevelRenderer {
 
 //    @WrapOperation(method = "doEntityOutline", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/Window;getHeight()I"))
 //    private int animatium$disableEntityGlowOutline$height(Window instance, Operation<Integer> original) {
-//        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getDisableEntityGlowOutline()) {
+//        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().disableEntityGlowOutline) {
 //            return 0;
 //        } else {
 //            return original.call(instance);

@@ -43,7 +43,7 @@ public interface MixinVertexConsumer {
     default Vector3fc animatium$item2DColors(Vector3fc vector3fc) {
         ItemStackRenderState state = ItemUtils.getRenderState();
         ItemDisplayContext displayContext = ItemUtils.getDisplayContext();
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getItem2DColors() && state != null && !state.usesBlockLight() && displayContext == ItemDisplayContext.GROUND) {
+        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().item2DColors && state != null && !state.usesBlockLight() && displayContext == ItemDisplayContext.GROUND) {
             return new Vector3f(vector3fc.x(), vector3fc.z(), vector3fc.y());
         } else {
             return vector3fc;

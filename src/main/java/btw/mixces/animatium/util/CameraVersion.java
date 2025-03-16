@@ -21,28 +21,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package btw.mixces.animatium.packet
+package btw.mixces.animatium.util;
 
-import btw.mixces.animatium.AnimatiumClient
-import net.minecraft.network.FriendlyByteBuf
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload
-import net.minecraft.resources.ResourceLocation
-import java.util.Optional
-
-class AnimatiumInfoPayloadPacket(val version: Double, val developmentVersion: Optional<String>) : CustomPacketPayload {
-    companion object {
-        val CODEC = CustomPacketPayload.codec(AnimatiumInfoPayloadPacket::write, null)
-        val PAYLOAD_ID = CustomPacketPayload.Type<AnimatiumInfoPayloadPacket>(AnimatiumClient.getPath("info"))
-    }
-
-    private fun write(buffer: FriendlyByteBuf) {
-        buffer.writeDouble(version)
-        buffer.writeOptional<String>(developmentVersion) { buf, value ->
-            buf.writeUtf(value)
-        }
-    }
-
-    override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
-        return PAYLOAD_ID
-    }
+public enum CameraVersion {
+    V1_8,
+    V1_9_V1_13_2,
+    V1_14_V1_14_3,
+    LATEST
 }

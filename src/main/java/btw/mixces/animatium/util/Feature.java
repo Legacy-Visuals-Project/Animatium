@@ -21,11 +21,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package btw.mixces.animatium.util
+package btw.mixces.animatium.util;
 
-enum class CameraVersion {
-    V1_8,
-    V1_9_V1_13_2,
-    V1_14_V1_14_3,
-    LATEST
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
+
+public enum Feature {
+    MISS_PENALTY("miss_penalty"),
+    LEFT_CLICK_ITEM_USAGE("left_click_item_usage");
+
+    private final String id;
+
+    public static @Nullable Feature byId(String id) {
+        return Arrays.stream(Feature.values()).filter(feature -> feature.id.equals(id)).findFirst().orElse(null);
+    }
+
+    Feature(String id) {
+        this.id = id;
+    }
 }
