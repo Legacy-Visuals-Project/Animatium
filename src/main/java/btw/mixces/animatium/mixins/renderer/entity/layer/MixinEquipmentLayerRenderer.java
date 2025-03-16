@@ -26,12 +26,12 @@ package btw.mixces.animatium.mixins.renderer.entity.layer;
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
 import btw.mixces.animatium.util.EntityUtils;
-import btw.mixces.animatium.util.RenderUtils;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.opengl.GlConst;
 import com.mojang.blaze3d.opengl.GlStateManager;
+import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.platform.DestFactor;
 import com.mojang.blaze3d.platform.SourceFactor;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -100,9 +100,9 @@ public abstract class MixinEquipmentLayerRenderer {
                 Minecraft.getInstance().gameRenderer.lightTexture().turnOffLightLayer();
                 GlStateManager._enableBlend();
                 GlStateManager._blendFuncSeparate(GlConst.toGl(SourceFactor.SRC_ALPHA), GlConst.toGl(DestFactor.ONE_MINUS_SRC_ALPHA), GlConst.toGl(SourceFactor.SRC_ALPHA), GlConst.toGl(DestFactor.ONE_MINUS_SRC_ALPHA));
-                GlStateManager._depthFunc(GlConst.GL_EQUAL); // DepthTestFunction.EQUAL_DEPTH_TEST
+                GlStateManager._depthFunc(GlConst.toGl(DepthTestFunction.EQUAL_DEPTH_TEST));
                 original.call(instance, poseStack, vertexConsumer, light, overlay, color);
-                GlStateManager._depthFunc(GlConst.GL_LEQUAL); // DepthTestFunction.LEQUAL_DEPTH_TEST
+                GlStateManager._depthFunc(GlConst.toGl(DepthTestFunction.LEQUAL_DEPTH_TEST));
                 GlStateManager._disableBlend();
                 Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
             }
