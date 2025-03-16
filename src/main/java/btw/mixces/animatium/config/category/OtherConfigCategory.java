@@ -59,15 +59,6 @@ public final class OtherConfigCategory {
                     .controller(TickBoxControllerBuilder::create)
                     .build());
             skyGroup.option(Option.<Boolean>createBuilder()
-                    .name(Component.translatable("animatium.oldVoidSkyFogHeight"))
-                    .description(OptionDescription.of(Component.translatable("animatium.oldVoidSkyFogHeight.description")))
-                    .binding(
-                            defaults.oldVoidSkyFogHeight,
-                            () -> config.oldVoidSkyFogHeight,
-                            (newVal) -> config.oldVoidSkyFogHeight = newVal)
-                    .controller(TickBoxControllerBuilder::create)
-                    .build());
-            skyGroup.option(Option.<Boolean>createBuilder()
                     .name(Component.translatable("animatium.oldCloudHeight"))
                     .description(OptionDescription.of(Component.translatable("animatium.oldCloudHeight.description")))
                     .binding(

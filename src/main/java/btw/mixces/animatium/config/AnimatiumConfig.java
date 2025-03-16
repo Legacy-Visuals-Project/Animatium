@@ -197,6 +197,5 @@ public final class AnimatiumConfig {
     // (Other) Sky
     @SerialEntry public boolean oldBlueVoidSky = true;
     @SerialEntry public boolean oldSkyHorizonHeight = true;
-    @SerialEntry public boolean oldVoidSkyFogHeight = true; // TODO: To be removed in 1.21.5+
     @SerialEntry public boolean oldCloudHeight = true;
 }

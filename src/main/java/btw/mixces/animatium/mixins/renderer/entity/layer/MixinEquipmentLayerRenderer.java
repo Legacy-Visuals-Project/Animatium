@@ -30,9 +30,9 @@ import btw.mixces.animatium.util.RenderUtils;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.blaze3d.opengl.GlConst;
+import com.mojang.blaze3d.opengl.GlStateManager;
 import com.mojang.blaze3d.platform.DestFactor;
-import com.mojang.blaze3d.platform.GlConst;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.SourceFactor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -99,7 +99,7 @@ public abstract class MixinEquipmentLayerRenderer {
                 // Code sourced from 1.7/1.8
                 Minecraft.getInstance().gameRenderer.lightTexture().turnOffLightLayer();
                 GlStateManager._enableBlend();
-                RenderUtils.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+                GlStateManager._blendFuncSeparate(GlConst.toGl(SourceFactor.SRC_ALPHA), GlConst.toGl(DestFactor.ONE_MINUS_SRC_ALPHA), GlConst.toGl(SourceFactor.SRC_ALPHA), GlConst.toGl(DestFactor.ONE_MINUS_SRC_ALPHA));
                 GlStateManager._depthFunc(GlConst.GL_EQUAL); // DepthTestFunction.EQUAL_DEPTH_TEST
                 original.call(instance, poseStack, vertexConsumer, light, overlay, color);
                 GlStateManager._depthFunc(GlConst.GL_LEQUAL); // DepthTestFunction.LEQUAL_DEPTH_TEST

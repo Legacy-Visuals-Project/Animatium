@@ -135,7 +135,7 @@ public abstract class MixinLevelRenderer {
                 .createCommandEncoder()
                 .createRenderPass(minecraft.getMainRenderTarget().getColorTexture(), OptionalInt.empty(), minecraft.getMainRenderTarget().getDepthTexture(), OptionalDouble.empty())) {
             RenderSystem.AutoStorageIndexBuffer autoStorageIndexBuffer = RenderSystem.getSequentialBuffer(VertexFormat.Mode.QUADS);
-            renderPass.setPipeline(AnimatiumClient.getLegacySkyPipeline());
+            renderPass.setPipeline(AnimatiumClient.LEGACY_SKY_PIPELINE);
             renderPass.setVertexBuffer(0, this.animatium$blueVoidBuffer);
             renderPass.setIndexBuffer(autoStorageIndexBuffer.getBuffer(6), autoStorageIndexBuffer.type());
             renderPass.drawIndexed(0, 1014);
@@ -169,18 +169,18 @@ public abstract class MixinLevelRenderer {
         }
     }
 
-    @WrapOperation(method = "method_62214", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;endBatch(Lnet/minecraft/client/renderer/RenderType;)V", ordinal = 16))
-    private void animatium$legacyGlintRendering$endBatch(MultiBufferSource.BufferSource instance, RenderType renderType, Operation<Void> original) {
-        original.call(instance, renderType);
-        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().oldGlintRendering) {
-            instance.endBatch(LegacyGlintType.ITEM_GLINT_LAYER);
-            instance.endBatch(LegacyGlintType.ITEM_GLINT_2ND_LAYER);
-            instance.endBatch(LegacyGlintType.ITEM_GLINT_TRANSLUCENT_LAYER);
-            instance.endBatch(LegacyGlintType.ITEM_GLINT_TRANSLUCENT_2ND_LAYER);
-            instance.endBatch(LegacyGlintType.ENTITY_GLINT_LAYER);
-            instance.endBatch(LegacyGlintType.ENTITY_ARMOR_GLINT_LAYER);
-        }
-    }
+//    @WrapOperation(method = "method_62214", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;endBatch(Lnet/minecraft/client/renderer/RenderType;)V", ordinal = 16))
+//    private void animatium$legacyGlintRendering$endBatch(MultiBufferSource.BufferSource instance, RenderType renderType, Operation<Void> original) {
+//        original.call(instance, renderType);
+//        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().oldGlintRendering) {
+//            instance.endBatch(LegacyGlintType.ITEM_GLINT_LAYER);
+//            instance.endBatch(LegacyGlintType.ITEM_GLINT_2ND_LAYER);
+//            instance.endBatch(LegacyGlintType.ITEM_GLINT_TRANSLUCENT_LAYER);
+//            instance.endBatch(LegacyGlintType.ITEM_GLINT_TRANSLUCENT_2ND_LAYER);
+//            instance.endBatch(LegacyGlintType.ENTITY_GLINT_LAYER);
+//            instance.endBatch(LegacyGlintType.ENTITY_ARMOR_GLINT_LAYER);
+//        }
+//    }
 
     // TODO/NOTE: The reason we redirect width/height instead of changing the outcome of shouldShowEntityOutlines
     // TODO/NOTE: is that it caused issues with Iris/shaders. As simple as that. Until that is fixed/we find another way

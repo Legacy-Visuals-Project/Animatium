@@ -77,15 +77,6 @@ public abstract class MixinPlayer extends LivingEntity {
         }
     }
 
-    @WrapOperation(method = "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;swing(Lnet/minecraft/world/InteractionHand;)V"))
-    private void animatium$disableSwingOnDropInventory(Player player, InteractionHand hand, Operation<Void> original) {
-        if (AnimatiumClient.getEnabled() && AnimatiumConfig.instance().getDisableSwingOnDrop()) {
-            PlayerUtils.sendSwingPacket((LocalPlayer) player, hand);
-        } else {
-            original.call(player, hand);
-        }
-    }
-
     @WrapWithCondition(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;sendParticles(Lnet/minecraft/core/particles/ParticleOptions;DDDIDDDD)I"))
     private boolean animatium$disableModernCombatParticles$damageIndicator(ServerLevel instance, ParticleOptions particleOptions, double d, double e, double f, int i, double g, double h, double j, double k) {
         return !AnimatiumClient.isEnabled() || !AnimatiumConfig.instance().disableModernCombatParticles;
