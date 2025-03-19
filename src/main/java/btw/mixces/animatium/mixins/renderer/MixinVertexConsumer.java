@@ -40,10 +40,10 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 public interface MixinVertexConsumer {
     // TODO: this is only half of the battle + framed item 2d colors are disabled
     @ModifyArg(method = "putBulkData(Lcom/mojang/blaze3d/vertex/PoseStack$Pose;Lnet/minecraft/client/renderer/block/model/BakedQuad;[FFFFF[IIZ)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack$Pose;transformNormal(Lorg/joml/Vector3fc;Lorg/joml/Vector3f;)Lorg/joml/Vector3f;"), index = 0, require = 0)
-    default Vector3fc animatium$item2DColors(Vector3fc vector3fc) {
+    default Vector3fc animatium$itemColors2D(Vector3fc vector3fc) {
         ItemStackRenderState state = ItemUtils.getRenderState();
         ItemDisplayContext displayContext = ItemUtils.getDisplayContext();
-        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().item2DColors && state != null && !state.usesBlockLight() && displayContext == ItemDisplayContext.GROUND) {
+        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().itemColors2D && state != null && !state.usesBlockLight() && displayContext == ItemDisplayContext.GROUND) {
             return new Vector3f(vector3fc.x(), vector3fc.z(), vector3fc.y());
         } else {
             return vector3fc;

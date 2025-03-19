@@ -4,7 +4,7 @@ Join our discord: https://discord.gg/U48eDmst68
 
 ## License
 
-This project is licensed under the GPL-3.0 license.
+This project is licensed under the GPL-3.0 license w/ Minecraft Linking Exception.
 
 ## Download
 
@@ -35,86 +35,6 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 # Available Config Categories
 
 <details>
-  <summary>Quality of Life</summary>
-
-## 🪶 Quality of Life
-
-- minimalViewBobbing
-    - Description: Removes the view bobbing from tilting the world.
-    - Type: BOOLEAN
-- nameTagInThirdperson
-    - Description: Show the player nametag whilst in third-person.
-    - Type: BOOLEAN
-- nameTagBackground
-    - Description: Toggle the nametag background.
-    - Type: BOOLEAN
-- nameTagTextShadow
-    - Description: Make the nametag use text shadow.
-    - Type: BOOLEAN
-- debugHudTextColor
-    - Description: Makes the debug hud text color white again from <=1.7.
-    - Type: BOOLEAN
-- persistentBlockOutline
-    - Description: Always show block outline, no matter the gamemode or state.
-    - Type: BOOLEAN
-- offhandUsageSwinging
-    - Description: Swings the offhand whilst using item and holding right click.
-    - Type: BOOLEAN
-- alwaysSharpParticles
-    - Description: Always show the sharpness particles when damaging/hitting an entity.
-    - Type: BOOLEAN
-- recipeAndTutorialToasts
-    - Description: Disable recipe and tutorial toasts.
-    - Type: BOOLEAN
-- visibleArmWhileInvisible
-    - Description: Shows the arm as partially visible whilst invisible, like spectator mode or invisibly effect.
-    - Type: BOOLEAN
-- fakeMissPenaltySwing
-    - Description: In vanilla Minecraft, if the player has missed their hit, there will be a 10 ms delay on top of the
-      attack cooldown before they can swing again. Enable this feature to play a fake swing animation during that 10
-      ms delay to match <=1.7.x.
-    - Type: BOOLEAN
-- dontMoveBlueVoid
-    - Description: Stops the blue void sky from moving based on eye height. [Requires oldBlueVoidSky to be enabled]
-    - Type: BOOLEAN
-- usageSwingingParticles
-    - Description: Shows fake block-breaking particles during usage swinging to match <=1.7.x.
-    - Type: BOOLEAN
-- entityDeathTopple
-    - Description: Toggle the dying entity from rotating 90 degrees.
-    - Type: BOOLEAN
-- deepRedHurtTint
-    - Description: Modifies the entity damage tint alpha to be less like in Oranges Old Animations mod.
-    - Type: BOOLEAN
-- particlePhysics
-    - Description: Toggle particles ability to bypass collision logic.
-    - Type: BOOLEAN
-- firstPersonParticles
-    - Description: Toggle potion particle effects coming from you whilst in first-person.
-    - Type: BOOLEAN
-- dontClearChat
-    - Description: Stops minecraft from clearing chat.
-    - Type: BOOLEAN
-- dontCloseChat
-    - Description: Stops minecraft from closing the chat screen on teleport/some situations.
-    - Type: BOOLEAN
-
-### Fixes
-
-- fixMirrorArmSwing
-    - Description: Fix the left-arm swing mirroring.
-    - Type: BOOLEAN
-- upMinPixelTransparencyLimit
-    - Description: Makes the minimum 0-transparency value less than or equal to 0.1. This fixes textures with invisible
-      pixels that cause issues.
-    - Type: BOOLEAN
-- fixOffHandUsingPose
-    - Description: Stops the offhand from using the NONE pose with a held item while using an item in the mainhand like
-      in <=1.17.
-    - Type: BOOLEAN
-  </details>
-
-<details>
   <summary>Movement</summary>
 
 ## 🏃 Movement
@@ -129,9 +49,6 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
     - Type: BOOLEAN
 - fakeOldSneakEyeHeight
     - Description: Changes the sneak eye height to be as it was in <=1.13.2 visually.
-    - Type: BOOLEAN
-- fixSneakingFeetPosition
-    - Description: Fixes the sneaking model offset to be like <=1.11.x.
     - Type: BOOLEAN
 - oldSneakingFeetPosition
     - Description: Fixes the sneaking model offset to be like <1.14?
@@ -278,19 +195,9 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - useStickModelWhenCastInThirdperson
     - Description: Makes the fishing rod model in third-person a stick when cast like in <=1.7.x.
     - Type: BOOLEAN
-- fixCastLineCheck
-    - Description: Fixes the arm logic for casting the fishing rod.
-    - Type: BOOLEAN
-- fixCastLineSwing
-    - Description: Fixes the swing logic for casting the fishing rod.
-    - Type: BOOLEAN
 
 ### Fixes
 
-- fixEquipAnimation
-    - Description: Instead of comparing item stacks directly to determine the equip animation, compare the durability
-      and stack count of the items like in <=1.8.x.
-    - Type: BOOLEAN
 - removeEquipAnimationOnItemUse
     - Description: Fixes the blocking animation which plays the equip animation on use, and others.
     - Type: BOOLEAN
@@ -298,14 +205,10 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
     - Description: Removes item usage animation whilst inside a GUI, for example removes continuous visual blocking,
       etc.
     - Type: BOOLEAN
-- fixFireballClientsideVisual
-    - Description: Makes fire charges not place fire clientside like in older mc versions. Doesn't cause issues on
-      servers, and is clientside only.
-    - Type: BOOLEAN
 
 ### Enchantment Glint
 
-- oldGlintSpeed
+- glintSpeed
     - Description: Restores the old enchantment glint speed like in <=1.8.x.
     - Type: BOOLEAN
 - disableGlintOnItemDrops2D
@@ -331,23 +234,23 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 - itemFramed2D
     - Description: Makes framed items render 2D (not blocks).
     - Type: BOOLEAN
-- item2DColors
+- itemColors2D
     - Description: Restores the old color of 2D items by swapping the Y and Z components of the vertex normal.
     - Type: BOOLEAN
 
 ### Item Transformations
 
-- tiltItemPositions
+- itemPositions
     - Description: Tilts the held item position to make held items look like they did in <=1.7.x.
     - Type: BOOLEAN
-- tiltItemPositionsInThirdperson
+- itemPositionsInThirdPerson
     - Description: Tilts the third-person held item position to make held items look like they did in <=1.7.x.
     - Type: BOOLEAN
-- oldThinBlockPositions
+- thinBlockPositions
     - Description: Translates the held item position of blocks like carpet/slabs/daylight sensors/pressure plates to
       look like how they did in <=1.7.x.
     - Type: BOOLEAN
-- oldSkullPosition
+- skullPosition
     - Description: Positions the skull block items' held/gui positions to be how it was in 1.8.x.
     - Type: BOOLEAN
 - fishingRodVersion
@@ -359,99 +262,135 @@ want to suggest features, join our [discord](https://discord.gg/U48eDmst68)!
 
 ### Other
 
-- applyItemSwingUsage
+- itemUsageSwinging
     - Description: Block hitting (apply swing offset in item usage code).
     - Type: BOOLEAN
 - disableItemUsingTextureInGui
     - Description: Disables the item usage texture in the GUI like in <=1.8.x (mainly rod/bow/crossbow).
     - Type: BOOLEAN
-- oldDurabilityBarColors
+- durabilityBarColors
     - Description: Restores the old durability damage colors from <1.11.
     - Type: BOOLEAN
-- oldItemRarities
+- itemRarities
     - Description: Restores the old rarities for items visually from <1.21.2. (also old trident rarity from <1.21)
     - Type: BOOLEAN
-- showHeldItemInBoat
+- heldItemVisibilityInBoat
     - Description: Shows your held item while you're in a moving boat like <=1.8.x.
     - Type: BOOLEAN
   </details>
+
+<details>
+  <summary>Fixes</summary>
+
+## 🪶 Fixes
+
+- fixSneakingFeetPosition
+    - Description: Fixes the sneaking model offset to be like <=1.11.x.
+    - Type: BOOLEAN
+- fixMirrorArmSwing
+    - Description: Fix the left-arm swing mirroring.
+    - Type: BOOLEAN
+- fixOffHandUsingPose
+    - Description: Stops the offhand from using the NONE pose with a held item while using an item in the mainhand like
+      in <=1.17.
+    - Type: BOOLEAN
+- fixCastLineCheck
+    - Description: Fixes the arm logic for casting the fishing rod.
+    - Type: BOOLEAN
+- fixCastLineSwing
+    - Description: Fixes the swing logic for casting the fishing rod.
+    - Type: BOOLEAN
+- fixEquipAnimation
+    - Description: Instead of comparing item stacks directly to determine the equip animation, compare the durability
+      and stack count of the items like in <=1.8.x.
+    - Type: BOOLEAN
+- fixFireballClientsideVisual
+    - Description: Makes fire charges not place fire clientside like in older mc versions. Doesn't cause issues on
+      servers, and is clientside only.
+    - Type: BOOLEAN
+- upMinPixelTransparencyLimit
+    - Description: Makes the minimum 0-transparency value less than or equal to 0.1. This fixes textures with invisible
+      pixels that cause issues.
+    - Type: BOOLEAN
+
+</details>
 
 <details>
   <summary>Old Settings</summary>
 
 ## 🛠️ Old Settings
 
-- oldThirdpersonSwordBlockingPosition
+- thirdPersonSwordBlockingPosition
     - Description: Brings back the old third-person arm blocking rotations from <=1.7
     - Type: BOOLEAN
 - lockBlockingArmRotation
     - Description: Locks the third-person blocking arm rotation.
     - Type: BOOLEAN
-- disableProjectileAgeCheck
+- projectileAgeCheck
     - Description: Render projectile at all ages <=1.15?
     - Type: BOOLEAN
-- oldBlockMiningProgress
+- blockMiningProgress
     - Description: Bring back the old block mining progress <=1.18?
     - Type: BOOLEAN
-- disableInventoryEntityScissor
+- inventoryEntityScissor
     - Description: Allows the inventory entity model to render fully.
     - Type: BOOLEAN
-- oldBlockOutlineRendering
+- blockOutlineRendering
     - Description: Restores the legacy block outline rendering from <=1.14.4.
     - Type: BOOLEAN
-- hideModelWhilstSleeping
+- modelWhilstSleeping
     - Description: Hides the player model whilst sleeping like in <=1.12? Only affects you.
     - Type: BOOLEAN
 - entityArmorHurtTint
     - Description: Tints the armor when an entity is damaged like in <=1.7.x.
     - Type: BOOLEAN
-- forceItemGlintOnEntity
+- itemGlintOnEntity
     - Description: Forces the glint on armor to use the item glint texture. This therefore unifies the glint texture
       like in older mc versions.
     - Type: BOOLEAN
-- forceMaxGlintProperties
+- maxGlintProperties
     - Description: Forces the glint to use the maximum speed and strength by default like in older mc versions.
     - Type: BOOLEAN
-- oldArmorHurtRendering
+- armorHurtRendering
     - Description: Restores the old armor hurt tint rendering from ~1.8.
     - Type: BOOLEAN
-- oldGlintRendering
+- glintRendering
     - Description: Restores the old item/armor glint rendering found in <=1.14.4.
     - Type: BOOLEAN
-- forceHighAttackSpeedVisual
+- highAttackSpeedVisual
     - Description: Fakes the high attack speed visual, which stops the attack cooldown animation on items like the
       sword.
     - Type: BOOLEAN
 - disableEntityGlowOutline
     - Description: Disables the 1.9+ glow effect from rendering.
     - Type: BOOLEAN
-- disableModernCombatSounds
+- modernCombatSounds
     - Description: Disables the 1.9+ combat sounds that were added.
     - Type: BOOLEAN
-- disableModernCombatParticles
+- modernCombatParticles
     - Description: Disables the 1.9+ combat particles that were added.
     - Type: BOOLEAN
-- oldHeldItemArmLogic
+- heldItemArmLogic
     - Description: In 1.8, the player's arm (when viewed from the first person POV) will be positioned at an angle when
       holding an item. This is only truly visible when going from an empty slot to an item. This happens due it applying
       the held item arm rotation meant for the third person model.
     - Type: BOOLEAN
-- oldFlameDimensions
+- flameDimensions
     - Description: Makes the third person flame rendering use a fixed width and height to match <=1.12.x.
     - Type: BOOLEAN
-- oldFlameOffset
+- flameOffset
     - Description: Brings back the third person flame offset from <=1.7.x.
     - Type: BOOLEAN
 
 ### Sky
 
-- oldBlueVoidSky
+- blueVoidSky
     - Description: Brings back the forgotten blue void part of the sky. (Fixes MC-257056)
     - Type: BOOLEAN
-- oldSkyHorizonHeight
+- skyHorizonHeight
     - Description: Changes the horizon height to how it was in <=1.16.5.
     - Type: BOOLEAN
-- oldCloudHeight
+- cloudHeight
     - Description: Changes the cloud height back to 128 like in <=1.16.5.
     - Type: BOOLEAN
   </details>

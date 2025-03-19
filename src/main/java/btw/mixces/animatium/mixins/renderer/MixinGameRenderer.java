@@ -26,7 +26,6 @@ package btw.mixces.animatium.mixins.renderer;
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
 import btw.mixces.animatium.util.ViewBobbingStorage;
-import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -34,13 +33,11 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -51,19 +48,6 @@ public abstract class MixinGameRenderer {
     @Shadow
     @Final
     private Minecraft minecraft;
-
-    @Mutable
-    @Shadow
-    @Final
-    private OverlayTexture overlayTexture;
-
-    @Inject(method = "tick", at = @At("HEAD"))
-    private void animatium$reloadOverlayTexture(CallbackInfo ci) {
-        if (AnimatiumClient.SHOULD_RELOAD_OVERLAY_TEXTURE) {
-            this.overlayTexture = new OverlayTexture();
-            AnimatiumClient.SHOULD_RELOAD_OVERLAY_TEXTURE = false;
-        }
-    }
 
     @WrapOperation(method = "bobHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getHurtDir()F"))
     private float animatium$revertYaw(LivingEntity instance, Operation<Float> original) {
@@ -96,20 +80,6 @@ public abstract class MixinGameRenderer {
     private float animatium$changePreviousDistance(AbstractClientPlayer instance, Operation<Float> original) {
         if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().oldViewBobbing) {
             return ((ViewBobbingStorage) instance).animatium$getPreviousHorizontalSpeed();
-        } else {
-            return original.call(instance);
-        }
-    }
-
-    @WrapWithCondition(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GameRenderer;bobView(Lcom/mojang/blaze3d/vertex/PoseStack;F)V"))
-    private boolean animatium$minimalViewBobbing(GameRenderer instance, PoseStack poseStack, float tickDelta) {
-        return !AnimatiumClient.isEnabled() || !AnimatiumConfig.instance().minimalViewBobbing;
-    }
-
-    @WrapOperation(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GameRenderer;shouldRenderBlockOutline()Z"))
-    private boolean animatium$persistentBlockOutline(GameRenderer instance, Operation<Boolean> original) {
-        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().persistentBlockOutline) {
-            return true;
         } else {
             return original.call(instance);
         }

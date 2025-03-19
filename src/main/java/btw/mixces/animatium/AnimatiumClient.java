@@ -59,7 +59,6 @@ public class AnimatiumClient implements ClientModInitializer {
     // Settings
     public static boolean ENABLED = true;
     public static List<Feature> ENABLED_FEATURES = new ArrayList<>();
-    public static boolean SHOULD_RELOAD_OVERLAY_TEXTURE = true;
 
     // Info
     // TODO/NOTE: Find a better way/cleanup

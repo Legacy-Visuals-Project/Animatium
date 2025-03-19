@@ -33,15 +33,12 @@
     "model.item.MixinIsUsingItem",
     "model.item.MixinItemModelResolver",
     "model.item.MixinItemStackRenderLayerState",
-    "network.MixinClientPacketListener",
     "network.MixinMultiPlayerGameMode",
     "network.MixinRegistrationPayload",
     "renderer.MixinDrawContext",
     "renderer.MixinGameRenderer",
     "renderer.MixinGlProgram",
     "renderer.MixinLevelRenderer",
-    "renderer.MixinOverlayTexture",
-    "renderer.MixinParticle",
     "renderer.MixinRenderBuffers",
     "renderer.MixinRenderStateShard",
     "renderer.MixinTextureManager",
@@ -70,10 +67,7 @@
     "screen.components.MixinAbstractScrollArea",
     "screen.components.MixinAbstractSelectionList",
     "screen.components.MixinAbstractSliderButton",
-    "screen.components.MixinChatComponent",
     "screen.components.MixinDebugScreenOverlay",
-    "screen.components.toasts.MixinRecipeToast",
-    "screen.components.toasts.MixinTutorialToast",
     "screen.inventory.MixinAbstractContainerScreen",
     "screen.inventory.MixinAbstractRecipeBookScreen",
     "screen.inventory.MixinEffectsInInventory",
@@ -82,5 +76,5 @@
   ],
   "injectors": {
     "defaultRequire": 1
-	}
+  }
 }

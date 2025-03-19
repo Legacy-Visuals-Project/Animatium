@@ -25,17 +25,11 @@ package btw.mixces.animatium.mixins.level.entity;
 
 import btw.mixces.animatium.AnimatiumClient;
 import btw.mixces.animatium.config.AnimatiumConfig;
-import btw.mixces.animatium.util.PlayerUtils;
 import btw.mixces.animatium.util.ViewBobbingStorage;
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -50,15 +44,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MixinPlayer extends LivingEntity {
     protected MixinPlayer(EntityType<? extends LivingEntity> entityType, Level level) {
         super(entityType, level);
-    }
-
-    @ModifyExpressionValue(method = "attack", at = @At(value = "CONSTANT", args = "floatValue=0.0", ordinal = 5))
-    private float animatium$alwaysShowSharpParticles(float original) {
-        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().alwaysSharpParticles) {
-            return -1.0F;
-        } else {
-            return original;
-        }
     }
 
     @Inject(method = "getMaxHeadRotationRelativeToBody", at = @At(value = "RETURN"), cancellable = true)
@@ -78,12 +63,12 @@ public abstract class MixinPlayer extends LivingEntity {
     }
 
     @WrapWithCondition(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;sendParticles(Lnet/minecraft/core/particles/ParticleOptions;DDDIDDDD)I"))
-    private boolean animatium$disableModernCombatParticles$damageIndicator(ServerLevel instance, ParticleOptions particleOptions, double d, double e, double f, int i, double g, double h, double j, double k) {
-        return !AnimatiumClient.isEnabled() || !AnimatiumConfig.instance().disableModernCombatParticles;
+    private boolean animatium$modernCombatParticles$damageIndicator(ServerLevel instance, ParticleOptions particleOptions, double d, double e, double f, int i, double g, double h, double j, double k) {
+        return !AnimatiumClient.isEnabled() || AnimatiumConfig.instance().modernCombatParticles;
     }
 
     @WrapWithCondition(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;sweepAttack()V"))
-    private boolean animatium$disableModernCombatParticles$sweep(Player instance) {
-        return !AnimatiumClient.isEnabled() || !AnimatiumConfig.instance().disableModernCombatParticles;
+    private boolean animatium$modernCombatParticles$sweep(Player instance) {
+        return !AnimatiumClient.isEnabled() || AnimatiumConfig.instance().modernCombatParticles;
     }
 }
