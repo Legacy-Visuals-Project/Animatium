@@ -67,58 +67,55 @@ public final class AnimatiumConfig {
     @SerialEntry public boolean smoothSneaking = true;
     @SerialEntry public boolean sneakAnimationInterpolation = false;
     @SerialEntry public boolean fakeOldSneakEyeHeight = false;
-    @SerialEntry public boolean oldSneakingFeetPosition = true; //todo
+    @SerialEntry public boolean sneakingFeetPosition = true;
     @SerialEntry public boolean syncPlayerModelWithEyeHeight = false;
     @SerialEntry public boolean sneakAnimationWhileFlying = true;
     // (Movement) Other
     @SerialEntry public boolean rotateBackwardsWalking = true;
     @SerialEntry public boolean uncapBlockingHeadRotation = true;
-    @SerialEntry public boolean removeHeadRotationInterpolation = true; //todo
-    @SerialEntry public boolean fixVerticalBobbingTilt = true;
-    @SerialEntry public boolean oldViewBobbing = true; //todo
-    @SerialEntry public boolean oldDeathLimbs = true; //todo
-    @SerialEntry public boolean oldBowArmMovement = true; //todo
-    @SerialEntry public boolean oldDamageTilt = false; //todo
+    @SerialEntry public boolean headRotationInterpolation = false;
+    @SerialEntry public boolean viewBobbing = true;
+    @SerialEntry public boolean deathLimbs = true;
+    @SerialEntry public boolean bowArmMovement = true;
+    @SerialEntry public boolean damageTilt = false;
     // (Movement) Cape
-    @SerialEntry public boolean oldCapeMovement = true; //todo
-    @SerialEntry public boolean dontClampCapeLean = false; //todo
+    @SerialEntry public boolean capeMovement = true;
+    @SerialEntry public boolean clampCapeLean = false;
     @SerialEntry public boolean capeSwingRotation = true;
     @SerialEntry public boolean capeChestplateTranslation = true;
-    @SerialEntry public boolean oldCapeSneakPosition = false; //todo
+    @SerialEntry public boolean capeSneakPosition = false;
 
     // (Screen)
-    @SerialEntry public boolean showCrosshairInThirdperson = false; //todo
-    @SerialEntry public boolean fixHighAttackSpeedIndicator = true; //todo
-    @SerialEntry public boolean removeHeartFlash = true; //todo
-    @SerialEntry public boolean fixTextStrikethroughStyle = true; //todo
-    @SerialEntry public boolean centerScrollableListWidgets = false; //todo
-    @SerialEntry public boolean oldListWidgetSelectedBorderColor = true; //todo
-    @SerialEntry public boolean oldButtonTextColors = true; //todo
-    @SerialEntry public boolean removeDebugHudBackground = false; //todo
-    @SerialEntry public boolean debugHudTextShadow = false; //todo
-    @SerialEntry public boolean disableCameraTransparentPassthrough = false; //todo
-    @SerialEntry public boolean oldTooltipStyleRendering = true; //todo
-    @SerialEntry public boolean oldSlotHoverStyleRendering = true; //todo
-    @SerialEntry public boolean oldEffectsInventoryPosition = true; //todo
-    @SerialEntry public boolean hideRecipeBook = false; //todo
+    @SerialEntry public boolean crosshairInThirdPerson = false;
+    @SerialEntry public boolean heartFlash = false;
+    @SerialEntry public boolean centerScrollableListWidgets = false;
+    @SerialEntry public boolean listWidgetSelectedBorderColor = true;
+    @SerialEntry public boolean buttonTextColors = true;
+    @SerialEntry public boolean debugHudBackground = true;
+    @SerialEntry public boolean debugHudTextShadow = false;
+    @SerialEntry public boolean cameraTransparentPassthrough = true;
+    @SerialEntry public boolean tooltipStyleRendering = true;
+    @SerialEntry public boolean slotHoverStyleRendering = true;
+    @SerialEntry public boolean effectsInventoryPosition = true;
+    @SerialEntry public boolean recipeBook = false;
     @SerialEntry public CameraVersion cameraVersion = CameraVersion.V1_8;
 
     // (Items)
     // (Items) Fishing Rod
-    @SerialEntry public boolean oldFishingRodTextureStackCheck = true; //todo
-    @SerialEntry public boolean fishingRodLineInterpolation = true; //todo
-    @SerialEntry public boolean noMoveFishingRodLine = false; //todo
-    @SerialEntry public boolean oldFishingRodLinePositionThirdPerson = true; //todo
-    @SerialEntry public boolean oldFishingRodLineThickness = true; //todo
-    @SerialEntry public boolean thinFishingRodLineThickness = false; //todo
-    @SerialEntry public boolean useStickModelWhenCastInThirdperson = true; //todo
+    @SerialEntry public boolean fishingRodTextureStackCheck = true;
+    @SerialEntry public boolean fishingRodLineInterpolation = true;
+    @SerialEntry public boolean noMoveFishingRodLine = false;
+    @SerialEntry public boolean fishingRodLinePositionThirdPerson = true;
+    @SerialEntry public boolean fishingRodLineThickness = true;
+    @SerialEntry public boolean thinFishingRodLineThickness = false;
+    @SerialEntry public boolean stickModelWhenCastInThirdperson = true;
     // (Items) Fixes
-    @SerialEntry public boolean removeEquipAnimationOnItemUse = true; //todo
-    @SerialEntry public boolean removeItemUsageVisualInGUI = true; //todo
+    @SerialEntry public boolean equipAnimationOnItemUse = false;
+    @SerialEntry public boolean itemUsageVisualInGUI = false;
     // (Items) Enchantment Glint
     @SerialEntry public boolean glintSpeed = true;
-    @SerialEntry public boolean disableGlintOnItemDrops2D = false; //todo
-    @SerialEntry public boolean disableGlintOnItemFramed2D = false; //todo
+    @SerialEntry public boolean glintOnItemDrops2D = true;
+    @SerialEntry public boolean glintOnItemFramed2D = true;
     // (Items) 2D Drops
     @SerialEntry public boolean itemDropsFaceCamera = true;
     @SerialEntry public boolean itemDropsFaceCameraRotationFix = false;
@@ -133,10 +130,10 @@ public final class AnimatiumConfig {
     @SerialEntry public FishingRodVersion fishingRodVersion = FishingRodVersion.V1_7;
     // (Items) Other
     @SerialEntry public boolean itemUsageSwinging = true;
-    @SerialEntry public boolean disableSwingOnUse = true; //todo
-    @SerialEntry public boolean disableSwingOnDrop = true; //todo
-    @SerialEntry public boolean disableSwingOnEntityInteract = true; //todo
-    @SerialEntry public boolean disableItemUsingTextureInGui = false; //todo
+    @SerialEntry public boolean swingOnUse = false;
+    @SerialEntry public boolean swingOnDrop = false;
+    @SerialEntry public boolean swingOnEntityInteract = false;
+    @SerialEntry public boolean itemUsingTextureInGui = true;
     @SerialEntry public boolean durabilityBarColors = true;
     @SerialEntry public boolean itemRarities = true;
     @SerialEntry public boolean heldItemVisibilityInBoat = true;
@@ -150,6 +147,9 @@ public final class AnimatiumConfig {
     @SerialEntry public boolean fixCastLineSwing = true;
     @SerialEntry public boolean fixEquipAnimation = true;
     @SerialEntry public boolean fixFireballClientsideVisual = true;
+    @SerialEntry public boolean fixTextStrikethroughStyle = true;
+    @SerialEntry public boolean fixHighAttackSpeedIndicator = true;
+    @SerialEntry public boolean fixVerticalBobbingTilt = true;
     @SerialEntry public boolean upMinPixelTransparencyLimit = true;
 
     // (Other)
