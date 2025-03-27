@@ -122,18 +122,18 @@ public abstract class MixinLevelRenderer {
         }
     }
 
-//    @WrapOperation(method = "method_62214", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;endBatch(Lnet/minecraft/client/renderer/RenderType;)V", ordinal = 16))
-//    private void animatium$legacyGlintRendering$endBatch(MultiBufferSource.BufferSource instance, RenderType renderType, Operation<Void> original) {
-//        original.call(instance, renderType);
-//        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().glintRendering) {
-//            instance.endBatch(LegacyGlintType.ITEM_GLINT_LAYER);
-//            instance.endBatch(LegacyGlintType.ITEM_GLINT_2ND_LAYER);
-//            instance.endBatch(LegacyGlintType.ITEM_GLINT_TRANSLUCENT_LAYER);
-//            instance.endBatch(LegacyGlintType.ITEM_GLINT_TRANSLUCENT_2ND_LAYER);
-//            instance.endBatch(LegacyGlintType.ENTITY_GLINT_LAYER);
-//            instance.endBatch(LegacyGlintType.ENTITY_ARMOR_GLINT_LAYER);
-//        }
-//    }
+    @WrapOperation(method = "method_62214", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;endBatch(Lnet/minecraft/client/renderer/RenderType;)V", ordinal = 16))
+    private void animatium$legacyGlintRendering$endBatch(MultiBufferSource.BufferSource instance, RenderType renderType, Operation<Void> original) {
+        original.call(instance, renderType);
+        if (AnimatiumClient.isEnabled() && AnimatiumConfig.instance().glintRendering) {
+            instance.endBatch(LegacyGlintType.ITEM_GLINT_LAYER);
+            instance.endBatch(LegacyGlintType.ITEM_GLINT_2ND_LAYER);
+            instance.endBatch(LegacyGlintType.ITEM_GLINT_TRANSLUCENT_LAYER);
+            instance.endBatch(LegacyGlintType.ITEM_GLINT_TRANSLUCENT_2ND_LAYER);
+            instance.endBatch(LegacyGlintType.ENTITY_GLINT_LAYER);
+            instance.endBatch(LegacyGlintType.ENTITY_ARMOR_GLINT_LAYER);
+        }
+    }
 
     @Unique
     private GpuTexture animatium$blankTexture = null;
