@@ -37,7 +37,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class MixinRegistrationPayload {
     @WrapOperation(method = "addId", at = @At(value = "INVOKE", target = "Lnet/minecraft/resources/ResourceLocation;parse(Ljava/lang/String;)Lnet/minecraft/resources/ResourceLocation;"))
     private static ResourceLocation animatium$register(String id, Operation<ResourceLocation> original) {
-        if (id.equals("animatium:info")) {
+        if (id.equals("Animatium") || id.equals("animatium:info")) {
             Minecraft.getInstance().execute(() -> ClientPlayNetworking.send(AnimatiumClient.getInfoPayload()));
         }
         return original.call(id);
