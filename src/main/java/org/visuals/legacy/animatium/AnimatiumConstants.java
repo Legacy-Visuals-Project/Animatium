@@ -26,7 +26,10 @@
 package org.visuals.legacy.animatium;
 
 import lombok.experimental.UtilityClass;
+import net.fabricmc.fabric.api.client.model.loading.v1.ExtraModelKey;
+import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.NotNull;
 import org.visuals.legacy.animatium.packet.HelloPayloadPacket;
 
 @UtilityClass
@@ -37,7 +40,7 @@ public class AnimatiumConstants {
 	public final boolean IS_DEVELOPMENT = Boolean.parseBoolean("@DEVELOPMENT@");
 
 	public final Identifier FAST_GRASS_MODEL_LOCATION = Animatium.location("block/fast_grass_block");
-	// TODO/FIX: public final ExtraModelKey<BlockStateModel> FAST_GRASS_MODEL_KEY = ExtraModelKey.create(FAST_GRASS_MODEL_LOCATION::toString);
+	public final ExtraModelKey<@NotNull BlockStateModel> FAST_GRASS_MODEL_KEY = ExtraModelKey.create(FAST_GRASS_MODEL_LOCATION::toString);
 
 	public HelloPayloadPacket getHelloPayload() {
 		return new HelloPayloadPacket(VERSION, IS_DEVELOPMENT ? DEVELOPMENT_VERSION : null);

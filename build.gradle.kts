@@ -140,6 +140,7 @@ dependencies {
 
         // Fabric API - Needs to be specified, otherwise an older version might be defaulted and cause issues.
         modImplementation(fabricApi.module("fabric-resource-loader-v0", deps.fabricApiVersion))
+        modImplementation(fabricApi.module("fabric-model-loading-api-v1", deps.fabricApiVersion))
         modImplementation(fabricApi.module("fabric-networking-api-v1", deps.fabricApiVersion))
         modImplementation(fabricApi.module("fabric-command-api-v2", deps.fabricApiVersion))
 
