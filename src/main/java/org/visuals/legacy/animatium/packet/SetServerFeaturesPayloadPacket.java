@@ -37,45 +37,45 @@ import java.util.EnumSet;
 import java.util.Optional;
 
 public record SetServerFeaturesPayloadPacket(EnumSet<ServerFeature> features) implements CustomPacketPayload {
-    public static final StreamCodec<FriendlyByteBuf, SetServerFeaturesPayloadPacket> CODEC = CustomPacketPayload.codec(null, SetServerFeaturesPayloadPacket::read);
-    public static final Type<SetServerFeaturesPayloadPacket> PAYLOAD_ID = new Type<>(Animatium.location("set_features"));
+	public static final StreamCodec<@NotNull FriendlyByteBuf, @NotNull SetServerFeaturesPayloadPacket> CODEC = CustomPacketPayload.codec(null, SetServerFeaturesPayloadPacket::read);
+	public static final Type<@NotNull SetServerFeaturesPayloadPacket> PAYLOAD_ID = new Type<>(Animatium.location("set_features"));
 
-    private static SetServerFeaturesPayloadPacket read(FriendlyByteBuf buffer) {
-        buffer.markReaderIndex();
-        final int size = buffer.readVarInt();
-        buffer.resetReaderIndex();
-        // TODO/NOTE: This is very hacky and stupid rah, hope it doesn't cause anyone issues
-        if (size > 0 && size <= ServerFeature.VALUES.length) {
-            // v0 @Deprecated
-            return new SetServerFeaturesPayloadPacket(readV0(buffer));
-        } else {
-            // v1
-            return new SetServerFeaturesPayloadPacket(readV1(buffer));
-        }
-    }
+	private static SetServerFeaturesPayloadPacket read(FriendlyByteBuf buffer) {
+		buffer.markReaderIndex();
+		final int size = buffer.readVarInt();
+		buffer.resetReaderIndex();
+		// TODO/NOTE: This is very hacky and stupid rah, hope it doesn't cause anyone issues
+		if (size > 0 && size <= ServerFeature.VALUES.length) {
+			// v0 @Deprecated
+			return new SetServerFeaturesPayloadPacket(readV0(buffer));
+		} else {
+			// v1
+			return new SetServerFeaturesPayloadPacket(readV1(buffer));
+		}
+	}
 
-    @Deprecated
-    private static EnumSet<ServerFeature> readV0(final FriendlyByteBuf buffer) {
-        Animatium.getLogger().info("Server sent features using v0 api! This is deprecated and will be removed in the future!");
-        final EnumSet<ServerFeature> enumSet = EnumSet.noneOf(ServerFeature.class);
+	@Deprecated
+	private static EnumSet<ServerFeature> readV0(final FriendlyByteBuf buffer) {
+		Animatium.getLogger().info("Server sent features using v0 api! This is deprecated and will be removed in the future!");
+		final EnumSet<ServerFeature> enumSet = EnumSet.noneOf(ServerFeature.class);
 
-        final int size = buffer.readVarInt();
-        for (int i = 0; i < size; ++i) {
-            final String name = buffer.readUtf();
-            final Optional<ServerFeature> optionalServerFeature = Arrays.stream(ServerFeature.VALUES).filter(feature -> feature.getId().equals(name)).findFirst();
-            optionalServerFeature.ifPresent(enumSet::add);
-        }
+		final int size = buffer.readVarInt();
+		for (int i = 0; i < size; ++i) {
+			final String name = buffer.readUtf();
+			final Optional<ServerFeature> optionalServerFeature = Arrays.stream(ServerFeature.VALUES).filter(feature -> feature.getId().equals(name)).findFirst();
+			optionalServerFeature.ifPresent(enumSet::add);
+		}
 
-        return enumSet;
-    }
+		return enumSet;
+	}
 
-    // TODO/NOTE: Servers should instead use this as v0 will be removed in the future
-    private static EnumSet<ServerFeature> readV1(final FriendlyByteBuf buffer) {
-        return buffer.readEnumSet(ServerFeature.class);
-    }
+	// TODO/NOTE: Servers should instead use this as v0 will be removed in the future
+	private static EnumSet<ServerFeature> readV1(final FriendlyByteBuf buffer) {
+		return buffer.readEnumSet(ServerFeature.class);
+	}
 
-    @Override
-    public @NotNull Type<? extends CustomPacketPayload> type() {
-        return PAYLOAD_ID;
-    }
+	@Override
+	public @NotNull Type<? extends @NotNull CustomPacketPayload> type() {
+		return PAYLOAD_ID;
+	}
 }

@@ -29,23 +29,20 @@ import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import org.visuals.legacy.animatium.Animatium;
-import org.visuals.legacy.animatium.config.AnimatiumConfig;
 
 @Mixin(AbstractSliderButton.class)
 public abstract class MixinAbstractSliderButton_LegacyTextHoverColor extends AbstractWidget {
-    public MixinAbstractSliderButton_LegacyTextHoverColor(int x, int y, int width, int height, Component message) {
-        super(x, y, width, height, message);
-    }
+	public MixinAbstractSliderButton_LegacyTextHoverColor(int x, int y, int width, int height, Component message) {
+		super(x, y, width, height, message);
+	}
 
-    @ModifyConstant(method = "renderWidget", constant = @Constant(intValue = 0xFFFFFFFF))
+	// TODO: 1.21.11
+    /*@ModifyConstant(method = "renderWidget", constant = @Constant(intValue = 0xFFFFFFFF))
     private int animatium$renderWidget$old$textColor(int constant) {
         if (Animatium.isEnabled() && AnimatiumConfig.instance().screen.legacyWidgetHoverTextColor) {
             return !active ? 0xFFE0E0E0 : (isHoveredOrFocused() ? 0xFFFFFFA0 : 0xFFE0E0E0);
         } else {
             return constant;
         }
-    }
+    }*/
 }

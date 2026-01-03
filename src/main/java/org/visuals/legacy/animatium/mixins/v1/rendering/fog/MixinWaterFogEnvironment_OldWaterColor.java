@@ -27,15 +27,17 @@ package org.visuals.legacy.animatium.mixins.v1.rendering.fog;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.fog.environment.WaterFogEnvironment;
 import net.minecraft.util.ARGB;
+import net.minecraft.world.attribute.EnvironmentAttribute;
+import net.minecraft.world.attribute.EnvironmentAttributeProbe;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.biome.Biome;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.visuals.legacy.animatium.Animatium;
@@ -43,20 +45,20 @@ import org.visuals.legacy.animatium.config.AnimatiumConfig;
 
 @Mixin(WaterFogEnvironment.class)
 public abstract class MixinWaterFogEnvironment_OldWaterColor {
-	@WrapOperation(method = "getBaseColor", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;getWaterFogColor()I"))
-	private int animatium$oldWaterFogColor(Biome instance, Operation<Integer> original, ClientLevel level, Camera camera, int renderDistance, float partialTick) {
+	@WrapOperation(method = "getBaseColor", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/attribute/EnvironmentAttributeProbe;getValue(Lnet/minecraft/world/attribute/EnvironmentAttribute;F)Ljava/lang/Object;"))
+	private <Value> Value animatium$oldWaterFogColor(final EnvironmentAttributeProbe instance, final EnvironmentAttribute<Value> environmentAttribute, final float f, final Operation<Value> original, @Local(argsOnly = true) Camera camera, @Local(argsOnly = true) ClientLevel clientLevel) {
 		if (Animatium.isEnabled() && AnimatiumConfig.instance().other.oldWaterColorFog) {
 			float value = 0.0F;
-			if (camera.getEntity() instanceof LivingEntity livingEntity) {
-				value = EnchantmentHelper.getEnchantmentLevel(level.registryAccess().getOrThrow(Enchantments.RESPIRATION), livingEntity) * 0.2F;
+			if (camera.entity() instanceof LivingEntity livingEntity) {
+				value = EnchantmentHelper.getEnchantmentLevel(clientLevel.registryAccess().getOrThrow(Enchantments.RESPIRATION), livingEntity) * 0.2F;
 				if (livingEntity.hasEffect(MobEffects.WATER_BREATHING)) {
 					value *= 0.9F;
 				}
 			}
 
-			return ARGB.colorFromFloat(1.0F, 0.02F + value, 0.02F + value, 0.2F + value);
+			return (Value) (Object) ARGB.colorFromFloat(1.0F, 0.02F + value, 0.02F + value, 0.2F + value);
 		} else {
-			return original.call(instance);
+			return original.call(instance, environmentAttribute, f);
 		}
 	}
 }

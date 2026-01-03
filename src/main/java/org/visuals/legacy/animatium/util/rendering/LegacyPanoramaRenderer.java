@@ -33,20 +33,23 @@ import com.mojang.blaze3d.platform.DestFactor;
 import com.mojang.blaze3d.platform.SourceFactor;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.FilterMode;
+import com.mojang.blaze3d.textures.GpuSampler;
 import com.mojang.blaze3d.textures.GpuTexture;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import lombok.experimental.UtilityClass;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.gui.render.state.GuiElementRenderState;
 import net.minecraft.client.renderer.CachedPerspectiveProjectionMatrixBuffer;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
@@ -142,7 +145,8 @@ public class LegacyPanoramaRenderer {
 						vertexConsumer.addVertex(-1.0F, 1.0F, 1.0F).setUv(0.0F, 1.0F).setColor(color);
 					}, 4);
 
-					renderer.setTexture(0, getPanoramaTexture(panoramaIdx));
+					final AbstractTexture panoramaTexture = Minecraft.getInstance().getTextureManager().getTexture(getPanoramaTexture(panoramaIdx));
+					renderer.setTexture(0, panoramaTexture.getTextureView(), panoramaTexture.getSampler());
 					renderer.draw();
 				}
 			}
@@ -151,7 +155,7 @@ public class LegacyPanoramaRenderer {
 
 	private void panoramaBlurPass(final Matrix3x2f pose, final int width, final int height) {
 		final GpuTexture texture = backgroundTextureView.texture();
-		texture.setTextureFilter(FilterMode.LINEAR, FilterMode.LINEAR, false);
+		final GpuSampler sampler = RenderSystem.getSamplerCache().getClampToEdge(FilterMode.LINEAR);
 		RenderSystem.getDevice().createCommandEncoder().copyTextureToTexture(
 				panoramaTarget.getColorTexture(), // source
 				texture, // destination
@@ -177,7 +181,7 @@ public class LegacyPanoramaRenderer {
 					vertexConsumer.addVertexWith2DPose(pose, 0.0F, height).setUv(0.0F + growth, 0.0F).setColor(color);
 				}
 			}, 12);
-			renderer.setTexture(0, backgroundTextureView);
+			renderer.setTexture(0, backgroundTextureView, sampler);
 			renderer.drawInGui();
 		}
 	}
@@ -194,8 +198,8 @@ public class LegacyPanoramaRenderer {
 		return -spin * 0.1F;
 	}
 
-	public ResourceLocation getPanoramaTexture(int side) {
-		return ResourceLocation.withDefaultNamespace("textures/gui/title/background/panorama_" + side + ".png");
+	public Identifier getPanoramaTexture(int side) {
+		return Identifier.withDefaultNamespace("textures/gui/title/background/panorama_" + side + ".png");
 	}
 
 	private record BlitFinalTexture(
@@ -222,7 +226,7 @@ public class LegacyPanoramaRenderer {
 
 		@Override
 		public @NotNull TextureSetup textureSetup() {
-			return TextureSetup.singleTexture(this.texture);
+			return TextureSetup.singleTexture(this.texture, RenderSystem.getSamplerCache().getClampToEdge(FilterMode.LINEAR));
 		}
 
 		@Override

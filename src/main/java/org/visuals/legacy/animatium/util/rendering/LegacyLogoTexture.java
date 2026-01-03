@@ -27,10 +27,11 @@ package org.visuals.legacy.animatium.util.rendering;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.MipmapStrategy;
 import net.minecraft.client.renderer.texture.ReloadableTexture;
 import net.minecraft.client.renderer.texture.TextureContents;
 import net.minecraft.client.resources.metadata.texture.TextureMetadataSection;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,15 +40,15 @@ import java.io.InputStream;
 
 // LoadingOverlay#LogoTexture but customizable
 public class LegacyLogoTexture extends ReloadableTexture {
-    public LegacyLogoTexture(ResourceLocation resourceLocation) {
-        super(resourceLocation);
-    }
+	public LegacyLogoTexture(Identifier Identifier) {
+		super(Identifier);
+	}
 
-    @Override
-    public @NotNull TextureContents loadContents(ResourceManager resourceManager) throws IOException {
-        try (final InputStream inputStream = Minecraft.getInstance().getResourceManager().open(this.resourceId())) {
-            // TODO: Get real metadata file
-            return new TextureContents(NativeImage.read(inputStream), new TextureMetadataSection(TextureMetadataSection.DEFAULT_BLUR, TextureMetadataSection.DEFAULT_CLAMP));
-        }
-    }
+	@Override
+	public @NotNull TextureContents loadContents(ResourceManager resourceManager) throws IOException {
+		try (final InputStream inputStream = Minecraft.getInstance().getResourceManager().open(this.resourceId())) {
+			// TODO: Get real metadata file
+			return new TextureContents(NativeImage.read(inputStream), new TextureMetadataSection(TextureMetadataSection.DEFAULT_BLUR, TextureMetadataSection.DEFAULT_CLAMP, MipmapStrategy.MEAN, 0.0F));
+		}
+	}
 }

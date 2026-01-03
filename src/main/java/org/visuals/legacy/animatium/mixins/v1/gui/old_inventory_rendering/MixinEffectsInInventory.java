@@ -31,6 +31,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
 import net.minecraft.client.gui.screens.inventory.EffectsInInventory;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -41,26 +42,26 @@ import org.visuals.legacy.animatium.mixins.accessor.AbstractRecipeBookScreenAcce
 
 @Mixin(EffectsInInventory.class)
 public abstract class MixinEffectsInInventory {
-    @Shadow
-    @Final
-    private AbstractContainerScreen<?> screen;
+	@Shadow
+	@Final
+	private AbstractContainerScreen<?> screen;
 
-    @WrapOperation(method = "renderEffects", at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;imageWidth:I"))
-    private int animatium$effectsInventoryPosition(AbstractContainerScreen<?> instance, Operation<Integer> original) {
-        final int imageWidth = original.call(instance);
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().screen.effectsInventoryPosition && !(this.screen instanceof AbstractRecipeBookScreen<?> recipeBookScreen && ((AbstractRecipeBookScreenAccessor) recipeBookScreen).animatium$getRecipeBookComponent().isVisible())) {
-            return 0;
-        } else {
-            return imageWidth;
-        }
-    }
+	@WrapOperation(method = "render", at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;imageWidth:I", opcode = Opcodes.GETFIELD))
+	private int animatium$effectsInventoryPosition(AbstractContainerScreen<?> instance, Operation<Integer> original) {
+		final int imageWidth = original.call(instance);
+		if (Animatium.isEnabled() && AnimatiumConfig.instance().screen.effectsInventoryPosition && !(this.screen instanceof AbstractRecipeBookScreen<?> recipeBookScreen && ((AbstractRecipeBookScreenAccessor) recipeBookScreen).animatium$getRecipeBookComponent().isVisible())) {
+			return 0;
+		} else {
+			return imageWidth;
+		}
+	}
 
-    @ModifyExpressionValue(method = "renderEffects", at = @At(value = "CONSTANT", args = "intValue=2"))
-    private int animatium$effectsInventoryPosition(int original) {
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().screen.effectsInventoryPosition && !(this.screen instanceof AbstractRecipeBookScreen<?> recipeBookScreen && ((AbstractRecipeBookScreenAccessor) recipeBookScreen).animatium$getRecipeBookComponent().isVisible())) {
-            return -124;
-        } else {
-            return original;
-        }
-    }
+	@ModifyExpressionValue(method = "render", at = @At(value = "CONSTANT", args = "intValue=2"))
+	private int animatium$effectsInventoryPosition(int original) {
+		if (Animatium.isEnabled() && AnimatiumConfig.instance().screen.effectsInventoryPosition && !(this.screen instanceof AbstractRecipeBookScreen<?> recipeBookScreen && ((AbstractRecipeBookScreenAccessor) recipeBookScreen).animatium$getRecipeBookComponent().isVisible())) {
+			return -124;
+		} else {
+			return original;
+		}
+	}
 }

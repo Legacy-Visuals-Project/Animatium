@@ -30,21 +30,17 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
 
 public interface UtilityRenderState {
-    // TODO/REMOVE 1.21.11
-    ItemStack animatium$getItemHeldByArm(HumanoidArm humanoidArm);
+	ItemStack animatium$getItemHeldByArm(final HumanoidArm arm);
 
-    void animatium$setItemHeldByArm(HumanoidArm arm, ItemStack itemStack);
-    // TODO/REMOVE 1.21.11
+	boolean animatium$isFishing();
 
-    boolean animatium$isFishing();
+	void animatium$setFishing();
 
-    void animatium$setFishing();
+	boolean animatium$isSleeping();
 
-    boolean animatium$isSleeping();
+	void animatium$setSleeping();
 
-    void animatium$setSleeping();
-	
 	EntityDimensions animatium$getStandingDimensions();
 
-	void animatium$setStandingDimensions(EntityDimensions entityDimensions);
+	void animatium$setStandingDimensions(final EntityDimensions entityDimensions);
 }

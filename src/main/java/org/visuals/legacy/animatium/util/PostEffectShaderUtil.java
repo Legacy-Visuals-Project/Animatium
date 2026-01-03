@@ -27,13 +27,13 @@ package org.visuals.legacy.animatium.util;
 
 import lombok.experimental.UtilityClass;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import org.visuals.legacy.animatium.Animatium;
 
 @UtilityClass
 public class PostEffectShaderUtil {
-	private static final ResourceLocation[] SHADERS = new ResourceLocation[]{
+	private static final Identifier[] SHADERS = new Identifier[]{
 			Animatium.location("notch"),
 			Animatium.location("fxaa"),
 			Animatium.location("art"),

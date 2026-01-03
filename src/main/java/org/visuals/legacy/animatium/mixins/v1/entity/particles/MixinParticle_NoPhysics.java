@@ -36,7 +36,7 @@ import org.visuals.legacy.animatium.Animatium;
 import org.visuals.legacy.animatium.config.AnimatiumConfig;
 
 @Mixin(Particle.class)
-public abstract class MixinParticle {
+public abstract class MixinParticle_NoPhysics {
     @Shadow
     public abstract AABB getBoundingBox();
 

@@ -31,6 +31,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -39,81 +40,67 @@ import org.visuals.legacy.animatium.util.states.UtilityRenderState;
 
 @Mixin(ArmedEntityRenderState.class)
 public abstract class MixinArmedEntityRenderState implements UtilityRenderState {
-    // TODO/NOTE: 25w43a seemingly has these fields now?
-    @Unique
-    private ItemStack animatium$leftStack = ItemStack.EMPTY;
+	@Shadow
+	public ItemStack leftHandItemStack;
 
-    @Unique
-    private ItemStack animatium$rightStack = ItemStack.EMPTY;
+	@Shadow
+	public ItemStack rightHandItemStack;
 
-    @Unique
-    private boolean animatium$isFishing = false;
+	@Unique
+	private boolean animatium$isFishing = false;
 
-    @Unique
-    private boolean animatium$isSleeping = false;
+	@Unique
+	private boolean animatium$isSleeping = false;
 
 	@Unique
 	private EntityDimensions animatium$standingDimensions = null;
 
-    @Inject(method = "extractArmedEntityRenderState", at = @At("TAIL"))
-    private static void animatium$storeData(LivingEntity livingEntity, ArmedEntityRenderState armedEntityRenderState, ItemModelResolver itemModelResolver, CallbackInfo ci) {
-        UtilityRenderState utilityRenderState = (UtilityRenderState) armedEntityRenderState;
-        utilityRenderState.animatium$setItemHeldByArm(HumanoidArm.LEFT, livingEntity.getItemHeldByArm(HumanoidArm.LEFT));
-        utilityRenderState.animatium$setItemHeldByArm(HumanoidArm.RIGHT, livingEntity.getItemHeldByArm(HumanoidArm.RIGHT));
-        if (livingEntity instanceof Player player && player.fishing != null) {
-            utilityRenderState.animatium$setFishing();
-        }
+	@Inject(method = "extractArmedEntityRenderState", at = @At("TAIL"))
+	private static void animatium$storeData(final LivingEntity livingEntity, final ArmedEntityRenderState armedEntityRenderState, final ItemModelResolver itemModelResolver, final float f, final CallbackInfo ci) {
+		final UtilityRenderState utilityRenderState = (UtilityRenderState) armedEntityRenderState;
+		if (livingEntity instanceof Player player && player.fishing != null) {
+			utilityRenderState.animatium$setFishing();
+		}
 
-        if (livingEntity.isSleeping()) {
-            utilityRenderState.animatium$setSleeping();
-        }
+		if (livingEntity.isSleeping()) {
+			utilityRenderState.animatium$setSleeping();
+		}
 
 		if (livingEntity instanceof Avatar avatar) {
 			utilityRenderState.animatium$setStandingDimensions(avatar.getDefaultDimensions(Pose.STANDING));
 		}
-    }
+	}
 
-    @Override
-    public ItemStack animatium$getItemHeldByArm(HumanoidArm arm) {
-        if (arm == HumanoidArm.LEFT) {
-            return animatium$leftStack;
-        } else if (arm == HumanoidArm.RIGHT) {
-            return animatium$rightStack;
-        } else {
-            throw new UnsupportedOperationException();
-        }
-    }
+	@Override
+	public ItemStack animatium$getItemHeldByArm(final HumanoidArm arm) {
+		if (arm == HumanoidArm.LEFT) {
+			return this.leftHandItemStack;
+		} else if (arm == HumanoidArm.RIGHT) {
+			return this.rightHandItemStack;
+		} else {
+			throw new UnsupportedOperationException();
+		}
+	}
 
-    @Override
-    public void animatium$setItemHeldByArm(HumanoidArm arm, ItemStack itemStack) {
-        if (arm == HumanoidArm.LEFT) {
-            animatium$leftStack = itemStack;
-        } else if (arm == HumanoidArm.RIGHT) {
-            animatium$rightStack = itemStack;
-        } else {
-            throw new UnsupportedOperationException();
-        }
-    }
+	@Override
+	public boolean animatium$isFishing() {
+		return animatium$isFishing;
+	}
 
-    @Override
-    public boolean animatium$isFishing() {
-        return animatium$isFishing;
-    }
+	@Override
+	public void animatium$setFishing() {
+		animatium$isFishing = true;
+	}
 
-    @Override
-    public void animatium$setFishing() {
-        animatium$isFishing = true;
-    }
+	@Override
+	public boolean animatium$isSleeping() {
+		return animatium$isSleeping;
+	}
 
-    @Override
-    public boolean animatium$isSleeping() {
-        return animatium$isSleeping;
-    }
-
-    @Override
-    public void animatium$setSleeping() {
-        animatium$isSleeping = true;
-    }
+	@Override
+	public void animatium$setSleeping() {
+		animatium$isSleeping = true;
+	}
 
 	@Override
 	public EntityDimensions animatium$getStandingDimensions() {
@@ -121,7 +108,7 @@ public abstract class MixinArmedEntityRenderState implements UtilityRenderState 
 	}
 
 	@Override
-	public void animatium$setStandingDimensions(EntityDimensions entityDimensions) {
+	public void animatium$setStandingDimensions(final EntityDimensions entityDimensions) {
 		animatium$standingDimensions = entityDimensions;
 	}
 }

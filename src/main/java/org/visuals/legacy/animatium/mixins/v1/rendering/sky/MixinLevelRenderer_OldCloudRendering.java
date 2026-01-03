@@ -32,6 +32,7 @@ import net.minecraft.client.renderer.CloudRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -41,6 +42,9 @@ import org.visuals.legacy.animatium.util.rendering.LegacyCloudRenderer;
 
 @Mixin(LevelRenderer.class)
 public abstract class MixinLevelRenderer_OldCloudRendering {
+	@Shadow
+	private int ticks;
+
 	@Inject(method = "close", at = @At("TAIL"))
 	private void animatium$closeLegacyClouds(CallbackInfo ci) {
 		LegacyCloudRenderer.INSTANCE.close();
@@ -55,12 +59,12 @@ public abstract class MixinLevelRenderer_OldCloudRendering {
 		}
 	}
 
-	@WrapOperation(method = "method_62205", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/CloudRenderer;render(ILnet/minecraft/client/CloudStatus;FLnet/minecraft/world/phys/Vec3;F)V"))
-	private void animatium$renderLegacyClouds(CloudRenderer instance, int cloudColor, CloudStatus cloudStatus, float height, Vec3 cameraPosition, float ticks, Operation<Void> original) {
+	@WrapOperation(method = "method_62205", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/CloudRenderer;render(ILnet/minecraft/client/CloudStatus;FLnet/minecraft/world/phys/Vec3;JF)V"))
+	private void animatium$renderLegacyClouds(final CloudRenderer instance, final int cloudColor, final CloudStatus cloudStatus, final float height, final Vec3 cameraPosition, final long l, final float g, final Operation<Void> original) {
 		if (Animatium.isEnabled() && AnimatiumConfig.instance().other.oldCloudRendering) {
-			LegacyCloudRenderer.INSTANCE.render(cloudColor, cloudStatus, height, cameraPosition, ticks);
+			LegacyCloudRenderer.INSTANCE.render(cloudColor, cloudStatus, height, cameraPosition, this.ticks);
 		} else {
-			original.call(instance, cloudColor, cloudStatus, height, cameraPosition, ticks);
+			original.call(instance, cloudColor, cloudStatus, height, cameraPosition, l, g);
 		}
 	}
 

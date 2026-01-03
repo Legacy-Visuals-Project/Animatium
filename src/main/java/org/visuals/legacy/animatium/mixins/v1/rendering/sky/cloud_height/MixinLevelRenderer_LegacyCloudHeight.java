@@ -27,23 +27,29 @@ package org.visuals.legacy.animatium.mixins.v1.rendering.sky.cloud_height;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.attribute.EnvironmentAttribute;
+import net.minecraft.world.attribute.EnvironmentAttributeProbe;
+import net.minecraft.world.attribute.EnvironmentAttributes;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.visuals.legacy.animatium.Animatium;
 import org.visuals.legacy.animatium.config.AnimatiumConfig;
 
-import java.util.Optional;
-
 @Mixin(LevelRenderer.class)
 public abstract class MixinLevelRenderer_LegacyCloudHeight {
-    @WrapOperation(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/dimension/DimensionType;cloudHeight()Ljava/util/Optional;"))
-    private Optional<Integer> animatium$cloudHeight(DimensionType instance, Operation<Optional<Integer>> original) {
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.cloudHeight && instance.natural()) {
-            return Optional.of(128);
-        } else {
-            return original.call(instance);
-        }
-    }
+	@Shadow
+	private @Nullable ClientLevel level;
+
+	@WrapOperation(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/attribute/EnvironmentAttributeProbe;getValue(Lnet/minecraft/world/attribute/EnvironmentAttribute;F)Ljava/lang/Object;", ordinal = 1))
+	private <Value> Value animatium$cloudHeight(final EnvironmentAttributeProbe instance, final EnvironmentAttribute<Value> environmentAttribute, final float f, final Operation<Value> original) {
+		if (Animatium.isEnabled() && AnimatiumConfig.instance().other.cloudHeight && this.level.dimensionType().attributes().contains(EnvironmentAttributes.NETHER_PORTAL_SPAWNS_PIGLINS)) {
+			return (Value) (Object) 128.0F;
+		} else {
+			return original.call(instance, environmentAttribute, f);
+		}
+	}
 }

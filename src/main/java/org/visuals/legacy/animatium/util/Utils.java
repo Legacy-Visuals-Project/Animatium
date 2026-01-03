@@ -28,7 +28,7 @@ package org.visuals.legacy.animatium.util;
 import com.google.common.base.MoreObjects;
 import lombok.experimental.UtilityClass;
 import net.minecraft.client.Camera;
-import net.minecraft.client.GraphicsStatus;
+import net.minecraft.client.GraphicsPreset;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -150,6 +150,6 @@ public class Utils {
 	}
 
 	public boolean isFastGraphics() {
-		return GraphicsStatus.FAST.equals(Minecraft.getInstance().options.graphicsMode().get());
+		return GraphicsPreset.FAST.equals(Minecraft.getInstance().options.graphicsPreset().get());
 	}
 }

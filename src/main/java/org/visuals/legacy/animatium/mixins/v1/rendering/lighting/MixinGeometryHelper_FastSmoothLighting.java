@@ -26,24 +26,18 @@
 package org.visuals.legacy.animatium.mixins.v1.rendering.lighting;
 
 import com.moulberry.mixinconstraints.annotations.IfModLoaded;
-import net.fabricmc.fabric.api.renderer.v1.mesh.QuadView;
-import net.fabricmc.fabric.impl.client.indigo.renderer.helper.GeometryHelper;
-import net.minecraft.core.Direction;
+import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.visuals.legacy.animatium.Animatium;
-import org.visuals.legacy.animatium.config.AnimatiumConfig;
 
+// TODO/FIX: 1.21.11
 // Indigo Renderer Support
 @IfModLoaded("fabric")
-@Mixin(value = GeometryHelper.class, remap = false)
+@Mixin(value = Minecraft.class /*GeometryHelper.class, remap = false*/)
 public abstract class MixinGeometryHelper_FastSmoothLighting {
-	@Inject(method = "isQuadCubic", at = @At("HEAD"), cancellable = true)
+	/*@Inject(method = "isQuadCubic", at = @At("HEAD"), cancellable = true)
 	private static void animatium$oldFastSmoothLighting(Direction lightFace, QuadView quad, CallbackInfoReturnable<Boolean> cir) {
 		if (Animatium.isEnabled() && AnimatiumConfig.instance().other.oldMinimumSmoothLighting) {
 			cir.setReturnValue(true);
 		}
-	}
+	}*/
 }

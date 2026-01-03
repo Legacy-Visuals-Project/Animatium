@@ -32,8 +32,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -97,7 +97,7 @@ public abstract class MixinCamera {
 	}
 
 	@Inject(method = "setup", at = @At(value = "TAIL"))
-	private void animatium$oldCameraVersion(BlockGetter area, Entity entity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci) {
+	private void animatium$oldCameraVersion(final Level level, final Entity entity, final boolean thirdPerson, final boolean inverseView, final float f, final CallbackInfo ci) {
 		// TODO: Fix bed/sleeping position
 		if (Animatium.isEnabled() && AnimatiumConfig.instance().screen.cameraVersion != CameraVersion.VANILLA && !thirdPerson && !(entity instanceof LivingEntity && ((LivingEntity) entity).isSleeping())) {
 			final int ordinal = AnimatiumConfig.instance().screen.cameraVersion.ordinal();

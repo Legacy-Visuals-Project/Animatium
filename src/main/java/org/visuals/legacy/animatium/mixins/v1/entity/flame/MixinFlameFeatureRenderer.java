@@ -43,39 +43,39 @@ import org.visuals.legacy.animatium.util.enums.SneakAnimationSetting;
 
 @Mixin(FlameFeatureRenderer.class)
 public abstract class MixinFlameFeatureRenderer {
-    @ModifyExpressionValue(method = "renderFlame", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/entity/state/EntityRenderState;boundingBoxWidth:F", opcode = Opcodes.GETFIELD))
-    private float animatium$flameWidth(float original, @Local(argsOnly = true) EntityRenderState entityRenderState) {
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.flameDimensions && entityRenderState instanceof AvatarRenderState) {
-            return 0.6F;
-        } else {
-            return original;
-        }
-    }
+	@ModifyExpressionValue(method = "renderFlame", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/entity/state/EntityRenderState;boundingBoxWidth:F", opcode = Opcodes.GETFIELD))
+	private float animatium$flameWidth(float original, @Local(argsOnly = true) EntityRenderState entityRenderState) {
+		if (Animatium.isEnabled() && AnimatiumConfig.instance().other.flameDimensions && entityRenderState instanceof AvatarRenderState) {
+			return 0.6F;
+		} else {
+			return original;
+		}
+	}
 
-    @ModifyExpressionValue(method = "renderFlame", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/entity/state/EntityRenderState;boundingBoxHeight:F", opcode = Opcodes.GETFIELD))
-    private float animatium$flameHeight(float original, @Local(argsOnly = true) EntityRenderState entityRenderState) {
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.flameDimensions && entityRenderState instanceof AvatarRenderState) {
-            return 1.8F;
-        } else {
-            return original;
-        }
-    }
+	@ModifyExpressionValue(method = "renderFlame", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/entity/state/EntityRenderState;boundingBoxHeight:F", opcode = Opcodes.GETFIELD))
+	private float animatium$flameHeight(float original, @Local(argsOnly = true) EntityRenderState entityRenderState) {
+		if (Animatium.isEnabled() && AnimatiumConfig.instance().other.flameDimensions && entityRenderState instanceof AvatarRenderState) {
+			return 1.8F;
+		} else {
+			return original;
+		}
+	}
 
-    @ModifyArg(method = "renderFlame", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack$Pose;translate(FFF)Lorg/joml/Matrix4f;", ordinal = 0), index = 1)
-    private float animatium$flameOffset(float original, @Local(argsOnly = true) EntityRenderState entityRenderState) {
-        final Camera camera = Minecraft.getInstance().getEntityRenderDispatcher().camera;
-        if (Animatium.isEnabled() && entityRenderState instanceof AvatarRenderState avatarRenderState && camera != null && camera.getEntity().getId() == avatarRenderState.id) {
-            final boolean shouldSyncPlayerModelWithEyeHeight = AnimatiumConfig.instance().movement.sneakAnimation == SneakAnimationSetting.V1_7;
-            if (shouldSyncPlayerModelWithEyeHeight) {
-                final float cameraLerpValue = Utils.lerpCameraPosition(camera);
-                original = (avatarRenderState.eyeHeight * avatarRenderState.scale) - cameraLerpValue;
-            }
+	@ModifyArg(method = "renderFlame", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack$Pose;translate(FFF)Lorg/joml/Matrix4f;", ordinal = 0), index = 1)
+	private float animatium$flameOffset(float original, @Local(argsOnly = true) EntityRenderState entityRenderState) {
+		final Camera camera = Minecraft.getInstance().getEntityRenderDispatcher().camera;
+		if (Animatium.isEnabled() && entityRenderState instanceof AvatarRenderState avatarRenderState && camera != null && camera.entity().getId() == avatarRenderState.id) {
+			final boolean shouldSyncPlayerModelWithEyeHeight = AnimatiumConfig.instance().movement.sneakAnimation == SneakAnimationSetting.V1_7;
+			if (shouldSyncPlayerModelWithEyeHeight) {
+				final float cameraLerpValue = Utils.lerpCameraPosition(camera);
+				original = (avatarRenderState.eyeHeight * avatarRenderState.scale) - cameraLerpValue;
+			}
 
-            if (AnimatiumConfig.instance().other.flameOffset) {
-                original += ((shouldSyncPlayerModelWithEyeHeight && avatarRenderState.isCrouching ? 0.140625F : 0.296875F) * avatarRenderState.scale);
-            }
-        }
+			if (AnimatiumConfig.instance().other.flameOffset) {
+				original += ((shouldSyncPlayerModelWithEyeHeight && avatarRenderState.isCrouching ? 0.140625F : 0.296875F) * avatarRenderState.scale);
+			}
+		}
 
-        return original;
-    }
+		return original;
+	}
 }

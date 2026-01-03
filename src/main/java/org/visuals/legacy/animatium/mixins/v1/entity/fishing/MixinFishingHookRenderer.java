@@ -29,13 +29,11 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.SubmitNodeCollector;
+import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.FishingHookRenderer;
 import net.minecraft.client.renderer.entity.state.FishingHookRenderState;
-import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
@@ -45,113 +43,109 @@ import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import org.visuals.legacy.animatium.Animatium;
 import org.visuals.legacy.animatium.config.AnimatiumConfig;
 import org.visuals.legacy.animatium.mixins.accessor.CameraAccessor;
 import org.visuals.legacy.animatium.util.Utils;
 import org.visuals.legacy.animatium.util.enums.FishingRodVersion;
-import org.visuals.legacy.animatium.util.rendering.LineState;
-import org.visuals.legacy.animatium.util.rendering.RenderUtils;
 
 @Mixin(FishingHookRenderer.class)
 public abstract class MixinFishingHookRenderer extends EntityRenderer<FishingHook, FishingHookRenderState> {
-    protected MixinFishingHookRenderer(EntityRendererProvider.Context context) {
-        super(context);
-    }
+	protected MixinFishingHookRenderer(EntityRendererProvider.Context context) {
+		super(context);
+	}
 
-    @ModifyArgs(method = "getPlayerHandPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera$NearPlane;getPointOnPlane(FF)Lnet/minecraft/world/phys/Vec3;"))
-    private void animatium$moveCastLineY(Args args) {
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().items.fishingRodVersion != FishingRodVersion.VANILLA) {
-            final FishingRodVersion version = AnimatiumConfig.instance().items.fishingRodVersion;
-            if (version == FishingRodVersion.V1_8) {
-                animatium$modifyPlanarScale(args, 0);
-            }
+	@ModifyArgs(method = "getPlayerHandPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera$NearPlane;getPointOnPlane(FF)Lnet/minecraft/world/phys/Vec3;"))
+	private void animatium$moveCastLineY(Args args) {
+		if (Animatium.isEnabled() && AnimatiumConfig.instance().items.fishingRodVersion != FishingRodVersion.VANILLA) {
+			final FishingRodVersion version = AnimatiumConfig.instance().items.fishingRodVersion;
+			if (version == FishingRodVersion.V1_8) {
+				animatium$modifyPlanarScale(args, 0);
+			}
 
-            if (version.ordinal() <= FishingRodVersion.V1_8.ordinal()) {
-                animatium$modifyPlanarScale(args, 1);
-            }
-        }
-    }
+			if (version.ordinal() <= FishingRodVersion.V1_8.ordinal()) {
+				animatium$modifyPlanarScale(args, 1);
+			}
+		}
+	}
 
-    @Inject(method = "submit(Lnet/minecraft/client/renderer/entity/state/FishingHookRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;popPose()V", ordinal = 0, shift = At.Shift.AFTER))
-    private void animatium$fishingRodLineThickness(FishingHookRenderState fishingHookRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, CallbackInfo ci) {
-        if (Animatium.isEnabled()) {
-            // TODO/NOTE: 1.21.11 removes setLineWidth, lineWidth is now part of the vertex consumer/buffer builder
-            final LineState lineState = RenderUtils.getLineState();
-            if (AnimatiumConfig.instance().items.thinFishingRodLineThickness) {
-                lineState.setWidth(1.0F);
-            } else if (AnimatiumConfig.instance().items.fishingRodVersion.ordinal() <= FishingRodVersion.V1_13.ordinal()) {
-                lineState.setWidth(2.0F);
-            }
-        }
-    }
+	@WrapOperation(method = "submit(Lnet/minecraft/client/renderer/entity/state/FishingHookRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/Window;getAppropriateLineWidth()F"))
+	private float animatium$fishingRodLineThickness(final Window instance, final Operation<Float> original) {
+		if (Animatium.isEnabled()) {
+			if (AnimatiumConfig.instance().items.thinFishingRodLineThickness) {
+				return 1.0F;
+			} else if (AnimatiumConfig.instance().items.fishingRodVersion.ordinal() <= FishingRodVersion.V1_13.ordinal()) {
+				return 2.0F;
+			}
+		}
 
-    @WrapOperation(method = "getPlayerHandPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getEyePosition(F)Lnet/minecraft/world/phys/Vec3;"))
-    private Vec3 animatium$fishingRodLineInterpolation(Player instance, float tickDelta, Operation<Vec3> original) {
-        final Vec3 originalPos = original.call(instance, tickDelta);
-        if (Animatium.isEnabled()) {
-            CameraAccessor cameraAccessor = (CameraAccessor) entityRenderDispatcher.camera;
-            float eyeHeight;
-            if (AnimatiumConfig.instance().items.fishingRodVersion.ordinal() <= FishingRodVersion.V1_13.ordinal()) {
-                eyeHeight = Mth.lerp(tickDelta, cameraAccessor.animatium$getOldEyeHeight(), cameraAccessor.animatium$getEyeHeight());
-            } else if (AnimatiumConfig.instance().movement.fakeOldSneakEyeHeight) {
-                // Non-lerped eyeheight trick
-                eyeHeight = cameraAccessor.animatium$getEyeHeight();
-            } else {
-                return originalPos;
-            }
+		return original.call(instance);
+	}
 
-            return Utils.getPosWithEyeHeight(instance, tickDelta, eyeHeight);
-        } else {
-            return originalPos;
-        }
-    }
+	@WrapOperation(method = "getPlayerHandPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getEyePosition(F)Lnet/minecraft/world/phys/Vec3;"))
+	private Vec3 animatium$fishingRodLineInterpolation(Player instance, float tickDelta, Operation<Vec3> original) {
+		final Vec3 originalPos = original.call(instance, tickDelta);
+		if (Animatium.isEnabled()) {
+			CameraAccessor cameraAccessor = (CameraAccessor) entityRenderDispatcher.camera;
+			float eyeHeight;
+			if (AnimatiumConfig.instance().items.fishingRodVersion.ordinal() <= FishingRodVersion.V1_13.ordinal()) {
+				eyeHeight = Mth.lerp(tickDelta, cameraAccessor.animatium$getOldEyeHeight(), cameraAccessor.animatium$getEyeHeight());
+			} else if (AnimatiumConfig.instance().movement.fakeOldSneakEyeHeight) {
+				// Non-lerped eyeheight trick
+				eyeHeight = cameraAccessor.animatium$getEyeHeight();
+			} else {
+				return originalPos;
+			}
 
-    @ModifyExpressionValue(method = "getPlayerHandPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isCrouching()Z"))
-    private boolean animatium$noMoveFishingRodLine(boolean original) {
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().items.fishingRodVersion == FishingRodVersion.V1_7) {
-            return false;
-        } else {
-            return original;
-        }
-    }
+			return Utils.getPosWithEyeHeight(instance, tickDelta, eyeHeight);
+		} else {
+			return originalPos;
+		}
+	}
 
-    @ModifyExpressionValue(method = "getPlayerHandPos", at = @At(value = "CONSTANT", args = "doubleValue=0.8"))
-    private double animatium$fishingRodLinePositionThirdPerson(double original) {
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().items.fishingRodVersion == FishingRodVersion.V1_7) {
-            return original + 0.05;
-        } else {
-            return original;
-        }
-    }
+	@ModifyExpressionValue(method = "getPlayerHandPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isCrouching()Z"))
+	private boolean animatium$noMoveFishingRodLine(boolean original) {
+		if (Animatium.isEnabled() && AnimatiumConfig.instance().items.fishingRodVersion == FishingRodVersion.V1_7) {
+			return false;
+		} else {
+			return original;
+		}
+	}
 
-    @WrapOperation(method = "getPlayerHandPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/FishingHookRenderer;getHoldingArm(Lnet/minecraft/world/entity/player/Player;)Lnet/minecraft/world/entity/HumanoidArm;"))
-    private HumanoidArm animatium$fixCastLineCheck(Player player, Operation<HumanoidArm> original) {
-        final HumanoidArm value = original.call(player);
-        if (AnimatiumConfig.instance().fixes.fixCastLineCheck && value != player.getMainArm() && !(player.getOffhandItem().getItem() instanceof FishingRodItem)) {
-            return value.getOpposite();
-        } else {
-            return value;
-        }
-    }
+	@ModifyExpressionValue(method = "getPlayerHandPos", at = @At(value = "CONSTANT", args = "doubleValue=0.8"))
+	private double animatium$fishingRodLinePositionThirdPerson(double original) {
+		if (Animatium.isEnabled() && AnimatiumConfig.instance().items.fishingRodVersion == FishingRodVersion.V1_7) {
+			return original + 0.05;
+		} else {
+			return original;
+		}
+	}
 
-    @ModifyArg(method = "extractRenderState(Lnet/minecraft/world/entity/projectile/FishingHook;Lnet/minecraft/client/renderer/entity/state/FishingHookRenderState;F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/FishingHookRenderer;getPlayerHandPos(Lnet/minecraft/world/entity/player/Player;FF)Lnet/minecraft/world/phys/Vec3;"), index = 1)
-    private float animatium$fixCastLineSwing(float original, @Local(argsOnly = true) FishingHook fishingHook) {
-        final Player player = fishingHook.getPlayerOwner();
-        if (AnimatiumConfig.instance().fixes.fixCastLineSwing && player != null) {
-            return original * Utils.getHandMultiplier(player);
-        } else {
-            return original;
-        }
-    }
+	@WrapOperation(method = "getPlayerHandPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/FishingHookRenderer;getHoldingArm(Lnet/minecraft/world/entity/player/Player;)Lnet/minecraft/world/entity/HumanoidArm;"))
+	private HumanoidArm animatium$fixCastLineCheck(Player player, Operation<HumanoidArm> original) {
+		final HumanoidArm value = original.call(player);
+		if (AnimatiumConfig.instance().fixes.fixCastLineCheck && value != player.getMainArm() && !(player.getOffhandItem().getItem() instanceof FishingRodItem)) {
+			return value.getOpposite();
+		} else {
+			return value;
+		}
+	}
 
-    @Unique
-    private void animatium$modifyPlanarScale(Args args, int ordinal) {
-        args.set(ordinal, ((float) args.get(ordinal)) + 0.15F);
-    }
+	@ModifyArg(method = "extractRenderState(Lnet/minecraft/world/entity/projectile/FishingHook;Lnet/minecraft/client/renderer/entity/state/FishingHookRenderState;F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/FishingHookRenderer;getPlayerHandPos(Lnet/minecraft/world/entity/player/Player;FF)Lnet/minecraft/world/phys/Vec3;"), index = 1)
+	private float animatium$fixCastLineSwing(float original, @Local(argsOnly = true) FishingHook fishingHook) {
+		final Player player = fishingHook.getPlayerOwner();
+		if (AnimatiumConfig.instance().fixes.fixCastLineSwing && player != null) {
+			return original * Utils.getHandMultiplier(player);
+		} else {
+			return original;
+		}
+	}
+
+	@Unique
+	private void animatium$modifyPlanarScale(Args args, int ordinal) {
+		args.set(ordinal, ((float) args.get(ordinal)) + 0.15F);
+	}
 }
