@@ -143,6 +143,7 @@ dependencies {
         modImplementation(fabricApi.module("fabric-model-loading-api-v1", deps.fabricApiVersion))
         modImplementation(fabricApi.module("fabric-networking-api-v1", deps.fabricApiVersion))
         modImplementation(fabricApi.module("fabric-command-api-v2", deps.fabricApiVersion))
+        modImplementation(fabricApi.module("fabric-renderer-indigo", deps.fabricApiVersion))
 
         optionalProp("deps.modmenu_version") { prop ->
             modImplementation("com.terraformersmc:modmenu:$prop") {
