@@ -52,13 +52,13 @@ want to suggest features, join our [discord](https://discord.gg/C8KKgbA8jy)!
 
 Allows the server to enable/disable server-only features that enhance gameplay.
 
-| Identifier             | Direction | Field Name            | Field Type            | Description                                                                                  |
-|------------------------|-----------|:----------------------|:----------------------|:---------------------------------------------------------------------------------------------|
-| animatium:info         | Server    | Version               | Double                | Current release version of the mod.                                                          |
-|                        |           | Development Version   | Optional<String>      | Current dev build commit of the mod. Only provided when mod is a development build.          |
-|                        |           | Config Category Count | Var Int               |                                                                                              |
-|                        |           | Config Entry*         | Config Category (x)^* |                                                                                              |
-| animatium:set_features | Client    | Features List         | List\<Feature\>       | List of features the client should use currently, maps to Feature above or skips if unknown. |
+| Identifier             | Direction | Field Name            | Field Type            | Description                                                                         |
+|------------------------|-----------|:----------------------|:----------------------|:------------------------------------------------------------------------------------|
+| animatium:info         | Server    | Version               | Double                | Current release version of the mod.                                                 |
+|                        |           | Development Version   | Optional<String>      | Current dev build commit of the mod. Only provided when mod is a development build. |
+|                        |           | Config Category Count | Var Int               |                                                                                     |
+|                        |           | Config Entry*         | Config Category (x)^* |                                                                                     |
+| animatium:set_features | Client    | Features List         | EnumSet\<Feature\>    | List of server-features the client should use currently.                            |
 
 ### Config Category
 
