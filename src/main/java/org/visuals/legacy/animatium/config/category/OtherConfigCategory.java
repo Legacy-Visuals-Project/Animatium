@@ -41,7 +41,7 @@ public class OtherConfigCategory extends Category {
 	public boolean lockBlockingArmRotation = true;
 	public boolean projectileAgeCheck = false;
 	public boolean blockMiningProgress = true;
-	public boolean disableInventoryEntityScissor = false;
+	// public boolean disableInventoryEntityScissor = false; // TODO/FIX: 1.21.11
 	public boolean blockOutlineRendering = true;
 	public boolean modelWhilstSleeping = false;
 	public boolean entityArmorHurtTint = true;
@@ -88,7 +88,7 @@ public class OtherConfigCategory extends Category {
 		bundle.booleanEntry("lockBlockingArmRotation");
 		bundle.booleanEntry("projectileAgeCheck");
 		bundle.booleanEntry("blockMiningProgress");
-		bundle.booleanEntry("disableInventoryEntityScissor");
+		// bundle.booleanEntry("disableInventoryEntityScissor");
 		bundle.booleanEntry("blockOutlineRendering");
 		bundle.booleanEntry("modelWhilstSleeping");
 		bundle.booleanEntry("entityArmorHurtTint");

@@ -118,7 +118,7 @@ public enum Version {
         other.lockBlockingArmRotation = true;
         other.projectileAgeCheck = true; // TODO/CHECK
         other.blockMiningProgress = true;
-        other.disableInventoryEntityScissor = true;
+        // other.disableInventoryEntityScissor = true;
         other.blockOutlineRendering = true;
         other.modelWhilstSleeping = false;
         other.entityArmorHurtTint = true;
@@ -223,7 +223,7 @@ public enum Version {
         other.lockBlockingArmRotation = true;
         other.projectileAgeCheck = true; // TODO/CHECK
         other.blockMiningProgress = true;
-        other.disableInventoryEntityScissor = true;
+        // other.disableInventoryEntityScissor = true;
         other.blockOutlineRendering = true;
         other.modelWhilstSleeping = false;
         other.entityArmorHurtTint = false;
@@ -342,7 +342,7 @@ public enum Version {
         other.lockBlockingArmRotation = false;
         other.projectileAgeCheck = false; // TODO/CHECK
         other.blockMiningProgress = false;
-        other.disableInventoryEntityScissor = false;
+        // other.disableInventoryEntityScissor = false;
         other.blockOutlineRendering = false;
         other.modelWhilstSleeping = true;
         other.entityArmorHurtTint = false;
