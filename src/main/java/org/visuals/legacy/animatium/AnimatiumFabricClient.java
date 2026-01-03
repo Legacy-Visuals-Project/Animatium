@@ -30,8 +30,8 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.networking.v1.*;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
+import net.fabricmc.fabric.api.resource.v1.pack.PackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import org.visuals.legacy.animatium.command.AnimatiumCommand;
@@ -44,8 +44,8 @@ public final class AnimatiumFabricClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		Animatium.initialize();
 		final ModContainer modContainer = FabricLoader.getInstance().getModContainer(AnimatiumConstants.MOD_ID).orElseThrow(() -> new RuntimeException("Mod container data could not be found for Animatium!"));
-		ResourceManagerHelper.registerBuiltinResourcePack(Animatium.location("classic_textures"), modContainer, ResourcePackActivationType.DEFAULT_ENABLED);
-		ResourceManagerHelper.registerBuiltinResourcePack(Animatium.location("classic_water"), modContainer, ResourcePackActivationType.NORMAL);
+		ResourceLoader.registerBuiltinPack(Animatium.location("classic_textures"), modContainer, PackActivationType.DEFAULT_ENABLED);
+		ResourceLoader.registerBuiltinPack(Animatium.location("classic_water"), modContainer, PackActivationType.NORMAL);
 		ClientCommandRegistrationCallback.EVENT.register((dispatcher, context) -> dispatcher.register(AnimatiumCommand.create()));
 		registerPayloads();
 		// TODO: ModelLoadingPlugin.register(context -> context.addModel(AnimatiumConstants.FAST_GRASS_MODEL_KEY, SimpleUnbakedExtraModel.blockStateModel(AnimatiumConstants.FAST_GRASS_MODEL_LOCATION)));
