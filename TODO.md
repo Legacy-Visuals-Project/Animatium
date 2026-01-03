@@ -21,3 +21,4 @@
 - hide hit armor tint when lunar is detected
 - invert swing while use item settings
 - fix lang inaccuracies
+- "less like" -> "less, like" 
