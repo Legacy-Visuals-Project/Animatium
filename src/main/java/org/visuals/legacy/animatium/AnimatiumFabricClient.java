@@ -46,7 +46,7 @@ public final class AnimatiumFabricClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		Animatium.initialize();
 		final ModContainer modContainer = FabricLoader.getInstance().getModContainer(AnimatiumConstants.MOD_ID).orElseThrow(() -> new RuntimeException("Mod container data could not be found for Animatium!"));
-		ResourceLoader.registerBuiltinPack(Animatium.location("classic_textures"), modContainer, PackActivationType.DEFAULT_ENABLED);
+		ResourceLoader.registerBuiltinPack(Animatium.location("classic_textures"), modContainer, PackActivationType.NORMAL);
 		ResourceLoader.registerBuiltinPack(Animatium.location("classic_water"), modContainer, PackActivationType.NORMAL);
 		ClientCommandRegistrationCallback.EVENT.register((dispatcher, context) -> dispatcher.register(AnimatiumCommand.create()));
 		registerPayloads();
