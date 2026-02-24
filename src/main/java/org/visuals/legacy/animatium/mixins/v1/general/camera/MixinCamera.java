@@ -86,7 +86,6 @@ public abstract class MixinCamera {
                     AnimatiumConfig.instance().extras.fasterOldSneak &&
                      this.entity.getEyeHeight() > this.eyeHeight + 0.08
              ) {
-                 System.out.println(this.entity.getEyeHeight() + " " + this.eyeHeight);
                  this.eyeHeight = this.animatium$getSneakingEyeHeight();
                  return;
              } else if (AnimatiumConfig.instance().movement.sneakAnimation == SneakAnimationSetting.V1_7 && this.entity.getEyeHeight() < this.eyeHeight) {
