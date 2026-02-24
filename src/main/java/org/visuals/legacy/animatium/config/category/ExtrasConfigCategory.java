@@ -57,6 +57,7 @@ public class ExtrasConfigCategory extends Category {
 	public boolean dontCloseChat = false;
 	public boolean oldWaterColorEffects = false;
 	public boolean colorBoost = false;
+    public boolean fasterOldSneak = false;
 	// Item Swing
 	public float itemSwingSpeed = 0.0F;
 	public float hasteSwingSpeed = 0.0F;
@@ -110,6 +111,7 @@ public class ExtrasConfigCategory extends Category {
 		bundle.booleanEntry("dontCloseChat");
 		bundle.booleanEntry("oldWaterColorEffects", (option, event) -> minecraft.levelRenderer.allChanged());
 		bundle.booleanEntry("colorBoost");
+        bundle.booleanEntry("fasterOldSneak");
 
 		bundle.group((EntryBundle.Group) new EntryBundle.Group("item_swing")
 				.floatEntry("itemSwingSpeed", -1.0F, 1.0F, 0.1F)

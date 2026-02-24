@@ -316,6 +316,7 @@
 	"animatium.ignoreMiningFatigueSpeed": "Ignore Mining Fatigue Speed",
 	"animatium.ignoreMiningFatigueSpeed.description": "",
 	"animatium.category.extras.group.server_features": "Server Features (Singleplayer Only)",
-
+	"animatium.fasterOldSneak": "[*] Faster sneak animation",
+	"animatium.fasterOldSneak.description": "Makes the 1.7 sneaking animation go down faster. Incompatible with Long un-sneak animation",
 	"animatium.category.debug": "Animatium"
 }
