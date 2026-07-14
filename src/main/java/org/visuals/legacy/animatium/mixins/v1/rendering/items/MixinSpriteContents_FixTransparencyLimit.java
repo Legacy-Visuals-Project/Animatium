@@ -23,11 +23,12 @@
  * "MINECRAFT" LINKING EXCEPTION TO THE GPL
  */
 
-package org.visuals.legacy.animatium.mixins.v1.rendering.min_transparency;
+package org.visuals.legacy.animatium.mixins.v1.rendering.items;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.renderer.texture.SpriteContents;
+import net.minecraft.util.ARGB;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.visuals.legacy.animatium.config.AnimatiumConfig;
@@ -36,11 +37,10 @@ import org.visuals.legacy.animatium.config.AnimatiumConfig;
 public abstract class MixinSpriteContents_FixTransparencyLimit {
     @WrapOperation(method = "isTransparent", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/ARGB;alpha(I)I"))
     private int animatium$upMinPixelTransparencyLimit(int argb, Operation<Integer> original) {
-        final int alpha = original.call(argb);
-        if (AnimatiumConfig.instance().fixes.upMinPixelTransparencyLimit && (alpha / 255.0F) <= 0.1F) {
+        if (AnimatiumConfig.instance().fixes.upMinPixelTransparencyLimit && ARGB.alphaFloat(argb) <= 0.1F) {
             return 0;
         } else {
-            return alpha;
+            return original.call(argb);
         }
     }
 }
