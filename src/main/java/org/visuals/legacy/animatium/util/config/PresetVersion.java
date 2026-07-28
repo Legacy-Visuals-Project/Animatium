@@ -344,8 +344,14 @@ public enum PresetVersion {
     }
 
     public void apply() {
+        this.apply(true);
+    }
+
+    public void apply(final boolean reload) {
         this.applier.run();
         AnimatiumConfig.save();
-        Animatium.reload();
+        if (reload) {
+            Animatium.reload();
+        }
     }
 }

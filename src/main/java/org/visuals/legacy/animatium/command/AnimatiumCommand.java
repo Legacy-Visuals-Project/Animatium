@@ -44,7 +44,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import org.visuals.legacy.animatium.Animatium;
 import org.visuals.legacy.animatium.config.AnimatiumConfig;
-import org.visuals.legacy.animatium.handler.screen.OnboardingScreen;
 
 import java.util.Calendar;
 import java.util.Random;
@@ -55,7 +54,6 @@ public class AnimatiumCommand implements Command<FabricClientCommandSource> {
         command.then(LiteralArgumentBuilder.<FabricClientCommandSource>literal("on").executes(On.UNIT));
         command.then(LiteralArgumentBuilder.<FabricClientCommandSource>literal("off").executes(Off.UNIT));
         command.then(LiteralArgumentBuilder.<FabricClientCommandSource>literal("reload").executes(Reload.UNIT));
-        command.then(LiteralArgumentBuilder.<FabricClientCommandSource>literal("onboarding").executes(Onboarding.UNIT));
 
         final Calendar calendar = Calendar.getInstance();
         if (calendar.get(Calendar.MONTH) == Calendar.SEPTEMBER && calendar.get(Calendar.DAY_OF_MONTH) == 6) {
@@ -120,17 +118,6 @@ public class AnimatiumCommand implements Command<FabricClientCommandSource> {
             final FabricClientCommandSource source = context.getSource();
             source.sendFeedback(Component.literal("Mod reloaded.").withStyle(ChatFormatting.GREEN));
             Animatium.reload();
-            return Command.SINGLE_SUCCESS;
-        }
-    }
-
-    private static class Onboarding implements Command<FabricClientCommandSource> {
-        public static final Onboarding UNIT = new Onboarding();
-
-        @Override
-        public int run(final CommandContext<FabricClientCommandSource> context) {
-            final Minecraft minecraft = context.getSource().getClient();
-            minecraft.schedule(() -> minecraft.gui.setScreen(new OnboardingScreen(minecraft.gui.screen(), true)));
             return Command.SINGLE_SUCCESS;
         }
     }
