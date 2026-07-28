@@ -92,7 +92,6 @@
 		"v1.gui.screen_tweaks.MixinGui_OldCrosshairPosition",
 		"v1.gui.screen_tweaks.MixinInventoryMenu_OldCraftingSlots",
 		"v1.gui.screen_tweaks.MixinInventoryScreen_ModifyTitlePosition",
-		"v1.gui.screen_tweaks.MixinMinecraft_OnboardingScreen",
 		"v1.gui.screen_tweaks.MixinSplashRenderer_LegacySplashPosition",
 		"v1.gui.screen_tweaks.panorama.MixinGameRenderer_CloseLegacyPanorama",
 		"v1.gui.screen_tweaks.panorama.MixinPanoramaRenderer_LegacyPanorama",
