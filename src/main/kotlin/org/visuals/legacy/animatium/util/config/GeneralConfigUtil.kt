@@ -30,6 +30,8 @@ import com.google.gson.JsonObject
 import com.google.gson.Strictness
 import net.fabricmc.loader.api.FabricLoader
 import org.apache.logging.log4j.LogManager
+import org.visuals.legacy.animatium.config.AnimatiumConfig
+import org.visuals.legacy.animatium.util.enums.FishingRodVersionSetting
 import java.io.File
 import java.nio.file.Files
 
@@ -41,14 +43,10 @@ object GeneralConfigUtil {
     private var data = JsonObject()
 
     const val ENABLED_KEY = "enabled"
-    const val ONBOARDING_KEY = "onboarding"
-    const val PRESET_VERSION_KEY = "preset_version"
 
     init {
         // Defaults
         this.data.addProperty(ENABLED_KEY, true)
-        this.data.addProperty(ONBOARDING_KEY, true)
-        this.data.addProperty(PRESET_VERSION_KEY, PresetVersion.MODERN.name)
     }
 
     @JvmStatic
@@ -56,8 +54,23 @@ object GeneralConfigUtil {
         if (CONFIG_FILE.exists()) {
             this.data = GSON.fromJson(Files.readString(CONFIG_FILE.toPath()), JsonObject::class.java)
         } else {
+            this.applyDefaultSettings()
             this.save()
         }
+    }
+
+    private fun applyDefaultSettings() {
+        PresetVersion.MODERN.apply(false)
+
+        val config = AnimatiumConfig.instance()
+        config.items.itemPositions = true
+        config.items.itemPositionsInThirdPerson = true
+        config.items.itemUsageSwinging = true
+        config.items.itemPickupPosition = true
+        config.items.fishingRodVersion = FishingRodVersionSetting.V1_7
+        config.other.thirdPersonSwordBlockingPosition = true
+        config.other.damageTintArmor = true
+        AnimatiumConfig.save()
     }
 
     @JvmStatic
