@@ -120,6 +120,13 @@ fun isBlock3d(stack: ItemStack, usesBlockLight: Boolean): Boolean {
     return stack.item is BlockItem && usesBlockLight
 }
 
+fun hasLegacyThirdPersonTransform(stack: ItemStack, usesBlockLight: Boolean): Boolean {
+    return !AnimatiumConfig.instance().items.strictItemPositionsInThirdPerson ||
+            isBlock3d(stack, usesBlockLight) ||
+            stack.`is`(Items.BOW) ||
+            isHandheldItem(stack)
+}
+
 fun applyLegacyFirstPersonTransforms(poseStack: PoseStack, direction: Int, runnable: Runnable) {
     poseStack.mulPose(Axis.YP.rotationDegrees(direction * 45.0F))
     poseStack.scale(0.4F, 0.4F, 0.4F)

@@ -65,6 +65,7 @@ object GeneralConfigUtil {
         val config = AnimatiumConfig.instance()
         config.items.itemPositions = true
         config.items.itemPositionsInThirdPerson = true
+        config.items.strictItemPositionsInThirdPerson = true
         config.items.itemUsageSwinging = true
         config.items.itemPickupPosition = true
         config.items.fishingRodVersion = FishingRodVersionSetting.V1_7

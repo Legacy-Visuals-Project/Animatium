@@ -87,6 +87,7 @@ public enum PresetVersion {
         items.itemFramed2D = true;
         items.itemPositions = true;
         items.itemPositionsInThirdPerson = true;
+        items.strictItemPositionsInThirdPerson = true;
         items.thinBlockPositions = true;
         items.skullPosition = true;
         items.fishingRodVersion = FishingRodVersionSetting.V1_7;
@@ -186,6 +187,7 @@ public enum PresetVersion {
         items.itemFramed2D = false;
         items.itemPositions = false;
         items.itemPositionsInThirdPerson = false;
+        items.strictItemPositionsInThirdPerson = false;
         items.thinBlockPositions = false;
         items.skullPosition = true;
         items.fishingRodVersion = FishingRodVersionSetting.V1_8;
@@ -285,6 +287,7 @@ public enum PresetVersion {
         items.itemFramed2D = false;
         items.itemPositions = false;
         items.itemPositionsInThirdPerson = false;
+        items.strictItemPositionsInThirdPerson = false;
         items.thinBlockPositions = false;
         items.skullPosition = false;
         items.fishingRodVersion = FishingRodVersionSetting.VANILLA;
