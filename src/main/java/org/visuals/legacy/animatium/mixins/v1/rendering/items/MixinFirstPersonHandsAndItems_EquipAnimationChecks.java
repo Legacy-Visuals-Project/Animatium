@@ -58,18 +58,18 @@ public abstract class MixinFirstPersonHandsAndItems_EquipAnimationChecks {
     private ItemStack animatium$mainHandItem = ItemStack.EMPTY;
 
     @ModifyExpressionValue(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/FirstPersonHandsAndItems;shouldInstantlyReplaceVisibleItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/client/player/LocalPlayer;)Z", ordinal = 0))
-    private boolean animatium$disableEquipConstraint(boolean original) {
-        return (!Animatium.isEnabled() || AnimatiumConfig.instance().items.equipAnimationItemCheck == EquipAnimationVersionSetting.VANILLA) && original;
+    private boolean animatium$disableEquipConstraint(final boolean original) {
+        return (!Animatium.isEnabled() || AnimatiumConfig.instance().items.equipAnimationVersion == EquipAnimationVersionSetting.VANILLA) && original;
     }
 
     @ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(FFF)F", ordinal = 2), index = 0)
-    private float animatium$handleEquipLogic(float value, @Local(argsOnly = true, name = "player") final LocalPlayer player) {
+    private float animatium$handleEquipLogic(final float value, @Local(argsOnly = true, name = "player") final LocalPlayer player) {
         // MC-262560
-        EquipAnimationVersionSetting setting = AnimatiumConfig.instance().items.equipAnimationItemCheck;
+        final EquipAnimationVersionSetting setting = AnimatiumConfig.instance().items.equipAnimationVersion;
         if (Animatium.isEnabled() && setting != EquipAnimationVersionSetting.VANILLA) {
-            float attackAnim = player.getItemSwapScale(1.0F);
-            float scale = attackAnim * attackAnim * attackAnim;
-            ItemStack stackCopy = player.getInventory().getSelectedItem().copy();
+            final float attackAnim = player.getItemSwapScale(1.0F);
+            final float scale = (float) Math.pow(attackAnim, 3);
+            final ItemStack stackCopy = player.getInventory().getSelectedItem().copy();
 
             float mainHandTargetHeight = stackCopy == this.animatium$mainHandItem ? scale : 0;
 
@@ -89,17 +89,17 @@ public abstract class MixinFirstPersonHandsAndItems_EquipAnimationChecks {
             }
 
             return mainHandTargetHeight - this.mainHandHeight;
+        } else {
+            return value;
         }
-        return value;
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void animatium$updateFakeItem(LocalPlayer player, CallbackInfo ci) {
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().items.equipAnimationItemCheck != EquipAnimationVersionSetting.VANILLA) {
-            if (this.mainHandHeight < 0.1F) {
-                this.animatium$mainHandItem = this.mainHandItem.copy();
-                this.animatium$currentSlot = player.getInventory().getSelectedSlot();
-            }
+    private void animatium$updateFakeItem(final LocalPlayer player, final CallbackInfo ci) {
+        if (Animatium.isEnabled() && AnimatiumConfig.instance().items.equipAnimationVersion != EquipAnimationVersionSetting.VANILLA &&
+                this.mainHandHeight < 0.1F) {
+            this.animatium$mainHandItem = this.mainHandItem.copy();
+            this.animatium$currentSlot = player.getInventory().getSelectedSlot();
         }
     }
 

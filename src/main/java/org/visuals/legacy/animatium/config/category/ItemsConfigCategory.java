@@ -57,7 +57,7 @@ public final class ItemsConfigCategory extends Category {
     public boolean disableSwingOnDrop = false;
     public boolean disableSwingOnEntityInteract = false;
     public boolean disableItemUsingTextureInGUI = false;
-    public EquipAnimationVersionSetting equipAnimationItemCheck = EquipAnimationVersionSetting.VANILLA;
+    public EquipAnimationVersionSetting equipAnimationVersion = EquipAnimationVersionSetting.VANILLA;
     public boolean durabilityBarColors = false;
     public boolean legacyItemRarities = false;
     public boolean heldItemVisibilityInBoat = false;
@@ -102,7 +102,7 @@ public final class ItemsConfigCategory extends Category {
                 .booleanEntry("disableSwingOnDrop")
                 .booleanEntry("disableSwingOnEntityInteract")
                 .booleanEntry("disableItemUsingTextureInGUI")
-                .enumEntry("equipAnimationItemCheck", EquipAnimationVersionSetting.class)
+                .enumEntry("equipAnimationVersion", EquipAnimationVersionSetting.class)
                 .booleanEntry("durabilityBarColors")
                 .booleanEntry("legacyItemRarities")
                 .booleanEntry("heldItemVisibilityInBoat")
