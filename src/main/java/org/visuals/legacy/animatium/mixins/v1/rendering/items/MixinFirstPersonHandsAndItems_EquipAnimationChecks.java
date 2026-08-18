@@ -62,9 +62,9 @@ public abstract class MixinFirstPersonHandsAndItems_EquipAnimationChecks {
         return (!Animatium.isEnabled() || AnimatiumConfig.instance().items.equipAnimationVersion == EquipAnimationVersionSetting.VANILLA) && original;
     }
 
+    // Fixes MC-262560
     @ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(FFF)F", ordinal = 2), index = 0)
     private float animatium$handleEquipLogic(final float value, @Local(argsOnly = true, name = "player") final LocalPlayer player) {
-        // MC-262560
         final EquipAnimationVersionSetting setting = AnimatiumConfig.instance().items.equipAnimationVersion;
         if (Animatium.isEnabled() && setting != EquipAnimationVersionSetting.VANILLA) {
             final float attackAnim = player.getItemSwapScale(1.0F);
@@ -73,11 +73,11 @@ public abstract class MixinFirstPersonHandsAndItems_EquipAnimationChecks {
 
             float mainHandTargetHeight = stackCopy == this.animatium$mainHandItem ? scale : 0;
 
-            if (this.animatium$mainHandItem == ItemStack.EMPTY && stackCopy == ItemStack.EMPTY) {
+            if (this.animatium$mainHandItem.isEmpty() && stackCopy.isEmpty()) {
                 mainHandTargetHeight = scale;
             }
 
-            if (stackCopy != ItemStack.EMPTY && this.animatium$mainHandItem != ItemStack.EMPTY &&
+            if (!stackCopy.isEmpty() && !this.animatium$mainHandItem.isEmpty() &&
                     stackCopy != this.animatium$mainHandItem && stackCopy.getItem() == this.animatium$mainHandItem.getItem() &&
                     stackCopy.getDamageValue() == this.animatium$mainHandItem.getDamageValue()) {
                 this.animatium$mainHandItem = stackCopy;
