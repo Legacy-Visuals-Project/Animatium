@@ -54,6 +54,7 @@ import org.visuals.legacy.animatium.Animatium;
 import org.visuals.legacy.animatium.config.AnimatiumConfig;
 import org.visuals.legacy.animatium.util.ItemUtilKt;
 import org.visuals.legacy.animatium.util.SwingUtilKt;
+import org.visuals.legacy.animatium.util.enums.EquipAnimationVersionSetting;
 
 import java.util.Objects;
 
@@ -85,7 +86,7 @@ public abstract class MixinMinecraft_EquipUseLogic {
 
     @ModifyVariable(method = "startUseItem", at = @At("STORE"), ordinal = 0)
     private ItemStack animatium$fixCopyStackUseItem(final ItemStack heldItem) {
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().items.equipAnimationItemCheck) {
+        if (Animatium.isEnabled() && AnimatiumConfig.instance().items.equipAnimationVersion != EquipAnimationVersionSetting.VANILLA) {
             // Update the stack to match mutations to the stack in other classes
             return heldItem.copy();
         } else {
@@ -151,7 +152,7 @@ public abstract class MixinMinecraft_EquipUseLogic {
     @Inject(method = "startUseItem", at = @At(value = "MIXINEXTRAS:EXPRESSION", shift = At.Shift.BEFORE))
     private void animatium$oldEquipUse(final CallbackInfo ci, @Local(ordinal = 0) final ItemStack heldItem, @Local(ordinal = 0) final int oldCount, @Local(ordinal = 0) final InteractionHand hand) {
         if (Animatium.isEnabled()
-                && AnimatiumConfig.instance().items.equipAnimationItemCheck
+                && AnimatiumConfig.instance().items.equipAnimationVersion != EquipAnimationVersionSetting.VANILLA
                 && !heldItem.isEmpty()
                 && (heldItem.getCount() != oldCount || Objects.requireNonNull(this.player).hasInfiniteMaterials())) {
             this.gameRenderer.itemInHandRenderer.itemUsed(hand);
