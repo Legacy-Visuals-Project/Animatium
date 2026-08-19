@@ -129,7 +129,7 @@ public abstract class MixinItemInHandRenderer_FirstPersonItemPositions {
     }
 
     @WrapOperation(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;scale(FFF)V", ordinal = 1))
-    private void animatium$postBowTransform(final PoseStack instance, final float xScale, final float yScale, final float zScale, final Operation<Void> original, @Local(argsOnly = true, name = "player") final AbstractClientPlayer player, @Local(argsOnly = true, name = "hand") final InteractionHand hand) {
+    private void animatium$postBowTransform(final PoseStack instance, final float xScale, final float yScale, final float zScale, final Operation<Void> original, @Local(argsOnly = true, ordinal = 0) final AbstractClientPlayer player, @Local(argsOnly = true, ordinal = 0) final InteractionHand hand) {
         final int direction = SwingUtilKt.getHandMultiplier(player, hand);
         if (Animatium.isEnabled() && AnimatiumConfig.instance().items.itemPositions) {
             instance.mulPose(Axis.ZP.rotationDegrees(direction * -335));
@@ -148,7 +148,7 @@ public abstract class MixinItemInHandRenderer_FirstPersonItemPositions {
     @Definition(id = "ShieldItem", type = ShieldItem.class)
     @Expression("item.getItem() instanceof ShieldItem")
     @ModifyExpressionValue(method = "renderArmWithItem", at = @At("MIXINEXTRAS:EXPRESSION"))
-    private boolean animatium$oldFirstPersonSwordBlock(final boolean original, @Local(argsOnly = true, name = "player") final AbstractClientPlayer player, @Local(argsOnly = true, name = "hand") final InteractionHand hand, @Local(argsOnly = true, name = "itemStack") final ItemStack itemStack, @Local(argsOnly = true, name = "poseStack") final PoseStack poseStack) {
+    private boolean animatium$oldFirstPersonSwordBlock(final boolean original, @Local(argsOnly = true, ordinal = 0) final AbstractClientPlayer player, @Local(argsOnly = true, ordinal = 0) final InteractionHand hand, @Local(argsOnly = true, ordinal = 0) final ItemStack itemStack, @Local(argsOnly = true, ordinal = 0) final PoseStack poseStack) {
         if (Animatium.isEnabled() && AnimatiumConfig.instance().items.itemPositions && !(itemStack.getItem() instanceof ShieldItem)) {
             final int direction = SwingUtilKt.getHandMultiplier(player, hand);
             // We do this to fix a rounding error in Mojangs code.
@@ -222,7 +222,7 @@ public abstract class MixinItemInHandRenderer_FirstPersonItemPositions {
                     from = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getUseAnimation()Lnet/minecraft/world/item/ItemUseAnimation;"),
                     to = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;applyItemArmTransform(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/entity/HumanoidArm;F)V", ordinal = 4)
             ))
-    private void animatium$itemUsageSwinging(final AbstractClientPlayer player, final float tickDelta, final float pitch, final InteractionHand hand, final float swingProgress, final ItemStack itemStack, final float equippedProgress, final PoseStack poseStack, final SubmitNodeCollector submitNodeCollector, final int lightCoords, final CallbackInfo ci, @Local(name = "arm") final HumanoidArm arm) {
+    private void animatium$itemUsageSwinging(final AbstractClientPlayer player, final float tickDelta, final float pitch, final InteractionHand hand, final float swingProgress, final ItemStack itemStack, final float equippedProgress, final PoseStack poseStack, final SubmitNodeCollector submitNodeCollector, final int lightCoords, final CallbackInfo ci, @Local(ordinal = 0) final HumanoidArm arm) {
         if (Animatium.isEnabled() && AnimatiumConfig.instance().items.itemUsageSwinging) {
             this.applyItemArmAttackTransform(poseStack, arm, swingProgress);
         }
