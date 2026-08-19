@@ -93,7 +93,7 @@ public abstract class MixinItemInHandRenderer_FirstPersonItemPositions {
     private ItemStack animatium$mainHandItem = ItemStack.EMPTY;
 
     @SuppressWarnings({"MixinAnnotationTarget"})
-    @ModifyExpressionValue(method = {"renderOneHandedMap", "renderTwoHandedMap", "submitArmWithItem"}, at = {
+    @ModifyExpressionValue(method = {"renderOneHandedMap", "renderTwoHandedMap", "renderArmWithItem"}, at = {
             @At(value = "INVOKE", target = "Lnet/minecraft/client/player/AbstractClientPlayer;isInvisible()Z"),
             @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isInvisible()Z")
     })
