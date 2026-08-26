@@ -27,19 +27,17 @@ package org.visuals.legacy.animatium.renderer
 
 import com.mojang.blaze3d.ProjectionType
 import com.mojang.blaze3d.buffers.GpuBufferSlice
-import com.mojang.blaze3d.opengl.GlStateManager
+import com.mojang.blaze3d.pipeline.BindGroupLayout
 import com.mojang.blaze3d.pipeline.RenderPipeline
-import com.mojang.blaze3d.pipeline.RenderPipeline.UniformDescription
 import com.mojang.blaze3d.pipeline.RenderTarget
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.textures.GpuSampler
 import com.mojang.blaze3d.textures.GpuTextureView
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.PerspectiveProjectionMatrixBuffer
+import net.minecraft.client.renderer.ProjectionMatrixBuffer
 import net.minecraft.resources.Identifier
 import org.joml.Matrix4f
-import org.lwjgl.opengl.GL11
 import org.visuals.legacy.animatium.handler.compatibility.IrisPipeline
 import org.visuals.legacy.animatium.handler.compatibility.IrisUtil
 import org.visuals.legacy.animatium.renderer.buffer.Geometry
@@ -85,7 +83,7 @@ class Renderer : AutoCloseable {
             of(label, renderTarget, RenderDescriptor.Area(renderTarget))
 
         @JvmStatic
-        fun of(label: Supplier<String>): Renderer = of(label, Minecraft.getInstance().mainRenderTarget)
+        fun of(label: Supplier<String>) = of(label, Minecraft.getInstance().gameRenderer.mainRenderTarget())
     }
 
     // Data
@@ -98,7 +96,7 @@ class Renderer : AutoCloseable {
     private var projectionMatrix: Matrix4f? = null
 
     // Internal
-    private var projectionMatrixBuffer: PerspectiveProjectionMatrixBuffer? = null
+    private var projectionMatrixBuffer: ProjectionMatrixBuffer? = null
 
     private constructor(descriptor: RenderDescriptor) {
         this.name = descriptor.name
@@ -112,7 +110,7 @@ class Renderer : AutoCloseable {
     }
 
     fun setPipeline(pipeline: RenderPipeline): Renderer {
-        val samplers = pipeline.samplers
+        val samplers = BindGroupLayout.flattenSamplers(pipeline.bindGroupLayouts)
         return this.setPipeline(
             pipeline,
             if (samplers.contains("Sampler0")) {
@@ -141,7 +139,7 @@ class Renderer : AutoCloseable {
 
     fun setProjectionMatrix(matrix4f: Matrix4f): Renderer {
         if (this.projectionMatrixBuffer == null) {
-            this.projectionMatrixBuffer = PerspectiveProjectionMatrixBuffer("Immediate Projection Buffer for " + this.name)
+            this.projectionMatrixBuffer = ProjectionMatrixBuffer("Immediate Projection Buffer for " + this.name)
         }
 
         this.projectionMatrix = matrix4f
@@ -169,27 +167,14 @@ class Renderer : AutoCloseable {
             }
 
             val dynamicTransforms = this.uniforms.getOrDefault(DynamicTransforms.KEY, DynamicTransforms.current())
-            val autoStorageIndexBuffer = RenderSystem.getSequentialBuffer(pipeline.vertexFormatMode)
+            val autoStorageIndexBuffer = RenderSystem.getSequentialBuffer(pipeline.primitiveTopology)
             this.descriptor.createPass().use { pass ->
                 pass.setPipeline(pipeline)
 
-                var lastX: Int
-                var lastY: Int
-                var lastWidth: Int
-                var lastHeight: Int
-                this.descriptor.area.run {
-                    val lastViewPort = IntArray(4)
-                    GL11.glGetIntegerv(GL11.GL_VIEWPORT, lastViewPort)
-                    lastX = lastViewPort[0]
-                    lastY = lastViewPort[1]
-                    lastWidth = lastViewPort[2]
-                    lastHeight = lastViewPort[3]
-                    GlStateManager._viewport(x, y, width, height)
-                }
-
-                val descriptions = pipeline.uniforms
+                val bindGroupLayouts = pipeline.bindGroupLayouts
+                val descriptions = BindGroupLayout.flattenUniforms(bindGroupLayouts)
                     .stream()
-                    .map(UniformDescription::name)
+                    .map(BindGroupLayout.UniformDescription::name)
                     .toList()
 
                 RenderSystem.bindDefaultUniforms(pass)
@@ -205,7 +190,7 @@ class Renderer : AutoCloseable {
                     }
                 }
 
-                val samplers = pipeline.samplers
+                val samplers = BindGroupLayout.flattenSamplers(bindGroupLayouts)
                 for (entry in this.textures) {
                     val name = entry.key
                     if (samplers.contains(name)) {
@@ -215,7 +200,6 @@ class Renderer : AutoCloseable {
 
                 geometry.bind(pass, autoStorageIndexBuffer)
                 geometry.draw(pass)
-                GlStateManager._viewport(lastX, lastY, lastWidth, lastHeight)
             }
 
             if (!geometry.persistent()) {
@@ -237,7 +221,8 @@ class Renderer : AutoCloseable {
                 window.height.toFloat() / window.guiScale.toFloat(),
                 0.0F,
                 1000.0F,
-                11000.0F
+                11000.0F,
+                RenderSystem.getDevice().deviceInfo.isZZeroToOne
             )
         )
         this.setUniform(
