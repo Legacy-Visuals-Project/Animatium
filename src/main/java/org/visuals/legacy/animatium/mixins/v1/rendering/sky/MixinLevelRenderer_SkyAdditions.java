@@ -23,13 +23,12 @@
  * "MINECRAFT" LINKING EXCEPTION TO THE GPL
  */
 
-package org.visuals.legacy.animatium.mixins.v1.rendering.sky.the_void;
+package org.visuals.legacy.animatium.mixins.v1.rendering.sky;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.SkyRenderer;
 import net.minecraft.client.renderer.state.level.SkyRenderState;
+import net.minecraft.world.level.dimension.DimensionType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -37,16 +36,26 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.visuals.legacy.animatium.Animatium;
 import org.visuals.legacy.animatium.config.AnimatiumConfig;
 import org.visuals.legacy.animatium.handler.rendering.LegacySkyRenderer;
+import org.visuals.legacy.animatium.util.states.SkyUtilityState;
 
 @Mixin(LevelRenderer.class)
-public abstract class MixinLevelRenderer_VoidBox {
+public abstract class MixinLevelRenderer_SkyAdditions {
     @Inject(method = "lambda$addSkyPass$0", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/SkyRenderer;renderDarkDisc()V", shift = At.Shift.AFTER))
-    private static void animatium$renderVoidBox(final GpuBufferSlice skyFog, final SkyRenderState state, final SkyRenderer skyRenderer, final CallbackInfo ci) {
+    private void animatium$voidBox(final GpuBufferSlice skyFog, final SkyRenderState state, final CallbackInfo ci) {
         if (Animatium.isEnabled() && AnimatiumConfig.instance().other.playerVoidBox) {
-            final Minecraft minecraft = Minecraft.getInstance();
-            final float tickDelta = minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(true);
-            assert minecraft.level != null;
-            LegacySkyRenderer.renderVoidBox(LegacySkyRenderer.getHorizonEyeHeight(minecraft.level, tickDelta));
+            LegacySkyRenderer.renderVoidBox(((SkyUtilityState) state).animatium$getHorizonHeight());
         }
+    }
+
+    @Inject(method = "lambda$addSkyPass$0", at = @At("TAIL"))
+    private static void animatium$blueVoid(final GpuBufferSlice skyFog, final SkyRenderState state, final CallbackInfo ci) {
+        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.blueVoidSky && state.skybox != DimensionType.Skybox.END) {
+            LegacySkyRenderer.renderBlueVoid(state.skyColor, ((SkyUtilityState) state).animatium$getHorizonHeight());
+        }
+    }
+
+    @Inject(method = "close", at = @At("TAIL"))
+    private void animatium$closeSkyRenderUtility(final CallbackInfo ci) {
+        LegacySkyRenderer.close();
     }
 }
