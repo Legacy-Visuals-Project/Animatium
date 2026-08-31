@@ -79,6 +79,9 @@ public final class ExtrasConfigCategory extends Category {
     public float itemOffsetX = 0.0F;
     public float itemOffsetY = 0.0F;
     public float itemOffsetZ = 0.0F;
+    public float itemRotationX = 0.0F;
+    public float itemRotationY = 0.0F;
+    public float itemRotationZ = 0.0F;
     // Server Features (Singleplayer Only)
     public boolean miss_penalty = false;
     public boolean left_click_item_usage = false;
@@ -144,12 +147,15 @@ public final class ExtrasConfigCategory extends Category {
                 .booleanEntry("disableSwingTranslate");
 
         bundle.group("item_modifications")
-                .floatRange("itemScaleX", 0.5F, 2.0F, 0.1F)
-                .floatRange("itemScaleY", 0.5F, 2.0F, 0.1F)
-                .floatRange("itemScaleZ", 0.5F, 2.0F, 0.1F)
+                .floatRange("itemScaleX", 0.2F, 2.0F, 0.1F)
+                .floatRange("itemScaleY", 0.2F, 2.0F, 0.1F)
+                .floatRange("itemScaleZ", 0.2F, 2.0F, 0.1F)
                 .floatEntry("itemOffsetX")
                 .floatEntry("itemOffsetY")
-                .floatEntry("itemOffsetZ");
+                .floatEntry("itemOffsetZ")
+                .floatEntry("itemRotationX")
+                .floatEntry("itemRotationY")
+                .floatEntry("itemRotationZ");
 
         {
             final GroupBundle serverFeatureGroup = bundle.group("server_features");
