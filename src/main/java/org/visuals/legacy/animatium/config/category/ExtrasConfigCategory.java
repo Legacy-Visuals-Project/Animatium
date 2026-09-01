@@ -72,6 +72,7 @@ public final class ExtrasConfigCategory extends Category {
     public boolean alwaysUsageSwing = false;
     public boolean fakeMissPenaltySwing = false;
     public boolean disableSwingTranslate = false;
+    public boolean disableSwingPivot = false;
     // Item Modifications
     public float itemScaleX = 1.0F;
     public float itemScaleY = 1.0F;
@@ -144,7 +145,9 @@ public final class ExtrasConfigCategory extends Category {
                 .booleanEntry("offhandUsageSwinging")
                 .booleanEntry("alwaysUsageSwing")
                 .booleanEntry("fakeMissPenaltySwing")
-                .booleanEntry("disableSwingTranslate");
+                .booleanEntry("disableSwingTranslate")
+                .booleanEntry("disableSwingPivot");
+
 
         bundle.group("item_modifications")
                 .floatRange("itemScaleX", 0.2F, 2.0F, 0.1F)
