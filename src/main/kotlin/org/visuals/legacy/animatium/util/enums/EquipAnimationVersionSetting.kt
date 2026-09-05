@@ -28,5 +28,6 @@ package org.visuals.legacy.animatium.util.enums
 enum class EquipAnimationVersionSetting {
     V1_7,
     V1_8,
-    VANILLA
+    VANILLA,
+    DISABLED
 }
