@@ -376,7 +376,7 @@
 	"animatium.itemRotationZ": "Item Rotation Z",
 	"animatium.itemRotationZ.description": "",
 	"animatium.applyToBlockItems": "Apply to block items and skulls",
-	"animatium.itemRotationZ.description": "",
+	"animatium.applyToBlockItems.description": "",
 
 	"animatium.category.extras.group.server_features": "Server Features (Singleplayer Only)",
 	"animatium.miss_penalty": "miss_penalty",
