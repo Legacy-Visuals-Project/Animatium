@@ -83,6 +83,7 @@ public final class ExtrasConfigCategory extends Category {
     public float itemRotationX = 0.0F;
     public float itemRotationY = 0.0F;
     public float itemRotationZ = 0.0F;
+    public boolean applyToBlockItems = true;
     // Server Features (Singleplayer Only)
     public boolean miss_penalty = false;
     public boolean left_click_item_usage = false;
@@ -158,8 +159,8 @@ public final class ExtrasConfigCategory extends Category {
                 .floatEntry("itemOffsetZ")
                 .floatEntry("itemRotationX")
                 .floatEntry("itemRotationY")
-                .floatEntry("itemRotationZ");
-
+                .floatEntry("itemRotationZ")
+                .booleanEntry("applyToBlockItems");
         {
             final GroupBundle serverFeatureGroup = bundle.group("server_features");
             for (final ServerFeature feature : ServerFeatures.allFeatures()) {

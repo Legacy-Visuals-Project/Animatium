@@ -220,18 +220,28 @@ public abstract class MixinItemInHandRenderer_FirstPersonItemPositions {
             }
 
             if (AnimatiumConfig.instance().items.skullPosition && ItemUtilKt.isSkullBlock(itemStack) && !AnimatiumConfig.instance().items.mobHeadIcons) {
+                if (AnimatiumConfig.instance().extras.applyToBlockItems) {
+                    final ExtrasConfigCategory extras = AnimatiumConfig.instance().extras;
+                    poseStack.translate(extras.itemOffsetX * 0.05F, extras.itemOffsetY * 0.05F, extras.itemOffsetZ * 0.05F);
+                }
                 poseStack.mulPose(Axis.YP.rotationDegrees(45.0F));
                 poseStack.scale(0.4F, 0.4F, 0.4F);
 
                 // TODO: This is not quite right... (@Mixces)
                 poseStack.mulPose(Axis.YP.rotationDegrees(-180.0F));
-                poseStack.translate(0.0F, 0.25F, 0.0F);
+                if (!AnimatiumConfig.instance().extras.applyToBlockItems) {
+                    poseStack.translate(0.0F, 0.25F, 0.0F);
+                }
                 poseStack.scale(1.125F, 1.125F, 1.125F);
             }
 
             final ExtrasConfigCategory extras = AnimatiumConfig.instance().extras;
-            if (isNotBlock3d) {
-                poseStack.translate(extras.itemOffsetX * 0.05F, extras.itemOffsetY * 0.05F, extras.itemOffsetZ * 0.05F);
+            if (isNotBlock3d || AnimatiumConfig.instance().extras.applyToBlockItems) {
+                if (AnimatiumConfig.instance().items.fishingRodVersion == FishingRodVersionSetting.V1_7 && ItemUtilKt.isFishingRodItem(itemStack)) {
+                    poseStack.translate(extras.itemOffsetX * -0.05F, extras.itemOffsetY * 0.05F, extras.itemOffsetZ * 0.05F);
+                } else if (!(AnimatiumConfig.instance().items.skullPosition && ItemUtilKt.isSkullBlock(itemStack) && !AnimatiumConfig.instance().items.mobHeadIcons)) {
+                    poseStack.translate(extras.itemOffsetX * 0.05F, extras.itemOffsetY * 0.05F, extras.itemOffsetZ * 0.05F);
+                }
                 poseStack.scale(extras.itemScaleX, extras.itemScaleY, extras.itemScaleZ);
                 poseStack.mulPose(Axis.XP.rotationDegrees(direction * extras.itemRotationX));
                 poseStack.mulPose(Axis.YP.rotationDegrees(direction * extras.itemRotationY));
