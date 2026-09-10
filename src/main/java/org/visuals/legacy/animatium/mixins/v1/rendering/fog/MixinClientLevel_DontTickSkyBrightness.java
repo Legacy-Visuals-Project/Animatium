@@ -25,8 +25,7 @@
 
 package org.visuals.legacy.animatium.mixins.v1.rendering.fog;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
@@ -38,7 +37,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.visuals.legacy.animatium.Animatium;
 import org.visuals.legacy.animatium.config.AnimatiumConfig;
-import org.visuals.legacy.animatium.mixins.accessor.LevelAccessor;
 
 @Mixin(ClientLevel.class)
 public abstract class MixinClientLevel_DontTickSkyBrightness extends Level {
@@ -46,14 +44,9 @@ public abstract class MixinClientLevel_DontTickSkyBrightness extends Level {
         super(levelData, dimension, registryAccess, dimensionTypeRegistration, isClientSide, isDebug, biomeZoomSeed, maxChainedNeighborUpdates);
     }
 
-    @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;updateSkyBrightness()V"))
-    private void animatium$disableBrightnessUpdate(final ClientLevel instance, final Operation<Void> original) {
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.legacyFogDarkness) {
-            // In 1.21.2, they fixed (https://mojira.dev/MC-259651), so this injection mimics/reverts that bug fix
-            // Required to not make the sky darken during night (fade between day/night when using /time set)
-            ((LevelAccessor) this).animatium$setSkyDarken(11); // From testing 1.10.2, regardless if you are under a block or if its day/night, the value initializes as 11 and stays that value
-        } else {
-            original.call(instance);
-        }
+    // In 1.21.2, they fixed (https://mojira.dev/MC-259651), so this reverts that bug fix
+    @WrapWithCondition(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;updateSkyBrightness()V"))
+    private boolean animatium$disableBrightnessUpdate(final ClientLevel instance) {
+        return !Animatium.isEnabled() || !AnimatiumConfig.instance().other.legacyFogDarkness;
     }
 }
