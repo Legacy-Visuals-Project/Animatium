@@ -62,12 +62,14 @@ fun Player.fakeHandSwing(hand: InteractionHand) {
     )
 }
 
-// TODO: 26.3 / Check if this is proper/right and doesn't flag servers
 // Sends necessary swing packets, without playing the player hand swing animation
-fun LocalPlayer.sendSwingPacket(hand: InteractionHand): Boolean {
-    val level = this.level()
-    return if (!this.isSwinging && level is ServerLevel) {
-        level.chunkSource.sendToTrackingPlayers(this, ClientboundSwingAnimationPacket(this, hand, SwingAnimation.DEFAULT))
+fun LocalPlayer.sendSwingPacket(hand: InteractionHand, animation: SwingAnimation): Boolean {
+    return if (!this.isSwinging) {
+        val level = this.level()
+        if (level is ServerLevel) {
+            level.chunkSource.sendToTrackingPlayers(this, ClientboundSwingAnimationPacket(this, hand, animation))
+        }
+
         true
     } else {
         false

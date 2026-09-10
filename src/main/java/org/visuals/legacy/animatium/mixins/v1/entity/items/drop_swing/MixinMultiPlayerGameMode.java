@@ -27,6 +27,7 @@ package org.visuals.legacy.animatium.mixins.v1.entity.items.drop_swing;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.component.SwingAnimation;
@@ -36,12 +37,12 @@ import org.visuals.legacy.animatium.Animatium;
 import org.visuals.legacy.animatium.config.AnimatiumConfig;
 import org.visuals.legacy.animatium.util.SwingUtilKt;
 
-@Mixin(LocalPlayer.class)
-public abstract class MixinLocalPlayer {
-    @WrapOperation(method = "drop", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;swing(Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/item/component/SwingAnimation;Z)Z"))
+@Mixin(MultiPlayerGameMode.class)
+public abstract class MixinMultiPlayerGameMode {
+    @WrapOperation(method = "dropItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;swing(Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/item/component/SwingAnimation;Z)Z"))
     private boolean animatium$disableSwingOnDrop(final LocalPlayer instance, final InteractionHand hand, final SwingAnimation animation, final boolean sendToSwingingEntity, final Operation<Boolean> original) {
         if (Animatium.isEnabled() && AnimatiumConfig.instance().items.disableSwingOnDrop) {
-            return SwingUtilKt.sendSwingPacket(instance, hand);
+            return SwingUtilKt.sendSwingPacket(instance, hand, animation);
         } else {
             return original.call(instance, hand, animation, sendToSwingingEntity);
         }

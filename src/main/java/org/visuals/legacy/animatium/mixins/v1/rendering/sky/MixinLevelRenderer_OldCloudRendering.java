@@ -30,6 +30,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.renderpearl.api.buffers.GpuBufferSlice;
 import com.mojang.renderpearl.api.commands.RenderPass;
+import com.mojang.renderpearl.api.textures.GpuTextureView;
 import net.minecraft.client.CloudStatus;
 import net.minecraft.client.renderer.CloudRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -76,8 +77,8 @@ public abstract class MixinLevelRenderer_OldCloudRendering {
         return !Animatium.isEnabled() || !AnimatiumConfig.instance().other.oldCloudRendering;
     }
 
-    @WrapWithCondition(method = "executeOit", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/CloudRenderer;renderOit(Lnet/minecraft/client/CloudStatus;Lnet/minecraft/client/renderer/oit/OitStage;Lnet/minecraft/client/renderer/oit/OitRenderPassProvider$Parameters;)V"))
-    private boolean animatium$disableVanillaCloudRendering$oit(final CloudRenderer instance, final CloudStatus cloudStatus, final OitStage stage, final OitRenderPassProvider.Parameters params) {
+    @WrapWithCondition(method = "executeOit", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/CloudRenderer;renderOit(Lnet/minecraft/client/CloudStatus;Lnet/minecraft/client/renderer/oit/OitStage;Lcom/mojang/renderpearl/api/textures/GpuTextureView;Lnet/minecraft/client/renderer/oit/OitRenderPassProvider$Parameters;)V"))
+    private boolean animatium$disableVanillaCloudRendering$oit(final CloudRenderer instance, final CloudStatus cloudStatus, final OitStage stage, final GpuTextureView mainDepthTextureView, final OitRenderPassProvider.Parameters params) {
         return !Animatium.isEnabled() || !AnimatiumConfig.instance().other.oldCloudRendering;
     }
 

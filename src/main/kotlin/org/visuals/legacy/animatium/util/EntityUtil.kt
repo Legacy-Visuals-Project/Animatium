@@ -72,7 +72,7 @@ fun applySwingWhilstMining(level: ClientLevel?, player: Player, hitResult: HitRe
         if (hitResult != null && hitResult.type == HitResult.Type.BLOCK) {
             val blockHitResult = hitResult as BlockHitResult
             if (level != null && !level.getBlockState(blockHitResult.blockPos).isAir && !ServerFeatureManager.isPresent(ServerFeatures.MINING_ITEM_USAGE)) {
-                level.addBreakingBlockEffect(blockHitResult.blockPos, blockHitResult.direction)
+                level.addBreakingBlockEffects(blockHitResult.blockPos, blockHitResult.direction, false)
             }
         } else if (!AnimatiumConfig.instance().extras.alwaysUsageSwing) {
             return
