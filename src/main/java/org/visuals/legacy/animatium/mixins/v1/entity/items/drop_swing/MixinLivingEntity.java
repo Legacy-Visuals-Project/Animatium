@@ -42,7 +42,7 @@ public abstract class MixinLivingEntity {
     @WrapOperation(method = "drop", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;swing(Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/item/component/SwingAnimation;Z)Z"))
     private boolean animatium$swingOnDropInventory(final LivingEntity instance, final InteractionHand hand, final SwingAnimation animation, final boolean sendToSwingingEntity, final Operation<Boolean> original) {
         if (Animatium.isEnabled() && AnimatiumConfig.instance().items.disableSwingOnDrop && instance instanceof LocalPlayer localPlayer) {
-            return SwingUtilKt.sendSwingPacket(localPlayer, hand);
+            return SwingUtilKt.sendSwingPacket(localPlayer, hand, animation);
         } else {
             return original.call(instance, hand, animation, sendToSwingingEntity);
         }

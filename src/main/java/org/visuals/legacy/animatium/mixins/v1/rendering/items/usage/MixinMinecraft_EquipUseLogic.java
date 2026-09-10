@@ -91,7 +91,7 @@ public abstract class MixinMinecraft_EquipUseLogic {
     @WrapOperation(method = "startUseItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;swing(Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/item/component/SwingAnimation;Z)Z", ordinal = 2))
     private boolean animatium$swingOnUse(final LocalPlayer instance, final InteractionHand hand, final SwingAnimation animation, final boolean sendToSwingingEntity, final Operation<Boolean> original, @Local(name = "heldItem") final ItemStack heldItem) {
         if (Animatium.isEnabled() && AnimatiumConfig.instance().items.disableSwingOnUse && ItemUtilKt.isSwingItemBlacklisted(heldItem)) {
-            return SwingUtilKt.sendSwingPacket(instance, hand);
+            return SwingUtilKt.sendSwingPacket(instance, hand, animation);
         } else {
             return original.call(instance, hand, animation, sendToSwingingEntity);
         }
@@ -100,7 +100,7 @@ public abstract class MixinMinecraft_EquipUseLogic {
     @WrapOperation(method = "startUseItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;swing(Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/item/component/SwingAnimation;Z)Z", ordinal = 0))
     private boolean animatium$swingOnEntityInteract(final LocalPlayer instance, final InteractionHand hand, final SwingAnimation animation, final boolean sendToSwingingEntity, final Operation<Boolean> original) {
         if (Animatium.isEnabled() && AnimatiumConfig.instance().items.disableSwingOnEntityInteract) {
-            return SwingUtilKt.sendSwingPacket(instance, hand);
+            return SwingUtilKt.sendSwingPacket(instance, hand, animation);
         } else {
             return original.call(instance, hand, animation, sendToSwingingEntity);
         }
