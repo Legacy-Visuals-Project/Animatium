@@ -61,7 +61,7 @@ class DeferredRenderer(private val descriptor: RenderDescriptor) : AbstractRende
                 .build())
 
         @JvmStatic
-        fun of(name: String) = of(name, Minecraft.getInstance().gameRenderer.mainRenderTarget())
+        fun of(name: String) = of(name, Minecraft.getInstance().mainRenderTarget)
     }
 
     // Data
@@ -92,8 +92,8 @@ class DeferredRenderer(private val descriptor: RenderDescriptor) : AbstractRende
             RenderSystem.setProjectionMatrix(this.projectionMatrixBuffer!!.getBuffer(this.projectionMatrix!!), projectionType)
         }
 
+        val dynamicTransforms = this.uniforms.getOrDefault(DynamicTransforms.KEY, DynamicTransforms.current())
         this.descriptor.createPass().use { pass ->
-            val dynamicTransforms = this.uniforms.getOrDefault(DynamicTransforms.KEY, DynamicTransforms.current())
             this.render(pass, geometry, dynamicTransforms)
             if (!geometry.persistent()) {
                 geometry.close()
@@ -115,7 +115,7 @@ class DeferredRenderer(private val descriptor: RenderDescriptor) : AbstractRende
                 0.0F,
                 1000.0F,
                 11000.0F,
-                RenderSystem.getDevice().deviceInfo.isZZeroToOne
+                RenderSystem.getDevice().isZZeroToOne
             )
         )
         this.setUniform(

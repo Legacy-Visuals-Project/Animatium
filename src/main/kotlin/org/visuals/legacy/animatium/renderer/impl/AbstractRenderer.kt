@@ -27,8 +27,8 @@ package org.visuals.legacy.animatium.renderer.impl
 
 import com.mojang.blaze3d.buffers.GpuBuffer
 import com.mojang.blaze3d.buffers.GpuBufferSlice
-import com.mojang.blaze3d.pipeline.BindGroupLayout
 import com.mojang.blaze3d.pipeline.RenderPipeline
+import com.mojang.blaze3d.pipeline.RenderPipeline.UniformDescription
 import com.mojang.blaze3d.systems.RenderPass
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.textures.GpuSampler
@@ -53,7 +53,7 @@ abstract class AbstractRenderer : AutoCloseable {
     }
 
     fun setPipeline(pipeline: RenderPipeline): AbstractRenderer {
-        val samplers = BindGroupLayout.flattenSamplers(pipeline.bindGroupLayouts)
+        val samplers = pipeline.samplers
         return this.setPipeline(
             pipeline,
             if (samplers.contains("Sampler0")) {
@@ -89,13 +89,12 @@ abstract class AbstractRenderer : AutoCloseable {
         } else {
             pass.setPipeline(pipeline)
 
-            val bindGroupLayouts = pipeline.bindGroupLayouts
-            val descriptions = BindGroupLayout.flattenUniforms(bindGroupLayouts)
+            val descriptions = pipeline.uniforms
                 .stream()
-                .map(BindGroupLayout.UniformDescription::name)
+                .map(UniformDescription::name)
                 .toList()
 
-            val indexBuffer = RenderSystem.getSequentialBuffer(pipeline.primitiveTopology)
+            val indexBuffer = RenderSystem.getSequentialBuffer(pipeline.vertexFormatMode)
             RenderSystem.bindDefaultUniforms(pass)
             pass.setUniform(DynamicTransforms.KEY, dynamicTransforms)
             for (entry in this.uniforms) {
@@ -109,7 +108,7 @@ abstract class AbstractRenderer : AutoCloseable {
                 }
             }
 
-            val samplers = BindGroupLayout.flattenSamplers(bindGroupLayouts)
+            val samplers = pipeline.samplers
             for (entry in this.textures) {
                 val name = entry.key
                 if (samplers.contains(name)) {
