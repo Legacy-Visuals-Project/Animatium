@@ -233,6 +233,15 @@ public abstract class MixinItemInHandRenderer_FirstPersonItemPositions {
         return (!Animatium.isEnabled() || !AnimatiumConfig.instance().items.heldItemVisibilityInBoat) && original.call(instance);
     }
 
+    @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;getItemSwapScale(F)F"))
+    private float animatium$legacySwingAnimation(final LocalPlayer instance, final float delta, final Operation<Float> original) {
+        if (Animatium.isEnabled() && AnimatiumConfig.instance().extras.legacySwingAnimation) {
+            return 1.0F;
+        } else {
+            return original.call(instance, delta);
+        }
+    }
+
     // Equip Animation Stuff
     @ModifyArg(method = "renderHandsWithItems", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;renderArmWithItem(Lnet/minecraft/client/player/AbstractClientPlayer;FFLnet/minecraft/world/InteractionHand;FLnet/minecraft/world/item/ItemStack;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V", ordinal = 0), index = 5)
     private ItemStack animatium$useCopyStackFieldForRender(final ItemStack original) {
@@ -252,11 +261,10 @@ public abstract class MixinItemInHandRenderer_FirstPersonItemPositions {
 
     // Fixes MC-262560
     @ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(FFF)F", ordinal = 2), index = 0)
-    private float animatium$handleEquipLogic(final float original) {
+    private float animatium$handleEquipLogic(final float original, @Local(name = "attackAnim") float attackAnim) {
         final LocalPlayer player = this.minecraft.player;
         final EquipAnimationVersionSetting setting = AnimatiumConfig.instance().items.equipAnimationVersion;
         if (Animatium.isEnabled() && setting != EquipAnimationVersionSetting.VANILLA && player != null) {
-            final float attackAnim = player.getItemSwapScale(1.0F);
             final float scale = (float) Math.pow(attackAnim, 3);
             final ItemStack stackCopy = player.getInventory().getSelectedItem().copy();
 
