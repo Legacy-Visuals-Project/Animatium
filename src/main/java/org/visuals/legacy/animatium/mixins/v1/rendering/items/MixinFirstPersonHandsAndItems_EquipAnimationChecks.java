@@ -26,6 +26,8 @@
 package org.visuals.legacy.animatium.mixins.v1.rendering.items;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.player.FirstPersonHandsAndItems;
 import net.minecraft.client.player.LocalPlayer;
@@ -62,17 +64,29 @@ public abstract class MixinFirstPersonHandsAndItems_EquipAnimationChecks {
         return (!Animatium.isEnabled() || AnimatiumConfig.instance().items.equipAnimationVersion == EquipAnimationVersionSetting.VANILLA) && original;
     }
 
+    @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isHandsBusy()Z"))
+    private boolean animatium$heldItemVisibilityInBoat(final LocalPlayer instance, final Operation<Boolean> original) {
+        return (!Animatium.isEnabled() || !AnimatiumConfig.instance().items.heldItemVisibilityInBoat) && original.call(instance);
+    }
+
+    @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;getItemSwapScale(F)F"))
+    private float animatium$legacySwingAnimation(final LocalPlayer instance, final float delta, final Operation<Float> original) {
+        if (Animatium.isEnabled() && AnimatiumConfig.instance().extras.legacySwingAnimation) {
+            return 1.0F;
+        } else {
+            return original.call(instance, delta);
+        }
+    }
+
     // Fixes MC-262560
     @ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(FFF)F", ordinal = 2), index = 0)
-    private float animatium$handleEquipLogic(final float value, @Local(argsOnly = true, name = "player") final LocalPlayer player) {
+    private float animatium$handleEquipLogic(final float value, @Local(argsOnly = true, name = "player") final LocalPlayer player, @Local(name = "attackAnim") float attackAnim) {
         final EquipAnimationVersionSetting setting = AnimatiumConfig.instance().items.equipAnimationVersion;
         if (Animatium.isEnabled() && setting != EquipAnimationVersionSetting.VANILLA) {
-            final float attackAnim = player.getItemSwapScale(1.0F);
             final float scale = (float) Math.pow(attackAnim, 3);
             final ItemStack stackCopy = player.getInventory().getSelectedItem().copy();
 
             float mainHandTargetHeight = stackCopy == this.animatium$mainHandItem ? scale : 0;
-
             if (this.animatium$mainHandItem.isEmpty() && stackCopy.isEmpty()) {
                 mainHandTargetHeight = scale;
             }
