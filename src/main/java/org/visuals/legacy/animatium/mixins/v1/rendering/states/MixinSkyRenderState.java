@@ -25,7 +25,7 @@
 
 package org.visuals.legacy.animatium.mixins.v1.rendering.states;
 
-import net.minecraft.client.renderer.state.level.SkyRenderState;
+import net.minecraft.client.renderer.state.SkyRenderState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.visuals.legacy.animatium.util.states.SkyUtilityState;

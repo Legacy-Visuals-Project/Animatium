@@ -51,7 +51,7 @@ public abstract class MixinGameRenderer_TickDarkness {
     private void animatium$tickFogDarkness(final CallbackInfo ci) {
         final Entity entity = this.mainCamera.entity();
         if (entity != null) {
-            LegacyFogDarkness.getInstance().tick(entity, this.minecraft.options.renderDistance().get());
+            LegacyFogDarkness.tick(entity, this.minecraft.options.renderDistance().get());
         }
     }
 }

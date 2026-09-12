@@ -42,7 +42,7 @@ public abstract class MixinFogRenderer_Darkness {
             @At(value = "INVOKE", target = "Lnet/minecraft/util/ARGB;greenFloat(I)F"),
             @At(value = "INVOKE", target = "Lnet/minecraft/util/ARGB;blueFloat(I)F")
     })
-    private float animatium$applyFogDarkness(final int color, final Operation<Float> original, @Local(argsOnly = true, name = "partialTicks") final float tickDelta) {
+    private float animatium$applyFogDarkness(final int color, final Operation<Float> original, @Local(argsOnly = true, ordinal = 0) final float tickDelta) {
         float component = original.call(color);
         if (Animatium.isEnabled() && AnimatiumConfig.instance().other.legacyFogDarkness) {
             component *= LegacyFogDarkness.getDarkness(tickDelta);

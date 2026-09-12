@@ -261,7 +261,7 @@ public abstract class MixinItemInHandRenderer_FirstPersonItemPositions {
 
     // Fixes MC-262560
     @ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(FFF)F", ordinal = 2), index = 0)
-    private float animatium$handleEquipLogic(final float original, @Local(name = "attackAnim") float attackAnim) {
+    private float animatium$handleEquipLogic(final float original, @Local(ordinal = 0) float attackAnim) {
         final LocalPlayer player = this.minecraft.player;
         final EquipAnimationVersionSetting setting = AnimatiumConfig.instance().items.equipAnimationVersion;
         if (Animatium.isEnabled() && setting != EquipAnimationVersionSetting.VANILLA && player != null) {

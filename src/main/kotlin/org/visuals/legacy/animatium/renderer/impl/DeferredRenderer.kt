@@ -30,7 +30,7 @@ import com.mojang.blaze3d.pipeline.RenderTarget
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.textures.GpuTextureView
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.ProjectionMatrixBuffer
+import net.minecraft.client.renderer.PerspectiveProjectionMatrixBuffer
 import org.joml.Matrix4f
 import org.visuals.legacy.animatium.renderer.DynamicTransforms
 import org.visuals.legacy.animatium.renderer.RenderDescriptor
@@ -67,11 +67,11 @@ class DeferredRenderer(private val descriptor: RenderDescriptor) : AbstractRende
     // Data
     private val name: String = descriptor.name.get()
     private var projectionMatrix: Matrix4f? = null
-    private var projectionMatrixBuffer: ProjectionMatrixBuffer? = null
+    private var projectionMatrixBuffer: PerspectiveProjectionMatrixBuffer? = null
 
     fun setProjectionMatrix(matrix4f: Matrix4f): AbstractRenderer {
         if (this.projectionMatrixBuffer == null) {
-            this.projectionMatrixBuffer = ProjectionMatrixBuffer("Immediate Projection Buffer for " + this.name)
+            this.projectionMatrixBuffer = PerspectiveProjectionMatrixBuffer("Immediate Projection Buffer for " + this.name)
         }
 
         this.projectionMatrix = matrix4f
@@ -114,8 +114,7 @@ class DeferredRenderer(private val descriptor: RenderDescriptor) : AbstractRende
                 window.height.toFloat() / window.guiScale.toFloat(),
                 0.0F,
                 1000.0F,
-                11000.0F,
-                RenderSystem.getDevice().isZZeroToOne
+                11000.0F
             )
         )
         this.setUniform(
