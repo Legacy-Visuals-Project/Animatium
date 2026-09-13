@@ -72,6 +72,7 @@ public final class ExtrasConfigCategory extends Category {
     public boolean alwaysUsageSwing = false;
     public boolean fakeMissPenaltySwing = false;
     public boolean disableSwingTranslate = false;
+    public boolean disableSwingPivot = false;
     public boolean legacySwingAnimation = false;
     // Item Modifications
     public float itemScaleX = 1.0F;
@@ -80,6 +81,10 @@ public final class ExtrasConfigCategory extends Category {
     public float itemOffsetX = 0.0F;
     public float itemOffsetY = 0.0F;
     public float itemOffsetZ = 0.0F;
+    public float itemRotationX = 0.0F;
+    public float itemRotationY = 0.0F;
+    public float itemRotationZ = 0.0F;
+    public boolean applyCustomizationToBlockItems = true;
     // Server Features (Singleplayer Only)
     public boolean miss_penalty = false;
     public boolean left_click_item_usage = false;
@@ -143,16 +148,20 @@ public final class ExtrasConfigCategory extends Category {
                 .booleanEntry("alwaysUsageSwing")
                 .booleanEntry("fakeMissPenaltySwing")
                 .booleanEntry("disableSwingTranslate")
+                .booleanEntry("disableSwingPivot")
                 .booleanEntry("legacySwingAnimation");
 
         bundle.group("item_modifications")
-                .floatRange("itemScaleX", 0.5F, 2.0F, 0.1F)
-                .floatRange("itemScaleY", 0.5F, 2.0F, 0.1F)
-                .floatRange("itemScaleZ", 0.5F, 2.0F, 0.1F)
+                .floatRange("itemScaleX", 0.2F, 2.0F, 0.1F)
+                .floatRange("itemScaleY", 0.2F, 2.0F, 0.1F)
+                .floatRange("itemScaleZ", 0.2F, 2.0F, 0.1F)
                 .floatEntry("itemOffsetX")
                 .floatEntry("itemOffsetY")
-                .floatEntry("itemOffsetZ");
-
+                .floatEntry("itemOffsetZ")
+                .floatEntry("itemRotationX")
+                .floatEntry("itemRotationY")
+                .floatEntry("itemRotationZ")
+                .booleanEntry("applyCustomizationToBlockItems");
         {
             final GroupBundle serverFeatureGroup = bundle.group("server_features");
             for (final ServerFeature feature : ServerFeatures.allFeatures()) {
