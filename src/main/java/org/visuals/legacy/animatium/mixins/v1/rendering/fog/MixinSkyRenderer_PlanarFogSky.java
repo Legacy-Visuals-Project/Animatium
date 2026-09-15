@@ -40,8 +40,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.visuals.legacy.animatium.Animatium;
 import org.visuals.legacy.animatium.config.AnimatiumConfig;
-import org.visuals.legacy.animatium.handler.rendering.pipeline.AnimatiumPipelines;
 import org.visuals.legacy.animatium.handler.rendering.LegacySkyRenderer;
+import org.visuals.legacy.animatium.handler.rendering.pipeline.AnimatiumPipelines;
 
 @Mixin(SkyRenderer.class)
 public abstract class MixinSkyRenderer_PlanarFogSky {
@@ -51,8 +51,7 @@ public abstract class MixinSkyRenderer_PlanarFogSky {
     @Inject(method = "<init>", at = @At("TAIL"))
     private void animatium$initSkyRenderer(final CallbackInfo ci) {
         // Load them before anything (Static Variables don't load until used, which would cause a issue in the RenderPass)
-        LegacySkyRenderer.TOP_GEOMETRY.getVertexBuffer();
-        LegacySkyRenderer.BOTTOM_GEOMETRY.getVertexBuffer();
+        LegacySkyRenderer.initialize();
         animatium$skyIndexBuffer = RenderSystem.getSequentialBuffer(PrimitiveTopology.QUADS);
     }
 

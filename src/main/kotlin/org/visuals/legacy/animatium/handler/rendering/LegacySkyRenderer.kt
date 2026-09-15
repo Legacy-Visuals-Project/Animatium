@@ -79,22 +79,27 @@ object LegacySkyRenderer {
         }
     }
 
-    @JvmField
-    val TOP_GEOMETRY = IndexedGeometry.compilePersistent(VertexLayouts.POSITIONED_QUAD, 676) { vertexConsumer ->
-        buildSkyHalf(
-            vertexConsumer,
-            16.0F,
-            false
-        )
-    }
+    lateinit var TOP_GEOMETRY: IndexedGeometry
 
-    @JvmField
-    val BOTTOM_GEOMETRY = IndexedGeometry.compilePersistent(VertexLayouts.POSITIONED_QUAD, 676) { vertexConsumer ->
-        buildSkyHalf(
-            vertexConsumer,
-            -16.0F,
-            true
-        )
+    lateinit var BOTTOM_GEOMETRY: IndexedGeometry
+
+    @JvmStatic
+    fun initialize() {
+        TOP_GEOMETRY = IndexedGeometry.compilePersistent(VertexLayouts.POSITIONED_QUAD, 676) { vertexConsumer ->
+            buildSkyHalf(
+                vertexConsumer,
+                16.0F,
+                false
+            )
+        }
+
+        BOTTOM_GEOMETRY = IndexedGeometry.compilePersistent(VertexLayouts.POSITIONED_QUAD, 676) { vertexConsumer ->
+            buildSkyHalf(
+                vertexConsumer,
+                -16.0F,
+                true
+            )
+        }
     }
 
     @JvmStatic
