@@ -1,10 +1,8 @@
-# Release 4.4
+# Release 4.4.1
 
 ## Changes
 
-- Added new setting "Legacy Swing" under Extras which does what "Force High Attack Speed" used to do
-    - This feature was requested to be re-added by a few people.
-
 ## Fixes
 
-- Fixed "Legacy Fog Darkness" weirdness/issues
+- Fix blue void rendering in the end
+- Fix crash that could occur w/ blue void
