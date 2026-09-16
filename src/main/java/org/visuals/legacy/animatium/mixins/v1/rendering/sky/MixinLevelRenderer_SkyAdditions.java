@@ -49,7 +49,7 @@ public abstract class MixinLevelRenderer_SkyAdditions {
 
     @Inject(method = "lambda$addSkyPass$0", at = @At("TAIL"))
     private static void animatium$blueVoid(final GpuBufferSlice skyFog, final SkyRenderState state, final CallbackInfo ci) {
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.blueVoidSky && state.skybox != DimensionType.Skybox.END) {
+        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.blueVoidSky && state.skybox == DimensionType.Skybox.OVERWORLD) {
             LegacySkyRenderer.renderBlueVoid(state.skyColor, ((SkyUtilityState) state).animatium$getHorizonHeight());
         }
     }
