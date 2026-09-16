@@ -27,7 +27,6 @@ package org.visuals.legacy.animatium.mixins.v1.rendering.sky;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.SkyRenderer;
 import net.minecraft.client.renderer.state.level.SkyRenderState;
 import net.minecraft.world.level.dimension.DimensionType;
 import org.spongepowered.asm.mixin.Mixin;
@@ -42,15 +41,15 @@ import org.visuals.legacy.animatium.util.states.SkyUtilityState;
 @Mixin(LevelRenderer.class)
 public abstract class MixinLevelRenderer_SkyAdditions {
     @Inject(method = "lambda$addSkyPass$0", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/SkyRenderer;renderDarkDisc()V", shift = At.Shift.AFTER))
-    private static void animatium$voidBox(final GpuBufferSlice skyFog, final SkyRenderState state, final SkyRenderer skyRenderer, final CallbackInfo ci) {
+    private void animatium$voidBox(final GpuBufferSlice skyFog, final SkyRenderState state, final CallbackInfo ci) {
         if (Animatium.isEnabled() && AnimatiumConfig.instance().other.playerVoidBox) {
             LegacySkyRenderer.renderVoidBox(((SkyUtilityState) state).animatium$getHorizonHeight());
         }
     }
 
     @Inject(method = "lambda$addSkyPass$0", at = @At("TAIL"))
-    private static void animatium$blueVoid(final GpuBufferSlice skyFog, final SkyRenderState state, final SkyRenderer skyRenderer, final CallbackInfo ci) {
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.blueVoidSky && state.skybox != DimensionType.Skybox.END) {
+    private static void animatium$blueVoid(final GpuBufferSlice skyFog, final SkyRenderState state, final CallbackInfo ci) {
+        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.blueVoidSky && state.skybox == DimensionType.Skybox.OVERWORLD) {
             LegacySkyRenderer.renderBlueVoid(state.skyColor, ((SkyUtilityState) state).animatium$getHorizonHeight());
         }
     }
