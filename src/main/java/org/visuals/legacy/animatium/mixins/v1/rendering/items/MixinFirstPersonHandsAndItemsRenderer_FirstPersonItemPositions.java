@@ -29,6 +29,7 @@ import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -49,6 +50,7 @@ import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -73,12 +75,38 @@ public abstract class MixinFirstPersonHandsAndItemsRenderer_FirstPersonItemPosit
     @Shadow
     protected abstract void applyItemArmAttackTransform(final PoseStack poseStack, final HumanoidArm arm, final float attackValue);
 
+    @Unique
+    private static final float animatium$TRANSLATE_OFFSET_MULTIPLIER = 0.05F;
+
+    @ModifyExpressionValue(method = {"renderOneHandedMap", "renderTwoHandedMap", "submitArmWithItem"}, at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;isInvisible:Z", opcode = Opcodes.GETFIELD))
+    private boolean animatium$showArmWhileInvisible(final boolean original) {
+        if (Animatium.isEnabled() && AnimatiumConfig.instance().extras.showArmWhileInvisible) {
+            return false;
+        } else {
+            return original;
+        }
+    }
+
     @WrapWithCondition(method = "swingArm", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V"))
     private boolean animatium$disableSwingTranslate(final PoseStack instance, final float x, final float y, final float z) {
         if (Animatium.isEnabled()) {
             return !AnimatiumConfig.instance().extras.disableSwingTranslate;
         } else {
             return true;
+        }
+    }
+
+    @WrapMethod(method = "applyItemArmAttackTransform")
+    private void animatium$modifySwingPivot(final PoseStack poseStack, final HumanoidArm arm, final float attackValue, final Operation<Void> original) {
+        final ExtrasConfigCategory extras = AnimatiumConfig.instance().extras;
+        final boolean shouldApply = Animatium.isEnabled() && extras.disableSwingPivot;
+        if (shouldApply) {
+            poseStack.translate(extras.itemOffsetX * animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetY * animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetZ * animatium$TRANSLATE_OFFSET_MULTIPLIER);
+        }
+
+        original.call(poseStack, arm, attackValue);
+        if (shouldApply) {
+            poseStack.translate(extras.itemOffsetX * -animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetY * -animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetZ * -animatium$TRANSLATE_OFFSET_MULTIPLIER);
         }
     }
 
@@ -157,20 +185,35 @@ public abstract class MixinFirstPersonHandsAndItemsRenderer_FirstPersonItemPosit
                 poseStack.translate(direction * -1.13 * 0.0625F, -3.2 * 0.0625F, -1.13 * 0.0625F);
             }
 
+            final ExtrasConfigCategory extras = AnimatiumConfig.instance().extras;
             if (AnimatiumConfig.instance().items.skullPosition && ItemUtilKt.isSkullBlock(itemStack) && !AnimatiumConfig.instance().items.mobHeadIcons) {
+                if (extras.applyCustomizationToBlockItems) {
+                    poseStack.translate(extras.itemOffsetX * animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetY * animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetZ * animatium$TRANSLATE_OFFSET_MULTIPLIER);
+                }
+
                 poseStack.rotate(Axis.YP.rotationDegrees(45.0F));
                 poseStack.scale(0.4F, 0.4F, 0.4F);
 
                 // TODO: This is not quite right... (@Mixces)
                 poseStack.rotate(Axis.YP.rotationDegrees(-180.0F));
-                poseStack.translate(0.0F, 0.25F, 0.0F);
+                if (!extras.applyCustomizationToBlockItems) {
+                    poseStack.translate(0.0F, 0.25F, 0.0F);
+                }
+
                 poseStack.scale(1.125F, 1.125F, 1.125F);
             }
 
-            final ExtrasConfigCategory extras = AnimatiumConfig.instance().extras;
-            if (isNotBlock3d) {
-                poseStack.translate(extras.itemOffsetX * 0.05F, extras.itemOffsetY * 0.05F, extras.itemOffsetZ * 0.05F);
+            if (isNotBlock3d || extras.applyCustomizationToBlockItems) {
+                if (AnimatiumConfig.instance().items.fishingRodVersion == FishingRodVersionSetting.V1_7 && ItemUtilKt.isFishingRodItem(itemStack)) {
+                    poseStack.translate(extras.itemOffsetX * -animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetY * animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetZ * animatium$TRANSLATE_OFFSET_MULTIPLIER);
+                } else if (!(AnimatiumConfig.instance().items.skullPosition && ItemUtilKt.isSkullBlock(itemStack) && !AnimatiumConfig.instance().items.mobHeadIcons)) {
+                    poseStack.translate(extras.itemOffsetX * animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetY * animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetZ * animatium$TRANSLATE_OFFSET_MULTIPLIER);
+                }
+
                 poseStack.scale(extras.itemScaleX, extras.itemScaleY, extras.itemScaleZ);
+                poseStack.rotateDegrees(Axis.XP, direction * extras.itemRotationX);
+                poseStack.rotateDegrees(Axis.YP, direction * extras.itemRotationY);
+                poseStack.rotateDegrees(Axis.ZP, direction * extras.itemRotationZ);
             }
         }
     }
@@ -191,18 +234,9 @@ public abstract class MixinFirstPersonHandsAndItemsRenderer_FirstPersonItemPosit
     @ModifyArg(method = "submitHandsWithItems", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/FirstPersonHandsAndItemsRenderer;submitArmWithItem(Lnet/minecraft/client/renderer/state/level/PlayerRenderState;Lnet/minecraft/client/renderer/state/level/FirstPersonHandsAndItemsRenderState;FFLnet/minecraft/world/InteractionHand;FLnet/minecraft/world/item/ItemStack;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V", ordinal = 0), index = 6)
     private ItemStack animatium$useCopyStackFieldForRender(final ItemStack original, @Local(argsOnly = true, name = "state") final FirstPersonHandsAndItemsRenderState state) {
         // TODO/NOTE: 26.2 makes the item persist in hand even when empty (temp check added)
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().items.equipAnimationVersion != EquipAnimationVersionSetting.VANILLA && !original.isEmpty()) {
+        if (!Animatium.isEnabled() || AnimatiumConfig.instance().items.equipAnimationVersion.useStackForRendering() && !original.isEmpty()) {
             // Use our copied stack field for hand animations
             return ((FirstPersonHandsAndItemsRenderStateExt) state).animatium$getMainHandItem();
-        } else {
-            return original;
-        }
-    }
-
-    @ModifyExpressionValue(method = {"renderOneHandedMap", "renderTwoHandedMap", "submitArmWithItem"}, at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;isInvisible:Z", opcode = Opcodes.GETFIELD))
-    private boolean animatium$showArmWhileInvisible(final boolean original) {
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().extras.showArmWhileInvisible) {
-            return false;
         } else {
             return original;
         }
