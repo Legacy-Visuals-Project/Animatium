@@ -25,15 +25,11 @@
 
 package org.visuals.legacy.animatium.util.enums
 
-import org.visuals.legacy.animatium.config.AnimatiumConfig
-
 enum class EquipAnimationVersionSetting {
     V1_7,
     V1_8,
     VANILLA,
     DISABLED;
 
-    fun useStackForRendering(): Boolean {
-        return !(this == VANILLA || this == DISABLED)
-    }
+    fun useStackForRendering() = this != VANILLA && this != DISABLED
 }
