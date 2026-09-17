@@ -59,7 +59,8 @@ public abstract class MixinSkyRenderer_SkyAdditions {
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/renderpearl/api/commands/RenderPass;close()V"))
     private static void animatium$blueVoid(final GpuBufferSlice skyFog, final SkyRenderState state, final CallbackInfo ci, @Local(name = "renderPass") final RenderPass pass) {
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.blueVoidSky && state.skybox == DimensionType.Skybox.OVERWORLD) {
+        // TODO/NOTE: Ignore the intellij warning for 'state.skyColor' here as it is wrong, it can be null
+        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.blueVoidSky && state.skybox == DimensionType.Skybox.OVERWORLD && state.skyColor != null) {
             LegacySkyRenderer.renderBlueVoid(pass, ARGB.colorFromVector3f(state.skyColor), ((SkyUtilityState) state).animatium$getHorizonHeight());
         }
     }
