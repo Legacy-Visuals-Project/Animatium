@@ -85,9 +85,6 @@ public abstract class MixinItemInHandRenderer_FirstPersonItemPositions {
     @Shadow
     protected abstract void applyItemArmAttackTransform(final PoseStack poseStack, final HumanoidArm arm, final float attackValue);
 
-    @Shadow
-    protected abstract boolean shouldInstantlyReplaceVisibleItem(final ItemStack currentlyVisibleItem, final ItemStack expectedItem);
-
     @Unique
     private int animatium$currentSlot = -1;
 
@@ -119,17 +116,19 @@ public abstract class MixinItemInHandRenderer_FirstPersonItemPositions {
         }
     }
 
-     @WrapMethod(method = "applyItemArmAttackTransform")
-     private void animatium$disableSwingPivot(final PoseStack poseStack, final HumanoidArm arm, final float attackValue, final Operation<Void> original) {
-        if (!Animatium.isEnabled() || !AnimatiumConfig.instance().extras.disableSwingPivot) {
-            original.call(poseStack, arm, attackValue);
-            return;
-        }
+    @WrapMethod(method = "applyItemArmAttackTransform")
+    private void animatium$modifySwingPivot(final PoseStack poseStack, final HumanoidArm arm, final float attackValue, final Operation<Void> original) {
         final ExtrasConfigCategory extras = AnimatiumConfig.instance().extras;
-        poseStack.translate(extras.itemOffsetX * animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetY * animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetZ * animatium$TRANSLATE_OFFSET_MULTIPLIER);
+        final boolean shouldApply = Animatium.isEnabled() && extras.disableSwingPivot;
+        if (shouldApply) {
+            poseStack.translate(extras.itemOffsetX * animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetY * animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetZ * animatium$TRANSLATE_OFFSET_MULTIPLIER);
+        }
+
         original.call(poseStack, arm, attackValue);
-        poseStack.translate(extras.itemOffsetX * -animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetY * -animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetZ * -animatium$TRANSLATE_OFFSET_MULTIPLIER);
-     }
+        if (shouldApply) {
+            poseStack.translate(extras.itemOffsetX * -animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetY * -animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetZ * -animatium$TRANSLATE_OFFSET_MULTIPLIER);
+        }
+    }
 
     @WrapOperation(method = "submitArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/AbstractClientPlayer;isUsingItem()Z"))
     private boolean animatium$fixDoubleBlockingVisual$itemUsageVisualInGUI(final AbstractClientPlayer instance, final Operation<Boolean> original) {
@@ -215,24 +214,25 @@ public abstract class MixinItemInHandRenderer_FirstPersonItemPositions {
                 poseStack.translate(direction * -1.13 * 0.0625F, -3.2 * 0.0625F, -1.13 * 0.0625F);
             }
 
+            final ExtrasConfigCategory extras = AnimatiumConfig.instance().extras;
             if (AnimatiumConfig.instance().items.skullPosition && ItemUtilKt.isSkullBlock(itemStack) && !AnimatiumConfig.instance().items.mobHeadIcons) {
-                final ExtrasConfigCategory extras = AnimatiumConfig.instance().extras;
                 if (extras.applyCustomizationToBlockItems) {
                     poseStack.translate(extras.itemOffsetX * animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetY * animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetZ * animatium$TRANSLATE_OFFSET_MULTIPLIER);
                 }
+
                 poseStack.mulPose(Axis.YP.rotationDegrees(45.0F));
                 poseStack.scale(0.4F, 0.4F, 0.4F);
 
                 // TODO: This is not quite right... (@Mixces)
                 poseStack.mulPose(Axis.YP.rotationDegrees(-180.0F));
-                if (!AnimatiumConfig.instance().extras.applyCustomizationToBlockItems) {
+                if (!extras.applyCustomizationToBlockItems) {
                     poseStack.translate(0.0F, 0.25F, 0.0F);
                 }
+
                 poseStack.scale(1.125F, 1.125F, 1.125F);
             }
 
-            final ExtrasConfigCategory extras = AnimatiumConfig.instance().extras;
-            if (isNotBlock3d || AnimatiumConfig.instance().extras.applyCustomizationToBlockItems) {
+            if (isNotBlock3d || extras.applyCustomizationToBlockItems) {
                 if (AnimatiumConfig.instance().items.fishingRodVersion == FishingRodVersionSetting.V1_7 && ItemUtilKt.isFishingRodItem(itemStack)) {
                     poseStack.translate(extras.itemOffsetX * -animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetY * animatium$TRANSLATE_OFFSET_MULTIPLIER, extras.itemOffsetZ * animatium$TRANSLATE_OFFSET_MULTIPLIER);
                 } else if (!(AnimatiumConfig.instance().items.skullPosition && ItemUtilKt.isSkullBlock(itemStack) && !AnimatiumConfig.instance().items.mobHeadIcons)) {
@@ -330,7 +330,7 @@ public abstract class MixinItemInHandRenderer_FirstPersonItemPositions {
     @Inject(method = "tick", at = @At("TAIL"))
     private void animatium$updateFakeItem(final CallbackInfo ci) {
         final LocalPlayer player = this.minecraft.player;
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().items.equipAnimationVersion != EquipAnimationVersionSetting.VANILLA && AnimatiumConfig.instance().items.equipAnimationVersion != EquipAnimationVersionSetting.DISABLED && player != null && this.mainHandHeight < 0.1F ) {
+        if (Animatium.isEnabled() && AnimatiumConfig.instance().items.equipAnimationVersion != EquipAnimationVersionSetting.VANILLA && AnimatiumConfig.instance().items.equipAnimationVersion != EquipAnimationVersionSetting.DISABLED && player != null && this.mainHandHeight < 0.1F) {
             this.animatium$mainHandItem = this.mainHandItem.copy();
             this.animatium$currentSlot = this.minecraft.player.getInventory().getSelectedSlot();
         }
