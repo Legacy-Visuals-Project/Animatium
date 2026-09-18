@@ -31,9 +31,9 @@ import com.mojang.blaze3d.vertex.ByteBufferBuilder
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import com.mojang.blaze3d.vertex.VertexConsumer
 import com.mojang.renderpearl.api.buffers.GpuBuffer
+import com.mojang.renderpearl.api.commands.RenderPass
 import com.mojang.renderpearl.api.pipeline.RenderPipeline
 import net.minecraft.client.CloudStatus
-import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.CloudRenderer
 import net.minecraft.client.renderer.CloudRenderer.RelativeCameraPos
 import net.minecraft.client.renderer.CloudRenderer.TextureData
@@ -48,7 +48,7 @@ import org.visuals.legacy.animatium.config.AnimatiumConfig
 import org.visuals.legacy.animatium.handler.rendering.pipeline.AnimatiumPipelines
 import org.visuals.legacy.animatium.renderer.DynamicTransforms
 import org.visuals.legacy.animatium.renderer.buffer.IndexedGeometry
-import org.visuals.legacy.animatium.renderer.impl.DeferredRenderer
+import org.visuals.legacy.animatium.renderer.impl.WrappedRenderer
 import org.visuals.legacy.animatium.renderer.vertex.VertexLayouts
 import java.io.IOException
 import java.util.*
@@ -231,13 +231,36 @@ class LegacyCloudRenderer : SimplePreparableReloadListener<Optional<TextureData>
 
     private var state: CloudRenderState? = null
 
-    fun prepare(cloudColor: Int, cloudStatus: CloudStatus, height: Float, cameraOffset: Vec3, ticks: Float) {
-        state = CloudRenderState(cloudColor, cloudStatus, height, cameraOffset, ticks)
+    fun prepare(cloudColor: Int, cloudStatus: CloudStatus, height: Float, cameraOffset: Vec3, tickDelta: Float) {
+        this.state = CloudRenderState(cloudColor, cloudStatus, height, cameraOffset, tickDelta)
+
+        var x = cameraOffset.x + tickDelta * 0.030000001F
+        var z = cameraOffset.z + 3.96F
+        val scaledWidth = this.textureData!!.width() * 12.0
+        val scaledHeight = this.textureData!!.height() * 12.0
+        x -= Mth.floor(x / scaledWidth) * scaledWidth
+        z -= Mth.floor(z / scaledHeight) * scaledHeight
+        val cellX = Mth.floor(x / 12.0)
+        val cellZ = Mth.floor(z / 12.0)
+
+        val offsetBottom = (height - cameraOffset.y).toFloat()
+        val offsetTop = offsetBottom + 4.0F
+        val relativeCameraPos =
+            if (offsetTop < 0.0F) RelativeCameraPos.ABOVE_CLOUDS else (if (offsetBottom > 0.0F) RelativeCameraPos.BELOW_CLOUDS else RelativeCameraPos.INSIDE_CLOUDS)
+
+        if (this.needsRebuild || cellX != this.prevCellX || cellZ != this.prevCellZ || relativeCameraPos != this.prevRelativeCameraPos || cloudStatus != this.prevType) {
+            this.needsRebuild = false
+            this.prevRelativeCameraPos = relativeCameraPos
+            this.prevType = cloudStatus
+            this.prevCellX = cellX
+            this.prevCellZ = cellZ
+            this.setupMesh(cellX, cellZ, cloudStatus, relativeCameraPos)
+        }
     }
 
-    fun render() {
-        val state = this.state ?: return
-        if (state.shouldRender() && this.textureData != null) {
+    fun render(pass: RenderPass) {
+        if (this.textureData != null && this.indexCount != 0) {
+            val state = this.state ?: return
             var x = state.cameraPosition.x + state.tickDelta * 0.030000001F
             var z = state.cameraPosition.z + 3.96F
             val scaledWidth = this.textureData!!.width() * 12.0
@@ -247,38 +270,24 @@ class LegacyCloudRenderer : SimplePreparableReloadListener<Optional<TextureData>
             val cellX = Mth.floor(x / 12.0)
             val cellZ = Mth.floor(z / 12.0)
 
-            val offsetBottom = (state.bottomY - state.cameraPosition.y).toFloat()
-            val offsetTop = offsetBottom + 4.0F
-            val relativeCameraPos =
-                if (offsetTop < 0.0F) RelativeCameraPos.ABOVE_CLOUDS else (if (offsetBottom > 0.0F) RelativeCameraPos.BELOW_CLOUDS else RelativeCameraPos.INSIDE_CLOUDS)
-
             val pipelineSet = AnimatiumPipelines.getCloudsSet(AnimatiumConfig.instance().other.planarSkyFog)
             val pipeline = pipelineSet.get(state.cloudStatus)
-            if (this.needsRebuild || cellX != this.prevCellX || cellZ != this.prevCellZ || relativeCameraPos != this.prevRelativeCameraPos || state.cloudStatus != this.prevType) {
-                this.needsRebuild = false
-                this.prevRelativeCameraPos = relativeCameraPos
-                this.prevType = state.cloudStatus
-                this.prevCellX = cellX
-                this.prevCellZ = cellZ
-                this.setupMesh(cellX, cellZ, state.cloudStatus, relativeCameraPos)
+
+            val offsetBottom = (state.bottomY - state.cameraPosition.y).toFloat()
+            val offsetX = (x - cellX * 12.0F).toFloat()
+            val offsetZ = (z - cellZ * 12.0F).toFloat()
+            val offset = Vector3f(-offsetX, offsetBottom, -offsetZ)
+            if (pipeline != pipelineSet.flatPipeline) {
+                this.draw(pass, pipelineSet.depthOnlyPipeline, offset, state.color)
             }
 
-            if (this.indexCount != 0) {
-                val offsetX = (x - cellX * 12.0F).toFloat()
-                val offsetZ = (z - cellZ * 12.0F).toFloat()
-                val offset = Vector3f(-offsetX, offsetBottom, -offsetZ)
-                if (pipeline != pipelineSet.flatPipeline) {
-                    this.draw(pipelineSet.depthOnlyPipeline, offset, state.color)
-                }
-
-                this.draw(pipeline, offset, state.color)
-            }
+            this.draw(pass, pipeline, offset, state.color)
         }
     }
 
-    private fun draw(pipeline: RenderPipeline, offset: Vector3f, color: Int) {
-        val cloudsTarget = Minecraft.getInstance().gameRenderer.mainRenderTarget()
-        DeferredRenderer.of("Legacy Clouds (${pipeline.location})", cloudsTarget).use { renderer ->
+    private fun draw(pass: RenderPass, pipeline: RenderPipeline, offset: Vector3f, color: Int) {
+        WrappedRenderer.of(pass).use { renderer ->
+            pass.pushDebugGroup({ "Legacy Clouds (${pipeline.location})" })
             renderer.setPipeline(pipeline)
             renderer.setUniform(
                 DynamicTransforms.KEY, DynamicTransforms.builder()
@@ -287,6 +296,7 @@ class LegacyCloudRenderer : SimplePreparableReloadListener<Optional<TextureData>
                     .build()
             )
             renderer.draw(this.geometry!!)
+            pass.popDebugGroup()
         }
     }
 
