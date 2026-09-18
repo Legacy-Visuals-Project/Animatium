@@ -2,6 +2,8 @@
 
 ## Changes
 
+- Added new item transformation settings
+
 ## Fixes
 
 - Fix blue void rendering in the end
