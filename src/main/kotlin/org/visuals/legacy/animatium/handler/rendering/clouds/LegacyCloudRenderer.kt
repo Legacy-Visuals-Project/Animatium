@@ -225,9 +225,7 @@ class LegacyCloudRenderer : SimplePreparableReloadListener<Optional<TextureData>
         }
     }
 
-    data class CloudRenderState(val color: Int, val cloudStatus: CloudStatus, val bottomY: Float, val cameraPosition: Vec3, val tickDelta: Float) {
-        fun shouldRender() = ARGB.alpha(color) > 0 && cloudStatus != CloudStatus.OFF
-    }
+    data class CloudRenderState(val color: Int, val cloudStatus: CloudStatus, val bottomY: Float, val cameraPosition: Vec3, val tickDelta: Float)
 
     private var state: CloudRenderState? = null
 
