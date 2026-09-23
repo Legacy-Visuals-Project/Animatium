@@ -25,25 +25,24 @@
 
 package org.visuals.legacy.animatium.handler.server_features
 
-import org.visuals.legacy.animatium.handler.config.bundle.ConfigBundles
+import org.visuals.legacy.animatium.config.AnimatiumConfig
+import org.visuals.legacy.animatium.config.category.ExtrasConfigCategory
 import org.visuals.legacy.animatium.util.isSingleplayer
 
 object ServerFeatureManager {
     @JvmField
     val ENABLED_SERVER_FEATURES: HashSet<ServerFeature> = hashSetOf()
 
+    private val SINGLEPLAYER_FIELDS = ServerFeatures.allFeatures()
+        .filter { it != ServerFeatures.ALL }
+        .associateWith { ExtrasConfigCategory::class.java.getField(it.identifier.path) }
+
     @JvmStatic
     fun isPresent(feature: ServerFeature): Boolean {
-        if (isSingleplayer()) {
-            for (entry in ConfigBundles.EXTRAS.entries()) {
-                if (entry.name() == feature.identifier.path) {
-                    return entry.value() as Boolean
-                }
-            }
-
-            return false
+        return if (isSingleplayer()) {
+            SINGLEPLAYER_FIELDS[feature]?.getBoolean(AnimatiumConfig.instance().extras) ?: false
         } else {
-            return ENABLED_SERVER_FEATURES.contains(feature)
+            ENABLED_SERVER_FEATURES.contains(feature)
         }
     }
 }
