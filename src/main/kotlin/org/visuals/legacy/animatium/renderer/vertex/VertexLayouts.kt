@@ -26,8 +26,8 @@
 package org.visuals.legacy.animatium.renderer.vertex
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
+import com.mojang.blaze3d.vertex.VertexFormat
 import com.mojang.renderpearl.api.pipeline.PrimitiveTopology
-import com.mojang.renderpearl.api.vertex.VertexFormat
 
 object VertexLayouts {
     @JvmField

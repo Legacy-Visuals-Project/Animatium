@@ -25,10 +25,10 @@
 
 package org.visuals.legacy.animatium.handler.rendering.pipeline
 
+import com.mojang.blaze3d.pipeline.RenderPipeline
+import com.mojang.blaze3d.vertex.VertexFormat
 import com.mojang.renderpearl.api.pipeline.BindGroupLayout
-import com.mojang.renderpearl.api.pipeline.RenderPipeline
 import com.mojang.renderpearl.api.pipeline.ShaderType
-import com.mojang.renderpearl.api.vertex.VertexFormat
 import java.util.*
 
 fun RenderPipeline.Builder.withVertexFormat(vertexFormat: VertexFormat) = withVertexBinding(0, vertexFormat)

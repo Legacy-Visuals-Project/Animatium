@@ -25,6 +25,7 @@
 
 package org.visuals.legacy.animatium.handler.rendering.clouds
 
+import com.mojang.blaze3d.pipeline.RenderPipeline
 import com.mojang.blaze3d.platform.NativeImage
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.ByteBufferBuilder
@@ -32,7 +33,6 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import com.mojang.blaze3d.vertex.VertexConsumer
 import com.mojang.renderpearl.api.buffers.GpuBuffer
 import com.mojang.renderpearl.api.commands.RenderPass
-import com.mojang.renderpearl.api.pipeline.RenderPipeline
 import net.minecraft.client.CloudStatus
 import net.minecraft.client.renderer.CloudRenderer
 import net.minecraft.client.renderer.CloudRenderer.RelativeCameraPos
