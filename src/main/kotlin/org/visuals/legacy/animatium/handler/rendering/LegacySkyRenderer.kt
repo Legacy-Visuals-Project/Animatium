@@ -39,6 +39,7 @@ import org.visuals.legacy.animatium.renderer.DynamicTransforms
 import org.visuals.legacy.animatium.renderer.buffer.IndexedGeometry
 import org.visuals.legacy.animatium.renderer.impl.WrappedRenderer
 import org.visuals.legacy.animatium.renderer.vertex.VertexLayouts
+import org.visuals.legacy.animatium.util.getHorizonHeight
 import org.visuals.legacy.animatium.util.profile
 
 object LegacySkyRenderer {

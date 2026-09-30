@@ -28,6 +28,7 @@ package org.visuals.legacy.animatium.util
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.util.Mth
 import net.minecraft.world.level.Level
+import org.visuals.legacy.animatium.config.AnimatiumConfig
 import org.visuals.legacy.animatium.mixins.accessor.ClientLevelDataAccessor
 import kotlin.math.cos
 
@@ -79,4 +80,14 @@ fun ClientLevel.getTimeOfDay(tickDelta: Float): Float {
     val mul = 1.0F - ((cos(frac * Math.PI) + 1.0) / 2.0).toFloat()
     frac += (mul - frac) / 3.0F
     return frac
+}
+
+fun ClientLevel.ClientLevelData.getHorizonHeight(level: ClientLevel): Float {
+    return if (this.voidDarknessOnsetRange() == 1.0F)
+        if (AnimatiumConfig.instance().other.oldY0Height)
+            0.0F
+        else
+            level.minY.toFloat()
+    else
+        63.0F
 }

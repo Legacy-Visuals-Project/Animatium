@@ -25,33 +25,29 @@
 
 package org.visuals.legacy.animatium.mixins.v1.rendering.sky;
 
-import com.llamalad7.mixinextras.expression.Definition;
-import com.llamalad7.mixinextras.expression.Expression;
-import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GameRenderer;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.state.OptionsRenderState;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.visuals.legacy.animatium.Animatium;
 import org.visuals.legacy.animatium.config.AnimatiumConfig;
 
-@Mixin(GameRenderer.class)
+@Mixin(LevelRenderer.class)
 public abstract class MixinLevelRenderer_OldSkyRenderingCheck {
     @Shadow
     @Final
-    private Minecraft minecraft;
+    private OptionsRenderState optionsRenderState;
 
-    @Definition(id = "renderSky", local = @Local(type = boolean.class, ordinal = 1, argsOnly = true))
-    @Expression("renderSky")
-    @ModifyArg(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;render(Lcom/mojang/blaze3d/resource/GraphicsResourceAllocator;ZLnet/minecraft/client/renderer/state/level/CameraRenderState;Lcom/mojang/renderpearl/api/buffers/GpuBufferSlice;Lorg/joml/Vector4f;ZZ)V"), index = 5)
-    private boolean animatium$oldSkyRenderingCheck(final boolean original) {
+    @WrapMethod(method = "shouldRenderSky")
+    private boolean animatium$oldSkyRenderingCheck(final Operation<Boolean> original) {
+        final boolean shouldRender = original.call();
         if (Animatium.isEnabled() && AnimatiumConfig.instance().fixes.oldSkyRenderingCheck) {
-            return original && this.minecraft.options.getEffectiveRenderDistance() >= 4;
+            return shouldRender && this.optionsRenderState.renderDistance >= 4;
         } else {
-            return original;
+            return shouldRender;
         }
     }
 }

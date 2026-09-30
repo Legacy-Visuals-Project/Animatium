@@ -26,6 +26,7 @@
 package org.visuals.legacy.animatium.handler.screen.debug
 
 import net.minecraft.client.gui.components.debug.DebugEntryCategory
+import net.minecraft.client.gui.components.debug.DebugGroup
 import net.minecraft.client.gui.components.debug.DebugScreenDisplayer
 import net.minecraft.client.gui.components.debug.DebugScreenEntry
 import net.minecraft.network.chat.Component
@@ -38,8 +39,9 @@ import org.visuals.legacy.animatium.handler.server_features.ServerFeatures
 
 class AnimatiumDebugEntry : DebugScreenEntry {
     companion object {
+        val ID = Animatium.location("debug")
         val CATEGORY = DebugEntryCategory(Component.translatable("animatium.category.debug"), Float.MAX_VALUE)
-        val GROUP = Animatium.location("debug")
+        val GROUP = DebugGroup.Builder.titled(Component.translatable("animatium.category.debug")).build()
     }
 
     override fun display(

@@ -145,7 +145,6 @@
 		"v1.rendering.sky.MixinMinecraft_LoadLegacyClouds",
 		"v1.rendering.sky.MixinSkyRenderer_SkyAdditions",
 		"v1.rendering.sky.cloud_height.MixinLevelExtractor_LegacyCloudHeight",
-		"v1.rendering.sky.horizon_height.MixinClientLevel_ClientLevelData_OldMinY",
 		"v1.rendering.sky.the_void.MixinClientLevel_VoidParticles",
 		"v1.rendering.states.MixinArmedEntityRenderState",
 		"v1.rendering.states.MixinCameraRenderState",
