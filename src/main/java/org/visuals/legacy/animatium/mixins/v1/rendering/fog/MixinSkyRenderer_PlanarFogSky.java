@@ -63,16 +63,6 @@ public abstract class MixinSkyRenderer_PlanarFogSky {
         }
     }
 
-    @WrapOperation(method = "renderDarkDisc", at = @At(value = "INVOKE", target = "Lcom/mojang/renderpearl/api/commands/RenderPass;setPipeline(Lcom/mojang/renderpearl/api/pipeline/CompiledRenderPipeline;)V"))
-    private void animatium$planarFogPipeline$darkSkyDisc(final RenderPass instance, final CompiledRenderPipeline renderPipeline, final Operation<Void> original) {
-        CompiledRenderPipeline pipeline = renderPipeline;
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.planarSkyFog) {
-            pipeline = RenderSystem.getCompiledPipeline(AnimatiumPipelines.LEGACY_SKY_PLANAR_FOG);
-        }
-
-        original.call(instance, pipeline);
-    }
-
     @WrapOperation(method = "renderSkyDisc", at = @At(value = "INVOKE", target = "Lcom/mojang/renderpearl/api/commands/RenderPass;draw(IIII)V", ordinal = 0))
     private void animatium$planarFogPipeline$skyDisc$draw(final RenderPass instance, final int vertexCount, final int instanceCount, final int firstVertex, final int firstInstance, final Operation<Void> original) {
         if (Animatium.isEnabled() && AnimatiumConfig.instance().other.planarSkyFog) {
@@ -82,21 +72,32 @@ public abstract class MixinSkyRenderer_PlanarFogSky {
         }
     }
 
-    @WrapOperation(method = "renderDarkDisc", at = @At(value = "INVOKE", target = "Lcom/mojang/renderpearl/api/commands/RenderPass;setVertexBuffer(ILcom/mojang/renderpearl/api/buffers/GpuBufferSlice;)V", ordinal = 0))
-    private void animatium$planarFogPipeline$darkSkyDisc$vertexBuffer(final RenderPass instance, final int slot, final GpuBufferSlice vertexBuffer, final Operation<Void> original) {
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.planarSkyFog) {
-            LegacySkyRenderer.BOTTOM_GEOMETRY.bind(instance, animatium$skyIndexBuffer);
-        } else {
-            original.call(instance, slot, vertexBuffer);
-        }
-    }
+    // TODO: Sky Occluder
+//    @WrapOperation(method = "renderDarkDisc", at = @At(value = "INVOKE", target = "Lcom/mojang/renderpearl/api/commands/RenderPass;setPipeline(Lcom/mojang/renderpearl/api/pipeline/CompiledRenderPipeline;)V"))
+//    private void animatium$planarFogPipeline$darkSkyDisc(final RenderPass instance, final CompiledRenderPipeline renderPipeline, final Operation<Void> original) {
+//        CompiledRenderPipeline pipeline = renderPipeline;
+//        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.planarSkyFog) {
+//            pipeline = RenderSystem.getCompiledPipeline(AnimatiumPipelines.LEGACY_SKY_PLANAR_FOG);
+//        }
+//
+//        original.call(instance, pipeline);
+//    }
 
-    @WrapOperation(method = "renderDarkDisc", at = @At(value = "INVOKE", target = "Lcom/mojang/renderpearl/api/commands/RenderPass;draw(IIII)V", ordinal = 0))
-    private void animatium$planarFogPipeline$darkSkyDisc$draw(final RenderPass instance, final int vertexCount, final int instanceCount, final int firstVertex, final int firstInstance, final Operation<Void> original) {
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.planarSkyFog) {
-            LegacySkyRenderer.BOTTOM_GEOMETRY.draw(instance);
-        } else {
-            original.call(instance, vertexCount, instanceCount, firstVertex, firstInstance);
-        }
-    }
+//    @WrapOperation(method = "renderDarkDisc", at = @At(value = "INVOKE", target = "Lcom/mojang/renderpearl/api/commands/RenderPass;setVertexBuffer(ILcom/mojang/renderpearl/api/buffers/GpuBufferSlice;)V", ordinal = 0))
+//    private void animatium$planarFogPipeline$darkSkyDisc$vertexBuffer(final RenderPass instance, final int slot, final GpuBufferSlice vertexBuffer, final Operation<Void> original) {
+//        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.planarSkyFog) {
+//            LegacySkyRenderer.BOTTOM_GEOMETRY.bind(instance, animatium$skyIndexBuffer);
+//        } else {
+//            original.call(instance, slot, vertexBuffer);
+//        }
+//    }
+//
+//    @WrapOperation(method = "renderDarkDisc", at = @At(value = "INVOKE", target = "Lcom/mojang/renderpearl/api/commands/RenderPass;draw(IIII)V", ordinal = 0))
+//    private void animatium$planarFogPipeline$darkSkyDisc$draw(final RenderPass instance, final int vertexCount, final int instanceCount, final int firstVertex, final int firstInstance, final Operation<Void> original) {
+//        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.planarSkyFog) {
+//            LegacySkyRenderer.BOTTOM_GEOMETRY.draw(instance);
+//        } else {
+//            original.call(instance, vertexCount, instanceCount, firstVertex, firstInstance);
+//        }
+//    }
 }
