@@ -46,7 +46,7 @@ public final class ItemsConfigCategory extends Category {
     // (Items) Transformations
     public boolean itemPositions = false;
     public boolean itemPositionsInThirdPerson = false;
-    public boolean strictItemPositionsInThirdPerson = false;
+    public boolean onlyAffectWeaponsInThirdPerson = false;
     public boolean thinBlockPositions = false;
     public boolean skullPosition = false;
     public FishingRodVersionSetting fishingRodVersion = FishingRodVersionSetting.VANILLA;
@@ -90,7 +90,7 @@ public final class ItemsConfigCategory extends Category {
         bundle.group("transformations")
                 .booleanEntry("itemPositions")
                 .booleanEntry("itemPositionsInThirdPerson")
-                .booleanEntry("strictItemPositionsInThirdPerson")
+                .booleanEntry("onlyAffectWeaponsInThirdPerson")
                 .booleanEntry("thinBlockPositions")
                 .booleanEntry("skullPosition")
                 .enumEntry("fishingRodVersion", FishingRodVersionSetting.class);
