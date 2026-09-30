@@ -152,7 +152,6 @@
 	"animatium.enum.EquipAnimationVersionSetting.VANILLA": "Vanilla",
 	"animatium.enum.EquipAnimationVersionSetting.V1_8": "1.8",
 	"animatium.enum.EquipAnimationVersionSetting.V1_7": "1.7 and below",
-	"animatium.enum.EquipAnimationVersionSetting.DISABLED": "Disabled",
 	"animatium.durabilityBarColors": "[1.10] Legacy Durability Bar Color",
 	"animatium.durabilityBarColors.description": "Restores the old durability damage colors from <=1.10.x.",
 	"animatium.legacyItemRarities": "[1.21.1] Item Rarities",
@@ -377,8 +376,8 @@
 	"animatium.itemRotationY.description": "",
 	"animatium.itemRotationZ": "Item Rotation Z",
 	"animatium.itemRotationZ.description": "",
-	"animatium.applyCustomizationToBlockItems": "Apply to block items and skulls",
-	"animatium.applyCustomizationToBlockItems.description": "",
+	"animatium.applyToBlockItems": "Apply to block items and skulls",
+	"animatium.applyToBlockItems.description": "",
 
 	"animatium.category.extras.group.server_features": "Server Features (Singleplayer Only)",
 	"animatium.miss_penalty": "miss_penalty",
