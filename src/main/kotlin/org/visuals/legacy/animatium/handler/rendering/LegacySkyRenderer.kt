@@ -31,11 +31,13 @@ import com.mojang.renderpearl.api.commands.RenderPass
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.util.ARGB
+import org.joml.Matrix4f
 import org.joml.Vector4f
 import org.visuals.legacy.animatium.config.AnimatiumConfig
 import org.visuals.legacy.animatium.handler.compatibility.IrisPipeline
 import org.visuals.legacy.animatium.handler.rendering.pipeline.AnimatiumPipelines
 import org.visuals.legacy.animatium.renderer.DynamicTransforms
+import org.visuals.legacy.animatium.renderer.buffer.Geometry
 import org.visuals.legacy.animatium.renderer.buffer.IndexedGeometry
 import org.visuals.legacy.animatium.renderer.impl.WrappedRenderer
 import org.visuals.legacy.animatium.renderer.vertex.VertexLayouts
@@ -104,39 +106,52 @@ object LegacySkyRenderer {
     }
 
     @JvmStatic
+    fun renderVoidDisc(pass: RenderPass) {
+        profile("void_disc") {
+            pass.pushDebugGroup({ "Void disc" })
+            renderSkyDisc(pass, Vector4f(0.0F, 0.0F, 0.0F, 1.0F), BOTTOM_GEOMETRY) {
+                it.translate(0.0F, 12.0F, 0.0F)
+            }
+            pass.popDebugGroup()
+        }
+    }
+
+    @JvmStatic
     fun renderBlueVoid(pass: RenderPass, skyColor: Int, depth: Double) {
         profile("blue_void") {
-            WrappedRenderer.of(pass).use { renderer ->
-                pass.pushDebugGroup({ "Lower Sky Disc" })
-                val matrix = RenderSystem.getModelViewMatrixCopy().translate(
-                    0.0F,
-                    if (AnimatiumConfig.instance().extras.dontMoveBlueVoid) 12.0F else -((depth - 16.0).toFloat()),
-                    0.0F
-                )
-
-                val color = Vector4f(
-                    ARGB.redFloat(skyColor) * 0.2F + 0.04F,
-                    ARGB.greenFloat(skyColor) * 0.2F + 0.04F,
-                    ARGB.blueFloat(skyColor) * 0.6F + 0.1F,
-                    1.0F
-                )
-
-                renderer.setPipeline(
-                    AnimatiumPipelines.getSkyPipeline(AnimatiumConfig.instance().other.planarSkyFog),
-                    IrisPipeline.SKY_BASIC
-                )
-
-                renderer.setUniform(
-                    DynamicTransforms.KEY,
-                    DynamicTransforms.builder()
-                        .withModelViewMatrix(matrix)
-                        .withShaderColor(color)
-                        .build()
-                )
-
-                renderer.draw(BOTTOM_GEOMETRY)
-                pass.popDebugGroup()
+            pass.pushDebugGroup({ "Blue Void Disc" })
+            val color = Vector4f(
+                ARGB.redFloat(skyColor) * 0.2F + 0.04F,
+                ARGB.greenFloat(skyColor) * 0.2F + 0.04F,
+                ARGB.blueFloat(skyColor) * 0.6F + 0.1F,
+                1.0F
+            )
+            renderSkyDisc(pass, color, BOTTOM_GEOMETRY) {
+                it.translate(0.0F, if (AnimatiumConfig.instance().extras.dontMoveBlueVoid) 12.0F else -((depth - 16.0).toFloat()), 0.0F)
             }
+            pass.popDebugGroup()
+        }
+    }
+
+    @JvmStatic
+    fun renderSkyDisc(pass: RenderPass, color: Vector4f, geometry: Geometry, matrixModifier: (matrix: Matrix4f) -> Matrix4f) {
+        WrappedRenderer.of(pass).use { renderer ->
+            val matrix = matrixModifier(RenderSystem.getModelViewMatrixCopy())
+
+            renderer.setPipeline(
+                AnimatiumPipelines.getSkyPipeline(AnimatiumConfig.instance().other.planarSkyFog),
+                IrisPipeline.SKY_BASIC
+            )
+
+            renderer.setUniform(
+                DynamicTransforms.KEY,
+                DynamicTransforms.builder()
+                    .withModelViewMatrix(matrix)
+                    .withShaderColor(color)
+                    .build()
+            )
+
+            renderer.draw(geometry)
         }
     }
 
