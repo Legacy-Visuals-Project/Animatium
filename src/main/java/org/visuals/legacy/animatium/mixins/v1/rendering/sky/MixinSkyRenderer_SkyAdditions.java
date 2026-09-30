@@ -54,7 +54,7 @@ public abstract class MixinSkyRenderer_SkyAdditions {
     }
 
     @ModifyExpressionValue(method = "render", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/state/level/SkyRenderState;hasSkyOccluder:Z"))
-    private boolean animatium$voidDisc(final boolean original, @Local(name = "renderPass", argsOnly = true) final RenderPass pass, @Local(name = "state", argsOnly = true) final SkyRenderState state) {
+    private boolean animatium$voidDiscCheck(final boolean original, @Local(name = "renderPass", argsOnly = true) final RenderPass pass, @Local(name = "state", argsOnly = true) final SkyRenderState state) {
         if (Animatium.isEnabled() && AnimatiumConfig.instance().other.blueVoidSky) {
             return ((SkyUtilityState) state).animatium$getHorizonHeight() < 0.0;
         } else {
