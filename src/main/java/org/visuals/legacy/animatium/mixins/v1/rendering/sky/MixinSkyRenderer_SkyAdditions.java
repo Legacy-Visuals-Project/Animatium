@@ -35,7 +35,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.SkyRenderer;
 import net.minecraft.client.renderer.state.level.SkyRenderState;
 import net.minecraft.util.ARGB;
-import net.minecraft.world.level.dimension.DimensionType;
 import org.joml.Vector4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -71,9 +70,9 @@ public abstract class MixinSkyRenderer_SkyAdditions {
         }
     }
 
-    @Inject(method = "render", at = @At(value = "TAIL"))
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/renderpearl/api/commands/RenderPass;popDebugGroup()V", ordinal = 1))
     private static void animatium$blueVoidAndBox(final SkyRenderState state, final RenderPass pass, final Vector4f fogColor, final boolean withDepthAttachment, final CallbackInfo ci) {
-        if (Animatium.isEnabled() && state.skybox == DimensionType.Skybox.OVERWORLD) {
+        if (Animatium.isEnabled()) {
             final double depth = ((SkyUtilityState) state).animatium$getHorizonHeight();
             if (AnimatiumConfig.instance().other.playerVoidBox && depth < 0.0) {
                 LegacySkyRenderer.renderVoidBox(pass, depth);
