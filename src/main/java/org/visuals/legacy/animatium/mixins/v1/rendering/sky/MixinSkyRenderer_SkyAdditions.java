@@ -25,7 +25,6 @@
 
 package org.visuals.legacy.animatium.mixins.v1.rendering.sky;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -52,36 +51,27 @@ public abstract class MixinSkyRenderer_SkyAdditions {
         ((SkyUtilityState) state).animatium$setHorizonHeight(LegacySkyRenderer.getHorizonEyeHeight(level, tickDelta));
     }
 
-    @ModifyExpressionValue(method = "render", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/state/level/SkyRenderState;hasSkyOccluder:Z"))
-    private boolean animatium$voidDiscCheck(final boolean original, @Local(name = "renderPass", argsOnly = true) final RenderPass pass, @Local(name = "state", argsOnly = true) final SkyRenderState state) {
-        if (Animatium.isEnabled() && AnimatiumConfig.instance().other.blueVoidSky) {
-            return ((SkyUtilityState) state).animatium$getHorizonHeight() < 0.0;
-        } else {
-            return original;
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/SkyRenderer;renderSunMoonAndStars(Lcom/mojang/renderpearl/api/commands/RenderPass;Lcom/mojang/blaze3d/vertex/PoseStack;FFFLnet/minecraft/world/level/MoonPhase;FFZ)V", shift = At.Shift.AFTER))
+    private void animatium$voidDiscAndBox(final SkyRenderState state, final RenderPass pass, final Vector4f fogColor, final boolean withDepthAttachment, final CallbackInfo ci) {
+        final double depth = ((SkyUtilityState) state).animatium$getHorizonHeight();
+        if (Animatium.isEnabled() && depth < 0.0) {
+            if (AnimatiumConfig.instance().other.blueVoidSky) {
+                LegacySkyRenderer.renderVoidDisc(pass);
+            }
+
+            if (AnimatiumConfig.instance().other.playerVoidBox) {
+                LegacySkyRenderer.renderVoidBox(pass, depth);
+            }
         }
     }
 
     @WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/SkyRenderer;renderSkyOccluder(Lcom/mojang/renderpearl/api/commands/RenderPass;Lorg/joml/Vector4f;Z)V"))
-    private void animatium$useVoidDisc(final SkyRenderer instance, final RenderPass pass, final Vector4f color, final boolean withDepthAttachment, final Operation<Void> original) {
+    private void animatium$blueVoid(final SkyRenderer instance, final RenderPass pass, final Vector4f color, final boolean withDepthAttachment, final Operation<Void> original, @Local(name = "state", argsOnly = true) final SkyRenderState state) {
         if (Animatium.isEnabled() && AnimatiumConfig.instance().other.blueVoidSky) {
-            LegacySkyRenderer.renderVoidDisc(pass);
+            final double depth = ((SkyUtilityState) state).animatium$getHorizonHeight();
+            LegacySkyRenderer.renderBlueVoid(pass, ARGB.colorFromVector4f(color), depth);
         } else {
             original.call(instance, pass, color, withDepthAttachment);
-        }
-    }
-
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/renderpearl/api/commands/RenderPass;popDebugGroup()V", ordinal = 1))
-    private static void animatium$blueVoidAndBox(final SkyRenderState state, final RenderPass pass, final Vector4f fogColor, final boolean withDepthAttachment, final CallbackInfo ci) {
-        if (Animatium.isEnabled()) {
-            final double depth = ((SkyUtilityState) state).animatium$getHorizonHeight();
-            if (AnimatiumConfig.instance().other.playerVoidBox && depth < 0.0) {
-                LegacySkyRenderer.renderVoidBox(pass, depth);
-            }
-
-            // TODO/NOTE: Ignore the intellij warning for 'state.skyColor' here as it is wrong, it can be null
-            if (AnimatiumConfig.instance().other.blueVoidSky && state.skyColor != null) {
-                LegacySkyRenderer.renderBlueVoid(pass, ARGB.colorFromVector3f(state.skyColor), depth);
-            }
         }
     }
 
