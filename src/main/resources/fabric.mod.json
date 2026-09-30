@@ -5,13 +5,12 @@
 	"name": "${name}",
 	"description": "${description}",
 	"authors": [
-		"Mixces",
-		"lowercasebtw"
+		"lowercasebtw",
+		"Mixces"
 	],
 	"contributors": [
 		"Tellinq",
-		"MicrocontrollersDev",
-		"Wyvest"
+		"MicrocontrollersDev"
 	],
 	"contact": {
 		"sources": "${source}",
