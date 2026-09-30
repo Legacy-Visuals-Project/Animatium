@@ -171,7 +171,7 @@ class LegacyPanoramaRenderer : AutoCloseable {
     }
 
     private fun descriptor(name: String) = RenderDescriptor.builder({ name })
-        .withRenderTarget(this.panoramaTarget)
+        .withColorTexture(this.panoramaTarget.colorTextureView!!)
         .withArea(VIEWPORT)
         .build()
 

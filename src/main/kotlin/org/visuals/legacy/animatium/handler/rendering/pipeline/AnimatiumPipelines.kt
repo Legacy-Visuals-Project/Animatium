@@ -55,7 +55,6 @@ object AnimatiumPipelines {
     val LEGACY_PANORAMA_SNIPPET = RenderPipeline.builder(TEXTURED_QUAD)
         .withVertexShader(location("core/legacy_panorama"))
         .withFragmentShader(location("core/legacy_panorama"))
-        .withDepthStencilState(NO_DEPTH_WRITE)
         .withCull(false)
         .withVertexFormat(DefaultVertexFormat.POSITION)
         .buildSnippet()
@@ -177,7 +176,7 @@ object AnimatiumPipelines {
     val COLOR_BOOST_BLIT: RenderPipeline = RenderPipelines.register(
         RenderPipeline.builder()
             .withLocation(location("pipeline/colorboost"))
-            .withVertexShader("core/screenquad")
+            .withVertexShader("core/screentriangle")
             .withFragmentShader(location("core/colorboost"))
             .withBindGroupLayout(BindGroupLayouts.SAMPLER0)
             .withColorTargetState(ColorTargetState.DEFAULT)
@@ -195,7 +194,7 @@ object AnimatiumPipelines {
     val LEGACY_LIGHTMAP: RenderPipeline = RenderPipelines.register(
         RenderPipeline.builder()
             .withLocation(location("pipeline/legacy_lightmap"))
-            .withVertexShader("core/screenquad")
+            .withVertexShader("core/screentriangle")
             .withFragmentShader(location("core/legacy_lightmap"))
             .withBindGroupLayout(LEGACY_LIGHTMAP_INFO)
             .withColorTargetState(ColorTargetState.DEFAULT)
