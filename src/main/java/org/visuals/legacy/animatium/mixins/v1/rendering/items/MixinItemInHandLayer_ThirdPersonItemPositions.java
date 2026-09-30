@@ -46,38 +46,49 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import org.visuals.legacy.animatium.Animatium;
 import org.visuals.legacy.animatium.config.AnimatiumConfig;
-import org.visuals.legacy.animatium.util.EntityUtilKt;
 import org.visuals.legacy.animatium.util.ItemUtilKt;
+import org.visuals.legacy.animatium.util.SwingUtilKt;
 import org.visuals.legacy.animatium.util.enums.FishingRodVersionSetting;
 
 @Mixin(ItemInHandLayer.class)
 public abstract class MixinItemInHandLayer_ThirdPersonItemPositions<S extends ArmedEntityRenderState> {
     @ModifyArgs(method = "submitArmWithItem", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V"))
-    private void animatium$oldTransformTranslation(final Args args, @Local(argsOnly = true, ordinal = 0) final S state, @Local(argsOnly = true, ordinal = 0) final HumanoidArm arm) {
+    private void animatium$oldTransformTranslation(
+            final Args args,
+            @Local(argsOnly = true, name = "state") final S state,
+            @Local(argsOnly = true, name = "item") final ItemStackRenderState item,
+            @Local(argsOnly = true, name = "arm") final HumanoidArm arm
+    ) {
         final ItemStack stack = state.animatium$getItemHeldByArm(arm);
-        if (Animatium.isEnabled() && ItemUtilKt.shouldApplyItemPositionsInThirdPerson(state, stack) && !ItemUtilKt.isItemBlacklisted(stack)) {
+        if (Animatium.isEnabled() && ItemUtilKt.shouldApplyItemPositionsInThirdPerson(state, stack, item.usesBlockLight()) && !ItemUtilKt.isItemBlacklisted(stack)) {
             args.setAll((float) args.get(0) * -1.0F, 0.4375F, (float) args.get(2) / 10 * -1.0F);
         }
     }
 
     @WrapWithCondition(method = "submitArmWithItem", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;mulPose(Lorg/joml/Quaternionfc;)V"))
-    private boolean animatium$removeTransformMultiply(final PoseStack instance, final Quaternionfc by, @Local(argsOnly = true, ordinal = 0) final S state, @Local(argsOnly = true, ordinal = 0) final HumanoidArm arm) {
+    private boolean animatium$removeTransformMultiply(
+            final PoseStack instance,
+            final Quaternionfc by,
+            @Local(argsOnly = true, ordinal = 0) final S state,
+            @Local(argsOnly = true, name = "item") final ItemStackRenderState item,
+            @Local(argsOnly = true, ordinal = 0) final HumanoidArm arm
+    ) {
         final ItemStack stack = state.animatium$getItemHeldByArm(arm);
-        return !Animatium.isEnabled() || !ItemUtilKt.shouldApplyItemPositionsInThirdPerson(state, stack) || ItemUtilKt.isItemBlacklisted(stack);
+        return !Animatium.isEnabled() || !ItemUtilKt.shouldApplyItemPositionsInThirdPerson(state, stack, item.usesBlockLight()) || ItemUtilKt.isItemBlacklisted(stack);
     }
 
     @Inject(method = "submitArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/item/ItemStackRenderState;submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;III)V"))
     private void animatium$itemPositionsThird(final S state, final ItemStackRenderState item, final ItemStack itemStack, final HumanoidArm arm, final PoseStack poseStack, final SubmitNodeCollector submitNodeCollector, final int lightCoords, final CallbackInfo ci) {
         if (Animatium.isEnabled()) {
-            final int direction = EntityUtilKt.getArmMultiplier(arm);
+            final int direction = SwingUtilKt.getArmMultiplier(arm);
             final ItemStack stack = state.animatium$getItemHeldByArm(arm);
             if (!stack.isEmpty() && !ItemUtilKt.isItemBlacklisted(stack)) {
                 final boolean isStickRod = Animatium.isEnabled() &&
                         AnimatiumConfig.instance().items.fishingRodVersion == FishingRodVersionSetting.V1_7 &&
                         stack.is(Items.FISHING_ROD) &&
                         (state instanceof AvatarRenderState && state.animatium$isFishing());
-                if (ItemUtilKt.shouldApplyItemPositionsInThirdPerson(state, stack)) {
-                    final boolean usesBlockLight = item.usesBlockLight();
+                final boolean usesBlockLight = item.usesBlockLight();
+                if (ItemUtilKt.shouldApplyItemPositionsInThirdPerson(state, stack, usesBlockLight)) {
                     if (ItemUtilKt.isBlock3d(stack, usesBlockLight)) {
                         final float scale = 0.375F;
                         poseStack.translate(0.0F, 0.1875F, -0.3125F);
@@ -101,7 +112,7 @@ public abstract class MixinItemInHandLayer_ThirdPersonItemPositions<S extends Ar
                             poseStack.translate(0.0F, -0.125F, 0.0F);
                         }
 
-                        if (EntityUtilKt.isBlockingArm(arm, state)) {
+                        if (SwingUtilKt.isBlockingArm(arm, state)) {
                             poseStack.translate(direction * 0.05F, 0.0F, -0.1F);
                             poseStack.mulPose(Axis.YP.rotationDegrees(direction * -50.0F));
                             poseStack.mulPose(Axis.XP.rotationDegrees(-10.0F));
