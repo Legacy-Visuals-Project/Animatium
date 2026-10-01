@@ -39,18 +39,21 @@ class AnimatiumDebugEntry : DebugScreenEntry {
         clientChunk: LevelChunk?,
         serverChunk: LevelChunk?
     ) {
-        val list = arrayListOf<String>()
-        list.add("Animatium " + AnimatiumConstants.VERSION + (if (AnimatiumConstants.IS_DEVELOPMENT) " - Development Version (" + AnimatiumConstants.DEVELOPMENT_VERSION + ")" else ""))
-        if (!ServerFeatureManager.ENABLED_SERVER_FEATURES.isEmpty()) {
+        displayer.addFactToGroup(GROUP, "Version") { fact ->
+            fact.text(AnimatiumConstants.VERSION.toString() + (if (AnimatiumConstants.IS_DEVELOPMENT) " - Development Version (" + AnimatiumConstants.DEVELOPMENT_VERSION + ")" else ""))
+        }
+
+        if (ServerFeatureManager.ENABLED_SERVER_FEATURES.isNotEmpty()) {
+            val list = arrayListOf<String>()
             list.add("Enabled Server Features:")
-            for (feature in ServerFeatures.allFeatures()) {
+            for (feature in ServerFeatureManager.ENABLED_SERVER_FEATURES) {
                 if (feature != ServerFeatures.ALL) {
                     list.add(" - " + feature.identifier.path)
                 }
             }
-        }
 
-        displayer.addToGroup(GROUP, list)
+            displayer.addToGroup(GROUP, list)
+        }
     }
 
     override fun isAllowed(reducedDebugInfo: Boolean) = true

@@ -30,7 +30,10 @@ public abstract class MixinDebugScreenOverlay_ShadowAndBackground {
         return !Animatium.isEnabled() || !AnimatiumConfig.instance().screen.disableDebugHudBackground;
     }
 
-    @ModifyArg(method = "extract", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Ljava/lang/String;IIIZ)V"), index = 5)
+    @ModifyArg(method = "extract", at = {
+            @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Ljava/lang/String;IIIZ)V"),
+            @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V")
+    }, index = 5)
     private boolean animatium$addDebugShadow(final boolean dropShadow) {
         if (Animatium.isEnabled() && AnimatiumConfig.instance().screen.debugHudTextShadow) {
             return true;
@@ -39,7 +42,10 @@ public abstract class MixinDebugScreenOverlay_ShadowAndBackground {
         }
     }
 
-    @ModifyArg(method = "extract", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Ljava/lang/String;IIIZ)V"), index = 4)
+    @ModifyArg(method = "extract", at = {
+            @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Ljava/lang/String;IIIZ)V"),
+            @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V")
+    }, index = 4)
     private int animatium$debugHudTextColor(final int color) {
         if (Animatium.isEnabled() && AnimatiumConfig.instance().extras.debugHudTextColor) {
             return -1;
