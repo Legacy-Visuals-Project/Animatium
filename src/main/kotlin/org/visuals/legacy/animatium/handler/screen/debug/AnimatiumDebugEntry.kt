@@ -39,9 +39,9 @@ class AnimatiumDebugEntry : DebugScreenEntry {
     ) {
         val list = arrayListOf<String>()
         list.add("Animatium " + AnimatiumConstants.VERSION + (if (AnimatiumConstants.IS_DEVELOPMENT) " - Development Version (" + AnimatiumConstants.DEVELOPMENT_VERSION + ")" else ""))
-        if (!ServerFeatureManager.ENABLED_SERVER_FEATURES.isEmpty()) {
+        if (ServerFeatureManager.ENABLED_SERVER_FEATURES.isNotEmpty()) {
             list.add("Enabled Server Features:")
-            for (feature in ServerFeatures.allFeatures()) {
+            for (feature in ServerFeatureManager.ENABLED_SERVER_FEATURES) {
                 if (feature != ServerFeatures.ALL) {
                     list.add(" - " + feature.identifier.path)
                 }
