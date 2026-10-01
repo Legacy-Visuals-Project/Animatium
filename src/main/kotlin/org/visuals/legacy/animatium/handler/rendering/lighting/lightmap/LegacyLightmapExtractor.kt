@@ -17,9 +17,9 @@ package org.visuals.legacy.animatium.handler.rendering.lighting.lightmap
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.renderer.GameRenderer
-import net.minecraft.util.profiling.Profiler
 import net.minecraft.world.effect.MobEffects
 import org.visuals.legacy.animatium.util.getLegacySkyDarken
+import org.visuals.legacy.animatium.util.profile
 
 class LegacyLightmapExtractor {
     private var needsUpdate: Boolean = false
@@ -35,19 +35,17 @@ class LegacyLightmapExtractor {
         if (this.needsUpdate) {
             val level = minecraft.level ?: return
             val player = minecraft.player ?: return
+            profile("lightmap") {
+                state.skyDarken = level.getLegacySkyDarken()
+                state.blockLightRed = this.blockLightRed
+                state.skyDarkness = minecraft.gameRenderer.bossOverlayWorldDarkening(tickDelta)
+                if (player.hasEffect(MobEffects.NIGHT_VISION)) {
+                    state.nightVisionScale = GameRenderer.nightVisionScale(player, tickDelta)
+                }
 
-            val profiler = Profiler.get()
-            profiler.push("lightmap")
-            state.skyDarken = level.getLegacySkyDarken()
-            state.blockLightRed = this.blockLightRed
-            state.skyDarkness = minecraft.gameRenderer.bossOverlayWorldDarkening(tickDelta)
-            if (player.hasEffect(MobEffects.NIGHT_VISION)) {
-                state.nightVisionScale = GameRenderer.nightVisionScale(player, tickDelta)
+                state.gamma = minecraft.options.gamma().get().toFloat()
+                state.useBrightLightmap = level.dimension() == ClientLevel.END
             }
-
-            state.gamma = minecraft.options.gamma().get().toFloat()
-            state.useBrightLightmap = level.dimension() == ClientLevel.END
-            profiler.pop()
 
             this.needsUpdate = false
         }
