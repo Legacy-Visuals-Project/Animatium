@@ -69,8 +69,7 @@ public abstract class MixinEquipmentLayerRenderer_DamageTintArmor {
         if (Animatium.isEnabled() &&
                 AnimatiumConfig.instance().other.damageTintArmor &&
                 AnimatiumConfig.instance().other.glintAffectsArmorTint &&
-                !Minecraft.getInstance().options.improvedTransparency().get()
-        ) {
+                !Minecraft.getInstance().options.improvedTransparency().get()) {
             return RenderTypes.entityCutoutZOffset(texture);
         } else {
             return original.call(texture);
