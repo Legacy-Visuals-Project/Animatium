@@ -45,11 +45,11 @@ public abstract class MixinSkyRenderer_SkyAdditions {
         final double depth = ((SkyUtilityState) state).animatium$getHorizonHeight();
         if (Animatium.isEnabled() && depth < 0.0) {
             if (AnimatiumConfig.instance().other.blueVoidSky) {
-                LegacySkyRenderer.renderVoidDisc(pass);
+                LegacySkyRenderer.renderVoidDisc(pass, withDepthAttachment);
             }
 
             if (AnimatiumConfig.instance().other.playerVoidBox) {
-                LegacySkyRenderer.renderVoidBox(pass, depth);
+                LegacySkyRenderer.renderVoidBox(pass, depth, withDepthAttachment);
             }
         }
     }
@@ -58,7 +58,7 @@ public abstract class MixinSkyRenderer_SkyAdditions {
     private void animatium$blueVoid(final SkyRenderer instance, final RenderPass pass, final Vector4f color, final boolean withDepthAttachment, final Operation<Void> original, @Local(name = "state", argsOnly = true) final SkyRenderState state) {
         if (Animatium.isEnabled() && AnimatiumConfig.instance().other.blueVoidSky) {
             final double depth = ((SkyUtilityState) state).animatium$getHorizonHeight();
-            LegacySkyRenderer.renderBlueVoid(pass, ARGB.colorFromVector4f(color), depth);
+            LegacySkyRenderer.renderBlueVoid(pass, ARGB.colorFromVector4f(color), depth, withDepthAttachment);
         } else {
             original.call(instance, pass, color, withDepthAttachment);
         }

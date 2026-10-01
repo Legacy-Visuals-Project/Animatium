@@ -16,6 +16,7 @@ package org.visuals.legacy.animatium.mixins.v1.rendering.fog;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.renderpearl.api.buffers.GpuBufferSlice;
 import com.mojang.renderpearl.api.commands.RenderPass;
@@ -45,10 +46,10 @@ public abstract class MixinSkyRenderer_PlanarFogSky {
     }
 
     @WrapOperation(method = "renderSkyDisc", at = @At(value = "INVOKE", target = "Lcom/mojang/renderpearl/api/commands/RenderPass;setPipeline(Lcom/mojang/renderpearl/api/pipeline/CompiledRenderPipeline;)V"))
-    private void animatium$planarFogPipeline$skyDisc(final RenderPass instance, final CompiledRenderPipeline renderPipeline, final Operation<Void> original) {
+    private void animatium$planarFogPipeline$skyDisc(final RenderPass instance, final CompiledRenderPipeline renderPipeline, final Operation<Void> original, @Local(name = "withDepthAttachment", argsOnly = true) final boolean withDepthAttachment) {
         CompiledRenderPipeline pipeline = renderPipeline;
         if (Animatium.isEnabled() && AnimatiumConfig.instance().other.planarSkyFog) {
-            pipeline = RenderSystem.getCompiledPipeline(AnimatiumPipelines.LEGACY_SKY_PLANAR_FOG);
+            pipeline = RenderSystem.getCompiledPipeline(withDepthAttachment ? AnimatiumPipelines.LEGACY_SKY_PLANAR.getDepthPipeline() : AnimatiumPipelines.LEGACY_SKY_PLANAR.getDefaultPipeline());
         }
 
         original.call(instance, pipeline);

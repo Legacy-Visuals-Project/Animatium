@@ -92,17 +92,16 @@ object AnimatiumPipelines {
         RenderPipeline.builder(RenderPipelines.MATRICES_FOG_SNIPPET)
             .withVertexShader("core/position_color")
             .withFragmentShader("core/position_color")
-            .withDepthStencilState(NO_DEPTH_WRITE)
             .withColorTargetState(ColorTargetState.DEFAULT)
             .withVertexFormat(DefaultVertexFormat.POSITION_COLOR)
             .withPrimitiveTopology(PrimitiveTopology.QUADS)
             .buildSnippet()
 
     @JvmField
-    val VOID_BOX = RenderPipelines.register(
-        RenderPipeline.builder(VOID_BOX_SNIPPET)
-            .withLocation(location("pipeline/void_box"))
-            .build()
+    val VOID_BOX = DepthPipelineSet.create(
+        "void_box",
+        NO_DEPTH_WRITE,
+        VOID_BOX_SNIPPET
     )
 
     @JvmField
@@ -111,32 +110,30 @@ object AnimatiumPipelines {
             .withLocation(location("pipeline/legacy_sky"))
             .withVertexShader(location("core/legacy_sky"))
             .withFragmentShader(location("core/legacy_sky"))
-            .withDepthStencilState(NO_DEPTH_WRITE)
             .withColorTargetState(ColorTargetState.DEFAULT)
             .withVertexFormat(DefaultVertexFormat.POSITION)
             .withPrimitiveTopology(PrimitiveTopology.QUADS)
             .buildSnippet()
 
     @JvmField
-    val LEGACY_SKY =
-        RenderPipelines.register(
-            RenderPipeline.builder(LEGACY_SKY_SNIPPET)
-                .withLocation(location("pipeline/legacy_sky"))
-                .build()
-        )
+    val LEGACY_SKY = DepthPipelineSet.create(
+        "legacy_sky",
+        NO_DEPTH_WRITE,
+        LEGACY_SKY_SNIPPET
+    )
 
     @JvmField
-    val LEGACY_SKY_PLANAR_FOG: RenderPipeline =
-        RenderPipelines.register(
-            RenderPipeline.builder(LEGACY_SKY_SNIPPET)
-                .withLocation(location("pipeline/legacy_sky_planar_fog"))
-                .withShaderDefine("PLANAR_FOG")
-                .build()
-        )
+    val LEGACY_SKY_PLANAR = DepthPipelineSet.create(
+        "legacy_sky_planar",
+        NO_DEPTH_WRITE,
+        RenderPipeline.builder(LEGACY_SKY_SNIPPET)
+            .withShaderDefine("PLANAR_FOG")
+            .buildSnippet()
+    )
 
     @JvmStatic
-    fun getSkyPipeline(planar: Boolean) = if (planar)
-        LEGACY_SKY_PLANAR_FOG
+    fun getSkySet(planar: Boolean) = if (planar)
+        LEGACY_SKY_PLANAR
     else
         LEGACY_SKY
 

@@ -95,10 +95,10 @@ object LegacySkyRenderer {
     }
 
     @JvmStatic
-    fun renderVoidDisc(pass: RenderPass) {
+    fun renderVoidDisc(pass: RenderPass, useDepthAttachment: Boolean) {
         profile("void_disc") {
             pass.pushDebugGroup({ "Void disc" })
-            renderSkyDisc(pass, Vector4f(0.0F, 0.0F, 0.0F, 1.0F), BOTTOM_GEOMETRY) {
+            renderSkyDisc(pass, Vector4f(0.0F, 0.0F, 0.0F, 1.0F), useDepthAttachment, BOTTOM_GEOMETRY) {
                 it.translate(0.0F, 12.0F, 0.0F)
             }
             pass.popDebugGroup()
@@ -106,7 +106,7 @@ object LegacySkyRenderer {
     }
 
     @JvmStatic
-    fun renderBlueVoid(pass: RenderPass, skyColor: Int, depth: Double) {
+    fun renderBlueVoid(pass: RenderPass, skyColor: Int, depth: Double, useDepthAttachment: Boolean) {
         profile("blue_void") {
             pass.pushDebugGroup({ "Blue Void Disc" })
             val color = Vector4f(
@@ -115,7 +115,7 @@ object LegacySkyRenderer {
                 ARGB.blueFloat(skyColor) * 0.6F + 0.1F,
                 1.0F
             )
-            renderSkyDisc(pass, color, BOTTOM_GEOMETRY) {
+            renderSkyDisc(pass, color, useDepthAttachment, BOTTOM_GEOMETRY) {
                 it.translate(0.0F, if (AnimatiumConfig.instance().extras.dontMoveBlueVoid) 12.0F else -((depth - 16.0).toFloat()), 0.0F)
             }
             pass.popDebugGroup()
@@ -123,12 +123,13 @@ object LegacySkyRenderer {
     }
 
     @JvmStatic
-    fun renderSkyDisc(pass: RenderPass, color: Vector4f, geometry: Geometry, matrixModifier: (matrix: Matrix4f) -> Matrix4f) {
+    fun renderSkyDisc(pass: RenderPass, color: Vector4f, useDepthAttachment: Boolean, geometry: Geometry, matrixModifier: (matrix: Matrix4f) -> Matrix4f) {
         WrappedRenderer.of(pass).use { renderer ->
             val matrix = matrixModifier(RenderSystem.getModelViewMatrixCopy())
 
+            val skySet = AnimatiumPipelines.getSkySet(AnimatiumConfig.instance().other.planarSkyFog)
             renderer.setPipeline(
-                AnimatiumPipelines.getSkyPipeline(AnimatiumConfig.instance().other.planarSkyFog),
+                skySet.get(useDepthAttachment),
                 IrisPipeline.SKY_BASIC
             )
 
@@ -150,11 +151,11 @@ object LegacySkyRenderer {
 
     // TODO/NOTE: Figure out why its rendering differently than in 18w07a (last snapshot to have it)
     @JvmStatic
-    fun renderVoidBox(pass: RenderPass, depth: Double) {
+    fun renderVoidBox(pass: RenderPass, depth: Double, useDepthAttachment: Boolean) {
         profile("player_void_box") {
             WrappedRenderer.of(pass).use { renderer ->
                 pass.pushDebugGroup({ "Player Void Box" })
-                renderer.setPipeline(AnimatiumPipelines.VOID_BOX)
+                renderer.setPipeline(AnimatiumPipelines.VOID_BOX.get(useDepthAttachment))
                 renderer.draw(GET_VOID_BOX_GEOMETRY(-((depth + 65.0).toFloat())))
                 pass.popDebugGroup()
             }
