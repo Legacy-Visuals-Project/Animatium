@@ -18,6 +18,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.renderpearl.api.textures.FilterMode
 import com.mojang.renderpearl.api.textures.GpuTextureView
 import org.visuals.legacy.animatium.handler.rendering.pipeline.AnimatiumPipelines
+import org.visuals.legacy.animatium.renderer.RenderDescriptor
 import org.visuals.legacy.animatium.renderer.buffer.BasicGeometry
 import org.visuals.legacy.animatium.renderer.impl.DeferredRenderer
 import org.visuals.legacy.animatium.util.profile
@@ -26,9 +27,9 @@ object ColorBoostRenderer {
     private val GEOMETRY = BasicGeometry(0, 3)
 
     @JvmStatic
-    fun render(colorAttachment: GpuTextureView, depthAttachment: GpuTextureView) {
+    fun render(colorAttachment: GpuTextureView) {
         profile("color_boost") {
-            DeferredRenderer.of("Color Boost Blit", colorAttachment, depthAttachment).use { renderer ->
+            DeferredRenderer.of(descriptor(colorAttachment)).use { renderer ->
                 renderer.setPipeline(AnimatiumPipelines.COLOR_BOOST_BLIT)
                 renderer.setTexture(
                     "Sampler0",
@@ -39,4 +40,8 @@ object ColorBoostRenderer {
             }
         }
     }
+
+    private fun descriptor(colorAttachment: GpuTextureView) = RenderDescriptor.builder({ "Color Boost Blit" })
+        .withColorTexture(colorAttachment)
+        .build()
 }
